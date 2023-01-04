@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  react:
+    depends_on:
+      - nestjs
+    container_name: react
+    build:  ./front-end/
+    networks:
+      - transcendence
+    environment:
+      - PORT=${PORT}
+    ports:
+      - 80:${PORT}
+    volumes:
+      - ./front-end/src:/app/src
+
+  nestjs:
+    depends_on:
+      - postgresql
+    networks:
+      - transcendence
+    container_name: nestjs
+    build:  ./back-end/
+    ports:
+      - 3000:3000
+    volumes:
+      - ./back-end/src:/app/src
+  
+  postgresql:
+    container_name: postgresql
+    build:  ./database/
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+      - transcendence
+    
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    networks:
+      - transcendence
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
+
+networks:
+  transcendence:
