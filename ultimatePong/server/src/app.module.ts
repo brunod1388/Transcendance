@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -25,7 +27,10 @@ import { BooksModule } from './books/books.module';
 		synchronize: true,
 		}),
 		// Tous les modules utilisés
-		BooksModule
+		BooksModule,
+		ServeStaticModule.forRoot({
+			rootPath: join(__dirname, '..', 'client'),
+		  }),
 	],
   controllers: [AppController],
   providers: [AppService],
