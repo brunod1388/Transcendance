@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-function MyComponent(props: any) {
-	const [counter,setCounter] = useState(props.counter || 0);
+interface Icounter {
+    counter: number;
+}
 
-	const onClickHandler = (e: any) => {
-		setCounter(counter+1);
-	  }
-	  
-	  return (
-		<div>
-		  <p>Hello, {counter}</p>
-		  <button onClick={onClickHandler}>Click me!</button>
-		</div>
-	  );
+function MyComponent(props: Icounter) {
+    const [counter, setCounter] = useState(props.counter || 0);
+
+    const onClickHandler = () => {
+        setCounter(counter + 1);
+    };
+
+    return (
+        <div>
+            <p>Hello, {counter}</p>
+            <button onClick={onClickHandler}>Click me!</button>
+        </div>
+    );
 }
 export default MyComponent;
