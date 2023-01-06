@@ -1,7 +1,7 @@
 {
     "scripts": {
-        "test": "",
-		"format": "lint-staged",
+        "test": "jest",
+        "format": "lint-staged",
         "lint": "npx eslint ./ultimatePong/server/src ./ultimatePong/app/src",
         "lint:fix": "npm run lint -- --fix",
         "prettier": "npx prettier ./ultimatePong/server/src  ./ultimatePong/app/src --check",
@@ -13,14 +13,18 @@
         "@typescript-eslint/parser": "^5.48.0",
         "eslint": "^8.31.0",
         "eslint-plugin-react": "^7.31.11",
-        "husky": "^8.0.0"
+        "husky": "^8.0.0",
+        "lint-staged": "^13.1.0"
     },
-	"lint-staged": {
+    "lint-staged": {
         "./ultimatePong/*/**/*.{js,jsx,ts,tsx,json}": [
-            "npm run lint --fix"
+            "npm run lint"
         ],
         "ultimatePong/*/**/*.{js,jsx,ts,tsx,json}": [
-            "npm run prettier:fix --write"
+            "npm run prettier:fix"
         ]
+    },
+    "dependencies": {
+        "jest": "^29.3.1"
     }
 }
