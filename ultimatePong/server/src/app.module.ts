@@ -11,18 +11,12 @@ import { BooksModule } from "./books/books.module";
     imports: [
         // Connexion database
         TypeOrmModule.forRoot({
-
-
-
-
-
-
-			
             // type eg: mysql, postgresql, mariadb...
             type: "postgres",
             // host: nom du container docker
             host: "postgresql",
             // port de la database
+
             port: 5432,
             // information de connexion
             username: "root",

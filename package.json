@@ -1,6 +1,7 @@
 {
     "scripts": {
         "test": "",
+		"format": "lint-staged",
         "lint": "npx eslint ./ultimatePong/server/src ./ultimatePong/app/src",
         "lint:fix": "npm run lint -- --fix",
         "prettier": "npx prettier ./ultimatePong/server/src  ./ultimatePong/app/src --check",
@@ -14,12 +15,12 @@
         "eslint-plugin-react": "^7.31.11",
         "husky": "^8.0.0"
     },
-    "husky": {
-        "hooks": {
-			"applypatch-msg": "echo \"[Husky] applypatch-msg\"",
-    		"pre-applypatch": "echo \"[Husky] pre-applypatch\"",
-			"post-applypatch": "echo \"[Husky] post-applypatch\"",
-			"pre-commit": "echo \"[Husky] pre-commit\""
-        }
+	"lint-staged": {
+        "./ultimatePong/*/**/*.{js,jsx,ts,tsx,json}": [
+            "npm run lint --fix"
+        ],
+        "ultimatePong/*/**/*.{js,jsx,ts,tsx,json}": [
+            "npm run prettier:fix --write"
+        ]
     }
 }
