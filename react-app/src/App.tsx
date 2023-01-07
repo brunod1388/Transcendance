@@ -19,6 +19,7 @@ function App() {
         r.json()
       );
       setData(resp);
+
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
