@@ -1,0 +1,14 @@
+/build
+/dist
+/public
+/node_modules
+README.md
+.gitignore
+.eslintignore
+.eslintrc
+.prettierrc
+nest-cli.json
+package-lock.json
+package.json
+tsonconfig.build.json
+tsonconfig.json
