@@ -14,8 +14,8 @@ services:
   nestjs:
     restart: always
     build:
-      context: ./docker/server
-      dockerfile: server.prod.Dockerfile
+      context: ./
+      dockerfile: docker/server/server.prod.Dockerfile
     ports:
       - "3000:3000"
 

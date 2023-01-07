@@ -8,7 +8,7 @@ RUN npm install
 FROM react as nestjs
 WORKDIR /nestjs-server
 COPY ./config/nestjs .
-RUN npm install && npm install -D @nestjs/serve-static
+RUN npm install
 
 FROM nestjs as developpment
 CMD [ "npm", "run", "server-start:dev" ]

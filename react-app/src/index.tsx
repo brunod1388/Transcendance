@@ -5,36 +5,36 @@ import MyComponent from "./test";
 import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(
-    document.getElementById("root") as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 
 async function post() {
-    fetch("http://localhost:3000/books", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            title: "Biographie",
-            author: "Van Damme",
-            genre: "romantic",
-        }),
-    });
+  fetch("http://localhost:3000/books", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      title: "Biographie",
+      author: "Van Damme",
+      genre: "romantic",
+    }),
+  });
 }
 
 async function addBook() {
-    await post();
+  await post();
 }
 let one = false;
 
 if (one === false) {
-    addBook();
-    one = true;
+  addBook();
+  one = true;
 }
 
 root.render(
-    <React.StrictMode>
-        <App />
-        <MyComponent />
-    </React.StrictMode>
+  <React.StrictMode>
+    <App />
+    <MyComponent counter={0} />
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
