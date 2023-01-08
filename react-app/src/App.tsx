@@ -34,7 +34,7 @@ function App() {
   if (data)
     return (
       <>
-        <h1>Bookssuper</h1>
+        <h1>Books are super!</h1>
         <ul>
           {data.map((element, index) => (
             <li key={index}>{element.title}</li>
