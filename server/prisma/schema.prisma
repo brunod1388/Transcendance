@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Create a table in the db with the name User
+model User {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+// the @unique is a constraint which requires that no two emails are the same
+  email String @unique
+  hash String
+
+//  the ? symbol marks this field as optional
+  firstName String?
+  lastName String?
+  
+  bookmarks Bookmark[]
+
+// assigns the alias 'users' to the table User ??
+  @@map("users")
+}
+
+model Bookmark {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title String
+  description String?
+  link String
+
+// Creating a relation between the User and the Bookmark tables
+// This is a many to one relation as a user can have multiple bookmarks
+  userId Int
+// Fields indicate to prisma which fields are used as primary keys
+// References indcate to which variable this primary key references to
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("bookmarks")
+}
