@@ -12,7 +12,7 @@ async function post() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       title: "Biographie",
-      author: "Van Damme",
+      author: "Van Damm",
       genre: "romantic",
     }),
   });
