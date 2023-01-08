@@ -16,7 +16,7 @@ services:
       context: ./docker/server
       dockerfile: server.dev.Dockerfile
     ports:
-      - "3000:3000"
+      - "9000:3000"
     volumes:
       - ./react-app/public:/react-app/public
       - ./react-app/src:/react-app/src
