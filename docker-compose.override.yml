@@ -23,6 +23,7 @@ services:
       - ./react-app/src:/react-app/src
       - ./server/src:/nestjs-server/src
       - ./server/tests:/nestjs-server/tests
+      - ./server/prisma:/nestjs-server/prisma
 
   pgadmin:
     container_name: pgadmin4_container
