@@ -8,20 +8,20 @@ import { PrismaService } from "../../prisma/prisma.service";
 // This is why it is seperated into its own folder
 // The strategy will be identified by the AuthGuard based on the keyword 'jwt' (which is the default), this keyword can be changed
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
     constructor(config: ConfigService, private prisma: PrismaService) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretOrKey: config.get('JWT_SECRET'),
+            secretOrKey: config.get("JWT_SECRET"),
         });
     }
 
     // The token will be transformed into an object and passed into payload
-    async validate(payload: {sub: number, email: string}) {
+    async validate(payload: { sub: number; email: string }) {
         const user = await this.prisma.user.findUnique({
             where: {
-                id: payload.sub
-            }
+                id: payload.sub,
+            },
         });
         // the hashed password is deleted to ensure we don't inadvertently export sensitive info
         delete user.hash;

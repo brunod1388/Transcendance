@@ -5,9 +5,9 @@ import { JwtGuard } from "../auth/guard";
 
 // Everything in the users Controller will be protected by the strategy jwt (see JwtGuard class)
 @UseGuards(JwtGuard)
-@Controller('users')
+@Controller("users")
 export class UserController {
-    @Get('me')
+    @Get("me")
     getMe(@GetUser() user: User) {
         return user;
     }
