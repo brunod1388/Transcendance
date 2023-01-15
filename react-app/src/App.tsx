@@ -1,48 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { Routes, Route } from 'react-router-dom';
+import HomePage from "./pages/HomePage/HomePage";
+import AboutPage from "./pages/AboutPage/AboutPage";
 
-interface Book {
-  id: number;
-  title: string;
-  author: string;
-  genre: string;
-}
 
 function App() {
-  const [data, setData] = useState<Book[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const loadAsyncData = async () => {
-    setIsLoading(true);
-
-    try {
-      const resp = await fetch("http://localhost:3000/books").then((r) =>
-        r.json()
-      );
-      setData(resp);
-
-      setIsLoading(false);
-    } catch (e) {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadAsyncData();
-  }, []);
-
-  if (isLoading) return <p>Loading...</p>;
-  if (data)
-    return (
-      <>
-        <h1>Books are super!</h1>
-        <ul>
-          {data.map((element, index) => (
-            <li key={index}>{element.title}</li>
-          ))}
-        </ul>
-      </>
-    );
-  return <p>No data yet</p>;
+	return (
+	<Routes>
+		<Route path="/" element={<HomePage/>} />
+		<Route path="/about" element={<AboutPage/>} />
+	</Routes>
+	  );
 }
 
 export default App;

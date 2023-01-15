@@ -1,0 +1,7 @@
+.footer {
+	grid-column-start: first-column;
+	grid-column-end: end-column;
+	grid-row-start: fourth-row;
+	grid-row-end: end-row;
+	background-color: aquamarine ;
+}

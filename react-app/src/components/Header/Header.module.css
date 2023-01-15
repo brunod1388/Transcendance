@@ -1,0 +1,51 @@
+.header {
+	grid-column-start: first-column;
+	grid-column-end: end-column;
+	grid-row-start: second-row;
+	grid-row-end: third-row;
+	border: solid;
+}
+
+.headerDiv {
+	display: grid;
+	grid-template-columns: [first-column] 25% [second-column] 25% [third-column] 25% [fourth-column] 12.5% [fifth-column] 12.5% [end-column];
+	grid-template-rows: [first-row] 10% [second-row] 80% [third-row] 10% [end-row];
+	width: auto;
+	height: 100%;
+	background-color: green;
+}
+
+/* .blank {
+	position: absolute;
+	grid-column-start: 1;
+	grid-column-end: end-column;
+	grid-row-start: first-row;
+	grid-row-end: second-row;
+	background-color:  yellow;
+} */
+
+.user {
+	border-radius: 50%;
+	grid-column-start: fifth-column;
+	grid-column-end: end-column;
+	grid-row-start: second-row;
+	grid-row-end: third-row;
+	background-color: lightgrey;
+	justify-self: center;
+}
+
+.userLogo {
+	border-radius: 50%;
+	height: 100%;
+	width: auto;
+}
+
+/* .header .user {
+	grid-column-start: fourth-column;
+	grid-column-end: end;
+	grid-row-start: 1;
+	grid-row-end: 2;
+	background-color:yellow;
+
+
+} */

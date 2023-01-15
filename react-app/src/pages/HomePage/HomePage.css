@@ -1,0 +1,15 @@
+.title {
+	grid-column-start: first-column;
+	grid-column-end: end-column;
+	grid-row-start: third-row;
+	grid-row-end: fourth-row;
+	/* width: auto;
+	height: auto; */
+}
+
+.subtitle {
+	display: none;
+	color: green;
+	width: auto;
+	height: auto;
+}

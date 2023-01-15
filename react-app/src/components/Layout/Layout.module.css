@@ -1,0 +1,7 @@
+.wrapper {
+	display: grid;
+	grid-template-columns: [first-column] 25% [second-column] 25% [third-column] 25% [fourth-column] 25% [end-column];
+	grid-template-rows: [first-row] 2% [second-row] 8% [third-row] auto [fourth-row] 10% [end-row];
+	width: auto;
+	height: 100vh;
+}
