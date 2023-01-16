@@ -1,8 +1,9 @@
+/*
 import { PassportStrategy } from "@nestjs/passport";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { ExtractJwt, Strategy } from "passport-jwt";
-import { PrismaService } from "../../prisma/prisma.service";
+//import { PrismaService } from "../../prisma/prisma.service";
 
 // This class has a specific use case which is the validation of the access token
 // This is why it is seperated into its own folder
@@ -30,3 +31,4 @@ export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
         return user;
     }
 }
+*/
