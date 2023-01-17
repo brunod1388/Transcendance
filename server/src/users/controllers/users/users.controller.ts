@@ -26,7 +26,7 @@ export class UsersController {
     // getUsers recieves return from asynchronous method (see findUsers in service) and must await
     @Get()
     async getUsers() {
-        const users = await this.userService.findUsers();
+        const users = await this.userService.findAllUsers();
         return users;
     }
 

@@ -9,8 +9,11 @@ export class User {
     id: number;
 
     // In order for the property to map to an actual column in SQL table, the @Column decorator must be used
-    @Column()
+    @Column({ unique: true })
     username: string;
+
+    @Column({ unique: true })
+    email: string;
 
     // If a unique constraint needs to be added, simply use @Column({ unique: true })
     @Column()

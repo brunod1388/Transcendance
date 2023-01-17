@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-//import { AuthModule } from "./auth/auth.module";
+import { AuthModule } from "./auth/auth.module";
 //import { UserModule } from "./user/user.module";
 //import { BookmarkModule } from "./bookmark/bookmark.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -29,7 +29,7 @@ import { UsersModule } from "./users/users.module";
             // Il faudrais mettre a false avant la fin du projet
             synchronize: true,
         }),
-        //        AuthModule,
+        AuthModule,
         UsersModule,
         //        BookmarkModule,
         //        PrismaModule,

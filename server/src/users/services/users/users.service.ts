@@ -12,9 +12,30 @@ export class UsersService {
     ) {}
 
     // defining the methods below that the users controller will need to invoke
-    findUsers() {
+    findAllUsers() {
         // find is asynchronous method (see further details on such methods below)
         return this.userRepository.find();
+    }
+
+    // Username is a unique field so can be used to identify user but perhaps should utilise id ??
+    findUser(username: string) {
+        if (typeof username === "string") {
+            return this.userRepository.findOne({
+                where: { username: username },
+            });
+        }
+
+        return undefined;
+    }
+
+    findUserId(id: number) {
+        if (typeof id === "number") {
+            return this.userRepository.findOne({
+                where: { id: id },
+            });
+        }
+
+        return undefined;
     }
 
     // The type annotation for userDetails argument is CreateUserParams (custom type defined in utils folder)
