@@ -2,8 +2,7 @@ import { PassportStrategy } from "@nestjs/passport";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { ExtractJwt, Strategy } from "passport-jwt";
-//import { PrismaService } from "../../prisma/prisma.service";
-import { UsersService } from "../../users/services/users/users.service";
+import { UsersService } from "../../users/users.service";
 import { User } from "../../typeorm/entities/User";
 
 // This class has a specific use case which is the validation of the access token

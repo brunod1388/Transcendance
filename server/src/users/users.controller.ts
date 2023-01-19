@@ -7,14 +7,14 @@ import {
     ParseIntPipe,
     Post,
     Put,
-    UseGuards
+    UseGuards,
 } from "@nestjs/common";
-import { CreateUserDto } from "../../dtos/CreateUser.dto";
-import { UpdateUserDto } from "../../dtos/UpdateUser.dto";
-import { UsersService } from "../../services/users/users.service";
-import { JwtGuard } from "../../../auth/guard";
-import { GetUser } from "../../../auth/decorator";
-import { User } from "../../../typeorm/entities/User";
+import { CreateUserDto } from "./dtos/CreateUser.dto";
+import { UpdateUserDto } from "./dtos/UpdateUser.dto";
+import { UsersService } from "./users.service";
+import { JwtGuard } from "../auth/guard";
+import { GetUser } from "../auth/decorator";
+import { User } from "../typeorm/entities/User";
 
 // The controller is typically used for handling incoming requets and sending outbound responses
 // The controller will usually do things such as extract query parameters, validate request body,
@@ -43,11 +43,10 @@ export class UsersController {
     // @GetUser is a custom decorator which is a cleaner way of getting the user request object than Req
     // This custom decorator can be used throughout the application to recover the user request object
     // and can be used to get the whole user or a field (e.g for email: @GetUser('email') email: string)
-    @Get('me')
+    @Get("me")
     getMe(@GetUser() user: User) {
         return user;
     }
-
 
     @Post()
     createUser(@Body() createUserDto: CreateUserDto) {
