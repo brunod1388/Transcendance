@@ -29,13 +29,14 @@ export class UsersService {
     }
 
     findUserId(id: number) {
-        if (typeof id === "number") {
+       // console.log('id: ', typeof id);
+       // if (typeof id === "number") {
             return this.userRepository.findOne({
                 where: { id: id },
             });
-        }
+        //  }
 
-        return undefined;
+      //  return undefined;
     }
 
     // The type annotation for userDetails argument is CreateUserParams (custom type defined in utils folder)

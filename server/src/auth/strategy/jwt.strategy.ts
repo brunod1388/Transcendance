@@ -9,6 +9,7 @@ import { User } from "../../typeorm/entities/User";
 // This class has a specific use case which is the validation of the access token
 // This is why it is seperated into its own folder
 // The strategy will be identified by the AuthGuard based on the keyword 'jwt' (which is the default), this keyword can be changed
+// JwtStrategy is a provider  and is included as such in the auth.module
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
     constructor(config: ConfigService, private usersService: UsersService) {
@@ -19,7 +20,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
     }
 
     // The token will be transformed into an object and passed into payload
-    async validate(payload: { sub: number; email: string }) {
+    async validate(payload: { sub: number; username: string; email: string }) {
         const user = await this.usersService.findUserId(payload.sub);
         // the hashed password is deleted to ensure we don't inadvertently export sensitive info
         delete user.password;

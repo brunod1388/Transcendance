@@ -7,15 +7,24 @@ import {
     ParseIntPipe,
     Post,
     Put,
+    UseGuards
 } from "@nestjs/common";
 import { CreateUserDto } from "../../dtos/CreateUser.dto";
 import { UpdateUserDto } from "../../dtos/UpdateUser.dto";
 import { UsersService } from "../../services/users/users.service";
+import { JwtGuard } from "../../../auth/guard";
+import { GetUser } from "../../../auth/decorator";
+import { User } from "../../../typeorm/entities/User";
 
 // The controller is typically used for handling incoming requets and sending outbound responses
 // The controller will usually do things such as extract query parameters, validate request body,
 // use condition statements to check certain parameters
 // Not good practice to call the database directly from the controller (done in the service class)
+// The guard class used here will determine whether to authorize the given route based on the
+// authentication strategy jwt (route [/user] and its subroutes are protected by the jwt strategy)
+// The AuthGuard("jwt") is included in a custom guard (JwtGuard for reasons explained in the
+// file jwt.guard.ts)
+@UseGuards(JwtGuard)
 @Controller("users")
 export class UsersController {
     // The users service needs to be injected into the controller in order to use it to call methods
@@ -29,6 +38,16 @@ export class UsersController {
         const users = await this.userService.findAllUsers();
         return users;
     }
+
+    // this endpoint will be called with GET request on /users/me
+    // @GetUser is a custom decorator which is a cleaner way of getting the user request object than Req
+    // This custom decorator can be used throughout the application to recover the user request object
+    // and can be used to get the whole user or a field (e.g for email: @GetUser('email') email: string)
+    @Get('me')
+    getMe(@GetUser() user: User) {
+        return user;
+    }
+
 
     @Post()
     createUser(@Body() createUserDto: CreateUserDto) {
