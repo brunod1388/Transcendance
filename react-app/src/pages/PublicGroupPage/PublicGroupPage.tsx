@@ -1,14 +1,14 @@
 import React from 'react';
 import { Layout } from './index'
-import './HomePage.css';
+import './PublicGroupPage.css';
 
-function	HomePage() {
+function	PublicGroupPage() {
 	return (
 		<Layout>
-			<h1>Home Page</h1>
+			<h1>Public Group Page</h1>
 			{/* <p className="subtitle">Play</p> */}
 		</Layout>
 	);
 }
 
-export default	HomePage;
+export default	PublicGroupPage;

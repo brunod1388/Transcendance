@@ -1,0 +1,38 @@
+.container {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	top: 0;
+	bottom: 0;
+	width: 72px;
+
+	/* margin: 5px; */
+}
+
+.list {
+	display: flex;
+	min-width: 0;
+}
+.utilityGroups {
+	display: flex;
+	min-width: 0;;
+}
+.separator {
+	align-self: center;
+	height: 2px;
+    width: 32px;
+    border-radius: 1px;
+    background-color: hsl(216.9 calc(1*7.6%) 33.5%/0.48);
+	margin-bottom: 10px;
+}
+
+
+
+
+/* position: absolute;
+    display: block;
+    width: 8px;
+    border-radius: 0 4px 4px 0;
+    margin-left: -4px;
+    background-color: var(--header-primary);
+<span class="item-2LIpTv" style="opacity: 1; height: 40px; transform: none;"></span> */

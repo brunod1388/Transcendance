@@ -1,14 +1,14 @@
 import React from 'react';
 import { Layout } from './index'
-import './HomePage.css';
+import './MessagesPage.css';
 
-function	HomePage() {
+function	MessagesPage() {
 	return (
 		<Layout>
-			<h1>Home Page</h1>
+			<h1>Messages Page</h1>
 			{/* <p className="subtitle">Play</p> */}
 		</Layout>
 	);
 }
 
-export default	HomePage;
+export default	MessagesPage;
