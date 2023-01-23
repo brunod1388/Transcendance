@@ -1,9 +1,9 @@
 COMPOSE		= docker compose
 
 all:		
-		${COMPOSE} up
+		${COMPOSE} up --build
 up:
-		${COMPOSE} up
+		${COMPOSE} up --build
 down:
 		${COMPOSE} down
 clean:

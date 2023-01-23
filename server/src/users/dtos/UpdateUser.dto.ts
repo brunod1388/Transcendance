@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString, IsBoolean } from "class-validator";
 
 export class UpdateUserDto {
     @IsString()
@@ -12,4 +12,10 @@ export class UpdateUserDto {
     @IsString()
     @IsNotEmpty()
     password: string;
+
+    @IsBoolean()
+    enable2FA: boolean;
+
+    @IsString()
+    code2FA: string;
 }

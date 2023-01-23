@@ -12,4 +12,7 @@ export class AuthDto {
     @IsString()
     @IsNotEmpty()
     password: string;
+
+    @IsString()
+    code2FA: string;
 }

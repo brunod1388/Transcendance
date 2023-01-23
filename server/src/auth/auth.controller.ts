@@ -1,4 +1,12 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
+import {
+    Body,
+    Controller,
+    HttpCode,
+    HttpStatus,
+    Post,
+    Res,
+} from "@nestjs/common";
+import { Response } from "express";
 import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto";
 import { CreateUserDto } from "../users/dtos/CreateUser.dto";
@@ -12,9 +20,9 @@ export class AuthController {
     constructor(private authService: AuthService) {}
 
     @Post("signup")
-    signup(@Body() dto: CreateUserDto) {
+    signup(@Body() dto: CreateUserDto, @Res() response: Response) {
         //the validated dto (data transfer object) is passed to the auth.Service
-        return this.authService.signup(dto);
+        return this.authService.signup(dto, response);
     }
 
     // return status code 200 (OK) on signin as no new resource is created

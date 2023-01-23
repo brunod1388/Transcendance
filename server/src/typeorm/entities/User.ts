@@ -27,4 +27,10 @@ export class User {
     // A nullable property allows the field to be null as default if no value is passed (i.e. optional)
     @Column({ nullable: true })
     authStrategy: string;
+
+    @Column({ default: false })
+    enable2FA: boolean;
+
+    @Column({ nullable: true })
+    code2FA: string;
 }
