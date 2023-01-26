@@ -1,21 +1,21 @@
 * {
-	margin: 0;
-	padding: 0;
-	vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
 }
 
 body {
-	line-height: 1;
-	overflow: hidden;
-	background: transparent;
+  line-height: 1;
+  overflow: hidden;
+  background: transparent;
 }
 
 ul {
-	list-style-type: none;
-   }
-   
+  list-style-type: none;
+}
+
 .app {
-	display: flex;
-	z-index: auto;
-	height: 100%;
+  display: flex;
+  z-index: auto;
+  height: 100%;
 }

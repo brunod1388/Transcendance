@@ -1,15 +1,14 @@
-import style from './Group.module.css';
+import style from "./Group.module.css";
 
 interface Params {
-	imgURL: string;
+  imgURL: string;
 }
 
 function Icon(props: Params) {
-
   return (
-	<div className={style.IconWrapper}>
-		<img src={props.imgURL} alt="Icon" className={style.Icon} />
-	</div>
+    <div className={style.IconWrapper}>
+      <img src={props.imgURL} alt="Icon" className={style.Icon} />
+    </div>
   );
 }
 

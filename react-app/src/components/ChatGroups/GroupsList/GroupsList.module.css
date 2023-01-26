@@ -1,61 +1,58 @@
 .wrapper {
+  top: 0;
+  left: 0;
 
-	top: 0; 
-	left: 0;
+  width: 72px;
+  height: 100%;
 
-	width: 72px;
-	height: 100%;
+  border: solid;
 
-	border: solid;
+  display: flex;
 
-	display: flex;
-
-	flex-direction: column;
-	background-color: lightgrey;
+  flex-direction: column;
+  background-color: lightgrey;
 }
-
 
 .box {
-	align-self: center;
-	overflow: hidden;
-	width: 40px;
-	height: 40px;
-	border-radius:  50%;
-	border-color: black;
-	border: solid;
-	margin-top: 2px;
-	margin-bottom: 2px;
+  align-self: center;
+  overflow: hidden;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border-color: black;
+  border: solid;
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 
-
 .separator {
-    height: 2px;
-    width: 32px;
-    border-radius: 1px;
-    background-color: gray;
-	align-self: center;
+  height: 2px;
+  width: 32px;
+  border-radius: 1px;
+  background-color: gray;
+  align-self: center;
 }
 
 .add {
-	align-self: center;
-	overflow: hidden;
-	width: 40px;
-	height: 40px;
-	border-radius:  50%;
-	border-color: black;
-	border: solid;
-	margin-top: 2px;
-	margin-bottom: 2px;
+  align-self: center;
+  overflow: hidden;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border-color: black;
+  border: solid;
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 
 .public {
-	align-self: center;
-	overflow: hidden;
-	width: 40px;
-	height: 40px;
-	border-radius:  50%;
-	border-color: black;
-	border: solid;
-	margin-top: 2px;
-	margin-bottom: 2px;
+  align-self: center;
+  overflow: hidden;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border-color: black;
+  border: solid;
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
