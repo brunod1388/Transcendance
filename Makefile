@@ -4,6 +4,11 @@ all:
 		${COMPOSE} up
 up:
 		${COMPOSE} up
+react:
+		${COMPOSE} -f docker-compose.yml -f docker-compose.react.yml up
+prod:
+	${COMPOSE} -f docker-compose.yml -f docker-compose.prod.yml up
+
 down:
 		${COMPOSE} down
 clean:
