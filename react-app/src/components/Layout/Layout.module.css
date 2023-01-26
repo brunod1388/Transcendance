@@ -1,97 +1,96 @@
 .container {
-	display: grid;
-	grid-template-columns: [start-server] 72px [start-sidebar] 240px [start-base] auto [end-column];
-	grid-template-rows: [start-header] 48px [start-other] auto [end-row];
-	position: relative;
-    overflow: hidden;
-    width: 100vw;
-    height: 100vh;
+  display: grid;
+  grid-template-columns: [start-server] 72px [start-sidebar] 240px [start-base] auto [end-column];
+  grid-template-rows: [start-header] 48px [start-other] auto [end-row];
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
 }
 
 .serversWrapper {
-	background-color: hsl(216, calc(1 * 7.2%), 13.5%);
-	grid-column-start: start-server;
-	grid-column-end: end-column;
-	grid-row-start: start-header;
-	grid-row-end: end-row;
-	display: flex;
-	position: relative;
-    width: 72px;
-    flex-shrink: 0;
-	background-color: hsl(216, calc(var(1r, 1) * 7.2%), 13.5%);
+  background-color: hsl(216, calc(1 * 7.2%), 13.5%);
+  grid-column-start: start-server;
+  grid-column-end: end-column;
+  grid-row-start: start-header;
+  grid-row-end: end-row;
+  display: flex;
+  position: relative;
+  width: 72px;
+  flex-shrink: 0;
+  background-color: hsl(216, calc(var(1r, 1) * 7.2%), 13.5%);
 }
 
 .base {
-	grid-column-start: start-sidebar;
-	grid-column-end: end-column;
-	grid-row-start: start-header;
-	grid-row-end: end-row;
-	display: flex;
-	position: relative;
-	flex-direction: row;
-    overflow: hidden;
-    position: relative;
-    flex-grow: 1;
-	align-items: stretch;
-	flex: 1 1 auto;
-	min-width: 0;
-    min-height: 0;
-	justify-content: flex-start;
+  grid-column-start: start-sidebar;
+  grid-column-end: end-column;
+  grid-row-start: start-header;
+  grid-row-end: end-row;
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  overflow: hidden;
+  position: relative;
+  flex-grow: 1;
+  align-items: stretch;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  justify-content: flex-start;
 }
 
-
 .contentWrapper {
-	background-color: hsl(220, calc(1 * 7.7%), 22.9%);;
-	display: flex;
-	flex: 1 1 auto;
-	flex-direction: row;
-	align-items: stretch;
-    position: relative;
-	justify-content: stretch;
-	/* border: solid; */
-	/* border-color: pink; */
-	min-width: 0;
-    min-height: 0;
-    overflow: hidden;
-    background: hsl(220, calc(var(1, 1) * 7.7%), 22.9%);
-    /* flex: 1 1 auto; */
+  background-color: hsl(220, calc(1 * 7.7%), 22.9%);
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: row;
+  align-items: stretch;
+  position: relative;
+  justify-content: stretch;
+  /* border: solid; */
+  /* border-color: pink; */
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: hsl(220, calc(var(1, 1) * 7.7%), 22.9%);
+  /* flex: 1 1 auto; */
 }
 
 .content {
-	flex: 0 0 auto;
-	width: auto;
-	position: relative;
-	/* display: flex; */
-	flex-direction: column;
-	min-width: 0;
-    min-height: 0;
-	/* flex: 1 1 auto; */
+  flex: 0 0 auto;
+  width: auto;
+  position: relative;
+  /* display: flex; */
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  /* flex: 1 1 auto; */
 }
 
 .contentHeader {
-	position: relative;
-	flex: 0 0 auto;
-	z-index: 100;
+  position: relative;
+  flex: 0 0 auto;
+  z-index: 100;
 }
 
 .contentName {
-	position: relative;
-    flex: 1 1 auto;
-    display: flex;
-    align-items: center;
-    min-width: 0;
-    overflow: hidden;
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .contentToolbar {
-	display: flex;
-    flex: 0 0 auto;
-    min-width: 0;
-    align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  min-width: 0;
+  align-items: center;
 }
 
 li {
-    list-style-type: none;
+  list-style-type: none;
 }
 
 /* .pageWrapper {

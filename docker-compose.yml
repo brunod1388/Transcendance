@@ -1,17 +1,20 @@
 version: "3.8"
 
 services:
-  nestjs:
-    container_name: nestjs
+  postgresql:
+    container_name: postgresql
+    build:
+      context: ./docker/database
+      dockerfile: database.dockerfile
+    networks:
+      - transcendence
+
+  server:
+    container_name: server
     networks:
       - transcendence
     depends_on:
       - postgresql
       
-  postgresql:
-    container_name: postgresql
-    networks:
-      - transcendence
-
 networks:
   transcendence:

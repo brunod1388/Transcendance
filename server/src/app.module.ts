@@ -10,7 +10,7 @@ import { UsersModule } from "./users/users.module";
         ConfigModule.forRoot({ isGlobal: true }),
         // Connexion database
         TypeOrmModule.forRoot({
-            // type eg: mysql, postgresql, mariadb...
+            // type eg: mysql, postgres, mariadb...
             type: "postgres",
             // host: nom du container docker
             host: "postgresql",
