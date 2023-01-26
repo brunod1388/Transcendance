@@ -72,15 +72,15 @@ export class AuthService {
         const user = await this.usersService.findUser(dto.username);
         let valid2FA = false;
         if (user.enable2FA && user.code2FA != "") {
-            valid2FA = this.verify2FAcode(dto.code2FA, user)
-            console.log("VALID: ", valid2FA);
+            valid2FA = this.verify2FAcode(dto.code2FA, user);
         }
         // if user does not exist, throw exception (guard condition)
         if (!user) throw new ForbiddenException("Credentials incorrect");
         // compare password (user.password is hashed; dto.password is plain text)
         const pwMatches = await argon.verify(user.password, dto.password);
         // if password incorrent, throw exception
-        if (!pwMatches || (user.enable2FA && !valid2FA)) throw new ForbiddenException("Credentials incorrect");
+        if (!pwMatches || (user.enable2FA && !valid2FA))
+            throw new ForbiddenException("Credentials incorrect");
         return this.signToken(user.id, user.username, user.email);
     }
     // the signToken function will take the fields that need to be signed

@@ -16,7 +16,8 @@ export class User {
     email: string;
 
     // If a unique constraint needs to be added, simply use @Column({ unique: true })
-    @Column()
+    // Password field not required for 42 auth strategy but MUST NOT be null otherwise (TODO!!!)
+    @Column({ nullable: true })
     password: string;
 
     // A default value can be set as follows @Column({ default: new Date() })

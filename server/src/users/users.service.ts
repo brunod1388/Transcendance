@@ -2,7 +2,12 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { User } from "../typeorm/entities/User";
-import { CreateUserParams, UpdateUserParams } from "../utils/types";
+import {
+    Create42UserParams,
+    CreateUserParams,
+    UpdateUserParams,
+    Update42UserParams,
+} from "../utils/types";
 
 @Injectable()
 export class UsersService {
@@ -54,10 +59,22 @@ export class UsersService {
         return this.userRepository.save(newUser);
     }
 
+    create42User(userDetails: Create42UserParams) {
+        const newUser = this.userRepository.create({
+            ...userDetails,
+            createdAt: new Date(),
+        });
+        return this.userRepository.save(newUser);
+    }
+
     updateUser(id: number, updateUserDetails: UpdateUserParams) {
         // The update will be performed if the user matches the id that was passed
         // Using the spreader operator here enables only the fields included by the user to be updated
         return this.userRepository.update({ id }, { ...updateUserDetails });
+    }
+
+    update42User(id: number, update42UserDetails: Update42UserParams) {
+        return this.userRepository.update({ id }, { ...update42UserDetails });
     }
 
     deleteUser(id: number) {
