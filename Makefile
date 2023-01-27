@@ -11,6 +11,8 @@ down:
 dev:
 	${COMPOSE} -f docker-compose.yml -f docker-compose.dev.yml up
 
+stop:
+	${COMPOSE} stop
 prod: up
 
 clean:
