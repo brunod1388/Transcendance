@@ -8,6 +8,7 @@ function	HomePage() {
 			<h1>Home Page</h1>
 			{/* <p className="subtitle">Play</p> */}
 		</Layout>
+
 	);
 }
 
