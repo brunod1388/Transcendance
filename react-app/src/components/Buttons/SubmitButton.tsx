@@ -5,7 +5,7 @@ interface SubmitProps {
 	handleClick(): void;
 }
 
-function Input (props: SubmitProps) {
+function SubmitButton (props: SubmitProps) {
 	return (
 		<button
 			className={style.shadow__btn}
@@ -17,4 +17,4 @@ function Input (props: SubmitProps) {
 	);
 }
 
-export default Input;
+export default SubmitButton;

@@ -5,10 +5,11 @@ interface InputProps {
 	required?: boolean;
 	placeholder: string;
 	type?: string;
+	onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 function Input (props: InputProps) {
-	const { name, required = false , placeholder, type} = props;
+	const { name, required = false , placeholder, type, onChange = () => {}} = props;
 	return (
 		<div className={style.inputbox}>
 			<input
@@ -17,6 +18,7 @@ function Input (props: InputProps) {
 				className={style.input}
 				required={required}
 				placeholder={placeholder}
+				onChange={onChange}
 			/>
 		</div>
 

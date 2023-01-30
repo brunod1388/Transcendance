@@ -1,0 +1,37 @@
+.chat_container {
+	display: flex;
+	flex-direction: column;
+	align-content: stretch;
+	height: 100%;
+	width: 100%;
+	background-color: #3b3e45;
+}
+
+.toolbar_container {
+	flex: 0 0 20px;
+	display: flex;
+	flex-direction: row;
+	border-bottom: 1px solid rgb(29, 29, 29);
+}
+
+.messages_container {
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+}
+
+.writting_container {
+	flex: 0 0 20px;
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	align-content: stretch;
+}
+
+.input_container {
+	flex: 1 1 auto;
+}
+
+.button_container {
+
+}
