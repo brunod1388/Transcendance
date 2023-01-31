@@ -9,6 +9,7 @@ import MessagesPage from "./pages/MessagesPage/MessagesPage";
 import PlayPage from "./pages/PlayPage/PlayPage";
 import PublicGroupPage from "./pages/PublicGroupPage/PublicGroupPage";
 import SettingsPage from "./pages/SettingsPage/SettingsPage";
+import SubscribePage from "./pages/SubscribePage/SubscribePage";
 
 
 function App() {
@@ -16,13 +17,14 @@ function App() {
 		<div className="app">
 		<Routes>
 			<Route path="/" element={<LoginPage/>} />
-			<Route path="/about" element={<AboutPage/>} />
-			<Route path="/group" element={<GroupPage/>} />
-			{/* <Route path="/login" element={<LoginPage/>} /> */}
+			<Route path="/subscribe" element={<SubscribePage/>} />
 			<Route path="/messages" element={<MessagesPage/>} />
 			<Route path="/play" element={<PlayPage/>} />
-			<Route path="/public" element={<PublicGroupPage/>} />
 			<Route path="/settings" element={<SettingsPage/>} />
+			<Route path="/about" element={<AboutPage/>} />
+			<Route path="/group" element={<GroupPage/>} />
+			<Route path="/public" element={<PublicGroupPage/>} />
+			{/* <Route path="/login" element={<LoginPage/>} /> */}
 		</Routes>
 		</div>
 	);

@@ -1,32 +1,27 @@
 import { useState } from 'react';
 // import { Layout } from './index'
-import style from './LoginPage.module.css';
+import style from './SubscribePage.module.css';
 import Input from '../../components/Input/Input';
 import SubmitButton from '../../components/Buttons/SubmitButton';
 import { useNavigate } from 'react-router-dom';
 
-function	LoginPage() {
+function	SubscribePage() {
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
+	const [rePassword, setRePassword] = useState('');
+	const [mail, setMail] = useState('');
 	const navigate = useNavigate();
 
-	const joinChat = () => {
+	const subscribeChat = () => {
 
 		// socket.emit('join_chat', {username, password});
 		console.log(`username: ${username}`);
 		console.log(`password: ${password}`);
-		navigate('/messages', {replace: true});
-	};
-
-	const signIn42 = () => {
-		console.log(`sign in 42`);
-		navigate('/messages', {replace: true});
-	};
-
-	const subscribe = () => {
-		console.log(`sign in 42`);
-		navigate('/subscribe', {replace: true});
+		console.log(`re-password: ${rePassword}`);
+		console.log(`mail: ${mail}`);
+		
+		navigate('/', {replace: true});
 	};
 
 	return (
@@ -37,7 +32,7 @@ function	LoginPage() {
 			<div className={style.login_container}>
 				<div className={style.form_container}>
 					<div className={style.div_container}> 
-						<h3>Sign in to your account</h3>
+						<h3>Fill this subscription form</h3>
 					</div>
 					<Input
 						divStyle={style.div_container}
@@ -47,26 +42,30 @@ function	LoginPage() {
 						onChange={(e) => setUsername(e.target.value)}
 					/>
 					<Input
+							divStyle={style.div_container}
+							name="mail"
+							placeholder="Email"
+							type="mail"
+							onChange={(e) => setMail(e.target.value)}
+						/>
+					<Input
 						divStyle={style.div_container}
 						name="password"
 						placeholder="Password"
 						type="password"
 						onChange={(e) => setPassword(e.target.value)}
 					/>
-					<SubmitButton
+					<Input
 						divStyle={style.div_container}
-						name="Log in"
-						handleClick={joinChat}
-						fill={true}
+						name="repassword"
+						placeholder="Re-type Password"
+						type="repassword"
+						onChange={(e) => setRePassword(e.target.value)}
 					/>
-					<div className={style.div_container}>
-						<button className={style.link_button} onClick={subscribe}>No account? Sign in.</button>
-					</div>
-					<hr/>
 					<SubmitButton
 							divStyle={style.div_container}
-							name="Sign In 42"
-							handleClick={signIn42}
+							name="Suscribe"
+							handleClick={subscribeChat}
 							fill={true}
 					/>
 				</div>
@@ -76,4 +75,4 @@ function	LoginPage() {
 	);
 }
 
-export default	LoginPage;
+export default	SubscribePage;

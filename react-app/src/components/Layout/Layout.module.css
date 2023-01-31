@@ -132,7 +132,7 @@
 	height: 100vh;
 	width: 100vw;
 	align-items: stretch;
-	background-color: hsl(220, calc(1 * 7.7%), 22.9%);;
+	background-color: hsl(220, calc(1 * 7.7%), 22.9%);
 }
 
 .navContainer {

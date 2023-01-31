@@ -1,19 +1,19 @@
-import style from './SubmitButton.module.css';
+import style from './LinkButton.module.css';
 
-interface SubmitProps {
+interface LinkProps {
 	name: string;
 	handleClick(): void;
 	divStyle?: string;
 	fill?: boolean;
 }
 
-function SubmitButton (props: SubmitProps) {
+function SubmitButton (props: LinkProps) {
 	const {name, handleClick, divStyle = "", fill=false} = props;
 	
 	return (
-		<div className={props.divStyle + (fill ? " " + style.width100 : "")}>
+		<div className={props.divStyle}>
 			<button
-				className={style.shadow_btn  + (fill ? " " + style.width100 : "")}
+				className={style.link_button}
 				onClick={handleClick}
 			>
 				{name}
