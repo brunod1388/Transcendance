@@ -58,11 +58,11 @@
 	margin-bottom: 5px;
 }
 
-hr {
+.hrLogin {
 	margin-bottom: 20px;
-	width: 100%;
-	box-shadow: 0 0 10px 1px #d7e2fe;
 	animation: appear 2s;
+	box-shadow: 0 0 10px 1px #d7e2fe;
+	width: 100%
 }
 
 .link_button {

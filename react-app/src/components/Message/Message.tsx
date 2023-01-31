@@ -4,14 +4,33 @@ interface MessageProps {
 	created: any;
 	content: string;
 	user: string;
+	index: number;
+	array: any[]
 }
 
-function Message (msg: MessageProps, hostName: string) {
+function Message (msg: MessageProps) {
 
-	return <div>
-				<p className={(hostName === msg.user) ? style.from_me : style.from_them}>
+	function formatDateFromTimestamp(timestamp: any) {
+		const date = new Date(timestamp);
+		return date.toLocaleString();
+	}
+
+	const hasHeader: boolean = (msg.index === 0
+		|| (msg.user !== msg.array[msg.index - 1].userName)
+		|| (msg.created.getTime() -  msg.array[msg.index - 1].created.getTime() ) > 1800000);
+
+	return <div className={style.messageContainer}>
+				{ hasHeader &&
+					<div className={style.messageHeaderContainer}>
+						<p className={style.userMessage}>{msg.user}</p>
+						<p className={style.createdMessage}>
+							{formatDateFromTimestamp(msg.created)}
+						</p>
+					</div>
+				}
+				<div className={style.messageStyle}>
 					{msg.content}
-				</p>
+				</div>
 			</div>;
 }
 

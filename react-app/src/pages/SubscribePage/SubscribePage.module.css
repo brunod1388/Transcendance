@@ -62,13 +62,6 @@
 	margin-bottom: 20px;
 }
 
-hr {
-	margin-bottom: 20px;
-	width: 100%;
-	box-shadow: 0 0 10px 1px #d7e2fe;
-	animation: appear 2s;
-}
-
 .link_button {
 	color: #459ce8;
 	text-shadow: 0 0 5px #459ce8;

@@ -7,6 +7,7 @@ interface InputProps {
 	type?: string;
 	onChange?: React.ChangeEventHandler<HTMLInputElement>;
 	divStyle?: string;
+	fill?: boolean;
 }
 
 function Input (props: InputProps) {
@@ -15,7 +16,8 @@ function Input (props: InputProps) {
 			placeholder,
 			type,
 			onChange = () => {},
-			divStyle = ""
+			divStyle = "",
+			fill = false
 	} = props;
 
 	return (
@@ -23,7 +25,7 @@ function Input (props: InputProps) {
 			<input
 				type={type}
 				name={name}
-				className={style.input}
+				className={style.input + (fill ? " " + style.width100 : "")}
 				required={required}
 				placeholder={placeholder}
 				onChange={onChange}

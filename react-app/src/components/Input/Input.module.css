@@ -1,7 +1,6 @@
 .input {
 	border: none;
-	padding: 5px;
-	padding-left: 20px;
+	padding: 5px 20px;
 	border-radius: 1rem;
 	background: #d7e2fe;
 	transition: 0.3s;
@@ -17,4 +16,8 @@
 	transition: 0.3s;
 	box-shadow: 2px 2px 10px #858585,
 				-2px -2px 10px #c1c1c1;
+}
+
+.width100 {
+	width: 100%;
 }

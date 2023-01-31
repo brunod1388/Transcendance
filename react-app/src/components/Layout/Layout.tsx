@@ -1,10 +1,10 @@
 import React from 'react';
-import ChatGroups from '../ChatGroups/ChatGroups';
-import style from './Layout.module.css';
-import Sidebar from '../Sidebar/Sidebar';
 // import NavigationBar from '../NavigationBar/NavigationBar';
 // import GroupsList from '../GroupList/GroupsList';
 // import GroupsList from '../ChatGroups/GroupsList';
+import ChatGroups from '../ChatGroups/ChatGroups';
+import style from './Layout.module.css';
+import Sidebar from '../Sidebar/Sidebar';
 // import Topbar from '../Topbar/Topbar';																																																																																																																																																																																																																																																																																																																																																																																																																																																					
 // import Sidebar from '../Sidebar/Sidebar';
 // import Chat from  '../Chat/Chat';
@@ -24,9 +24,7 @@ function Layout({children}: Props) {
 			<div className={style.sidebarContainer}>
 				<Sidebar />
 			</div>
-			<div className={style.contentWrapper}>
-				{children}
-			</div>
+			{children}
 		</div>
 	);
 }

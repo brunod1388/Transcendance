@@ -60,9 +60,9 @@ function	LoginPage() {
 						fill={true}
 					/>
 					<div className={style.div_container}>
-						<button className={style.link_button} onClick={subscribe}>No account? Sign in.</button>
+						<button className={style.link_button} onClick={subscribe}>No account? Sign up.</button>
 					</div>
-					<hr/>
+					<hr className={style.hrLogin}/>
 					<SubmitButton
 							divStyle={style.div_container}
 							name="Sign In 42"
