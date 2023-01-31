@@ -44,11 +44,12 @@ export class AuthController {
         return user;
     }
 
-    //    @UseGuards(FortyTwoGuard)
-    //    @Get("login42/callback")
-    //    callback(@GetUser() user: User, @Res({passthrough: true}) res) {
-    //        const jwtToken = this.authService.signToken(user.id, user.username, user.email);
-    //        console.log(jwtToken);
-    //        return res.redirect('/');
-    //    }
+        @UseGuards(FortyTwoGuard)
+        @Get("login42/callback")
+        callback(@GetUser() user: User, @Res({passthrough: true}) res) {
+            console.log("---------------HERE------------");
+            const jwtToken = this.authService.signToken(user.id, user.username, user.email);
+            console.log(jwtToken);
+            return res.redirect('/');
+        }
 }
