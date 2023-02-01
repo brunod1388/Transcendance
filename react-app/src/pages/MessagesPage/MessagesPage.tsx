@@ -33,7 +33,6 @@ function	MessagesPage() {
 	{created: new Date('December 11, 1992 04:20:00'), content: "message25", userName: "user2"},
 	// {created: new Date('December 19, 1996 04:26:00'), content: "message35", userName: "user3"},
 	{created: new Date('December 16, 1995 03:24:00'), content: "message3", userName: "user3"}]
-	const hostName = "user2";
 
 	function sortMessagesByDate(messages: message[]) {
 		return messages.sort(

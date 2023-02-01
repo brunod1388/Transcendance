@@ -1,19 +1,10 @@
 .sidebar {
 	display: flex;
-	position: relative;
 	flex-direction: column;
 	width: 240px;
-	min-height: 0;
-	background: hsl(223, calc(1 * 6.9%), 19.8%);
-	/* border: solid; */
-	/* border-color: palevioletred; */
 }
 
 .sidebarHeader {
-	display: flex;
-	background-color: hsl(216.9 calc(1*7.6%) 33.5% /0.4);
-	position: relative;
-    font-weight: 500;
-    padding: 12px 16px;
-    z-index: 1;
+
+    /* padding: 12px 16px; */
 }

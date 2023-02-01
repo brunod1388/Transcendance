@@ -7,9 +7,11 @@
 }
 
 .input:focus {
-	background: #d7e2fe;
+	/* background: #d7e2fe; */
 	outline: none;
-	background-color: #c5c1e3;
+	/* background-color: #c5c1e3; */
+	box-shadow: inset 2px 2px 5px #726cb0,
+				inset -2px -2px 5px #726cb0;
 }
 
 .input:hover {

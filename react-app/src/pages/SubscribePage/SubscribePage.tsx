@@ -59,7 +59,7 @@ function	SubscribePage() {
 						divStyle={style.div_container}
 						name="repassword"
 						placeholder="Re-type Password"
-						type="repassword"
+						type="password"
 						onChange={(e) => setRePassword(e.target.value)}
 					/>
 					<SubmitButton

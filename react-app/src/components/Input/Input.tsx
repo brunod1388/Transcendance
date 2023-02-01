@@ -21,7 +21,7 @@ function Input (props: InputProps) {
 	} = props;
 
 	return (
-		<div className={props.divStyle}>
+		<div className={divStyle}>
 			<input
 				type={type}
 				name={name}

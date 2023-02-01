@@ -9,9 +9,9 @@ interface SubmitProps {
 
 function SubmitButton (props: SubmitProps) {
 	const {name, handleClick, divStyle = "", fill=false} = props;
-	
+
 	return (
-		<div className={props.divStyle + (fill ? " " + style.width100 : "")}>
+		<div className={divStyle + (fill ? " " + style.width100 : "")}>
 			<button
 				className={style.shadow_btn  + (fill ? " " + style.width100 : "")}
 				onClick={handleClick}
