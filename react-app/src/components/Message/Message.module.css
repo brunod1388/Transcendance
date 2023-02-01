@@ -1,0 +1,28 @@
+.messageContainer {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.messageHeaderContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding-top: 10px;
+}
+
+.userMessage {
+	color: aliceblue;
+}
+
+.createdMessage {
+	font-size: small;
+	color: rgb(178, 188, 188);
+}
+
+.messageStyle {
+	color: #d7d8d9;
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.bottom_space {
+	padding-bottom: 5px;
+}

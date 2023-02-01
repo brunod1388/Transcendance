@@ -5,9 +5,10 @@
 }
 
 body {
-  line-height: 1;
-  overflow: hidden;
-  background: transparent;
+	line-height: 1;
+	overflow: hidden;
+	background: transparent;
+	background-color: rgb(44, 41, 68);
 }
 
 ul {
