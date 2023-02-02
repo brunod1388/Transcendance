@@ -28,7 +28,9 @@ function Sidebar() {
         // to do
         <div className={style.sidebar}>
             {roomUsers.map((user, index) => (
-                <div key={index} className={style.sidebarHeader}>{user.name}</div>
+                <div key={index} className={style.sidebarHeader}>
+                    {user.name}
+                </div>
             ))}
         </div>
     );

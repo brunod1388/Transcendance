@@ -46,10 +46,10 @@ export class AuthController {
         return user;
     }
 
-//    callback(@GetUser() user: User, @Res({passthrough: true}) res) {
+    //    callback(@GetUser() user: User, @Res({passthrough: true}) res) {
     @UseGuards(FortyTwoGuard)
     @Get("login42/callback")
-    callback(@Request() req, @Res() res: Response) {
+    async callback(@Request() req, @Res() res: Response) {
         const dto: Create42UserDto = {
             idFortyTwo: req.user.id,
             username: req.user.login,
@@ -57,20 +57,20 @@ export class AuthController {
             enable2FA: false,
             code2FA: "",
         };
-    //    const token = this.authService.signToken(user.id, user.username, user.email);
-        const token = this.authService.login42(dto);
+        //    const token = this.authService.signToken(user.id, user.username, user.email);
+        const token = await this.authService.login42(dto);
 
-        console.log("ACCESS TOKEN:", token['access_token']);
+        console.log("ACCESS TOKEN:", token["access_token"]);
         console.log("ID FORTY TWO:", req.user.id);
         console.log("USERNAME:", req.user.login);
         console.log("EMAIL:", req.user.email);
 
         const url = new URL(`${req.protocol}:${req.hostname}`);
         url.port = "3000";
-        url.pathname = 'login42';
-        url.searchParams.set('code', token['access_token']);
+        url.pathname = "login42";
+        url.searchParams.set("code", token["access_token"]);
         res.status(302).redirect(url.href);
-    //    res.cookie('jwt_token', token);
-    //    return res.redirect('http://localhost:3000/users/me');
+        //    res.cookie('jwt_token', token);
+        //    return res.redirect('http://localhost:3000/users/me');
     }
 }

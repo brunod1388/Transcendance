@@ -63,7 +63,7 @@ export class AuthService {
     }
 
     async login42(dto: Create42UserDto) {
-        var user = await this.usersService.findUserIdFortyTwo(dto.idFortyTwo);
+        let user = await this.usersService.findUserIdFortyTwo(dto.idFortyTwo);
         if (user === undefined) {
             user = await this.usersService.create42User(dto);
         }

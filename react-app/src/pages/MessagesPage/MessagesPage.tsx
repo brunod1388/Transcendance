@@ -134,7 +134,7 @@ function MessagesPage() {
                                 user={message.userName}
                                 index={index}
                                 array={array}
-								key={index}
+                                key={index}
                             />
                         )
                     )}
