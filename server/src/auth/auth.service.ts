@@ -12,6 +12,7 @@ import { ConfigService } from "@nestjs/config";
 import * as speakeasy from "speakeasy";
 import * as QRCode from "qrcode";
 import { Response } from "express";
+import { Create42UserDto } from "../users/dtos/Create42User.dto";
 
 @Injectable()
 export class AuthService {
@@ -59,6 +60,14 @@ export class AuthService {
             throw error;
         }
     */
+    }
+
+    async login42(dto: Create42UserDto) {
+        var user = await this.usersService.findUserIdFortyTwo(dto.idFortyTwo);
+        if (user === undefined) {
+            user = await this.usersService.create42User(dto);
+        }
+        return this.signToken(user.id, user.username, user.email);
     }
 
     async signin(dto: AuthDto) {

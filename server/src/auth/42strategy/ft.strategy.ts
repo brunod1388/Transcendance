@@ -16,20 +16,19 @@ export class FtStrategy extends PassportStrategy(Strategy, "42") {
             clientID: config.get("FT_APP_UID"),
             clientSecret: config.get("FT_APP_SECRET"),
             callbackURL: "http://127.0.0.1:3000/auth/login42/callback",
-    //        profileFields: {
-    //            id: function (obj) {
-    //                return String(obj.id);
-    //            },
-    //            username: "login",
-    //            "emails.0.value": "email",
-    //        },
+            profileFields: {
+                'id': function (obj) { return obj.id },
+                'login': function (obj) { return obj.login },
+                'email': function (obj) { return obj.email },
+                'photo': function (obj) { return obj.image.link },
+            }
         });
-    //    console.log("FT_APP_ID: ", config.get("FT_APP_UID"));
-    //    console.log("FT_APP_SECRET: ", config.get("FT_APP_SECRET"));
+        //    console.log("FT_APP_ID: ", config.get("FT_APP_UID"));
+        //    console.log("FT_APP_SECRET: ", config.get("FT_APP_SECRET"));
     }
 
     // Not sure how the validation is to be performed, similarly to jwt.strategy???
-/*    async validate(accessToken, refreshToken, profile, cb): Promise<any> {
+    /*    async validate(accessToken, refreshToken, profile, cb): Promise<any> {
         console.log("HEEERRREEE!: ", profile.username);
         let user = await this.usersService.findUser(profile.username);
         if (user === null || user === undefined) {
@@ -44,12 +43,17 @@ export class FtStrategy extends PassportStrategy(Strategy, "42") {
     }
 */
     async validate(accessToken, refreshToken, profile, cb): Promise<any> {
-    //    console.log(profile.login);
-        const new_user = this.usersService.create42User({
-            username: profile.login,
-            email: profile.email,
-            enable2FA: false,
-        });
-        return new_user;
+        //    console.log(profile.login);
+        var user = await this.usersService.findUserIdFortyTwo(profile.id);
+        if  (user === null || user === undefined) {
+            user = await this.usersService.create42User({
+                idFortyTwo: profile.id,
+                username: profile.login,
+                email: profile.email,
+                enable2FA: false,
+                code2FA: "",
+            });
+        }
+        return user;
     }
 }

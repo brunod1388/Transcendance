@@ -5,6 +5,7 @@ import {
     HttpCode,
     HttpStatus,
     Post,
+    Req,
     Request,
     Res,
     UseGuards,
@@ -16,6 +17,7 @@ import { CreateUserDto } from "../users/dtos/CreateUser.dto";
 import { FortyTwoGuard } from "./guard/FortyTwo.guard";
 import { GetUser } from "./decorator";
 import { User } from "../typeorm/entities/User";
+import { Create42UserDto } from "../users/dtos/Create42User.dto";
 
 // In order to call the functions of the AuthService class, the AuthController will
 // have to instantiate a AuthService class. To avoid explicit
@@ -44,12 +46,31 @@ export class AuthController {
         return user;
     }
 
-        @UseGuards(FortyTwoGuard)
-        @Get("login42/callback")
-        callback(@GetUser() user: User, @Res({passthrough: true}) res) {
-            console.log("---------------HERE------------");
-            const jwtToken = this.authService.signToken(user.id, user.username, user.email);
-            console.log(jwtToken);
-            return res.redirect('/');
-        }
+//    callback(@GetUser() user: User, @Res({passthrough: true}) res) {
+    @UseGuards(FortyTwoGuard)
+    @Get("login42/callback")
+    callback(@Request() req, @Res() res: Response) {
+        const dto: Create42UserDto = {
+            idFortyTwo: req.user.id,
+            username: req.user.login,
+            email: req.user.email,
+            enable2FA: false,
+            code2FA: "",
+        };
+    //    const token = this.authService.signToken(user.id, user.username, user.email);
+        const token = this.authService.login42(dto);
+
+        console.log("ACCESS TOKEN:", token['access_token']);
+        console.log("ID FORTY TWO:", req.user.id);
+        console.log("USERNAME:", req.user.login);
+        console.log("EMAIL:", req.user.email);
+
+        const url = new URL(`${req.protocol}:${req.hostname}`);
+        url.port = "3000";
+        url.pathname = 'login42';
+        url.searchParams.set('code', token['access_token']);
+        res.status(302).redirect(url.href);
+    //    res.cookie('jwt_token', token);
+    //    return res.redirect('http://localhost:3000/users/me');
+    }
 }

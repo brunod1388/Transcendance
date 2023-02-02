@@ -8,6 +8,10 @@ export class User {
     @PrimaryGeneratedColumn({ type: "bigint" })
     id: number;
 
+    // Uniquely identifies users (based on 42 authentication) while permitting username to be selected
+    @Column({ unique: true, nullable: true })
+    idFortyTwo: number;
+
     // In order for the property to map to an actual column in SQL table, the @Column decorator must be used
     @Column({ unique: true })
     username: string;

@@ -13,10 +13,11 @@ export type CreateUserParams = {
 };
 
 export type Create42UserParams = {
+    idFortyTwo: number;
     username: string;
     email: string;
     enable2FA: boolean;
-    //    code2fa: string;
+    code2FA: string;
 };
 
 export type UpdateUserParams = {

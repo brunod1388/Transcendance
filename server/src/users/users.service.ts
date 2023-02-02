@@ -44,6 +44,16 @@ export class UsersService {
         //  return undefined;
     }
 
+    findUserIdFortyTwo(idFortyTwo: number) {
+        if (idFortyTwo !== null) {
+            return this.userRepository.findOne({
+                where: { idFortyTwo: idFortyTwo },
+            });
+        }
+
+        return undefined;
+    }
+
     // The type annotation for userDetails argument is CreateUserParams (custom type defined in utils folder)
     createUser(userDetails: CreateUserParams) {
         // The spreader operator (...) will unpack the username and password property (from CreateUserParams)
