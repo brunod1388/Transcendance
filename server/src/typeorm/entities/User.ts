@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+    Column,
+    Entity,
+    PrimaryGeneratedColumn,
+    ManyToOne,
+    OneToMany,
+} from "typeorm";
+import { Channel } from "./Channel.entity";
 
 // The name provided here will be used as the table name in the db
 @Entity({ name: "users" })
@@ -27,4 +34,7 @@ export class User {
     // A nullable property allows the field to be null as default if no value is passed (i.e. optional)
     @Column({ nullable: true })
     authStrategy: string;
+
+    // @OneToMany(() => Channel, (channel) => channel.owner)
+    // ownedChannels: Channel[];
 }

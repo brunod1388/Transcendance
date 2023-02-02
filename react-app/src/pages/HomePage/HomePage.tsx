@@ -9,7 +9,6 @@ function clicked() {
     });
 }
 
-
 function HomePage() {
     return (
         <Layout>
