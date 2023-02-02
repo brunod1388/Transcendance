@@ -1,0 +1,9 @@
+.container {
+  top: 0;
+  display: flex;
+  flex: 1 1 auto;
+  z-index: 1;
+  height: 40px;
+  right: 0;
+  background-color: white;
+}

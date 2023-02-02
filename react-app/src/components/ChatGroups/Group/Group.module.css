@@ -1,0 +1,143 @@
+.nameWrapper {
+  text-align: center;
+}
+
+.childrenWrapper {
+  align-self: center;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.wrapper {
+  overflow: visible;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 72px;
+  height: 48px;
+}
+
+.test {
+  width: 8px;
+  display: flex;
+  width: 30;
+  height: 30;
+}
+
+.Group {
+  margin-left: 4px;
+  margin-bottom: 10px;
+}
+
+.Group a {
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  /* background: white; */
+}
+
+a.active .activeLink {
+  position: absolute;
+  align-self: center;
+  margin-left: -8px;
+  height: 40px;
+  width: 8px;
+  border-radius: 20%;
+  background-color: aliceblue;
+  position: relative;
+}
+
+a.inactive .wrapper:hover .activeLink {
+  position: relative;
+  align-self: center;
+  margin-left: -8px;
+  height: 20px;
+  width: 8px;
+  border-radius: 20%;
+  background-color: aliceblue;
+  position: relative;
+}
+
+/* .namePreview {
+	position: absolute;
+	left: 80px;
+	align-self: center;
+	background-color: beige;
+	width: auto;
+	z-index: 10000;
+	/* background-image: url('../../../assets/images/Tooltip.png'); */
+/* width: auto; */
+/* } */
+
+.activeMarker {
+  width: 8px;
+  background-color: aliceblue;
+}
+
+.IconWrapper {
+  background-color: rgb(55, 57, 62);
+  border-radius: 50%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 48px;
+  width: 48px;
+}
+
+.Icon {
+  border-radius: 50%;
+  height: 48px;
+  width: 48px;
+}
+
+.wrapper .tooltiptext {
+  align-self: center;
+  visibility: hidden;
+  width: 120px;
+  background-color: hsl(216, calc(1 * 7.2%), 13.5%);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 100000;
+  left: 110%;
+  filter: drop-shadow(rgba(0, 0, 0, 0.3) 0 2px 10px);
+}
+
+  /* 85 150 96 */
+  .svg img {
+	/* border-radius:  50%; */
+	height: 30px;
+	width: 30px;
+	filter: invert(48%) sepia(39%) saturate(445%) hue-rotate(79deg) brightness(100%) contrast(90%);
+  	}
+
+
+.messages {
+  margin-top: 10px;
+}
+
+.messages img {
+  height: 30px;
+  width: 30px;
+  filter: invert(48%) sepia(39%) saturate(445%) hue-rotate(79deg)
+    brightness(100%) contrast(90%);
+}
+
+.wrapper .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent hsl(216, calc(1 * 7.2%), 13.5%) transparent
+    transparent;
+}
+.wrapper:hover .tooltiptext {
+  visibility: visible;
+}
