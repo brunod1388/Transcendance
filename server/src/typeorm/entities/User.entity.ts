@@ -5,7 +5,14 @@ import {
     ManyToOne,
     OneToMany,
 } from "typeorm";
+
 import { Channel } from "./Channel.entity";
+import { Friend } from "./Friend.entity";
+// import { Match } from "./Match.entity";
+import { Message } from "./Message.entity";
+import { MutedUser } from "./MutedUser.entity";
+import { BlockedUser } from "./BlockedUser.entity";
+import { ChannelUser } from "./ChannelUser.entity";
 
 // The name provided here will be used as the table name in the db
 @Entity({ name: "users" })
@@ -35,6 +42,24 @@ export class User {
     @Column({ nullable: true })
     authStrategy: string;
 
-    // @OneToMany(() => Channel, (channel) => channel.owner)
-    // ownedChannels: Channel[];
+    @OneToMany(() => Channel, (channel) => channel.owner)
+    ownedChannels: Channel[];
+
+    @OneToMany(() => Message, (message) => message.creator)
+    messages: Message[];
+
+    @OneToMany(() => MutedUser, (mutedUser) => mutedUser.user)
+    mutedUsers: MutedUser[];
+
+    @OneToMany(() => BlockedUser, (blockedUser) => blockedUser.user)
+    blockedUsers: BlockedUser[];
+
+    @OneToMany(() => ChannelUser, (channelUser) => channelUser.user)
+    channelUsers: ChannelUser[];
+
+    @OneToMany(() => Friend, (friend) => friend.user)
+    friends: Friend[];
+
+    @OneToMany(() => Friend, (friend) => friend.friend)
+    friendsOf: Friend[];
 }

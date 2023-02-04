@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable } from "@nestjs/common";
 //import { User, Bookmark } from "@prisma/client";
 //import { PrismaService } from "src/prisma/prisma.service";
 import { UsersService } from "../users/users.service";
-import { User } from "../typeorm/entities/User";
+import { User } from "../typeorm/entities/User.entity";
 import { AuthDto } from "./dto";
 import { CreateUserDto } from "../users/dtos/CreateUser.dto";
 import * as argon from "argon2";

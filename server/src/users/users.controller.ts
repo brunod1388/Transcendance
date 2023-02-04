@@ -14,7 +14,7 @@ import { UpdateUserDto } from "./dtos/UpdateUser.dto";
 import { UsersService } from "./users.service";
 import { JwtGuard } from "../auth/guard";
 import { GetUser } from "../auth/decorator";
-import { User } from "../typeorm/entities/User";
+import { User } from "../typeorm/entities/User.entity";
 
 // The controller is typically used for handling incoming requets and sending outbound responses
 // The controller will usually do things such as extract query parameters, validate request body,
