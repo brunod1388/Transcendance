@@ -6,6 +6,7 @@ import { User } from "./typeorm/entities/User";
 import { UsersModule } from "./users/users.module";
 import { AppController } from "./app.controller";
 import { ChatModule } from "./chat/chat.module";
+import { PongModule } from "./pong/pong.module";
 
 @Module({
     imports: [
@@ -31,6 +32,7 @@ import { ChatModule } from "./chat/chat.module";
         AuthModule,
         UsersModule,
         ChatModule,
+        PongModule,
     ],
     controllers: [AppController],
     providers: [],

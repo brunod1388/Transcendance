@@ -11,6 +11,7 @@ import PlayPage from "./pages/PlayPage/PlayPage";
 import PublicGroupPage from "./pages/PublicGroupPage/PublicGroupPage";
 import SettingsPage from "./pages/SettingsPage/SettingsPage";
 import { io, Socket } from "socket.io-client";
+import { EventLayer } from "./components/EventLayer/EventLayer";
 
 const SERVER_URL = "http://localhost:3000";
 const socket: Socket = io(SERVER_URL);
@@ -18,6 +19,8 @@ const socket: Socket = io(SERVER_URL);
 function App() {
     return (
         <div className="app">
+            <EventLayer />{" "}
+            {/* A transparent layer on which popUp are displayed */}
             <Routes>
                 <Route path="/" element={<LoginPage />} />
                 <Route path="/about" element={<AboutPage />} />

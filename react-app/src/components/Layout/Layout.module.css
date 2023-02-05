@@ -21,6 +21,10 @@
 	background-color: hsl(216, calc(1 * 7.2%), 13.5%);
 }
 
+.pageContent {
+	display: flex;
+}
+
 .sidebarContainer {
 	/* background-color: green; */
 }

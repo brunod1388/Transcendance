@@ -1,5 +1,5 @@
 import style from "./Sidebar.module.css";
-import {useEffect } from "react";
+import { useEffect } from "react";
 
 interface User {
     name: string;

@@ -20,10 +20,12 @@ function Layout({ children }: Props) {
             <nav className={style.navContainer}>
                 <ChatGroups />
             </nav>
-            <div className={style.sidebarContainer}>
-                <Sidebar />
+            <div className={style.pageContent}>
+                <div className={style.sidebarContainer}>
+                    <Sidebar />
+                </div>
+                {children}
             </div>
-            {children}
         </div>
     );
 }
