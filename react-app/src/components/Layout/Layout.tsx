@@ -7,30 +7,25 @@ import style from "./Layout.module.css";
 import Sidebar from "../Sidebar/Sidebar";
 // import Topbar from '../Topbar/Topbar';
 // import Sidebar from '../Sidebar/Sidebar';
+// import Chat from  '../Chat/Chat';
 
 interface Props {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }
 
 function Layout({ children }: Props) {
-  return (
-    <div className={style.container}>
-      {/* <Topbar/> */}
-      <nav className={style.serversWrapper}>
-        <ChatGroups />
-      </nav>
-      <div className={style.base}>
-        <Sidebar />
-        <div className={style.contentWrapper}>
-          <main className={style.content}>
-            <div className={style.contentHeader}>
-              <div className={style.contentName}></div>
+    return (
+        <div className={style.layoutContainer}>
+            {/* <Topbar/> */}
+            <nav className={style.navContainer}>
+                <ChatGroups />
+            </nav>
+            <div className={style.sidebarContainer}>
+                <Sidebar />
             </div>
-            <div className={style.contentToolbar}></div>
-          </main>
+            {children}
         </div>
-      </div>
-    </div>
-  );
+    );
 }
+
 export default Layout;
