@@ -9,8 +9,7 @@ import {
     Put,
     UseGuards,
 } from "@nestjs/common";
-import { CreateUserDto } from "./dtos/CreateUser.dto";
-import { UpdateUserDto } from "./dtos/UpdateUser.dto";
+import { CreateUserDto, UpdateUserDto } from "./dtos/UserValidation.dto";
 import { UsersService } from "./users.service";
 import { JwtGuard } from "../auth/guard";
 import { GetUser } from "../auth/decorator";

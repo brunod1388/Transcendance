@@ -57,9 +57,9 @@ export class User {
     @OneToMany(() => ChannelUser, (channelUser) => channelUser.user)
     channelUsers: ChannelUser[];
 
-    // @OneToMany(() => Friend, (friend) => friend.user)
-    // friends: Friend[];
+    @OneToMany(() => Friend, (friend) => friend.user)
+    friends: Friend[];
 
-    // @OneToMany(() => Friend, (friend) => friend.friend)
-    // friendsOf: Friend[];
+    @OneToMany(() => Friend, (friend) => friend.friend)
+    friendsOf: Friend[];
 }

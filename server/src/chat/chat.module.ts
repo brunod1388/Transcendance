@@ -1,16 +1,25 @@
 import { Module } from "@nestjs/common";
 import { ChatGateway } from "../chat/chat.gateway";
-import { Channel } from "../typeorm/entities/Channel.entity";
-import { ChannelUser } from "../typeorm/entities/ChannelUser.entity";
-import { BlockedUser } from "../typeorm/entities/BlockedUser.entity";
-import { MutedUser } from "../typeorm/entities/MutedUser.entity";
-import { Message } from "../typeorm/entities/Message.entity";
 import { ChatController } from "./chat.controller";
+import { ChannelModule } from "./channel/channel.module";
+import { MessageModule } from "./message/message.module";
+import { MutedService } from "./muted/muted.service";
+import { BlockedService } from "./blocked/blocked.service";
+import { ChannelUserService } from "./channel-user/channel-user.service";
+import { ChannelUserModule } from "./channel-user/channel-user.module";
+import { BlockedModule } from "./blocked/blocked.module";
+import { MutedModule } from "./muted/muted.module";
 
 @Module({
-    imports: [ChatGateway],
+    imports: [
+        ChannelModule,
+        MessageModule,
+        ChannelUserModule,
+        BlockedModule,
+        MutedModule,
+    ],
     controllers: [],
-    providers: [],
+    providers: [ChatGateway, MutedService, BlockedService, ChannelUserService],
     exports: [],
 })
 export class ChatModule {}

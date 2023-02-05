@@ -18,3 +18,17 @@ export class CreateUserDto {
     @IsNotEmpty()
     confirmPassword: string;
 }
+
+export class UpdateUserDto {
+    @IsString()
+    @IsNotEmpty()
+    username: string;
+
+    @IsEmail()
+    @IsNotEmpty()
+    email: string;
+
+    @IsString()
+    @IsNotEmpty()
+    password: string;
+}

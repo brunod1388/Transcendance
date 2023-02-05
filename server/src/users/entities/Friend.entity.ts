@@ -26,5 +26,5 @@ export class Friend {
     friend: number;
 
     @Column()
-    rights: rightType;
+    isPending: boolean;
 }

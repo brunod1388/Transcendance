@@ -1,39 +1,20 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { AuthModule } from "./auth/auth.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { User } from "./typeorm/entities/User.entity";
-// import { Match } from "./typeorm/entities/Match.entity";
-import { UsersModule } from "./users/users.module";
-import { AppController } from "./app.controller";
+
+import { DatabaseModule } from "./database.module";
 import { ChatModule } from "./chat/chat.module";
+import { AuthModule } from "./auth/auth.module";
+import { UsersModule } from "./users/users.module";
 
 @Module({
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),
-        // Connexion database
-        TypeOrmModule.forRoot({
-            // type eg: mysql, postgres, mariadb...
-            type: "postgres",
-            // host: nom du container docker
-            host: "postgresql",
-            // port de la database
-
-            port: 5432,
-            // information de connexion
-            username: "root",
-            password: "root",
-            database: "myDB",
-            // entitées nestjs
-            entities: [User],
-            // Il faudrais mettre a false avant la fin du projet
-            synchronize: true,
-        }),
+        DatabaseModule,
         AuthModule,
         UsersModule,
         ChatModule,
     ],
-    controllers: [AppController],
     providers: [],
     exports: [],
 })

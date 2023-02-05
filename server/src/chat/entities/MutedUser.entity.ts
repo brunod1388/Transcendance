@@ -7,24 +7,19 @@ import {
 } from "typeorm";
 
 import { Channel } from "./Channel.entity";
-import { User } from "./User.entity";
+import { User } from "../../users/entities/User.entity";
 
-export enum rightType {
-    NORMAL = "normal",
-    ADMIN = "admin",
-}
-
-@Entity({ name: "friends" })
-export class Friend {
+@Entity({ name: "mutedUsers" })
+export class MutedUser {
     @PrimaryGeneratedColumn({ type: "bigint" })
     id: number;
 
     @ManyToOne(() => User, (user) => user.id)
     user: number;
 
-    @ManyToOne(() => Channel, (user) => user.id)
-    friend: number;
+    @ManyToOne(() => Channel, (channel) => channel.id)
+    channel: Channel;
 
     @Column()
-    rights: rightType;
+    endDate: Date;
 }

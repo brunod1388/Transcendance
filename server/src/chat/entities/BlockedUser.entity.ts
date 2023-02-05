@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 
 import { Channel } from "./Channel.entity";
-import { User } from "./User.entity";
+import { User } from "../../users/entities/User.entity";
 
 @Entity({ name: "blockedUsers" })
 export class BlockedUser {

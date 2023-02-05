@@ -4,6 +4,7 @@ import style from "./SubscribePage.module.css";
 import Input from "../../components/Input/Input";
 import SubmitButton from "../../components/Buttons/SubmitButton";
 import { useNavigate } from "react-router-dom";
+import { socket } from "../../App";
 
 function SubscribePage() {
     const [username, setUsername] = useState("");
@@ -19,6 +20,11 @@ function SubscribePage() {
         console.log(`re-password: ${rePassword}`);
         console.log(`mail: ${mail}`);
 
+        socket.emit("signup", {
+            username: username,
+            password: password,
+            email: mail,
+        });
         navigate("/", { replace: true });
     };
 

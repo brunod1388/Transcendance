@@ -1,7 +1,7 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto";
-import { CreateUserDto } from "../users/dtos/CreateUser.dto";
+import { CreateUserDto } from "../users/dtos/UserValidation.dto";
 
 // In order to call the functions of the AuthService class, the AuthController will
 // have to instantiate a AuthService class. To avoid explicit

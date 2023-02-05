@@ -4,6 +4,7 @@ import "./HomePage.css";
 import { socket } from "../../App";
 
 function clicked() {
+    console.log("dsadsaa");
     socket.emit("send", "hi", (res: string) => {
         console.log(res);
     });

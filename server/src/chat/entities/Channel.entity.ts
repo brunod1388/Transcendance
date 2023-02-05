@@ -7,7 +7,7 @@ import {
     CreateDateColumn,
 } from "typeorm";
 
-import { User } from "./User.entity";
+import { User } from "../../users/entities/User.entity";
 import { Message } from "./Message.entity";
 import { MutedUser } from "./MutedUser.entity";
 import { BlockedUser } from "./BlockedUser.entity";
