@@ -1,10 +1,3 @@
-// UseTheme UseThemeUpdate UseThemeStyle
-//--------------------------------------
-// depedency:
-import themeStyle from "../assets/styles/theme.module.css";
-export { useContext } from "../lib/reactjs";
-export { ThemeContext, ThemeUpdateContext } from "../context/index";
-export { themeStyle };
-// export
+import style from "../assets/styles/theme.module.css";
+export { style };
 export { useTheme, useThemeUpdate, useThemeStyle } from "./useTheme";
-//------------------------------------------------------------------

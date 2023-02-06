@@ -25,9 +25,9 @@
 	border-color: var(--border); 
   }
   
-  /* .icon { 
+  .icon { 
 	color: var(--inactive); 
-  } */
+  }
   
   .Card button {
 	background: var(--main);
@@ -103,10 +103,10 @@
 	background: none;
 	padding: 0; 
   }
-/*   
+  
   .Switch .icon {
 	font-size: 1.3rem;
-  } */
+  }
   
   button {
 	outline: none;

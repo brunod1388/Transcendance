@@ -1,21 +1,16 @@
-import {
-    createContext,
-    useState,
-    PropsWithChildren,
-    useThemeStyle,
-} from "./index";
+import { createContext, useState, PropsWithChildren } from "react";
+import { useThemeStyle } from "../hooks/useTheme";
 
 interface Props {}
 
 export const ThemeContext = createContext<boolean>(false);
-export const ThemeUpdateContext = createContext([]);
+export const ThemeUpdateContext = createContext<() => void>(() => {});
 
 export function ThemeProvider(props: PropsWithChildren<Props>) {
-    const [darkTheme, setDarkTheme] = useState<boolean>(false);
+    const [darkTheme, setDarkTheme] = useState<boolean>(true);
     const theme: string = useThemeStyle();
-	const  lol = () => changeTheme;
     function changeTheme(): void {
-        setDarkTheme((prevDarkTheme) => !prevDarkTheme);
+        setDarkTheme((prevDarkTheme: boolean) => !prevDarkTheme);
         applyTheme(theme);
     }
 
@@ -27,7 +22,7 @@ export function ThemeProvider(props: PropsWithChildren<Props>) {
 
     return (
         <ThemeContext.Provider value={darkTheme}>
-            <ThemeUpdateContext.Provider value={lol}>
+            <ThemeUpdateContext.Provider value={changeTheme}>
                 {props.children}
             </ThemeUpdateContext.Provider>
         </ThemeContext.Provider>
