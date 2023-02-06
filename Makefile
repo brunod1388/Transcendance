@@ -4,7 +4,7 @@ all:	dev
 
 
 up:
-		${COMPOSE} up
+		${COMPOSE} up --build
 
 down:
 		${COMPOSE} down
