@@ -37,4 +37,10 @@ export class UpdateUserDto {
     @IsString()
     @IsNotEmpty()
     password: string;
+
+    @IsBoolean()
+    enable2FA: boolean;
+
+    @IsString()
+    code2FA: string;
 }

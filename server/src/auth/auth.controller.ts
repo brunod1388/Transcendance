@@ -13,10 +13,10 @@ import {
 import { Response } from "express";
 import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto";
-import { CreateUserDto } from "../users/dtos/CreateUser.dto";
+import { CreateUserDto } from "../users/dtos/UserValidation.dto";
 import { FortyTwoGuard } from "./guard/FortyTwo.guard";
 import { GetUser } from "./decorator";
-import { User } from "../typeorm/entities/User";
+import { User } from "../users/entities/User.entity";
 import { Create42UserDto } from "../users/dtos/Create42User.dto";
 
 // In order to call the functions of the AuthService class, the AuthController will
@@ -51,7 +51,7 @@ export class AuthController {
     @Get("login42/callback")
     async callback(@Request() req, @Res() res: Response) {
         const dto: Create42UserDto = {
-            idFortyTwo: req.user.id,
+            idFortyTwo: req.user.idFortyTwo,
             username: req.user.login,
             email: req.user.email,
             enable2FA: false,

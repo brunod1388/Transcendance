@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { User } from "../typeorm/entities/User";
+import { User } from "./entities/User.entity";
 import {
     Create42UserParams,
     CreateUserParams,
@@ -44,14 +44,16 @@ export class UsersService {
         //  return undefined;
     }
 
-    findUserIdFortyTwo(idFortyTwo: number) {
-        if (idFortyTwo !== null) {
-            return this.userRepository.findOne({
-                where: { idFortyTwo: idFortyTwo },
-            });
-        }
+    findUserIdFortyTwo(idFT: number) {
+        //    if (idFortyTwo !== null) {
+        console.log("User Service argument: ", idFT);
+        console.log("User Service argument_TYPE: ", typeof idFT);
+        return this.userRepository.findOne({ 
+            where: {idFortyTwo: idFT }
+        });
+        //    }
 
-        return undefined;
+        //    return undefined;
     }
 
     // The type annotation for userDetails argument is CreateUserParams (custom type defined in utils folder)

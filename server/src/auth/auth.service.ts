@@ -64,10 +64,10 @@ export class AuthService {
 
     async login42(dto: Create42UserDto) {
         let user = await this.usersService.findUserIdFortyTwo(dto.idFortyTwo);
-        if (user === undefined) {
+        if (user === undefined || user === null) {
             user = await this.usersService.create42User(dto);
         }
-        return this.signToken(user.id, user.username, user.email);
+        return this.signToken(user.idFortyTwo, user.username, user.email);
     }
 
     async signin(dto: AuthDto) {
