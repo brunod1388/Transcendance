@@ -2,7 +2,7 @@ import React from "react";
 // import NavigationBar from '../NavigationBar/NavigationBar';
 // import GroupsList from '../GroupList/GroupsList';
 // import GroupsList from '../ChatGroups/GroupsList';
-import ChatGroups from "../ChatGroups/ChatGroups";
+import ChatGroups from "../../utils/old/components/ChatGroups/ChatGroups";
 import style from "./Layout.module.css";
 import Sidebar from "../Sidebar/Sidebar";
 // import Topbar from '../Topbar/Topbar';
