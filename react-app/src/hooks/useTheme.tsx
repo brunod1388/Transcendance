@@ -1,9 +1,9 @@
 import {
-    style,
+    themeStyle,
     useContext,
     ThemeContext,
     ThemeUpdateContext,
-} from "..";
+} from "./index";
 
 export function useTheme(): boolean {
     return useContext(ThemeContext);
@@ -14,6 +14,6 @@ export function useThemeUpdate(): () => void {
 }
 
 export function useThemeStyle(): string {
-    if (useTheme() === true) return style.lightTheme;
-	return style.darkTheme;
+    if (useTheme() === true) return themeStyle.lightTheme;
+    return themeStyle.darkTheme;
 }

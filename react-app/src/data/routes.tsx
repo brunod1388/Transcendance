@@ -1,16 +1,17 @@
-import React from "react";
-import { useRoutes, RouteObject } from "react-router-dom";
-import LoginPage from "../pages/LoginPage";
-import AboutPage from "../pages/AboutPage";
-import MessagePage from "../pages/MessagePage";
-import GroupPage from "../pages/GroupPage";
-import PlayPage from "../pages/PlayPage";
-import PublicPage from "../pages/PublicPage";
-import SettingPage from "../pages/SettingPage";
-import SubscribePage from "../pages/SubscribePage";
-import HomePage from "../pages/HomePage";
+import {
+    useRoutes,
+    LoginPage,
+    AboutPage,
+    GroupPage,
+    MessagePage,
+    PlayPage,
+    PublicPage,
+    SettingPage,
+    HomePage,
+    SubscribePage,
+} from "./index";
 
-function MyRoutes() {
+export function MyRoutes() {
     const routes = useRoutes([
         { path: "/", element: <LoginPage /> },
         { path: "/about", element: <AboutPage /> },
@@ -26,5 +27,3 @@ function MyRoutes() {
 
     return routes;
 }
-
-export default MyRoutes;
