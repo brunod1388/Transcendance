@@ -1,8 +1,7 @@
 import React from "react";
 import Sun from "./assets/images/sun.svg";
 import Moon from "./assets/images/moon.svg";
-import { useThemeUpdate } from "./features/theme";
-import { useTheme } from "./features/theme";
+import { useThemeUpdate, useTheme } from "./hooks/index";
 
 export default function Switch() {
     const changeTheme = useThemeUpdate();
