@@ -1,4 +1,9 @@
-import { style, useContext, ThemeContext, ThemeUpdateContext } from "..";
+import {
+    style,
+    useContext,
+    ThemeContext,
+    ThemeUpdateContext,
+} from "../features/theme/index";
 
 export function useTheme(): boolean {
     return useContext(ThemeContext);

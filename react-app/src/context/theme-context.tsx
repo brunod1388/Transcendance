@@ -1,5 +1,5 @@
 import { createContext, useState, PropsWithChildren } from "react";
-import {useThemeStyle} from '../features/theme/hooks/theme-hooks';
+import { useThemeStyle } from "../hooks/theme-hooks";
 
 interface Props {}
 

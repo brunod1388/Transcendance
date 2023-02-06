@@ -1,17 +1,17 @@
 import style from "./styles/theme.module.css";
-import {
-    useContext,
-    useState,
-    createContext,
-    PropsWithChildren,
-} from "react";
+import { useContext, useState, createContext, PropsWithChildren } from "react";
 import {
     ThemeProvider,
     ThemeContext,
     ThemeUpdateContext,
 } from "../../context/theme-context";
 
-import { useTheme, useThemeUpdate, useThemeStyle } from "./hooks/theme-hooks";
+import {
+    useTheme,
+    useThemeUpdate,
+    useThemeStyle,
+} from "../../hooks/theme-hooks";
+
 export {
     style,
     useContext,
