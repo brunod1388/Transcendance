@@ -1,5 +1,5 @@
 import React from "react";
-import { useTheme } from "./features/theme";
+import { useTheme } from "./hooks/index";
 
 interface Props {
     description?: string;
