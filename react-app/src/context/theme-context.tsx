@@ -1,5 +1,5 @@
 import { createContext, useState, PropsWithChildren } from "react";
-import { useThemeStyle } from "../hooks/theme-hooks";
+import { useThemeStyle } from "../hooks/useTheme";
 
 interface Props {}
 
@@ -7,7 +7,7 @@ export const ThemeContext = createContext<boolean>(false);
 export const ThemeUpdateContext = createContext<() => void>(() => {});
 
 export function ThemeProvider(props: PropsWithChildren<Props>) {
-    const [darkTheme, setDarkTheme] = useState<boolean>(false);
+    const [darkTheme, setDarkTheme] = useState<boolean>(true);
     const theme: string = useThemeStyle();
     function changeTheme(): void {
         setDarkTheme((prevDarkTheme: boolean) => !prevDarkTheme);

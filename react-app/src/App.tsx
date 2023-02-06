@@ -22,7 +22,7 @@ import React from "react";
 
 import Switch from "./Switch";
 import Card from "./Card";
-import "./index.css";
+import "./assets/styles/index.css";
 
 export default function App() {
     return (

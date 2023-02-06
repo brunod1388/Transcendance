@@ -2,4 +2,4 @@ export {
     ThemeProvider,
     ThemeContext,
     ThemeUpdateContext,
-} from './theme-context'
+} from "./theme-context";
