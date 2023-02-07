@@ -14,6 +14,19 @@ export function Button(props: PropsWithChildren<Props>) {
     );
 }
 
+// .link_button {
+// 	color: #459ce8;
+// 	text-shadow: 0 0 5px #459ce8;
+// 	border: none;
+// 	background: none;
+// 	align-self: lefat;
+// 	font-style: italic;
+// }
+
+// .link_button:hover {
+// 	text-shadow: 0 0 10px white;
+// }
+
 // import style from "./LinkButton.module.css";
 
 // interface LinkProps {

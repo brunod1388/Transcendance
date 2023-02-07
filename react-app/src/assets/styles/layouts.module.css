@@ -1,0 +1,171 @@
+
+/* ------------------------------------------------------------------- */
+/* 	Layout													           */
+.layout_Container {
+	display: flex;
+	flex-direction: row;
+	height: 100vh;
+	width: 100vw;
+	background-color: hsl(220, calc(1 * 7.7%), 22.9%);
+}
+
+.layout_navContainer {
+	height: 100vh;
+	width: 72px;
+	flex: 0 0 72px;
+	background-color: hsl(216, calc(1 * 7.2%), 13.5%);
+}
+
+.layout_pageContent {
+	display: flex;
+}
+
+.layout_sidebarContainer {
+	/* background-color: green; */
+}
+
+/* ------------------------------------------------------------------- */
+/* 	SIDEBAR														       */
+.Sidebar_Container {
+	display: flex;
+	flex-direction: column;
+	width: 240px;
+}
+
+.Sidebar_Header {
+
+    /* padding: 12px 16px; */
+}
+
+/* ------------------------------------------------------------------- */
+/* 	TOPBAR 															   */
+.Topbar_Container {
+	top: 0;
+	display: flex;
+	flex: 1 1 auto;
+	z-index: 1;
+	height: 40px;
+	right: 0;
+	background-color: white;
+  }
+
+/* ------------------------------------------------------------------- */
+/* 	NAVBAR 															   */
+.NavBar_Container {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	top: 0;
+	bottom: 0;
+	width: 72px;
+  }
+
+.NavBar_separator {
+	align-self: center;
+	height: 2px;
+	width: 32px;
+	border-radius: 1px;
+	background-color: hsl(216.9 calc(1 * 7.6%) 33.5%/0.48);
+	margin-bottom: 10px;
+}
+
+.NavBar_privateMessage {
+	margin-top: 10px;
+}
+  
+.NavBar_privateMessage img {
+	height: 30px;
+	width: 30px;
+	filter: invert(48%) sepia(39%) saturate(445%) hue-rotate(79deg) brightness(100%) contrast(90%);
+}
+
+.NavBar_svg img {
+	height: 30px;
+	width: 30px;
+	filter: invert(48%) sepia(39%) saturate(445%) hue-rotate(79deg) brightness(100%) contrast(90%);
+}
+
+.NavBar_linkWrapper {
+  width: 13px;
+  display: flex;
+  /* width: 30; */
+  /* height: 30; */
+}
+
+.NavBar_RoomIcon {
+  margin-left: 4px;
+  margin-bottom: 10px;
+}
+
+.NavBar_RoomIcon a {
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  /* background: white; */
+}
+
+a.NavBar_activeRoom .NavBar_activeLink {
+  position: absolute;
+  align-self: center;
+  margin-left: -4px;
+  height: 40px;
+  width: 8px;
+  border-radius: 20%;
+  background-color: aliceblue;
+  position: relative;
+}
+
+a.NavBar_inactiveRoom .NavBar_wrapper:hover .NavBar_activeLink {
+  position: relative;
+  align-self: center;
+  margin-left: -4px;
+  height: 20px;
+  width: 8px;
+  border-radius: 20%;
+  background-color: aliceblue;
+  position: relative;
+}
+
+.NavBar_wrapper {
+	margin-bottom: 8px;
+  overflow: visible;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 72px;
+  height: 48px;
+}
+
+.NavBar_wrapper .NavBar_tooltiptext {
+  align-self: center;
+  visibility: hidden;
+  width: 120px;
+  background-color: hsl(216, calc(1 * 7.2%), 13.5%);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 100000;
+  left: 110%;
+  filter: drop-shadow(rgba(0, 0, 0, 0.3) 0 2px 10px);
+}
+
+.NavBar_wrapper .NavBar_tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent hsl(216, calc(1 * 7.2%), 13.5%) transparent
+    transparent;
+}
+.NavBar_wrapper:hover .NavBar_tooltiptext {
+  visibility: visible;
+}
+
+
+/* ------------------------------------------------------------------- */

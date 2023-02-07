@@ -1,4 +1,4 @@
-import "./assets/styles/App.css";
+import "./App.css";
 import React from "react";
 import { MyRoutes } from "./data/routes";
 import { io, Socket } from "socket.io-client";

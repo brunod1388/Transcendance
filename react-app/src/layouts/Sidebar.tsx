@@ -1,4 +1,4 @@
-import style from "../assets/styles/Sidebar.module.css";
+import { style } from "./index";
 import { useEffect } from "react";
 
 interface User {
@@ -26,9 +26,9 @@ export function Sidebar() {
     });
     return (
         // to do
-        <div className={style.sidebar}>
+        <div className={style.Sidebar_Container}>
             {roomUsers.map((user, index) => (
-                <div key={index} className={style.sidebarHeader}>
+                <div key={index} className={style.Sidebar_Header}>
                     {user.name}
                 </div>
             ))}

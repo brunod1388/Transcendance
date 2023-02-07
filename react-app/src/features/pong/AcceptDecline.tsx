@@ -1,5 +1,5 @@
 import { PropsWithChildren, useState } from "react";
-import style from "../../assets/styles/PopUp.module.css";
+import style from "./PopUp.module.css";
 
 // // const DEFAULT: number = 0;
 // const ACCEPTED: number = 1;

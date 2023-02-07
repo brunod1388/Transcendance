@@ -1,19 +1,18 @@
 import { NavLink } from "react-router-dom";
 import { Icon } from "../components/Icon";
 import { fetchChatRooms } from "../services/API";
-import style from "../assets/styles/NavBar.module.css";
-import { addSVG, playSVG, sendSVG, publicSVG } from "./index";
+import { style, addSVG, playSVG, sendSVG, publicSVG } from "./index";
 
 // Navigation Bar visible on the left, after authentification.
 export function NavBar() {
     return (
-        <div className={style.NavBar}>
+        <div className={style.NavBar_Container}>
             <Feature name="Private message" />
-            <div className={style.separator}></div>
+            <div className={style.NavBar_separator}></div>
             <ChatRooms />
             <Feature name="New room" />
             <Feature name="Public rooms" />
-            <div className={style.separator}></div>
+            <div className={style.NavBar_separator}></div>
             <Feature name="Play" />
         </div>
     );
@@ -26,10 +25,12 @@ interface FeatureProps {
 function Feature({ name }: FeatureProps) {
     let goTo: string;
     let svg: string;
+    let FeatureStyle = style.NavBar_svg;
 
     if (name === "Private message") {
         goTo = "/messages";
         svg = sendSVG;
+        FeatureStyle = style.NavBar_privateMessage;
     } else if (name === "New room") {
         goTo = "/about";
         svg = addSVG;
@@ -41,7 +42,7 @@ function Feature({ name }: FeatureProps) {
         svg = playSVG;
     } else return null;
     return (
-        <div className={goTo === "/messages" ? style.msg : style.svg}>
+        <div className={FeatureStyle}>
             <RoomIcon name={name} goTo={goTo} imageURL={svg} />
         </div>
     );
@@ -74,18 +75,20 @@ function ChatRooms() {
 // Icon of each room, on mouse-hover the name are displayerd in a tooltip
 function RoomIcon(props: Props) {
     return (
-        <div className={style.Group}>
+        <div className={style.NavBar_RoomIcon}>
             <NavLink
                 to={props.goTo}
                 className={({ isActive }) =>
-                    isActive ? style.activeRoom : style.inactiveRoom
+                    isActive
+                        ? style.NavBar_activeRoom
+                        : style.NavBar_inactiveRoom
                 }
             >
-                <div className={style.wrapper}>
-                    <div className={style.test}>
-                        <div className={style.activeLink}></div>
+                <div className={style.NavBar_wrapper}>
+                    <div className={style.NavBar_linkWrapper}>
+                        <div className={style.NavBar_activeLink}></div>
                     </div>
-                    <div className={style.tooltiptext}>{props.name}</div>
+                    <div className={style.NavBar_tooltiptext}>{props.name}</div>
                     <Icon imageURL={props.imageURL} />
                 </div>
             </NavLink>

@@ -1,5 +1,5 @@
-import style from "../assets/styles/Topbar.module.css";
+import { style } from "./index";
 
 export function Topbar() {
-    return <div className={style.container}>lol</div>;
+    return <div className={style.Topbar_Container}>lol</div>;
 }

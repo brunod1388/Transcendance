@@ -3,7 +3,7 @@ import { Input } from "../../../components/Input";
 import { SubmitButton } from "../../authentification/components/SubmitButton";
 import { Room } from "../data/room-sample";
 import { sendMessage } from "../services/chat-server";
-import style from '../styles/MessagesPage.module.css';
+import style from "../styles/MessagesPage.module.css";
 
 interface Props {
     room: Room;

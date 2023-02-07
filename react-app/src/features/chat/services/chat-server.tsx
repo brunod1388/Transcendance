@@ -1,6 +1,6 @@
 import { messageType } from "../@types/messageType";
 import { messageSample } from "../data/messages-sample";
-import { Message} from "../component/Message";
+import { Message } from "../component/Message";
 
 function getMessagesFromServer(): messageType[] {
     // TODO
@@ -18,7 +18,14 @@ export function obtainMessages(): JSX.Element[] {
 
     return messageList.map(
         (value: messageType, index: number, array: any[]) => (
-            <Message created={value.created} user={value.userName} content={value.content } index={index} array={array} key={index}/>
+            <Message
+                created={value.created}
+                user={value.userName}
+                content={value.content}
+                index={index}
+                array={array}
+                key={index}
+            />
         )
     );
 }

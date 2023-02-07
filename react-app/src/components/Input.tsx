@@ -1,5 +1,4 @@
-// import { ChangeEvent } from "react";
-import style from "../assets/styles/Input.module.css";
+import { style } from "./index";
 
 interface Props {
     divStyle?: string;
@@ -9,7 +8,8 @@ interface Props {
 
 export function Input(props: Props) {
     const { fill = false, content, divStyle = "" } = props;
-    let styleInput: string = style.input + (fill ? " " + style.width100 : "");
+    let styleInput: string =
+        style.Input_input + (fill ? " " + style.width100 : "");
     console.log(`${content.name}: ${content}`);
 
     return (
