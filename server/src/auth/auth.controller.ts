@@ -11,6 +11,19 @@ import {
     UseGuards,
 } from "@nestjs/common";
 import { Response } from "express";
+import {
+    Body,
+    Controller,
+    Get,
+    HttpCode,
+    HttpStatus,
+    Post,
+    Req,
+    Request,
+    Res,
+    UseGuards,
+} from "@nestjs/common";
+import { Response } from "express";
 import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto";
 import { CreateUserDto } from "../users/dtos/UserValidation.dto";
@@ -29,7 +42,9 @@ export class AuthController {
 
     @Post("signup")
     signup(@Body() dto: CreateUserDto, @Res() response: Response) {
+    signup(@Body() dto: CreateUserDto, @Res() response: Response) {
         //the validated dto (data transfer object) is passed to the auth.Service
+        return this.authService.signup(dto, response);
         return this.authService.signup(dto, response);
     }
 

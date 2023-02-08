@@ -79,10 +79,22 @@ export class UsersService {
         return this.userRepository.save(newUser);
     }
 
+    create42User(userDetails: Create42UserParams) {
+        const newUser = this.userRepository.create({
+            ...userDetails,
+            createdAt: new Date(),
+        });
+        return this.userRepository.save(newUser);
+    }
+
     updateUser(id: number, updateUserDetails: UpdateUserParams) {
         // The update will be performed if the user matches the id that was passed
         // Using the spreader operator here enables only the fields included by the user to be updated
         return this.userRepository.update({ id }, { ...updateUserDetails });
+    }
+
+    update42User(id: number, update42UserDetails: Update42UserParams) {
+        return this.userRepository.update({ id }, { ...update42UserDetails });
     }
 
     update42User(id: number, update42UserDetails: Update42UserParams) {

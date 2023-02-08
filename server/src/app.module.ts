@@ -6,6 +6,7 @@ import { DatabaseModule } from "./database.module";
 import { ChatModule } from "./chat/chat.module";
 import { AuthModule } from "./auth/auth.module";
 import { UsersModule } from "./users/users.module";
+import { PongModule } from "./pong/pong.module";
 
 @Module({
     imports: [
@@ -14,6 +15,7 @@ import { UsersModule } from "./users/users.module";
         AuthModule,
         UsersModule,
         ChatModule,
+        PongModule,
     ],
     providers: [],
     exports: [],

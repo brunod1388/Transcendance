@@ -1,0 +1,56 @@
+
+.container{
+	outline: none;
+	position: relative;
+	background-color: black;
+	width: 250px;
+	height: 250px;
+}
+.input {
+	position: relative;
+	background-color: transparent;
+	outline: none;
+	border: none;
+	width: 100%;
+	height: 100%;
+}
+.player {
+	position: absolute;
+	width: 10px;
+	height: 60px;
+	background-color: red;
+}
+
+.ball {
+	border-radius: 50%;
+	background-color:  white;
+	width: 10px;
+	position: absolute;
+	height: 10px;
+}
+
+
+/* .GameMap {
+	background-color: black;
+	width: 100%;
+	height: 100%;
+} */
+
+/* .Oponent {
+	height: 20px;
+	width: 2px;
+}
+
+.Player {
+	height: 20px;
+	background-color: ;
+	width: 2px;
+}
+
+.PlayerScore {
+
+}
+
+.OponentScore {
+
+} */

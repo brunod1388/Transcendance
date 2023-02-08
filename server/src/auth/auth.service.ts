@@ -13,6 +13,10 @@ import * as speakeasy from "speakeasy";
 import * as QRCode from "qrcode";
 import { Response } from "express";
 import { Create42UserDto } from "../users/dtos/Create42User.dto";
+import * as speakeasy from "speakeasy";
+import * as QRCode from "qrcode";
+import { Response } from "express";
+import { Create42UserDto } from "../users/dtos/Create42User.dto";
 
 @Injectable()
 export class AuthService {
@@ -23,6 +27,7 @@ export class AuthService {
         private config: ConfigService
     ) {}
 
+    async signup(dto: CreateUserDto, response: Response) {
     async signup(dto: CreateUserDto, response: Response) {
         // generate the password hash using argon
         // await is required as argon.hash is an asynchornous function
@@ -37,8 +42,15 @@ export class AuthService {
             const user = await this.usersService.createUser(userDetails);
             return this.generateQRcode(secret.otpauthUrl, response);
         }
+        if (userDetails.enable2FA) {
+            const secret = this.generate2FAsecret();
+            userDetails.code2FA = secret.base32;
+            const user = await this.usersService.createUser(userDetails);
+            return this.generateQRcode(secret.otpauthUrl, response);
+        }
         const user = await this.usersService.createUser(userDetails);
         return this.signToken(user.id, user.username, user.email);
+
 
         // using a try/catch in order to provide a more specific error description
         /*    try {
@@ -83,11 +95,17 @@ export class AuthService {
         if (user.enable2FA && user.code2FA != "") {
             valid2FA = this.verify2FAcode(dto.code2FA, user);
         }
+        let valid2FA = false;
+        if (user.enable2FA && user.code2FA != "") {
+            valid2FA = this.verify2FAcode(dto.code2FA, user);
+        }
         // if user does not exist, throw exception (guard condition)
         if (!user) throw new ForbiddenException("Credentials incorrect");
         // compare password (user.password is hashed; dto.password is plain text)
         const pwMatches = await argon.verify(user.password, dto.password);
         // if password incorrent, throw exception
+        if (!pwMatches || (user.enable2FA && !valid2FA))
+            throw new ForbiddenException("Credentials incorrect");
         if (!pwMatches || (user.enable2FA && !valid2FA))
             throw new ForbiddenException("Credentials incorrect");
         return this.signToken(user.id, user.username, user.email);
@@ -117,6 +135,29 @@ export class AuthService {
         return {
             access_token: token,
         };
+    }
+
+    generate2FAsecret() {
+        const secret = speakeasy.generateSecret({
+            name: this.config.get("APP_NAME_2FA"),
+        });
+        return {
+            otpauthUrl: secret.otpauth_url,
+            base32: secret.base32,
+        };
+    }
+
+    // totp : time-based one-time password
+    verify2FAcode(code2FA: string, user: User) {
+        return speakeasy.totp.verify({
+            secret: user.code2FA,
+            encoding: "base32",
+            token: code2FA,
+        });
+    }
+
+    async generateQRcode(path: string, response: Response) {
+        return QRCode.toFileStream(response, path);
     }
 
     generate2FAsecret() {
