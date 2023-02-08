@@ -1,9 +1,9 @@
 import { useInput } from "../../../hooks/useInput";
 import { Input } from "../../../components/Input";
-import { SubmitButton } from "../../authentification/components/SubmitButton";
+import { SubmitButton } from "../../../components/SubmitButton";
 import { Room } from "../data/room-sample";
 import { sendMessage } from "../services/chat-server";
-import style from "../styles/MessagesPage.module.css";
+import { style } from "..";
 
 interface Props {
     room: Room;

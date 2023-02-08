@@ -1,5 +1,5 @@
 import style from "../styles/Login.module.css";
-import { SubmitButton } from "./SubmitButton";
+import { SubmitButton } from "../../../components/SubmitButton";
 import { useNavigate } from "react-router-dom";
 import { LogInForm } from "./LoginForm";
 

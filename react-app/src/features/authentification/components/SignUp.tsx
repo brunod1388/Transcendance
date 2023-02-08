@@ -1,6 +1,6 @@
 import style from "../styles/SignUp.module.css";
 import { useNavigate } from "react-router-dom";
-import { SignUpSubmitButton } from "./SubmitButton";
+import { SubmitButton } from "../../../components/SubmitButton";
 import { SignUpForm } from "./SignUpForm";
 
 export function SignUp() {
@@ -19,5 +19,22 @@ export function SignUp() {
             <SignUpForm divStyle={divStyle} />
             <SignUpSubmitButton onClick={signup} divStyle={divStyle} />
         </div>
+    );
+}
+
+interface Props {
+    onClick: () => void;
+    divStyle: string;
+}
+
+export function SignUpSubmitButton(props: Props) {
+    const { onClick, divStyle } = props;
+
+    return (
+        <>
+            <SubmitButton divStyle={divStyle} handleClick={onClick} fill={true}>
+                Subscribe
+            </SubmitButton>
+        </>
     );
 }

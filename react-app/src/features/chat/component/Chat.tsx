@@ -1,4 +1,4 @@
-import style from "../styles/MessagesPage.module.css";
+import { style } from "..";
 import { Feed } from "./Feed";
 import { MessageInputBar } from "./MessageInputBar";
 import { Room } from "../data/room-sample";

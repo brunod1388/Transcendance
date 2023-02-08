@@ -1,4 +1,4 @@
-import style from "../styles/Message.module.css";
+import { style } from "..";
 
 interface MessageProps {
     created: any;

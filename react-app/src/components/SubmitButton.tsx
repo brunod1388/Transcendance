@@ -1,5 +1,5 @@
-import { Button } from "../../../components/Button";
-import style from "../styles/SubmitButton.module.css";
+import { Button } from "./Button";
+import { style } from "./index";
 import { PropsWithChildren } from "react";
 
 interface SubmitProps {
@@ -18,22 +18,5 @@ export function SubmitButton(props: PropsWithChildren<SubmitProps>) {
                 {props.children}
             </Button>
         </div>
-    );
-}
-
-interface Props {
-    onClick: () => void;
-    divStyle: string;
-}
-
-export function SignUpSubmitButton(props: Props) {
-    const { onClick, divStyle } = props;
-
-    return (
-        <>
-            <SubmitButton divStyle={divStyle} handleClick={onClick} fill={true}>
-                Subscribe
-            </SubmitButton>
-        </>
     );
 }
