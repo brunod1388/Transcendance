@@ -48,8 +48,8 @@ export class UsersService {
         //    if (idFortyTwo !== null) {
         console.log("User Service argument: ", idFT);
         console.log("User Service argument_TYPE: ", typeof idFT);
-        return this.userRepository.findOne({ 
-            where: {idFortyTwo: idFT }
+        return this.userRepository.findOne({
+            where: { idFortyTwo: idFT },
         });
         //    }
 
