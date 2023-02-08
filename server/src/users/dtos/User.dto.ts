@@ -1,11 +1,3 @@
-import {
-    Column,
-    Entity,
-    PrimaryGeneratedColumn,
-    ManyToOne,
-    OneToMany,
-} from "typeorm";
-
 import { Channel } from "../../chat/entities/Channel.entity";
 import { Friend } from "../entities/Friend.entity";
 // import { Match } from "./Match.entity";

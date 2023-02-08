@@ -2,13 +2,10 @@ import {
     WebSocketGateway,
     SubscribeMessage,
     WebSocketServer,
-    ConnectedSocket,
 } from "@nestjs/websockets";
 import { Socket, Server } from "socket.io";
-// import { Server } from "socket.io";
 import { PongService } from "./pong.service";
 import { InvitationRequestDTO } from "../invitations/dtos/InvitationRequest.dto";
-import { InvitationResponseDTO } from "../invitations/dtos/InvitationResponse.dto";
 
 @WebSocketGateway({ cors: { origin: ["http://localhost:9000"] } })
 export class PongGateway {
@@ -17,7 +14,7 @@ export class PongGateway {
     constructor(private readonly pongService: PongService) {}
 
     @SubscribeMessage("connect")
-    handleConnection(client: Socket, data: any) {
+    handleConnection(client: Socket) {
         this.pongService.connection(client.id);
     }
 
@@ -27,7 +24,7 @@ export class PongGateway {
     }
 
     @SubscribeMessage("disconnect")
-    handleDisconnection(client: Socket, data: any) {
+    handleDisconnection(client: Socket) {
         this.pongService.disconnection(client.id);
     }
 

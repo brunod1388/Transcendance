@@ -1,10 +1,4 @@
-import {
-    Column,
-    Entity,
-    PrimaryGeneratedColumn,
-    ManyToOne,
-    OneToMany,
-} from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 
 import { Channel } from "./Channel.entity";
 import { User } from "../../users/entities/User.entity";

@@ -11,29 +11,12 @@ export class FtStrategy extends PassportStrategy(Strategy, "42") {
     constructor(
         private config: ConfigService,
         //    private authService: AuthService,
-        private config: ConfigService,
-        //    private authService: AuthService,
+
         private usersService: UsersService
     ) {
         super({
             clientID: config.get("FT_APP_UID"),
-            clientID: config.get("FT_APP_UID"),
             clientSecret: config.get("FT_APP_SECRET"),
-            callbackURL: "http://127.0.0.1:3000/auth/login42/callback",
-            profileFields: {
-                id: function (obj) {
-                    return obj.id;
-                },
-                login: function (obj) {
-                    return obj.login;
-                },
-                email: function (obj) {
-                    return obj.email;
-                },
-                photo: function (obj) {
-                    return obj.image.link;
-                },
-            },
             callbackURL: "http://127.0.0.1:3000/auth/login42/callback",
             profileFields: {
                 id: function (obj) {
@@ -73,6 +56,7 @@ export class FtStrategy extends PassportStrategy(Strategy, "42") {
 */
     async validate(accessToken, refreshToken, profile, cb): Promise<any> {
         //    console.log(profile.login);
+        console.log(accessToken, refreshToken, cb);
         console.log("PROFILE_ID: ", profile.id);
         console.log("PROFILE_ID_TYPE: ", typeof profile.id);
         let user = await this.usersService.findUserIdFortyTwo(profile.id);

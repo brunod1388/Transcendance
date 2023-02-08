@@ -5,20 +5,6 @@ import {
     HttpCode,
     HttpStatus,
     Post,
-    Req,
-    Request,
-    Res,
-    UseGuards,
-} from "@nestjs/common";
-import { Response } from "express";
-import {
-    Body,
-    Controller,
-    Get,
-    HttpCode,
-    HttpStatus,
-    Post,
-    Req,
     Request,
     Res,
     UseGuards,
@@ -41,7 +27,6 @@ export class AuthController {
     constructor(private authService: AuthService) {}
 
     @Post("signup")
-    signup(@Body() dto: CreateUserDto, @Res() response: Response) {
     signup(@Body() dto: CreateUserDto, @Res() response: Response) {
         //the validated dto (data transfer object) is passed to the auth.Service
         return this.authService.signup(dto, response);

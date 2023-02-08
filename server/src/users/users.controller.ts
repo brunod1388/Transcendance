@@ -52,7 +52,7 @@ export class UsersController {
         // The confirm password field can be removed from the object before passing it to createUser,
         // and all the other fields will be spread to into userDetails
         const { confirmPassword, ...userDetails } = createUserDto;
-
+        console.log(confirmPassword);
         // Here the password has not been hashed (TO DO !!!)
         return this.userService.createUser(userDetails);
     }

@@ -2,7 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { Socket, Server } from "socket.io";
 import { InvitationPong } from "../invitations/InvitationPong";
 import { InvitationRequestDTO } from "../invitations/dtos/InvitationRequest.dto";
-import { InvitationResponseDTO } from "../invitations/dtos/InvitationResponse.dto";
 
 @Injectable()
 export class PongService {

@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { ChatGateway } from "../chat/chat.gateway";
-import { ChatController } from "./chat.controller";
+// import { ChatController } from "./chat.controller";
 import { ChannelModule } from "./channel/channel.module";
 import { MessageModule } from "./message/message.module";
 import { MutedService } from "./muted/muted.service";
