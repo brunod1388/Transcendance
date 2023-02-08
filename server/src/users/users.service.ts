@@ -1,8 +1,13 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { User } from "../typeorm/entities/User";
-import { CreateUserParams, UpdateUserParams } from "../utils/types";
+import { User } from "./entities/User.entity";
+import {
+    Create42UserParams,
+    CreateUserParams,
+    UpdateUserParams,
+    Update42UserParams,
+} from "../utils/types";
 
 @Injectable()
 export class UsersService {
@@ -39,6 +44,18 @@ export class UsersService {
         //  return undefined;
     }
 
+    findUserIdFortyTwo(idFT: number) {
+        //    if (idFortyTwo !== null) {
+        console.log("User Service argument: ", idFT);
+        console.log("User Service argument_TYPE: ", typeof idFT);
+        return this.userRepository.findOne({ 
+            where: {idFortyTwo: idFT }
+        });
+        //    }
+
+        //    return undefined;
+    }
+
     // The type annotation for userDetails argument is CreateUserParams (custom type defined in utils folder)
     createUser(userDetails: CreateUserParams) {
         // The spreader operator (...) will unpack the username and password property (from CreateUserParams)
@@ -54,10 +71,22 @@ export class UsersService {
         return this.userRepository.save(newUser);
     }
 
+    create42User(userDetails: Create42UserParams) {
+        const newUser = this.userRepository.create({
+            ...userDetails,
+            createdAt: new Date(),
+        });
+        return this.userRepository.save(newUser);
+    }
+
     updateUser(id: number, updateUserDetails: UpdateUserParams) {
         // The update will be performed if the user matches the id that was passed
         // Using the spreader operator here enables only the fields included by the user to be updated
         return this.userRepository.update({ id }, { ...updateUserDetails });
+    }
+
+    update42User(id: number, update42UserDetails: Update42UserParams) {
+        return this.userRepository.update({ id }, { ...update42UserDetails });
     }
 
     deleteUser(id: number) {

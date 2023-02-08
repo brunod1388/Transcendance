@@ -1,0 +1,25 @@
+.input {
+	border: none;
+	padding: 5px 20px;
+	border-radius: 1rem;
+	background: #d7e2fe;
+	transition: 0.3s;
+}
+
+.input:focus {
+	/* background: #d7e2fe; */
+	outline: none;
+	/* background-color: #c5c1e3; */
+	box-shadow: inset 2px 2px 5px #726cb0,
+				inset -2px -2px 5px #726cb0;
+}
+
+.input:hover {
+	transition: 0.3s;
+	box-shadow: 2px 2px 10px #858585,
+				-2px -2px 10px #c1c1c1;
+}
+
+.width100 {
+	width: 100%;
+}

@@ -107,14 +107,14 @@ a.inactive .wrapper:hover .activeLink {
   filter: drop-shadow(rgba(0, 0, 0, 0.3) 0 2px 10px);
 }
 
-/* 85 150 96 */
-.svg img {
-  /* border-radius:  50%; */
-  height: 30px;
-  width: 30px;
-  filter: invert(48%) sepia(39%) saturate(445%) hue-rotate(79deg)
-    brightness(100%) contrast(90%);
-}
+  /* 85 150 96 */
+  .svg img {
+	/* border-radius:  50%; */
+	height: 30px;
+	width: 30px;
+	filter: invert(48%) sepia(39%) saturate(445%) hue-rotate(79deg) brightness(100%) contrast(90%);
+  	}
+
 
 .messages {
   margin-top: 10px;
