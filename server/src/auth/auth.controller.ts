@@ -30,7 +30,6 @@ export class AuthController {
     signup(@Body() dto: CreateUserDto, @Res() response: Response) {
         //the validated dto (data transfer object) is passed to the auth.Service
         return this.authService.signup(dto, response);
-        return this.authService.signup(dto, response);
     }
 
     // return status code 200 (OK) on signin as no new resource is created
