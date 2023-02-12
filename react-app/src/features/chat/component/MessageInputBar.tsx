@@ -21,12 +21,11 @@ export function MessageInputBar(props: Props) {
                 fill={true}
             />
             <SubmitButton
+                placeholder="send"
                 divStyle={style.button_container}
-                handleClick={sendMessage}
+                onClick={sendMessage}
                 fill={true}
-            >
-                send
-            </SubmitButton>
+            />
         </div>
     );
 }

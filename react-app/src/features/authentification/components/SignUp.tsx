@@ -17,24 +17,7 @@ export function SignUp() {
                 <h3>Fill this subscription form</h3>
             </div>
             <SignUpForm divStyle={divStyle} />
-            <SignUpSubmitButton onClick={signup} divStyle={divStyle} />
+            <SubmitButton placeholder="Subscribe" onClick={signup} divStyle={divStyle}/>
         </div>
-    );
-}
-
-interface Props {
-    onClick: () => void;
-    divStyle: string;
-}
-
-export function SignUpSubmitButton(props: Props) {
-    const { onClick, divStyle } = props;
-
-    return (
-        <>
-            <SubmitButton divStyle={divStyle} handleClick={onClick} fill={true}>
-                Subscribe
-            </SubmitButton>
-        </>
     );
 }

@@ -8,40 +8,54 @@ interface Props {
     onClick: () => void;
 }
 
-function LoginButton(props: Props) {
-    const { divStyle, onClick } = props;
-    return (
-        <>
-            <SubmitButton divStyle={divStyle} handleClick={onClick} fill={true}>
-                Log in
-            </SubmitButton>
-        </>
-    );
-}
+// function LoginButton(props: Props) {
+    //     const { divStyle, onClick } = props;
+    //     return (
+        //         <>
+//             <SubmitButton divStyle={divStyle} handleClick={onClick} fill={true}>
+//                 Log in
+//             </SubmitButton>
+//         </>
+//     );
+// }
 
-function SignIn42Button(props: Props) {
-    const { divStyle, onClick } = props;
-    return (
-        <>
-            <SubmitButton divStyle={divStyle} handleClick={onClick} fill={true}>
-                Sign In 42
-            </SubmitButton>
-        </>
-    );
-}
+// function SignIn42Button(props: Props) {
+    //     const { divStyle, onClick } = props;
+//     return (
+    //         <>
+    //             <SubmitButton divStyle={divStyle} handleClick={onClick} fill={true}>
+//                 Sign In 42
+//             </SubmitButton>
+//         </>
+//     );
+// }
 
-function SignUpButton(props: Props) {
-    const { divStyle, onClick } = props;
-    return (
-        <>
-            <div className={divStyle}>
-                <button className={style.link_button} onClick={onClick}>
-                    No account? Sign up.
-                </button>
-            </div>
-        </>
-    );
-}
+// return (
+//     <div className={style.form_container}>
+//         <div className={style.div_container}>
+//             <h3>Sign in to your account</h3>
+//         </div>
+//         <LogInForm divStyle={divStyle} />
+//         <LoginButton divStyle={divStyle} onClick={joinChat} />
+//         <SignUpButton divStyle={divStyle} onClick={subscribe} />
+//         <hr className={style.hrLogin} />
+//         <SignIn42Button divStyle={divStyle} onClick={signIn42} />
+//     </div>
+// );
+
+
+// function SignUpButton(props: Props) {
+//     const { divStyle, onClick } = props;
+//     return (
+//         <>
+//             <div className={divStyle}>
+//                 <button className={style.link_button} onClick={onClick}>
+//                     No account? Sign up.
+//                 </button>
+//             </div>
+//         </>
+//     );
+// }
 
 export function Login() {
     const navigate = useNavigate();
@@ -61,16 +75,18 @@ export function Login() {
         navigate("/subscribe", { replace: true });
     };
 
+
     return (
         <div className={style.form_container}>
             <div className={style.div_container}>
                 <h3>Sign in to your account</h3>
             </div>
             <LogInForm divStyle={divStyle} />
-            <LoginButton divStyle={divStyle} onClick={joinChat} />
-            <SignUpButton divStyle={divStyle} onClick={subscribe} />
+            <SubmitButton placeholder="Log In" divStyle={divStyle} onClick={joinChat} />
+            <SubmitButton placeholder="No account? Sign up." buttonStyle={style.link_button} divStyle={divStyle} onClick={subscribe} />
             <hr className={style.hrLogin} />
-            <SignIn42Button divStyle={divStyle} onClick={signIn42} />
+            <SubmitButton placeholder="Sign in 42" divStyle={divStyle} onClick={signIn42} />
         </div>
     );
+
 }
