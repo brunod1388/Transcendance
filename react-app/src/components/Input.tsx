@@ -10,7 +10,7 @@ export function Input(props: Props) {
     const { fill = false, content, divStyle = "" } = props;
     let styleInput: string =
         style.Input_input + (fill ? " " + style.width100 : "");
-    console.log(`asasa ${content.name}: ${content}`);
+    console.log(`${content.name}: ${content}`);
 
     return (
         <div className={divStyle}>
