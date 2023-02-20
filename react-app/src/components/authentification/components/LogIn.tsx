@@ -1,7 +1,7 @@
 import style from "../styles/Login.module.css";
-import { SubmitButton } from "../../../components/SubmitButton";
+import { SubmitButton } from "../../SubmitButton";
 import { useNavigate } from "react-router-dom";
-import { Input } from "../../../components/Input";
+import { Input } from "../../Input";
 import { useInput } from "../../../hooks/useInput";
 
 interface Props {
@@ -17,8 +17,8 @@ export function Login() {
     let divStyle: string = style.div_container;
 
     const joinChat = () => {
-        console.log(`login: ${username.value}`)
-        console.log(`login: ${password.value}`)
+        console.log(`login: ${username.value}`);
+        console.log(`login: ${password.value}`);
         navigate("/messages", { replace: true });
     };
 
@@ -39,10 +39,23 @@ export function Login() {
             </div>
             <Input divStyle={divStyle} content={username} />
             <Input divStyle={divStyle} content={password} />
-            <SubmitButton placeholder="Log In" divStyle={divStyle} onClick={joinChat} />
-            <SubmitButton placeholder="No account? Sign up." buttonStyle={style.link_button} divStyle={divStyle} onClick={subscribe} />
+            <SubmitButton
+                placeholder="Log In"
+                divStyle={divStyle}
+                onClick={joinChat}
+            />
+            <SubmitButton
+                placeholder="No account? Sign up."
+                buttonStyle={style.link_button}
+                divStyle={divStyle}
+                onClick={subscribe}
+            />
             <hr className={style.hrLogin} />
-            <SubmitButton placeholder="Sign in 42" divStyle={divStyle} onClick={signIn42} />
+            <SubmitButton
+                placeholder="Sign in 42"
+                divStyle={divStyle}
+                onClick={signIn42}
+            />
         </div>
     );
 }

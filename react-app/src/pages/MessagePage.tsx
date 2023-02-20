@@ -1,7 +1,7 @@
 import { Layout } from "../layouts/Layout";
 import style from "../assets/styles/pages.module.css";
-import { Chat } from "../features/chat/component/Chat";
-import { roomSample } from "../features/chat/data/room-sample";
+import { Chat } from "../components/chat/component/Chat";
+import { roomSample } from "../components/chat/data/room-sample";
 
 function MessagesPage() {
     return (

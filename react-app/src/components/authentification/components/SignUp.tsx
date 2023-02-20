@@ -26,7 +26,11 @@ export function SignUp() {
             <Input divStyle={divStyle} content={mail} />
             <Input divStyle={divStyle} content={pwd} />
             <Input divStyle={divStyle} content={repwd} />
-            <SubmitButton placeholder="Subscribe" onClick={signup} divStyle={divStyle}/>
+            <SubmitButton
+                placeholder="Subscribe"
+                onClick={signup}
+                divStyle={divStyle}
+            />
         </div>
     );
 }

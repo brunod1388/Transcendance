@@ -1,5 +1,5 @@
 import style from "../assets/styles/pages.module.css";
-import { Login } from "../features/authentification/components/LogIn";
+import { Login } from "../components/authentification/components/LogIn";
 
 function LoginPage() {
     return (

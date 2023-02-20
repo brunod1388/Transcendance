@@ -1,4 +1,4 @@
-import { SignUp } from "../features/authentification/components/SignUp";
+import { SignUp } from "../components/authentification/components/SignUp";
 import style from "../assets/styles/pages.module.css";
 
 function SubscribePage() {

@@ -2,7 +2,7 @@ import "./App.css";
 import React from "react";
 import { MyRoutes } from "./data/routes";
 import { io, Socket } from "socket.io-client";
-import { EventLayer } from "./features/pong/EventLayer/EventLayer";
+import { EventLayer } from "./components/pong/EventLayer/EventLayer";
 
 const SERVER_URL = "http://localhost:3000";
 const socket: Socket = io(SERVER_URL);
@@ -34,3 +34,6 @@ export default App;
 //         </div>
 //     );
 // }
+
+// export { socket, App };
+// export default App;

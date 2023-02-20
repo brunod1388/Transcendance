@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Layout } from "../layouts/Layout";
-import Game from "../features/pong/Pong/Pong";
+import Game from "../components/pong/Pong/Pong";
 import { socket } from "../App";
-import { InvitationRequest } from "../features/pong/Event/Invitation/Invitation.interface";
+import { InvitationRequest } from "../components/pong/Event/Invitation/Invitation.interface";
 // import { InvitationResponse } from "../../components/Event/Invitation/Invitation.interface";
 function newGame(value: string) {
     console.log(`value is ${value}`);

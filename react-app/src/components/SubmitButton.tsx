@@ -11,10 +11,11 @@ interface SubmitProps {
 }
 
 export function SubmitButton(props: PropsWithChildren<SubmitProps>) {
-    const { onClick = () => {},
-            divStyle = "",
-            fill = true,
-            buttonStyle = style.shadow_btn
+    const {
+        onClick = () => {},
+        divStyle = "",
+        fill = true,
+        buttonStyle = style.shadow_btn,
     } = props;
     const fillStyle = fill ? " " + style.width100 : "";
     return (
