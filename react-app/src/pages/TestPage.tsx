@@ -8,11 +8,11 @@ function clicked() {
     });
 }
 
-function HomePage() {
+function TestPage() {
     return (
         <Layout>
             <div>
-                <h1>Home Page</h1>
+                <h1>Test Page</h1>
             </div>
             {/* <p className="subtitle">Play</p> */}
             <div>
@@ -22,4 +22,4 @@ function HomePage() {
     );
 }
 
-export default HomePage;
+export default TestPage;
