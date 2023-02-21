@@ -1,5 +1,4 @@
 import React from "react";
-import { Layout } from "../layouts/Layout";
 import { socket } from "../App";
 
 function clicked() {
@@ -10,7 +9,7 @@ function clicked() {
 
 function TestPage() {
     return (
-        <Layout>
+        <div>
             <div>
                 <h1>Test Page</h1>
             </div>
@@ -18,7 +17,7 @@ function TestPage() {
             <div>
                 <button onClick={clicked}> PONG </button>
             </div>
-        </Layout>
+        </div>
     );
 }
 

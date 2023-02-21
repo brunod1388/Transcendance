@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Layout } from "../../layouts/Layout";
 import Game from "../../components/pong/Pong/Pong";
 import { socket } from "../../App";
 import { InvitationRequest } from "../../components/pong/Event/Invitation/Invitation.interface";
@@ -76,11 +75,11 @@ function InvitationButton() {
 
 function Play() {
     return (
-        <Layout>
+        <div>
             {/* <h1>Play Page</h1> */}
             <Game />
             <InvitationButton />
-        </Layout>
+        </div>
     );
 }
 
