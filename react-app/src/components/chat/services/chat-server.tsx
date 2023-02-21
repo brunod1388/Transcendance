@@ -1,6 +1,6 @@
 import { messageType } from "../../../@types/messageType";
 import { messageSample } from "../../../assets/data/messages-sample";
-import Message from "../Message";
+// import Message from "../Message";
 
 function getMessagesFromServer(): messageType[] {
     // TODO

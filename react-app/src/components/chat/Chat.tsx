@@ -1,24 +1,16 @@
 import React from "react";
-import Cam from "../../assets/images/cam.png";
-import Add from "../../assets/images/add.png";
-import More from "../../assets/images/more.png";
+import TopChatBar from "./Chat/TopChatbar";
+import Messages from "./Chat/Messages";
+import Input from "./Chat/Input";
 
-import Messages from "./Messages";
-import Input from "./Input";
+import "./Chat/chat.scss";
 
 type Props = {};
 
 export default function Chat({}: Props) {
     return (
         <div className="chat">
-            <div className="chatInfo">
-                <span>Jane</span>
-                <div className="chatIcons">
-                    <img src={Cam} alt="" />
-                    <img src={Add} alt="" />
-                    <img src={More} alt="" />
-                </div>
-            </div>
+            <TopChatBar />
             <Messages />
             <Input />
         </div>

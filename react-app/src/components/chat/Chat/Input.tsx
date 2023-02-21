@@ -1,6 +1,6 @@
 import React from "react";
-import Attach from "../../assets/images/paper-clip.png";
-import AddImage from "../../assets/images/add-image.png";
+import Attach from "../../../assets/images/paper-clip.png";
+import AddImage from "../../../assets/images/add-image.png";
 
 type Props = {};
 
@@ -14,7 +14,7 @@ export default function Input({}: Props) {
                 <label htmlFor="file">
                     <img src={Attach} alt="" />
                 </label>
-                <button>Send</button>
+                <button className="button-purple">Send</button>
             </div>
         </div>
     );

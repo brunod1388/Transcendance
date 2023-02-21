@@ -1,16 +1,21 @@
+@import "../../assets/styles/global.scss";
+
 .home {
 	height: 100vh;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	font-family: $base-font;
 	.container {
-		border-radius: 10px;
+		min-width: 400px;
+		border-radius: 20px;
 		display: flex;
-		width: 80%;
-		height: 80%;
+		width: 85%;
+		height: 85%;
 		display: flex;
 		overflow: hidden;
 		box-shadow: 10px 10px 100px black,
 		-2px -2px 150px rgba(145, 145, 145, 0.4);
+		animation: scaleIn 2s;
 	}
 }

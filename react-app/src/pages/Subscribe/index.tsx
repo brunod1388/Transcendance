@@ -1,7 +1,7 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import "../pages.scss";
-import Add from "../../assets/images/add-image.png"
+import Add from "../../assets/images/add-image.png";
 function Subscribe() {
     const [err, setErr] = useState(false);
     const navigate = useNavigate();
@@ -34,7 +34,9 @@ function Subscribe() {
                         <span>Add an Avatar</span>
                     </label>
                     <button>Sign up</button>
-                    {err && <span className="err_msg">Something went wrong</span>}
+                    {err && (
+                        <span className="err_msg">Something went wrong</span>
+                    )}
                 </form>
                 <p>
                     You do have an account? <Link to="/login">Login</Link>

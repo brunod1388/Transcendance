@@ -80,24 +80,22 @@
 			}
 
 			button {
-				background-color: #827fc6;
-				color: White;
 				border-radius: 20px;
 				padding: 5px;
 				margin: 10px;
 				font-weight: bold;
-				outline: none;
-				border: none;
 				height: 30px;
 				width: 100%;
+				color: White;
+				border: none;
+				outline: none;
+				background-color: #827fc6;
 				&:hover {
 					box-shadow: inset 0px 0px 3px rgba(255, 255, 255, 0.663);
 				}
 				&:active {
 					background-color: #363556;
-
 				}
-
 			}
 			.err_msg {
 				color: red;
