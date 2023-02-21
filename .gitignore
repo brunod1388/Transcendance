@@ -27,4 +27,4 @@ yarn-error.log*
 
 test.css
 test.html
-database-volume/*
+database-volume/

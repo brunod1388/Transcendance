@@ -1,4 +1,4 @@
-import { messageType } from "../@types/messageType";
+import { messageType } from "../../@types/messageType";
 
 export const messageSample: messageType[] = [
     {

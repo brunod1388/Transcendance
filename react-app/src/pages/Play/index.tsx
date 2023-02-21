@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Layout } from "../layouts/Layout";
-import Game from "../components/pong/Pong/Pong";
-import { socket } from "../App";
-import { InvitationRequest } from "../components/pong/Event/Invitation/Invitation.interface";
+import { Layout } from "../../layouts/Layout";
+import Game from "../../components/pong/Pong/Pong";
+import { socket } from "../../App";
+import { InvitationRequest } from "../../components/pong/Event/Invitation/Invitation.interface";
 // import { InvitationResponse } from "../../components/Event/Invitation/Invitation.interface";
 function newGame(value: string) {
     console.log(`value is ${value}`);
@@ -74,7 +74,7 @@ function InvitationButton() {
     );
 }
 
-function PlayPage() {
+function Play() {
     return (
         <Layout>
             {/* <h1>Play Page</h1> */}
@@ -84,4 +84,4 @@ function PlayPage() {
     );
 }
 
-export default PlayPage;
+export default Play;

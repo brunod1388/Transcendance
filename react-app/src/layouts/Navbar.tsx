@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Icon } from "../components/Icon";
+// import { Icon } from "../components/Icon";
 // import { fetchChatRooms } from "../services/API";
 import { style, addSVG, playSVG, sendSVG, publicSVG } from "./index";
 
@@ -48,7 +48,7 @@ function Feature({ name }: FeatureProps) {
     } else return null;
     return (
         <div className={FeatureStyle}>
-            <RoomIcon name={name} goTo={goTo} imageURL={svg} />
+            {/* <RoomIcon name={name} goTo={goTo} imageURL={svg} /> */}
         </div>
     );
 }
@@ -66,11 +66,11 @@ function ChatRooms() {
         <>
             {list.map((index: Props, key: number) => (
                 <div key={key}>
-                    <RoomIcon
+                    {/* <RoomIcon
                         goTo={index.goTo}
                         name={index.name}
                         imageURL={index.imageURL}
-                    />
+                    /> */}
                 </div>
             ))}
         </>
@@ -94,7 +94,7 @@ function RoomIcon(props: Props) {
                         <div className={style.NavBar_activeLink}></div>
                     </div>
                     <div className={style.NavBar_tooltiptext}>{props.name}</div>
-                    <Icon imageURL={props.imageURL} />
+                    {/* <Icon imageURL={props.imageURL} /> */}
                 </div>
             </NavLink>
         </div>
