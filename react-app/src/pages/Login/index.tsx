@@ -19,8 +19,8 @@ function Login() {
 
     return (
         <div className="form_container">
+            <span className="logo">Transcendance</span>
             <div className="form_wrapper">
-                <span className="logo">Transcendance</span>
                 <span className="title">Login</span>
                 <form onSubmit={handleSubmit}>
                     <input type="email" placeholder="email" />

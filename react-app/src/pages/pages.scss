@@ -1,38 +1,50 @@
+@import "../assets/styles/global.scss";
+
 .form_container {
 	height: 100vh;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-
+	flex-direction: column;
+	
+	.logo {
+		color: $purple;
+		font-size: 32px;
+		font-weight: bold;
+		padding: 20px;
+		animation: appear 2s;
+	}
+	
 	.form_wrapper {
 		background-color: #2f2f4c;
 		color: white;
-		padding: 20px 60px;
-		border-radius: 10px;
+		padding: 40px;
+		border-radius: 20px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		box-shadow: 10px 10px 100px black,
 		-2px -2px 150px rgba(145, 145, 145, 0.4);
+		animation: scaleIn 1s;
+
+		&.register {
+			padding: 40px 60px;
+		}
 
 		a {
 			color: #aeadde;
 		}
-		.logo {
+		
+		.title {
 			color: #7774bf;
-			font-size: 24px;
+			font-size: 20px;
 			font-weight: bold;
 		}
 
-		.title {
-			color: #7774bf;
-			font-size: 16px;
-			font-weight: bold;
-			padding-top: 10px;
-		}
 		form{
 			display: flex;
 			flex-direction: column;
+			align-items: center;
 			gap: 15px;
 
 			input {
@@ -57,9 +69,13 @@
 				img {
 					width: 40px;
 					opacity: 0.5;
+					filter: $filter-purple;
 				}
-				:hover {
+				&:hover {
 					color: white;
+					img {
+						filter: $filter-white;
+					}
 				}
 			}
 
@@ -68,18 +84,25 @@
 				color: White;
 				border-radius: 20px;
 				padding: 5px;
+				margin: 10px;
 				font-weight: bold;
 				outline: none;
 				border: none;
 				height: 30px;
-
+				width: 100%;
 				&:hover {
-					box-shadow: 0px 0px 3px rgba(255, 255, 255, 0.663);
+					box-shadow: inset 0px 0px 3px rgba(255, 255, 255, 0.663);
 				}
 				&:active {
 					background-color: #363556;
 
 				}
+
+			}
+			.err_msg {
+				color: red;
+				padding: 10px;
+				font-style: italic;
 			}
 		}
 		p {

@@ -1,10 +1,7 @@
-// import { SignUp } from "../components/authentification/components/SignUp";
-// import style from "../assets/styles/pages.module.css";
-
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import "../pages.scss";
-
+import Add from "../../assets/images/add-image.png"
 function Subscribe() {
     const [err, setErr] = useState(false);
     const navigate = useNavigate();
@@ -23,20 +20,21 @@ function Subscribe() {
 
     return (
         <div className="form_container">
-            <div className="form_wrapper">
-                <span className="logo">Transcendance</span>
+            <span className="logo">Transcendance</span>
+            <div className="form_wrapper register">
                 <span className="title">Register</span>
                 <form onSubmit={handleSubmit}>
                     <input type="text" placeholder="display name" />
                     <input type="email" placeholder="email" />
                     <input type="password" placeholder="password" />
+                    <input type="password" placeholder="re-type password" />
                     <input style={{ display: "none" }} type="file" id="file" />
                     <label htmlFor="file">
-                        {/* <img src={Add} alt="" /> */}
+                        <img src={Add} alt="" />
                         <span>Add an Avatar</span>
                     </label>
                     <button>Sign up</button>
-                    {err && <span>Something went wrong</span>}
+                    {err && <span className="err_msg">Something went wrong</span>}
                 </form>
                 <p>
                     You do have an account? <Link to="/login">Login</Link>
