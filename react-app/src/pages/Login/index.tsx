@@ -7,7 +7,15 @@ import "../pages.scss";
 function Login() {
     const [err, setErr] = useState(false);
     const navigate = useNavigate();
-    async function handleSubmit(e: any) {}
+
+    async function handleSubmit(e: any) {
+        e.preventDefault();
+        const email = e.target[0].value;
+        const password = e.target[1].value;
+
+        console.log(`email: ${email}`);
+        console.log(`password: ${password}`);
+    }
 
     return (
         <div className="form_container">
