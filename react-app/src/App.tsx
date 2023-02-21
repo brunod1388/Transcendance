@@ -1,4 +1,4 @@
-import "./App.scss"
+import "./App.scss";
 import React from "react";
 import { io, Socket } from "socket.io-client";
 import { EventLayer } from "./components/pong/EventLayer/EventLayer";

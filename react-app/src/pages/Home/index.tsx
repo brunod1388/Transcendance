@@ -1,5 +1,6 @@
 import React from "react";
-import Sidebar from "../../components/chat/Sidebar";
+import Middlebar from "../../components/chat/Middlebar";
+import Navbar from "../../components/chat/Navbar";
 import Chat from "../../components/chat/Chat";
 import "./style.scss";
 
@@ -9,7 +10,8 @@ function Home({}: Props) {
     return (
         <div className="home">
             <div className="container">
-                <Sidebar />
+                <Navbar />
+                <Middlebar />
                 <Chat />
             </div>
         </div>
