@@ -4,21 +4,60 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import "../pages.scss";
+import { useAuth } from "../../context/auth-context";
+import { useAxios } from "../../hooks/useAxios";
+import { useSignup } from "../../hooks/useSignup";
 
 function Subscribe() {
     const [err, setErr] = useState(false);
     const navigate = useNavigate();
 
+    const [Auth, { updateUser, updateToken }] = useAuth();
+
+    const [params, setParams] = useState({
+        method: "POST",
+        url: "/auth/signup",
+        headers: { crossorigin: "true" },
+        data: {
+            username: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            enable2FA: false,
+            code2FA: "",
+        },
+    });
+
+    const { data, loading, error, fetchData } = useAxios(params);
+
+    //const { TFAuth, code } = useSignup(data);
+
     function handleSubmit(e: any) {
         const displayName = e.target[0].value;
         const email = e.target[1].value;
         const password = e.target[2].value;
-        const file = e.target[3].files[0];
+        const confpassword = e.target[3].value;
+        const file = e.target[4].files[0];
         e.preventDefault();
         console.log("TEST");
         console.log(`displayName: ${displayName}`);
         console.log(`password: ${password}`);
         console.log(`email: ${email}`);
+        console.log(`confirm password: ${confpassword}`);
+        setParams((prevState) => ({
+            method: prevState.method,
+            url: prevState.url,
+            headers: prevState.headers,
+            data: {
+                username: displayName,
+                email: email,
+                password: password,
+                confirmPassword: confpassword,
+                enable2FA: false,
+                code2FA: "",
+            },
+        }));
+        console.log("Auth: ", Auth);
     }
 
     return (
@@ -30,6 +69,7 @@ function Subscribe() {
                     <input type="text" placeholder="display name" />
                     <input type="email" placeholder="email" />
                     <input type="password" placeholder="password" />
+                    <input type="password" placeholder="confirm password" />
                     <input style={{ display: "none" }} type="file" id="file" />
                     <label htmlFor="file">
                         {/* <img src={Add} alt="" /> */}
