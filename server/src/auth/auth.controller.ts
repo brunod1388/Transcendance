@@ -26,10 +26,44 @@ import { Create42UserDto } from "../users/dtos/Create42User.dto";
 export class AuthController {
     constructor(private authService: AuthService) {}
 
+    //    @HttpCode(HttpStatus.OK)
     @Post("signup")
-    signup(@Body() dto: CreateUserDto, @Res() response: Response) {
-        //the validated dto (data transfer object) is passed to the auth.Service
-        return this.authService.signup(dto, response);
+    async signup(
+        @Request() req,
+        @Body() dto: CreateUserDto,
+        @Res({ passthrough: true }) response: Response
+    ) {
+        //    response.setHeader(
+        //        "Access-Control-Allow-Origin",
+        //        "http://localhost:9000"
+        //    );
+
+        try {
+            const ret = await this.authService.signup(dto);
+
+            //response.setHeader("Authorization", `Bearer ${ret["access_token"]}`);
+            response.cookie("JWTtoken", ret["access_token"]["access_token"], {
+                sameSite: "none",
+                secure: true,
+            });
+
+            if (dto.enable2FA) {
+                const { confirmPassword, ...userDetails } = dto;
+                return this.authService.activate2FA(ret["user"], userDetails);
+            }
+
+            //  the validated dto (data transfer object) is passed to the auth.Service
+            //  return this.authService.signup(dto, response);
+            return {
+                id: ret["user"]["id"],
+                username: ret["user"]["username"],
+                authStrategy: ret["user"]["authStrategy"],
+                enable2FA: ret["user"]["enable2FA"],
+            };
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
     }
 
     // return status code 200 (OK) on signin as no new resource is created
@@ -48,7 +82,7 @@ export class AuthController {
     //    callback(@GetUser() user: User, @Res({passthrough: true}) res) {
     @UseGuards(FortyTwoGuard)
     @Get("login42/callback")
-    async callback(@Request() req, @Res() res: Response) {
+    async callback(@Request() req, @Res({ passthrough: true }) res: Response) {
         const dto: Create42UserDto = {
             idFortyTwo: req.user.idFortyTwo,
             username: req.user.login,

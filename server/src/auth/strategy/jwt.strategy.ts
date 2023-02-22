@@ -2,6 +2,7 @@ import { PassportStrategy } from "@nestjs/passport";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { ExtractJwt, Strategy } from "passport-jwt";
+import { Request } from "express";
 import { UsersService } from "../../users/users.service";
 // import { User } from "../../users/entities/User.entity";
 
@@ -13,7 +14,10 @@ import { UsersService } from "../../users/users.service";
 export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
     constructor(config: ConfigService, private usersService: UsersService) {
         super({
-            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+            jwtFromRequest: ExtractJwt.fromExtractors([
+                JwtStrategy.extractFromCookie,
+                ExtractJwt.fromAuthHeaderAsBearerToken(),
+            ]),
             secretOrKey: config.get("JWT_SECRET"),
         });
     }
@@ -26,5 +30,12 @@ export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
         // By returning the user, it will append the user to the user object of the request object
         // If the user is not found (null returned) a 401 error will be returned
         return user;
+    }
+
+    private static extractFromCookie(req: Request): string | null {
+        if (req.cookies && "JWTtoken" in req.cookies) {
+            return req.cookies.JWTtoken;
+        }
+        return null;
     }
 }
