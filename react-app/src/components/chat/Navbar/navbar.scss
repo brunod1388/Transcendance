@@ -6,11 +6,10 @@
 	width: 50px;
 	padding: 5px;
 	align-items: center;
-	// padding: 10px 10px;
 	gap: 10px;
 	background-color: #272637;
 	align-content: space-between;
-	span {
+	.separator {
 		background-color: #8b8b8b;
 		height: 2px;
 		width: 100%;
@@ -59,5 +58,40 @@
 		&.tooltip:hover .tooltiptext {
 			visibility: visible;
 		}
+	}
+}
+
+.newChannel_container {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	backdrop-filter: blur(4px);
+	z-index: 200;
+	.form_wrapper {
+
+	}
+	.title {
+		background-color: none;
+	}
+
+	select {
+		background-color: $purple;
+		color: white;
+		font-weight: 300;
+		outline: none;
+		border: none;
+		padding: 5px 10px;
+		border-radius: 7px;
+		&:after {
+			color: red;
+		}
+	}
+	.select-selected {
+		color: yellow;
 	}
 }

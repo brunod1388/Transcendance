@@ -1,7 +1,9 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
-import "../pages.scss";
 import Add from "../../assets/images/add-image.png";
+
+import "../../assets/styles/global.scss";
+
 function Subscribe() {
     const [err, setErr] = useState(false);
     const navigate = useNavigate();

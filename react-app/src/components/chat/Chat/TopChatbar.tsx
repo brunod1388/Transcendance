@@ -1,6 +1,6 @@
 import React from "react";
 import { useContext } from "react";
-import avatar from "../../../assets/images/smile.png"
+import avatar from "../../../assets/images/smile.png";
 
 type Props = {};
 
@@ -13,7 +13,9 @@ export default function TopChatbar({}: Props) {
             <div className="user">
                 <img src={avatar} alt="" />
                 <span>Kikou</span>
-                <button className="button-purple" onClick={() => {}}>logout</button>
+                <button className="button-purple" onClick={() => {}}>
+                    logout
+                </button>
             </div>
         </div>
     );

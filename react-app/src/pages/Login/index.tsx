@@ -2,7 +2,7 @@
 // import { Login } from "../components/authentification/components/LogIn";
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
-import "../pages.scss";
+import "../../assets/styles/global.scss";
 
 function Login() {
     const [err, setErr] = useState(false);
