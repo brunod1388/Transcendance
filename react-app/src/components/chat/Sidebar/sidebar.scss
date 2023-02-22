@@ -3,7 +3,7 @@
 $userImage-size: 30px;
 
 .SideBar {
-	width: 250px;
+	width: 200px;
 	border-right: 1px solid #363556;
 	background-color: #363556;
 	display: flex;
@@ -32,6 +32,7 @@ $userImage-size: 30px;
 	.search {
 
 		border-bottom: 1px solid grey;
+		padding: 0px 5px;
 
 		.searchForm {
 			padding: 10px;
@@ -40,6 +41,7 @@ $userImage-size: 30px;
 				border: none;
 				color: white;
 				outline: none;
+				// border-bottom: 1px solid $purple;
 				&::placeholder {
 					color: lightgray;
 				}
@@ -48,6 +50,7 @@ $userImage-size: 30px;
 	}
 	.users {
 		overflow: scroll;
+		padding: 0px 5px;
 	}
 	.userChat {
 		padding: 5px;

@@ -79,7 +79,7 @@ export default function Navbar({}: Props) {
                 image={plus}
                 onClick={addClick}
             />
-            {newChannel && <NewChannel />}
+            {newChannel && <NewChannel quitForm={() => setNewChannel(false)}/>}
         </div>
     );
 }
