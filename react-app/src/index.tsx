@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.scss";
+import { SocketProvider } from "./context/socket-context";
+import { UserProvider } from "./context/test-context";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -9,6 +11,10 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <React.StrictMode>
-        <App />
+        <SocketProvider>
+            <UserProvider>
+                <App />
+            </UserProvider>
+        </SocketProvider>
     </React.StrictMode>
 );

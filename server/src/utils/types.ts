@@ -34,3 +34,14 @@ export type Update42UserParams = {
     enable2FA: boolean;
     code2Fa: string;
 };
+
+export type CreateMessageParams = {
+    userId: number;
+    content: string;
+    channelId: number;
+};
+
+export type ModifyMessageParams = {
+    content: string;
+    id: number;
+};

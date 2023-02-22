@@ -3,10 +3,12 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import "../../assets/styles/global.scss";
+import { useUser } from "../../hooks/useTest";
 
 function Login() {
     const [err, setErr] = useState(false);
     const navigate = useNavigate();
+    const user = useUser();
 
     async function handleSubmit(e: any) {
         e.preventDefault();
@@ -15,6 +17,11 @@ function Login() {
 
         console.log(`email: ${email}`);
         console.log(`password: ${password}`);
+
+        console.log(user);
+        user.count++;
+        // user.
+        console.log(user);
     }
 
     return (

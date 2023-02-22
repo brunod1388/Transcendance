@@ -35,7 +35,7 @@ export default function Navbar({}: Props) {
             />
             <span className="separator" />
             <div className="icon_wrapper">
-                 {channels.map((channel) => (
+                {channels.map((channel) => (
                     <ChannelIcon
                         name={channel.name}
                         image={channel.imageUrl}
@@ -79,7 +79,7 @@ export default function Navbar({}: Props) {
                 image={plus}
                 onClick={addClick}
             />
-            {newChannel && <NewChannel quitForm={() => setNewChannel(false)}/>}
+            {newChannel && <NewChannel quitForm={() => setNewChannel(false)} />}
         </div>
     );
 }

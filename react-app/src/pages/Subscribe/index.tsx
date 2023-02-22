@@ -1,12 +1,14 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import Add from "../../assets/images/add-image.png";
+import { useSocket } from "../../hooks/useSocket";
 
 import "../../assets/styles/global.scss";
 
 function Subscribe() {
     const [err, setErr] = useState(false);
     const navigate = useNavigate();
+    // const [socket, setSocket] = useSocket();
 
     function handleSubmit(e: any) {
         const displayName = e.target[0].value;
@@ -19,6 +21,22 @@ function Subscribe() {
         console.log(`password: ${password}`);
         console.log(`email: ${email}`);
     }
+
+    // const signup = (e: any) => {
+    //     socket.emit(
+    //         "newUser",
+    //         {
+    //             username: e.target[0].value,
+    //             email: e.target[1].value,
+    //             password: e.target[2].value,
+    //             confirmPassword: e.target[3].value,
+    //         },
+    //         (res?: string) => {
+    //             console.log(res);
+    //         }
+    //     );
+    //     navigate("/", { replace: true });
+    // };
 
     return (
         <div className="form_container">
