@@ -1,21 +1,28 @@
 import React from "react";
 
-type Props = {};
+interface Props {
+    owner?: boolean;
+    imageUrl?: any;
+};
 
-export default function Message({}: Props) {
+const imgUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF6qx2Sw1RVNAU_cLLe9v0H32Rvufjjbrqsw&usqp=CAU";
+
+
+export default function Message(props: Props) {
+    const {owner = false, imageUrl = ""} = props;
     return (
-        <div className="message owner">
+        <div className={'message' + (owner ? " owner": "")}>
             <div className="messageInfo">
                 <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF6qx2Sw1RVNAU_cLLe9v0H32Rvufjjbrqsw&usqp=CAU"
+                    src={imgUrl}
                     alt=""
                 />
-                <span>just now</span>
+                <span>Time</span>
             </div>
             <div className="messageContent">
-                <p>Hello</p>
+                <p>messageContent</p>
                 <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF6qx2Sw1RVNAU_cLLe9v0H32Rvufjjbrqsw&usqp=CAU"
+                    src={imageUrl}
                     alt=""
                 />
             </div>
