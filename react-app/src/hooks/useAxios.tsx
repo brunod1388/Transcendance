@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 axios.defaults.baseURL = `http://localhost:3000`;
+axios.defaults.withCredentials = true;
+axios.defaults.headers.common["crossorigin"] = true;
 
 export const useAxios = (axiosParams: any) => {
-    const [data, setData] = useState(undefined);
+    const [data, setData] = useState<any>(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
