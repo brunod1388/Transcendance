@@ -34,10 +34,10 @@ function Subscribe() {
 
     const { response } = useAxios(params);
 
-    var TFAuth = false;
-    var code = "";
-
     useEffect(() => {
+        let TFAuth = false;
+        let code = "";
+
         const token = Cookies.get("JWTtoken");
         console.log("Response cookie: ", token);
         if (token) {
