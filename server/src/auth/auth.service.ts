@@ -4,7 +4,7 @@ import { ForbiddenException, Injectable } from "@nestjs/common";
 import { UsersService } from "../users/users.service";
 import { User } from "../users/entities/User.entity";
 import { AuthDto } from "./dto";
-import { CreateUserDto } from "../users/dtos/UserValidation.dto";
+import { CreateUserDto, UpdateUserDto } from "../users/dtos/UserValidation.dto";
 import * as argon from "argon2";
 //import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { JwtService } from "@nestjs/jwt";
@@ -23,24 +23,40 @@ export class AuthService {
         private config: ConfigService
     ) {}
 
-    async signup(dto: CreateUserDto, response: Response) {
+    //    async signup(dto: CreateUserDto, response: Response) {
+    async signup(dto: CreateUserDto) {
         // generate the password hash using argon
         // await is required as argon.hash is an asynchornous function
         //  const hash = await argon.hash(dto.password);
         dto.password = await argon.hash(dto.password);
         // filtering out the confirmPassword field and spreading the rest into userDetails
         const { confirmPassword, ...userDetails } = dto;
-        console.log(confirmPassword);
-        // save the new user in the db
-        if (userDetails.enable2FA) {
+        //    console.log(confirmPassword);
+        /*        if (userDetails.enable2FA) {
             const secret = this.generate2FAsecret();
             userDetails.code2FA = secret.base32;
             const user = await this.usersService.createUser(userDetails);
             console.log(user);
             return this.generateQRcode(secret.otpauthUrl, response);
         }
-        const user = await this.usersService.createUser(userDetails);
-        return this.signToken(user.id, user.username, user.email);
+*/
+        // save the new user in the db
+        // using a try/catch in order to provide a more specific error description
+        let user: User;
+        try {
+            user = await this.usersService.createUser(userDetails);
+        } catch (error) {
+            throw new ForbiddenException("Credentials taken");
+        }
+
+        const token = await this.signToken(user.id, user.username, user.email);
+
+        //    return this.signToken(user.id, user.username, user.email);
+
+        return {
+            access_token: token,
+            user: user,
+        };
 
         // using a try/catch in order to provide a more specific error description
         /*    try {
@@ -62,6 +78,20 @@ export class AuthService {
             throw error;
         }
     */
+    }
+
+    async activate2FA(user: User, dto: UpdateUserDto) {
+        const secret = this.generate2FAsecret();
+        dto.code2FA = secret.base32;
+        const updated = await this.usersService.updateUser(user.id, dto);
+        console.log("Updated user: ", updated);
+        const dataURL = await QRCode.toDataURL(secret.otpauthUrl);
+        //    const dataURL = async  QRCode.toDataURL(secret.otpauthUrl, function (err, dataURL) {
+        //        if (err) throw err
+        //        console.log("INSIDE: ", data);
+        //    });
+        //return { url: secret.otpauthUrl };
+        return { url: dataURL };
     }
 
     async login42(dto: Create42UserDto) {

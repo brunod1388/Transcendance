@@ -1,23 +1,73 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Add from "../../assets/images/add-image.png";
 
 import "../../assets/styles/global.scss";
+import { useAuth } from "../../context/auth-context";
+import { useAxios } from "../../hooks/useAxios";
+//import { useSignup } from "../../hooks/useSignup";
+//import axios from "axios";
+import Cookies from "js-cookie";
 
 function Subscribe() {
-    const [err] = useState(false);
-    // const navigate = useNavigate();
+    const [err, setErr] = useState(false);
+    const navigate = useNavigate();
 
     function handleSubmit(e: any) {
         const displayName = e.target[0].value;
         const email = e.target[1].value;
         const password = e.target[2].value;
-        // const file = e.target[3].files[0];
+        const confpassword = e.target[3].value;
+        const file = e.target[4].files[0];
         e.preventDefault();
-        console.log("TEST");
-        console.log(`displayName: ${displayName}`);
-        console.log(`password: ${password}`);
-        console.log(`email: ${email}`);
+        console.log("handleSubmit launched");
+        setParams((prevState) => ({
+            method: prevState.method,
+            url: prevState.url,
+            data: {
+                username: displayName,
+                email: email,
+                password: password,
+                confirmPassword: confpassword,
+                enable2FA: false,
+                code2FA: "",
+            },
+        }));
+
+        /*
+        try {
+            const res = await api.post("/signup", {
+                username: displayName,
+                email: email,
+                password: password,
+                confirmPassword: confpassword,
+                enable2FA: false,
+                code2FA: "",
+            });
+            const token = Cookies.get("JWTtoken");
+            console.log("Response cookie: ", token);
+            if (token) {
+                updateToken(token);
+            }
+            console.log("Response data: ", res.data);
+            //console.log("URL: ", res.data["url"]);
+            if (res.data["url"]) {
+                TFAuth = true;
+                code = res.data["url"];
+                console.log("OUTPUT: ", code);
+            } else {
+                console.log("DATA: ", res.data);
+                updateUser(res.data);
+                console.log("AUTH: ", Auth);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        
+        if (TFAuth) {
+            navigate("/2fa", { state: code, replace: true });
+        }
+        */
     }
 
     return (
@@ -29,7 +79,7 @@ function Subscribe() {
                     <input type="text" placeholder="display name" />
                     <input type="email" placeholder="email" />
                     <input type="password" placeholder="password" />
-                    <input type="password" placeholder="re-type password" />
+                    <input type="password" placeholder="confirm password" />
                     <input style={{ display: "none" }} type="file" id="file" />
                     <label htmlFor="file">
                         <img src={Add} alt="" />
