@@ -2,9 +2,7 @@ import React from "react";
 import Attach from "../../../assets/images/paper-clip.png";
 import AddImage from "../../../assets/images/add-image.png";
 
-type Props = {};
-
-export default function Input({}: Props) {
+export default function Input() {
     return (
         <div className="input">
             <input type="text" placeholder="Type something..." />

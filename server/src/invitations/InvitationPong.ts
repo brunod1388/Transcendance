@@ -1,7 +1,4 @@
 import { Server } from "socket.io";
-// import { Invitation } from "./Invitation";
-// import { ResponseDTO } from "./dtos/Response.dto";
-// import { InvitationDTO } from "./dtos/Invitation.dto";
 import { InvitationResponseDTO } from "./dtos/InvitationResponse.dto";
 import { InvitationRequestDTO } from "./dtos/InvitationRequest.dto";
 import { InvitationOpponentDTO } from "./dtos/InvitationOpponent.dto";
@@ -27,22 +24,7 @@ export class InvitationPong {
         };
         this.server
             .to(this.invitation.toUser)
-            .emit(
-                "game-invitation",
-                opponent,
-                (response: InvitationResponseDTO) => this.receive(response)
-            );
+            .emit("game-invitation", opponent);
         console.log(`response sent to ${this.invitation.toUser}`);
-    }
-
-    receive(response: InvitationResponseDTO) {
-        this.accepted = response.statut;
-        console.log(`answer from opponent received: ${response.statut}`);
-        this.server.to(this.invitation.toUser).emit("game-response", response);
-        console.log("response sent to the sender of the o");
-    }
-
-    isAccepted(): boolean {
-        return this.accepted > 0;
     }
 }

@@ -1,4 +1,4 @@
-import { messageType } from "../../../@types/messageType";
+import { messageType } from "../../../@types";
 import { messageSample } from "../../../assets/data/messages-sample";
 // import Message from "../Message";
 

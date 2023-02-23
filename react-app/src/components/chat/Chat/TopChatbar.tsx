@@ -1,10 +1,9 @@
 import React from "react";
-import { useContext } from "react";
+// import { useContext } from "react";
 import avatar from "../../../assets/images/smile.png";
 
-type Props = {};
 
-export default function TopChatbar({}: Props) {
+export default function TopChatbar() {
     // const { currentUser } = useContext(AuthContext);
 
     return (

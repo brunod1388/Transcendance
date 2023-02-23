@@ -1,9 +1,0 @@
-.centerPopUp {
-	display: flex;
-	position: absolute;
-
-	align-self: center;
-	/* justify-content: center; */
-	justify-self: center;
-	z-index: 10000000;
-}

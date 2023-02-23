@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import Game from "../../components/pong/Pong/Pong";
-import { socket } from "../../App";
-import { InvitationRequest } from "../../components/pong/Event/Invitation/Invitation.interface";
-// import { InvitationResponse } from "../../components/Event/Invitation/Invitation.interface";
-function newGame(value: string) {
-    console.log(`value is ${value}`);
-    let newInvite: InvitationRequest = {
+import React, { useEffect, useState } from "react";
+import { useSocket } from "../../hooks";
+import { InvitationRequestDTO } from "../../@types";
+import { Socket } from "socket.io-client";
+
+function newGame(value: string, socket: Socket) {
+    let newInvite: InvitationRequestDTO = {
         fromUser: socket.id,
         toUser: value,
     };
@@ -14,6 +13,7 @@ function newGame(value: string) {
 
 function InvitationButton() {
     const [message, setMessage] = useState("");
+    const [socket] = useSocket();
     const handleChange = (event: any) => {
         setMessage(event.target.value);
     };
@@ -21,11 +21,8 @@ function InvitationButton() {
         <div
             style={{
                 backgroundColor: "orange",
-                top: "255px",
-                right: "250px",
                 border: "solid",
                 borderColor: "red",
-                position: "relative",
                 width: "230px",
                 height: "80px",
                 zIndex: 1000,
@@ -60,12 +57,11 @@ function InvitationButton() {
             </div>
             <button
                 style={{
-                    left: "0",
-                    bottom: "0",
-                    position: "absolute",
+                    top: "7px",
+                    position: "relative",
                     width: "100%",
                 }}
-                onClick={() => newGame(message)}
+                onClick={() => newGame(message, socket)}
             >
                 send
             </button>
@@ -73,12 +69,29 @@ function InvitationButton() {
     );
 }
 
+function SendInvitation() {
+    const [socket, isConnected] = useSocket();
+
+    useEffect(() => {
+        if (socket.id) {
+            console.log(`${socket.id} is connected: ${isConnected}`);
+        }
+    }, [isConnected, socket]);
+
+    return (
+        <div>
+            <div style={{ backgroundColor: "white" }}>
+                <p style={{ textAlign: "center" }}>{socket.id}</p>
+            </div>
+            <InvitationButton />
+        </div>
+    );
+}
+
 function Play() {
     return (
         <div>
-            {/* <h1>Play Page</h1> */}
-            <Game />
-            <InvitationButton />
+            <SendInvitation />
         </div>
     );
 }

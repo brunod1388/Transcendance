@@ -1,18 +1,18 @@
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import Add from "../../assets/images/add-image.png";
 
 import "../../assets/styles/global.scss";
 
 function Subscribe() {
-    const [err, setErr] = useState(false);
-    const navigate = useNavigate();
+    const [err] = useState(false);
+    // const navigate = useNavigate();
 
     function handleSubmit(e: any) {
         const displayName = e.target[0].value;
         const email = e.target[1].value;
         const password = e.target[2].value;
-        const file = e.target[3].files[0];
+        // const file = e.target[3].files[0];
         e.preventDefault();
         console.log("TEST");
         console.log(`displayName: ${displayName}`);

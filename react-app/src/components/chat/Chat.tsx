@@ -5,9 +5,8 @@ import Input from "./Chat/Input";
 
 import "./Chat/chat.scss";
 
-type Props = {};
 
-export default function Chat({}: Props) {
+export default function Chat() {
     return (
         <div className="chat">
             <TopChatBar />

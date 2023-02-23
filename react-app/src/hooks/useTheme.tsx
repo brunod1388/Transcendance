@@ -1,6 +1,6 @@
 import { style } from "./index";
 import { useContext } from "react";
-import { ThemeContext, ThemeUpdateContext } from "../context/theme-context";
+import { ThemeContext, ThemeUpdateContext } from "../context/theme.context";
 
 export function useTheme(): boolean {
     return useContext(ThemeContext);

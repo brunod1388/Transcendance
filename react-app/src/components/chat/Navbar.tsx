@@ -7,9 +7,7 @@ import "./Navbar/navbar.scss";
 import NewChannel from "./Navbar/NewChannel";
 import { useState } from "react";
 
-type Props = {};
-
-export default function Navbar({}: Props) {
+export default function Navbar() {
     const channels: any[] = [
         { name: "channel1", imageUrl: smile },
         { name: "channel2", imageUrl: smile },
@@ -35,7 +33,7 @@ export default function Navbar({}: Props) {
             />
             <span className="separator" />
             <div className="icon_wrapper">
-                 {channels.map((channel) => (
+                {channels.map((channel) => (
                     <ChannelIcon
                         name={channel.name}
                         image={channel.imageUrl}
@@ -79,7 +77,7 @@ export default function Navbar({}: Props) {
                 image={plus}
                 onClick={addClick}
             />
-            {newChannel && <NewChannel quitForm={() => setNewChannel(false)}/>}
+            {newChannel && <NewChannel quitForm={() => setNewChannel(false)} />}
         </div>
     );
 }

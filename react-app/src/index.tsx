@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.scss";
+import { SocketProvider, NotificationProvider } from "./context";
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -9,6 +11,12 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <React.StrictMode>
-        <App />
+        <SocketProvider>
+			<BrowserRouter>
+            <NotificationProvider>
+                <App />
+            </NotificationProvider>
+			</BrowserRouter>
+        </SocketProvider>
     </React.StrictMode>
 );

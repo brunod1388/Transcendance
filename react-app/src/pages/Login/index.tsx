@@ -1,12 +1,12 @@
 // import style from "../assets/styles/pages.module.css";
 // import { Login } from "../components/authentification/components/LogIn";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import "../../assets/styles/global.scss";
 
 function Login() {
-    const [err, setErr] = useState(false);
-    const navigate = useNavigate();
+    const [err] = useState(false);
+    // const navigate = useNavigate();
 
     async function handleSubmit(e: any) {
         e.preventDefault();

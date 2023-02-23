@@ -5,6 +5,10 @@ export class InvitationResponseDTO {
     @IsNotEmpty()
     requestId: string;
 
+    @IsString()
+    @IsNotEmpty()
+    fromUser: string;
+
     @IsNumber()
     @IsNotEmpty()
     statut: number;

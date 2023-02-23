@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AddImage from "../../../assets/images/add-image.png"
+import AddImage from "../../../assets/images/add-image.png";
 
 interface Props {
     quitForm: any;
@@ -24,9 +24,9 @@ export default function NewChannel(props: Props) {
                         name="channelType"
                         id="channelType"
                         onChange={(e) =>
-                            e.target.value == "protected"
-                            ? setIsPrivate(true)
-                            : setIsPrivate(false)
+                            e.target.value === "protected"
+                                ? setIsPrivate(true)
+                                : setIsPrivate(false)
                         }
                     >
                         <option value="public">public</option>
@@ -34,7 +34,7 @@ export default function NewChannel(props: Props) {
                     </select>
                     {isPrivate && (
                         <input type="password" placeholder="Password" />
-                        )}
+                    )}
                     {isPrivate && (
                         <input type="password" placeholder="re-type Password" />
                     )}
@@ -49,7 +49,9 @@ export default function NewChannel(props: Props) {
                     </label>
                     <button>Create Channel</button>
                 </form>
-                <button className="cancel-button" onClick={props.quitForm}>cancel</button>
+                <button className="cancel-button" onClick={props.quitForm}>
+                    cancel
+                </button>
             </div>
         </div>
     );

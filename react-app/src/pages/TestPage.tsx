@@ -1,13 +1,15 @@
 import React from "react";
-import { socket } from "../App";
-
-function clicked() {
-    socket.emit("send", "hi", (res: string) => {
-        console.log(res);
-    });
-}
+import { useSocket } from "../hooks";
 
 function TestPage() {
+    const [socket] = useSocket();
+
+    function clicked() {
+        socket.emit("send", "hi", (res: string) => {
+            console.log(res);
+        });
+    }
+
     return (
         <div>
             <div>

@@ -6,8 +6,8 @@ services:
     ports:
       - 5432:5432
     build:
-      context: ./docker/database
-      dockerfile: database.dockerfile
+      context: ./
+      dockerfile: docker/database/database.dockerfile
     # ports:
       # - 5432:5432
     environment:

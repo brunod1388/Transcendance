@@ -5,9 +5,7 @@ import Chat from "../../components/chat/Chat";
 
 import "./home.scss";
 
-type Props = {};
-
-function Home({}: Props) {
+function Home() {
     return (
         <div className="home">
             <div className="container">

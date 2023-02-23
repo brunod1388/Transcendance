@@ -13,8 +13,8 @@ services:
 
   server:
     build:
-      context: ./docker/server
-      dockerfile: backend.dev.dockerfile
+      context: ./
+      dockerfile: docker/server/backend.dev.dockerfile
     ports:
       - "3000:3000"
     env_file:
@@ -26,8 +26,8 @@ services:
   react-app:
     container_name: react-app
     build:
-      context: ./docker/server
-      dockerfile: frontend.dev.dockerfile
+      context: ./
+      dockerfile: docker/server/frontend.dev.dockerfile
 
     ports:
       - "9000:9000"

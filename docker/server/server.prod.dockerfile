@@ -3,14 +3,12 @@ FROM node:19-alpine as base
 FROM base as react-build
 WORKDIR /react-app
 ENV NODE_ENV production
-COPY ./docker/server/config/react .
 COPY ./react-app		.
 RUN npm install --production && npm run test && npm run build
 
 FROM base as nestjs-build
 WORKDIR /nestjs-server
 ENV NODE_ENV production
-COPY ./docker/server/config/nestjs	.
 COPY ./server		.
 RUN npm install --production && npm run build && npm run test
 

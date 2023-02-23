@@ -4,8 +4,8 @@ services:
   postgresql:
     container_name: postgresql
     build:
-      context: ./docker/database
-      dockerfile: database.dockerfile
+      context: ./
+      dockerfile: docker/database/database.dockerfile
     networks:
       - transcendence
 

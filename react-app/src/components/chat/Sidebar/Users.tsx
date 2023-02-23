@@ -5,7 +5,7 @@ type Props = {
 };
 
 export default function Users(props: Props) {
-    const { isPrivate = false } = props;
+    // const { isPrivate = false } = props;
 
     return (
         <div className="users">
