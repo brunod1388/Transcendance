@@ -11,22 +11,22 @@ export const useAxios = (axiosParams: AxiosRequestConfig) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-    const fetchData = async () => {
-        try {
-            const res = await axios.request(axiosParams);
-            setResponse(res);
-        } catch (err: any) {
-            setError(err);
-            setLoading(false);
-        } finally {
-            setLoading(false);
-        }
-    };
-    fetchData();
+        const fetchData = async () => {
+            try {
+                const res = await axios.request(axiosParams);
+                setResponse(res);
+            } catch (err: any) {
+                setError(err);
+                setLoading(false);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
     }, [axiosParams]);
 
-//    useEffect(() => {
-//        fetchData();
-//    }, [axiosParams]);
+    //    useEffect(() => {
+    //        fetchData();
+    //    }, [axiosParams]);
     return { response, error, loading };
 };
