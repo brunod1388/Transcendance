@@ -15,20 +15,20 @@ import { ChannelUser } from "./ChannelUser.entity";
 
 // to put in a dto
 export enum ChannelType {
-    PRIVATE = "private",
+    PRIVATE = "protected",
     PUBLIC = "public",
     DIRECT = "direct",
 }
 
 @Entity({ name: "channels" })
 export class Channel {
-    @PrimaryGeneratedColumn({ type: "bigint" })
+    @PrimaryGeneratedColumn("uuid")
     id: number;
 
     @ManyToOne(() => User, (user) => user.ownedChannels)
-    owner: number;
+    owner: User;
 
-    @Column({ type: "varchar", length: 42 })
+    @Column({ unique: true, type: "varchar", length: 42 })
     name: string;
 
     @Column({ type: "enum", enum: ChannelType })

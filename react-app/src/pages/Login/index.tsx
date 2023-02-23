@@ -3,10 +3,13 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import "../../assets/styles/global.scss";
+// import { useUser } from "../../hooks/useTest";
+// import {useNavigate} from "react-router-dom";
 
 function Login() {
-    const [err] = useState(false);
+    const [err, setErr] = useState(false);
     // const navigate = useNavigate();
+    // const user = useUser();
 
     async function handleSubmit(e: any) {
         e.preventDefault();
@@ -15,6 +18,7 @@ function Login() {
 
         console.log(`email: ${email}`);
         console.log(`password: ${password}`);
+        setErr(err ? false : true);
     }
 
     return (
@@ -28,7 +32,7 @@ function Login() {
                     <button>Sign in</button>
                     {err && <span>Something went wrong</span>}
                 </form>
-                <p>
+                <p className="detail">
                     You don't have an account?{" "}
                     <Link to="/subscribe">Sign up</Link>
                 </p>

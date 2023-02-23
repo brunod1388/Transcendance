@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AddImage from "../../../assets/images/add-image.png";
+import { useSocket } from "../../../hooks/useSocket";
 
 interface Props {
     quitForm: any;
@@ -7,9 +8,28 @@ interface Props {
 
 export default function NewChannel(props: Props) {
     const [isPrivate, setIsPrivate] = useState(false);
+    const [socket] = useSocket();
+    const [isUnique, setIsUnique] = useState(true);
 
     function handleSubmit(e: any) {
-        // ADD NEW CHANNEL
+        e.preventDefault();
+        socket.emit(
+            "newChannel",
+            {
+                name: e.target[0].value,
+                type: e.target[1].value,
+                Password: e.target[2].value,
+                ownerID: 1,
+            },
+            (res?: string) => {
+                if (res === `OK`) props.quitForm();
+                else setIsUnique(false);
+            }
+        );
+        console.log(`name: ${e.target[0].value}`);
+        console.log(`type: ${e.target[1].value}`);
+        console.log(`password: ${e.target[2].value}`);
+        console.log(`repassword: ${e.target[3].value}`);
     }
 
     return (
@@ -20,11 +40,14 @@ export default function NewChannel(props: Props) {
                 </div>
                 <form onSubmit={handleSubmit}>
                     <input type="text" placeholder="ChannelName" />
+                    {!isUnique && (
+                        <p className="error">Channel Name already exist!</p>
+                    )}
                     <select
                         name="channelType"
                         id="channelType"
                         onChange={(e) =>
-                            e.target.value === "protected"
+                            e.target.value == "protected"
                                 ? setIsPrivate(true)
                                 : setIsPrivate(false)
                         }
