@@ -13,18 +13,12 @@ async function bootstrap() {
             whitelist: true,
         })
     );
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/channel
     app.enableCors({
         origin: ["http://localhost:9000"],
         credentials: true,
     });
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/channel
     //    await app.listen(3333);
     await app.listen(3000);
 }

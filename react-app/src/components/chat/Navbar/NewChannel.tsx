@@ -47,7 +47,7 @@ export default function NewChannel(props: Props) {
                         name="channelType"
                         id="channelType"
                         onChange={(e) =>
-                            e.target.value == "protected"
+                            e.target.value === "protected"
                                 ? setIsPrivate(true)
                                 : setIsPrivate(false)
                         }
