@@ -112,7 +112,7 @@ export class AuthService {
     */
         const user = await this.usersService.findUser(dto.username);
         let valid2FA = false;
-        if (user.enable2FA && user.code2FA != "") {
+        if (user && user.enable2FA && user.code2FA != "") {
             valid2FA = this.verify2FAcode(dto.code2FA, user);
         }
         // if user does not exist, throw exception (guard condition)
@@ -122,7 +122,14 @@ export class AuthService {
         // if password incorrent, throw exception
         if (!pwMatches || (user.enable2FA && !valid2FA))
             throw new ForbiddenException("Credentials incorrect");
-        return this.signToken(user.id, user.username, user.email);
+
+        const token = await this.signToken(user.id, user.username, user.email);
+
+        return {
+            access_token: token,
+            user: user,
+        };
+        //return this.signToken(user.id, user.username, user.email);
     }
     // the signToken function will take the fields that need to be signed
     // these fields will then be extracted from the jwt and used to perform validation

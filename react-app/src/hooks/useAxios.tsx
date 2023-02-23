@@ -4,6 +4,8 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 axios.defaults.baseURL = `http://localhost:3000`;
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common["crossorigin"] = true;
+axios.defaults.headers.get["Access-Control-Allow-Origin"] =
+    "https://api.intra.42.fr/oauth";
 
 export const useAxios = (axiosParams: AxiosRequestConfig) => {
     const [response, setResponse] = useState<AxiosResponse>();

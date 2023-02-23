@@ -32,6 +32,7 @@ function Subscribe() {
         },
     });
 
+    // Find a way to display error message
     const { response } = useAxios(params);
 
     useEffect(() => {
@@ -92,8 +93,17 @@ function Subscribe() {
                 code2FA: "",
             },
         }));
+    }
 
-        /*
+    function signup42(e: any) {
+        setParams((prevState: any) => ({
+            method: "GET",
+            url: "/auth/login42/callback",
+            data: { ...prevState.data },
+        }));
+    }
+
+    /*
         try {
             const res = await api.post("/signup", {
                 username: displayName,
@@ -127,7 +137,6 @@ function Subscribe() {
             navigate("/2fa", { state: code, replace: true });
         }
         */
-    }
 
     return (
         <div className="form_container">
@@ -149,6 +158,9 @@ function Subscribe() {
                         <span className="err_msg">Something went wrong</span>
                     )}
                 </form>
+                <button type="button" onClick={signup42}>
+                    Sign up with 42
+                </button>
                 <p>
                     You do have an account? <Link to="/login">Login</Link>
                 </p>

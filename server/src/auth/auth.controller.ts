@@ -69,8 +69,37 @@ export class AuthController {
     // return status code 200 (OK) on signin as no new resource is created
     @HttpCode(HttpStatus.OK)
     @Post("signin")
-    signin(@Body() dto: AuthDto) {
-        return this.authService.signin(dto);
+    async signin(
+        @Body() dto: AuthDto,
+        @Res({ passthrough: true }) response: Response
+    ) {
+        try {
+            const ret = await this.authService.signin(dto);
+
+            //response.setHeader("Authorization", `Bearer ${ret["access_token"]}`);
+            response.cookie("JWTtoken", ret["access_token"]["access_token"], {
+                sameSite: "none",
+                secure: true,
+            });
+
+            if (ret.user && ret.user.enable2FA) {
+                return this.authService.verify2FAcode(dto.code2FA, ret["user"]);
+            }
+
+            //  the validated dto (data transfer object) is passed to the auth.Service
+            //  return this.authService.signup(dto, response);
+            return {
+                id: ret["user"]["id"],
+                username: ret["user"]["username"],
+                authStrategy: ret["user"]["authStrategy"],
+                enable2FA: ret["user"]["enable2FA"],
+            };
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+
+        //return this.authService.signin(dto);
     }
 
     @UseGuards(FortyTwoGuard)
@@ -91,6 +120,7 @@ export class AuthController {
             code2FA: "",
         };
         //    const token = this.authService.signToken(user.id, user.username, user.email);
+
         const token = await this.authService.login42(dto);
 
         console.log("ACCESS TOKEN:", token["access_token"]);
@@ -98,11 +128,28 @@ export class AuthController {
         console.log("USERNAME:", req.user.login);
         console.log("EMAIL:", req.user.email);
 
-        const url = new URL(`${req.protocol}:${req.hostname}`);
+        res.cookie("JWTtoken", token["access_token"], {
+            sameSite: "none",
+            secure: true,
+        });
+
+        res.setHeader(
+            "Access-Control-Allow-Origin",
+            "https://api.intra42.fr/oauth"
+        );
+
+        /*    const url = new URL(`${req.protocol}:${req.hostname}`);
         url.port = "3000";
         url.pathname = "login42";
         url.searchParams.set("code", token["access_token"]);
-        res.status(302).redirect(url.href);
+    */
+        return {
+            id: req.user.id,
+            username: req.user.login,
+            authStrategy: req.user.authStrategy,
+            enable2FA: req.user.enable2FA,
+        };
+        //res.status(302).redirect(url.href);
         //    res.cookie('jwt_token', token);
         //    return res.redirect('http://localhost:3000/users/me');
     }
