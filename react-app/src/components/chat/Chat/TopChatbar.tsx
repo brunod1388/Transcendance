@@ -2,7 +2,6 @@ import React from "react";
 // import { useContext } from "react";
 import avatar from "../../../assets/images/smile.png";
 
-
 export default function TopChatbar() {
     // const { currentUser } = useContext(AuthContext);
 

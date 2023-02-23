@@ -51,9 +51,8 @@ export function Pong() {
 }
 
 function Game({ room, host, opponent }: PropsGame) {
-	const navigate = useNavigate();
+    const navigate = useNavigate();
     const [statut, score, onScore] = useGame(room, host, navigate);
-	
 
     if (statut === PLAYING) {
         return (

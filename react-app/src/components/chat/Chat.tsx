@@ -5,7 +5,6 @@ import Input from "./Chat/Input";
 
 import "./Chat/chat.scss";
 
-
 export default function Chat() {
     return (
         <div className="chat">

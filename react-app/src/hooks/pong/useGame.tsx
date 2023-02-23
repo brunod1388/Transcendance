@@ -8,7 +8,7 @@ import { NavigateFunction } from "react-router-dom";
 export function useGame(
     room: string,
     host: boolean,
-	navigate: NavigateFunction
+    navigate: NavigateFunction
 ): [number, Score, (side: string) => void] {
     const [score, setScore] = useState<Score>(new Score(0, 0));
     const [statut, setStatut] = useState<number>(PLAYING);
@@ -58,14 +58,13 @@ export function useGame(
         }
     }, [socket, host, statut, room, score]);
 
-	useEffect(() => {
+    useEffect(() => {
         if (statut !== PLAYING) {
-			const timer = setTimeout(() => {
-				navigate("/home");
-			}, 3000);
+            const timer = setTimeout(() => {
+                navigate("/home");
+            }, 3000);
 
-			return () => clearTimeout(timer);
-
+            return () => clearTimeout(timer);
         }
     }, [socket, host, statut, room, score]);
 

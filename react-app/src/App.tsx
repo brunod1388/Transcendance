@@ -1,7 +1,7 @@
 import "./App.scss";
 import React from "react";
 import { PropsWithChildren } from "react";
-import { Route, Routes} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Play from "./pages/Play";
@@ -20,29 +20,29 @@ function App() {
         //     return <Navigate to="/login" />;
         return props.children;
     }
-	useInvitation();
+    useInvitation();
     return (
-            <Routes>
-                <Route path="/">
-                    <Route
-                        index
-                        element={
-                            <ProtectedRoute>
-                                <Home />
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route index element={<Login />} />
-                    {/* TO DELETE LATER, only login and subscribe neeeded*/}
-                    <Route path="login" element={<Login />} />
-                    <Route path="subscribe" element={<Subscribe />} />
-                    <Route path="home" element={<Home />} />
-                    <Route path="test" element={<Test />} />
-                    <Route path="play" element={<Play />} />
-					<Route path="pong" element={<PongPage />} />
-                    {/* <EventLayer /> */}
-                </Route>
-            </Routes>
+        <Routes>
+            <Route path="/">
+                <Route
+                    index
+                    element={
+                        <ProtectedRoute>
+                            <Home />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route index element={<Login />} />
+                {/* TO DELETE LATER, only login and subscribe neeeded*/}
+                <Route path="login" element={<Login />} />
+                <Route path="subscribe" element={<Subscribe />} />
+                <Route path="home" element={<Home />} />
+                <Route path="test" element={<Test />} />
+                <Route path="play" element={<Play />} />
+                <Route path="pong" element={<PongPage />} />
+                {/* <EventLayer /> */}
+            </Route>
+        </Routes>
     );
 }
 export { App };

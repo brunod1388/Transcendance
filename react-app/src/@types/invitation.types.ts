@@ -35,7 +35,6 @@ export interface BallBroadcastDTO {
 
 export type InvitationType = InvitationDTO;
 
-
 export interface INotification {
     id: string;
     type: string;
