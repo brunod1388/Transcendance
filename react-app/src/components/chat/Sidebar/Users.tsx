@@ -10,7 +10,7 @@ export default function Users(props: Props) {
 
     return (
         <div className="users">
-            <div className="userChat">
+            <div className="userChat" key="id">
                 <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF6qx2Sw1RVNAU_cLLe9v0H32Rvufjjbrqsw&usqp=CAU"
                     alt=""
@@ -26,7 +26,7 @@ export default function Users(props: Props) {
                 )}
             </div>
             {[...Array(20)].map((e, i) => (
-                <div className="userChat">
+                <div className="userChat" key={`d${i}`}>
                     <img
                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF6qx2Sw1RVNAU_cLLe9v0H32Rvufjjbrqsw&usqp=CAU"
                         alt=""

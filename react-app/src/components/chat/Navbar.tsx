@@ -33,11 +33,12 @@ export default function Navbar() {
             />
             <span className="separator" />
             <div className="icon_wrapper">
-                {channels.map((channel) => (
+                {channels.map((channel, i) => (
                     <ChannelIcon
                         name={channel.name}
                         image={channel.imageUrl}
                         onClick={iconClick}
+                        key={`${i}`}
                     />
                 ))}
                 {/*
