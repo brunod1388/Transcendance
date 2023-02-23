@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { useAuth } from "../context/auth-context";
-import axios from "axios";
+import { useEffect } from "react";
+import { useAuth } from "../context";
 import Cookies from "js-cookie";
 
 export function useSignup(res: any) {

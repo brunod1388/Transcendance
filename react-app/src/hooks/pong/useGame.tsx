@@ -66,7 +66,7 @@ export function useGame(
 
             return () => clearTimeout(timer);
         }
-    }, [socket, host, statut, room, score]);
+    }, [socket, host, statut, room, score, navigate]);
 
     return [statut, score, onScore];
 }

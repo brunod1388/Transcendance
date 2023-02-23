@@ -3,17 +3,76 @@ import { useState, useEffect } from "react";
 import Add from "../../assets/images/add-image.png";
 
 import "../../assets/styles/global.scss";
-import { useAuth } from "../../context/auth-context";
-import { useAxios } from "../../hooks/useAxios";
+import { useAuth } from "../../context";
+import { useAxios } from "../../hooks";
 //import { useSignup } from "../../hooks/useSignup";
 //import axios from "axios";
 import Cookies from "js-cookie";
 
 function Subscribe() {
-    const [err, setErr] = useState(false);
+    const [err] = useState(false);
     const navigate = useNavigate();
 
-    function handleSubmit(e: any) {
+    const [Auth, { updateUser, updateToken }] = useAuth();
+
+    useEffect(() => {
+        console.log("Updated Auth: ", Auth);
+    }, [Auth]);
+
+    const [params, setParams] = useState({
+        method: "POST",
+        url: "/auth/signup",
+        data: {
+            username: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            enable2FA: false,
+            code2FA: "",
+        },
+    });
+
+    const { response } = useAxios(params);
+
+    var TFAuth = false;
+    var code = "";
+
+    useEffect(() => {
+        const token = Cookies.get("JWTtoken");
+        console.log("Response cookie: ", token);
+        if (token) {
+            updateToken(token);
+        }
+        //console.log("URL: ", res.data["url"]);
+        if (response !== undefined && response.data["url"]) {
+            TFAuth = true;
+            code = response.data["url"];
+            console.log("OUTPUT: ", code);
+        } else if (response !== undefined) {
+            console.log("DATA: ", response.data);
+            updateUser(response.data);
+            //console.log("AUTH: ", Auth);
+        }
+
+        if (TFAuth) {
+            navigate("/2fa", { state: code, replace: true });
+        }
+    }, [response]);
+
+    /*
+    const api = axios.create({
+        baseURL: `http://localhost:3000/auth`,
+        withCredentials: true,
+        headers: { crossorigin: "true" },
+    });
+    */
+
+    //var TFAuth = false;
+    //var code = "";
+
+    //const { TFAuth, code } = useSignup(data);
+
+    async function handleSubmit(e: any) {
         const displayName = e.target[0].value;
         const email = e.target[1].value;
         const password = e.target[2].value;
@@ -21,7 +80,7 @@ function Subscribe() {
         const file = e.target[4].files[0];
         e.preventDefault();
         console.log("handleSubmit launched");
-        setParams((prevState) => ({
+        setParams((prevState: any) => ({
             method: prevState.method,
             url: prevState.url,
             data: {
