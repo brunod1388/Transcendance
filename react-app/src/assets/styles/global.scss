@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+
+$purple-message: #9e9ed2;
+$dark-gray: #292943;
+$dark-purple: #2e2d4c;
+$purple: #7774bf;
+$purple-gray: #4a486c;
+$color-dark1: #292943;
+$filter-purple: invert(46%) sepia(13%) saturate(1581%) hue-rotate(203deg) brightness(99%) contrast(83%);
+$filter-white: invert(96%) sepia(4%) saturate(0%) hue-rotate(13deg) brightness(105%) contrast(106%);
+$topbar-height: 45px;
+$base-font: 'Source Sans Pro', sans-serif;
+
+@keyframes appear{
+	0% { opacity: 0%; }
+	50% { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+@keyframes scaleIn {
+	0% { transform: scale(0); }
+	20% { transform: scale(0); }
+	100% { transform: scale(1); }
+}
+
+.button-purple {
+	color: white;
+	border: none;
+	outline: none;
+	background-color: #827fc6;
+	&:hover {
+		box-shadow: inset 0px 0px 3px rgba(255, 255, 255, 0.663);
+	}
+	&:active {
+		background-color: #363556;
+	}
+}
+
+.form_container {
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	
+	.logo {
+		color: $purple;
+		font-size: 32px;
+		font-weight: bold;
+		padding: 20px;
+		animation: appear 2s;
+	}
+	
+	.form_wrapper {
+		background-color: #2f2f4c;
+		color: white;
+		padding: 40px;
+		border-radius: 20px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		box-shadow: 10px 10px 100px black,
+		-2px -2px 150px rgba(145, 145, 145, 0.4);
+		animation: scaleIn 1s;
+
+		&.register {
+			padding: 40px 60px;
+		}
+
+		a {
+			color: #aeadde;
+		}
+		
+		.title {
+			color: #7774bf;
+			font-size: 20px;
+			font-weight: bold;
+		}
+
+		form{
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 15px;
+
+			input {
+				color: white;
+				padding: 10px;
+				border: none;
+				border-bottom: 1px solid #827fc6;
+				outline: none;
+				background-color: #2f2f4c;
+
+				&::placeholder {
+					color: rgb(175, 175, 175);
+				}
+			}
+
+			label {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 20px;
+				color: #827fc6;
+				cursor: pointer;
+				img {
+					width: 40px;
+					opacity: 0.5;
+					filter: $filter-purple;
+				}
+				&:hover {
+					color: white;
+					img {
+						filter: $filter-white;
+					}
+				}
+			}
+
+			.err_msg {
+				color: red;
+				padding: 10px;
+				font-style: italic;
+			}
+		}
+		button {
+			border-radius: 20px;
+			padding: 5px;
+			margin: 10px;
+			font-weight: bold;
+			height: 30px;
+			width: 100%;
+			color: White;
+			border: none;
+			outline: none;
+			background-color: #827fc6;
+			&:hover {
+				box-shadow: inset 0px 0px 3px rgba(255, 255, 255, 0.663);
+			}
+			&:active {
+				background-color: #363556;
+			}
+		}
+		p {
+			color: #7774bf;
+		}
+	}
+}
+

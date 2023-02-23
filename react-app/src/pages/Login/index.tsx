@@ -2,7 +2,7 @@
 // import { Login } from "../components/authentification/components/LogIn";
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
-import "../pages.scss";
+import "../../assets/styles/global.scss";
 
 function Login() {
     const [err, setErr] = useState(false);
@@ -19,8 +19,8 @@ function Login() {
 
     return (
         <div className="form_container">
+            <span className="logo">Transcendance</span>
             <div className="form_wrapper">
-                <span className="logo">Transcendance</span>
                 <span className="title">Login</span>
                 <form onSubmit={handleSubmit}>
                     <input type="email" placeholder="email" />
