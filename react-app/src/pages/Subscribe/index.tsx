@@ -6,8 +6,8 @@ import { useState, useEffect } from "react";
 import "../pages.scss";
 import { useAuth } from "../../context/auth-context";
 import { useAxios } from "../../hooks/useAxios";
-import { useSignup } from "../../hooks/useSignup";
-import axios from "axios";
+//import { useSignup } from "../../hooks/useSignup";
+//import axios from "axios";
 import Cookies from "js-cookie";
 
 function Subscribe() {
@@ -33,7 +33,7 @@ function Subscribe() {
         },
     });
 
-    const { data, loading, error, fetchData } = useAxios(params);
+    const { response, loading, error } = useAxios(params);
 
     var TFAuth = false;
     var code = "";
@@ -45,20 +45,20 @@ function Subscribe() {
             updateToken(token);
         }
         //console.log("URL: ", res.data["url"]);
-        if (data !== null && data["url"]) {
+        if (response !== undefined && response.data["url"]) {
             TFAuth = true;
-            code = data["url"];
+            code = response.data["url"];
             console.log("OUTPUT: ", code);
-        } else if (data !== null) {
-            console.log("DATA: ", data);
-            updateUser(data);
+        } else if (response !== undefined) {
+            console.log("DATA: ", response.data);
+            updateUser(response.data);
             //console.log("AUTH: ", Auth);
         }
 
         if (TFAuth) {
             navigate("/2fa", { state: code, replace: true });
         }
-    }, [data]);
+    }, [response]);
 
     /*
     const api = axios.create({

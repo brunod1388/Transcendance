@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
 axios.defaults.baseURL = `http://localhost:3000`;
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common["crossorigin"] = true;
 
-export const useAxios = (axiosParams: any) => {
-    const [data, setData] = useState<any>(null);
-    const [error, setError] = useState(null);
+export const useAxios = (axiosParams: AxiosRequestConfig) => {
+    const [response, setResponse] = useState<AxiosResponse>();
+    const [error, setError] = useState<AxiosError>();
     const [loading, setLoading] = useState(true);
 
+    useEffect(() => {
     const fetchData = async () => {
         try {
-            const response = await axios.request(axiosParams);
-            setData(response.data);
+            const res = await axios.request(axiosParams);
+            setResponse(res);
         } catch (err: any) {
             setError(err);
             setLoading(false);
@@ -21,9 +22,11 @@ export const useAxios = (axiosParams: any) => {
             setLoading(false);
         }
     };
-
-    useEffect(() => {
-        fetchData();
+    fetchData();
     }, [axiosParams]);
-    return { data, error, loading, fetchData };
+
+//    useEffect(() => {
+//        fetchData();
+//    }, [axiosParams]);
+    return { response, error, loading };
 };
