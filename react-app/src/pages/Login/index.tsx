@@ -20,7 +20,7 @@ function Login() {
 
         console.log(user);
         user.count++;
-        // user.
+
         console.log(user);
     }
 
@@ -35,7 +35,7 @@ function Login() {
                     <button>Sign in</button>
                     {err && <span>Something went wrong</span>}
                 </form>
-                <p>
+                <p className="detail">
                     You don't have an account?{" "}
                     <Link to="/subscribe">Sign up</Link>
                 </p>

@@ -6,21 +6,25 @@ type Props = {
 };
 
 export default function Users(props: Props) {
-    const { isPrivate = false, isNewMessage = true} = props;
+    const { isPrivate = false, isNewMessage = true } = props;
 
     return (
         <div className="users">
-                <div className="userChat">
-                    <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF6qx2Sw1RVNAU_cLLe9v0H32Rvufjjbrqsw&usqp=CAU"
-                        alt=""
-                    />
-                    <div className="userChatInfo">
-                        <span>Username</span>
-                        <p>last message</p>
-                    </div>
-                    {true && <div className="newMessage"><span/></div>}
+            <div className="userChat">
+                <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF6qx2Sw1RVNAU_cLLe9v0H32Rvufjjbrqsw&usqp=CAU"
+                    alt=""
+                />
+                <div className="userChatInfo">
+                    <span>Username</span>
+                    <p>last message</p>
                 </div>
+                {true && (
+                    <div className="newMessage">
+                        <span />
+                    </div>
+                )}
+            </div>
             {[...Array(20)].map((e, i) => (
                 <div className="userChat">
                     <img

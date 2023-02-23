@@ -9,18 +9,6 @@ function getMessagesFromServer(): messageType[] {
     return messageReceived;
 }
 
-// export function obtainMessages(): JSX.Element[] {
-//     let messageList = getMessagesFromServer();
-
-//     messageList.sort(function (message1, message2) {
-//         return message1.created.getTime() - message2.created.getTime();
-//     });
-
-//     return messageList.map(
-//         (value: messageType, index: number, array: any[]) => <Message />
-//     );
-// }
-
 export function sendMessage(): void {
     console.log("send message");
 }

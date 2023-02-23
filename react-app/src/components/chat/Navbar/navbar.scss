@@ -20,7 +20,6 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		// gap: 10px;
 		overflow-y: scroll;
 	}
 
@@ -78,6 +77,10 @@
 		background-color: none;
 	}
 
+	.error {
+		color: red;
+		font-style: italic;
+	}
 	select {
 		background-color: $purple;
 		color: white;
