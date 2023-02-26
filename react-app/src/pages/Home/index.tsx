@@ -12,7 +12,7 @@ axios.defaults.baseURL = `http://localhost:3000`;
 axios.defaults.withCredentials = true;
 
 function Home() {
-    const [Auth, { updateUser, updateToken }] = useAuth();
+    const { userAuth, token, updateUser, updateToken } = useAuth();
     //    const { response } = useAxios({
     //        method: "GET",
     //        url: "users/me",
@@ -47,10 +47,10 @@ function Home() {
     React.useEffect(() => {
         let isMounted = true;
 
-        const token = Cookies.get("JWTtoken");
+        const jwtToken = Cookies.get("JWTtoken");
         console.log("Response cookie: ", token);
-        if (token && Auth.jwt_token === "") {
-            updateToken(token);
+        if (jwtToken && token === "") {
+            updateToken(jwtToken);
         }
         const fetchUser = async () => {
             try {
@@ -80,8 +80,12 @@ function Home() {
     }, []);
 
     React.useEffect(() => {
-        console.log("AUTH in homepage: ", Auth);
-    }, [Auth]);
+        console.log("AUTH user in homepage: ", userAuth);
+    }, [userAuth]);
+
+    React.useEffect(() => {
+        console.log("AUTH token in homepage: ", token);
+    }, [token]);
 
     return (
         <div className="home">
