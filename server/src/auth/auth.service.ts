@@ -99,7 +99,7 @@ export class AuthService {
         if (user === undefined || user === null) {
             user = await this.usersService.create42User(dto);
         }
-        return this.signToken(user.idFortyTwo, user.username, user.email);
+        return this.signToken(user.id, user.username, user.email);
     }
 
     async signin(dto: AuthDto) {

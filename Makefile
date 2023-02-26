@@ -1,4 +1,4 @@
-COMPOSE		= docker compose -p 'ft_transcendence'
+COMPOSE		= docker-compose -p 'ft_transcendence'
 
 all:	dev
 

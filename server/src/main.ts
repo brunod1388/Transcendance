@@ -1,6 +1,7 @@
 import { ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
+import * as cookieParser from "cookie-parser";
 
 // By setting whitelist: true, the fields that you don't need will be stripped out
 // For example, if a user tries to inject an id into the db (a field which is
@@ -14,15 +15,18 @@ async function bootstrap() {
         })
     );
 
-    //    app.enableCors({
-    //        origin: true,
-    //        credentials: true,
-    //    });
+    app.use(cookieParser());
+
+    app.enableCors({
+        origin: true,
+        credentials: true,
+    });
+    /*
     app.enableCors({
         origin: ["http://localhost:9000"],
         credentials: true,
     });
-
+    */
     //    await app.listen(3333);
     await app.listen(3000);
 }

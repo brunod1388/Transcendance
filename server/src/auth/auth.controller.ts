@@ -133,22 +133,20 @@ export class AuthController {
             secure: true,
         });
 
-        res.setHeader(
-            "Access-Control-Allow-Origin",
-            "https://api.intra42.fr/oauth"
-        );
+        res.setHeader("Access-Control-Allow-Origin", "*");
 
         /*    const url = new URL(`${req.protocol}:${req.hostname}`);
         url.port = "3000";
         url.pathname = "login42";
         url.searchParams.set("code", token["access_token"]);
     */
-        return {
-            id: req.user.id,
-            username: req.user.login,
-            authStrategy: req.user.authStrategy,
-            enable2FA: req.user.enable2FA,
-        };
+        return res.redirect("http://localhost:9000/");
+        //    return {
+        //        id: req.user.id,
+        //        username: req.user.login,
+        //        authStrategy: req.user.authStrategy,
+        //        enable2FA: req.user.enable2FA,
+        //    };
         //res.status(302).redirect(url.href);
         //    res.cookie('jwt_token', token);
         //    return res.redirect('http://localhost:3000/users/me');

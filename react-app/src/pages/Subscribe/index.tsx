@@ -96,11 +96,15 @@ function Subscribe() {
     }
 
     function signup42(e: any) {
-        setParams((prevState: any) => ({
-            method: "GET",
-            url: "/auth/login42/callback",
-            data: { ...prevState.data },
-        }));
+        const checking = window.top;
+        if (checking !== null) {
+            checking.location = "http://localhost:3000/auth/login42";
+        }
+        //    setParams((prevState: any) => ({
+        //        method: "GET",
+        //        url: "/auth/login42/callback",
+        //        data: { ...prevState.data },
+        //    }));
     }
 
     /*

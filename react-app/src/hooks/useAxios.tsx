@@ -4,8 +4,6 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 axios.defaults.baseURL = `http://localhost:3000`;
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common["crossorigin"] = true;
-axios.defaults.headers.get["Access-Control-Allow-Origin"] =
-    "https://api.intra.42.fr/oauth";
 
 export const useAxios = (axiosParams: AxiosRequestConfig) => {
     const [response, setResponse] = useState<AxiosResponse>();
@@ -15,6 +13,7 @@ export const useAxios = (axiosParams: AxiosRequestConfig) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                console.log(axiosParams);
                 const res = await axios.request(axiosParams);
                 setResponse(res);
             } catch (err: any) {
@@ -27,8 +26,8 @@ export const useAxios = (axiosParams: AxiosRequestConfig) => {
         fetchData();
     }, [axiosParams]);
 
-    //    useEffect(() => {
-    //        fetchData();
-    //    }, [axiosParams]);
+    //  useEffect(() => {
+    //      fetchData();
+    //  }, [axiosParams]);
     return { response, error, loading };
 };

@@ -17,7 +17,7 @@ export class FtStrategy extends PassportStrategy(Strategy, "42") {
         super({
             clientID: config.get("FT_APP_UID"),
             clientSecret: config.get("FT_APP_SECRET"),
-            callbackURL: "http://127.0.0.1:3000/auth/login42/callback",
+            callbackURL: "http://localhost:3000/auth/login42/callback",
             profileFields: {
                 id: function (obj) {
                     return obj.id;

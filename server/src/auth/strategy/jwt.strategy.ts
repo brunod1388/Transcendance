@@ -34,8 +34,16 @@ export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
 
     private static extractFromCookie(req: Request): string | null {
         if (req.cookies && "JWTtoken" in req.cookies) {
+            console.log("Token successfully extracted from Cookie");
+            console.log("TOKEN IN VALIDATE: ", req.cookies.JWTtoken);
             return req.cookies.JWTtoken;
         }
+        console.log("FAILED to extract token from Cookie");
+        /*
+        if (req.cookies && "JWTtoken" in req.cookies) {
+            return req.cookies.JWTtoken;
+        }
+        */
         return null;
     }
 }
