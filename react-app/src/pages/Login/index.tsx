@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import "../../assets/styles/global.scss";
 // import { useUser } from "../../hooks/useTest";
-// import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import { useSocket } from "../../hooks";
 
 function Login() {
     const [err, setErr] = useState(false);
     // const navigate = useNavigate();
     // const user = useUser();
+    const [socket] = useSocket();
 
     async function handleSubmit(e: any) {
         e.preventDefault();
@@ -19,6 +21,10 @@ function Login() {
         console.log(`email: ${email}`);
         console.log(`password: ${password}`);
         setErr(err ? false : true);
+        socket.emit("findUserMail", {email}, (res?: string) => {
+
+        });
+
     }
 
     return (

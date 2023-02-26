@@ -1,7 +1,7 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Add from "../../assets/images/add-image.png";
-// import { useSocket } from "../../hooks/useSocket";
+import { useSocket } from "../../hooks/useSocket";
 
 import "../../assets/styles/global.scss";
 import { useAuth } from "../../context";
@@ -130,30 +130,30 @@ function Subscribe() {
         */
     }
 
-    // const [socket] = useSocket();
-    // function signup(e: any) {
-    //     console.log(test);
-    //     socket.emit(
-    //         "newUser",
-    //         {
-    //             username: e.target[0].value,
-    //             email: e.target[1].value,
-    //             password: e.target[2].value,
-    //             confirmPassword: e.target[3].value,
-    //         },
-    //         (res?: string) => {
-    //             console.log(res);
-    //         }
-    //     );
-    //     navigate("/", { replace: true });
-    // }
+    const [socket] = useSocket();
+    function signup(e: any) {
+        console.log(test);
+        socket.emit(
+            "newUser",
+            {
+                username: e.target[0].value,
+                email: e.target[1].value,
+                password: e.target[2].value,
+                confirmPassword: e.target[3].value,
+            },
+            (res?: string) => {
+                console.log(res);
+            }
+        );
+        navigate("/", { replace: true });
+    }
 
     return (
         <div className="form_container">
             <span className="logo">Transcendance</span>
             <div className="form_wrapper register">
                 <span className="title">Register</span>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={signup}>
                     <input type="text" placeholder="display name" />
                     <input type="email" placeholder="email" />
                     <input type="password" placeholder="password" />

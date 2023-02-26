@@ -12,6 +12,10 @@ const defaultUser = { id: -1, userName: "defaultUser", count: 0 };
 
 interface Props {}
 
+// export function useTestUser() {
+//     const [user, setUser] = 
+// }
+
 export function UserProvider(props: PropsWithChildren<Props>) {
     const user = useRef<any>(defaultUser);
 
