@@ -31,7 +31,7 @@ export class User {
     @Column({ nullable: true })
     password: string;
 
-    @Column({ nullable: true})
+    @Column({ nullable: true })
     avatar: string;
 
     // A default value can be set as follows @Column({ default: new Date() })

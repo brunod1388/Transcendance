@@ -1,49 +1,67 @@
-import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Sidebar from "../../components/chat/Sidebar";
 import Navbar from "../../components/chat/Navbar";
 import Chat from "../../components/chat/Chat";
 import { useAuth } from "../../context";
-//import { useAxios } from "../../hooks";
+import { useAxios } from "../../hooks";
+import { defaultUser } from "../../@types";
 import Cookies from "js-cookie";
-import axios from "axios";
+//import axios from "axios";
+import { AxiosRequestConfig } from "axios";
 import "./home.scss";
 
-axios.defaults.baseURL = `http://localhost:3000`;
-axios.defaults.withCredentials = true;
+//axios.defaults.baseURL = `http://localhost:3000`;
+//axios.defaults.withCredentials = true;
+
+const defaultRequest: AxiosRequestConfig = {
+    method: "",
+    url: "",
+};
 
 function Home() {
+    const [request, setRequest] = useState<AxiosRequestConfig>(defaultRequest);
+    const navigate = useNavigate();
     const { userAuth, token, updateUser, updateToken } = useAuth();
-    //    const { response } = useAxios({
-    //        method: "GET",
-    //        url: "users/me",
-    //    });
+    const { response, loading, error } = useAxios(request);
+
+    useEffect(() => {
+        let isMounted = true;
+
+        if (isMounted) {
+            setRequest({
+                method: "GET",
+                url: "/users/me",
+            });
+        }
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    useEffect(() => {
+        if (response !== undefined && userAuth === defaultUser) {
+            const jwtToken = Cookies.get("JWTtoken");
+            if (jwtToken && token === "") {
+                updateToken(jwtToken);
+            }
+            updateUser({
+                id: response.data.id,
+                username: response.data.username,
+                authStrategy: response.data.authStrategy,
+                enable2FA: response.data.enable2FA,
+            });
+        }
+    }, [response]);
+
+    useEffect(() => {
+        if (error?.response?.status === 401) {
+            console.log("*** UNAUTHORIZED USE OF THE SITE - PLEASE SIGNIN IN ***");
+            navigate('/login');
+        }
+    }, [error])
 
     /*
-    React.useEffect(() => {
-        if (response != undefined) {
-            console.log("RESPONSE DATA: ", response.data);
-        }
-    
-        const fetchUser = async() => {
-            if (Auth.jwt_token != "" && Auth.user.id == -1) {
-                try {
-                    const res = await axios.request({
-                        method: "GET",
-                        url: "/users/me",
-                    });
-                    if (res !== undefined) {
-                        console.log("DATA: ", res.data);
-                        updateUser(res.data);
-                    }
-                } catch (err: any) {
-                    console.log(err);
-                }
-            };
-        }
-    
-    }, [response]);
-    */
-
     React.useEffect(() => {
         let isMounted = true;
 
@@ -58,14 +76,18 @@ function Home() {
                     method: "GET",
                     url: "/users/me",
                 });
-                if (res !== undefined && isMounted) {
-                    //    console.log("DATA: ", res.data);
+                console.log("Response status code: ", res.status);
+                if (res !== undefined && isMounted && userAuth !== defaultUser) {
                     updateUser({
                         id: res.data.id,
                         username: res.data.username,
                         authStrategy: res.data.authStrategy,
                         enable2FA: res.data.enable2FA,
                     });
+                }
+                else if (res !== undefined && res.status === 401) {
+                    console.log("UNAUTHORISED USE OF THE SITE - PLEASE SIGNIN IN");
+                    navigate('/login');
                 }
             } catch (err: any) {
                 console.log(err);
@@ -78,12 +100,13 @@ function Home() {
         //        console.log("AUTH IN HOMEPAGE: ", Auth);
         //        console.log("RESPONSE DATA: ", response.data);
     }, []);
+    */
 
-    React.useEffect(() => {
+    useEffect(() => {
         console.log("AUTH user in homepage: ", userAuth);
     }, [userAuth]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         console.log("AUTH token in homepage: ", token);
     }, [token]);
 

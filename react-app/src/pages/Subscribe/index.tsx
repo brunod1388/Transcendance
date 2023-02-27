@@ -1,5 +1,5 @@
 import { useNavigate, Link } from "react-router-dom";
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect, FormEvent, MouseEvent } from "react";
 import Add from "../../assets/images/add-image.png";
 // import { useSocket } from "../../hooks/useSocket";
 import { AxiosRequestConfig } from "axios";
@@ -94,7 +94,7 @@ function SubscribePage({ setRequest }: Props) {
         setRequest((prev: AxiosRequestConfig) => ({ ...prev, data: data }));
     }
 
-    function signup42(e: any) {
+    function signup42(e: MouseEvent<HTMLButtonElement>) {
         const checking = window.location;
         if (checking !== null) {
             checking.href = "http://localhost:3000/auth/login42";

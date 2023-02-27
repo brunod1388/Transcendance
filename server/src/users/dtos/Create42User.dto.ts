@@ -19,6 +19,10 @@ export class Create42UserDto {
     @IsNotEmpty()
     email: string;
 
+    //@IsString()
+    //@IsNotEmpty()
+    //authStrategy: string;
+
     @IsBoolean()
     enable2FA: boolean;
 

@@ -18,6 +18,10 @@ export class CreateUserDto {
     @IsNotEmpty()
     confirmPassword: string;
 
+    //@IsString()
+    //@IsNotEmpty()
+    //authStrategy: string;
+
     @IsBoolean()
     enable2FA: boolean;
 

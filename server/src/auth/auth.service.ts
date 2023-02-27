@@ -146,10 +146,10 @@ export class AuthService {
         };
         const secret = this.config.get("JWT_SECRET");
 
-        // Once the token is provided to the user, the user will be able to perform actions on the platform for 15min
+        // Once the token is provided to the user, the user will be able to perform actions on the platform for 60min
         // After this time has expired, the token will be rejected and the sign in process will have to be restarted
         const token = await this.jwt.signAsync(payload, {
-            expiresIn: "15m",
+            expiresIn: "60m",
             secret: secret,
         });
 

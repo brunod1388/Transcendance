@@ -3,7 +3,7 @@ import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { Request } from "express";
-import { UsersService } from "../../users/users.service";
+import { UsersService } from "src/users/users.service";
 // import { User } from "../../users/entities/User.entity";
 
 // This class has a specific use case which is the validation of the access token

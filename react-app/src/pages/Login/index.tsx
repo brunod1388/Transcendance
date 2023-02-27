@@ -44,7 +44,7 @@ interface Props {
 function Login() {
     const navigate = useNavigate();
     const { userAuth, token, updateUser, updateToken } = useAuth();
-    const [ request, setRequest ] = useState<AxiosRequestConfig>(defaultRequest);
+    const [request, setRequest] = useState<AxiosRequestConfig>(defaultRequest);
     const { response, loading } = useAxios(request);
 
     useEffect(() => {
@@ -107,7 +107,11 @@ function LoginPage({ setRequest }: Props) {
                 <span className="title">Login</span>
                 <form onSubmit={handleSubmit}>
                     <input name="username" type="text" placeholder="username" />
-                    <input name="password" type="password" placeholder="password" />
+                    <input
+                        name="password"
+                        type="password"
+                        placeholder="password"
+                    />
                     <button>Sign in</button>
                     {err && <span>Something went wrong</span>}
                 </form>

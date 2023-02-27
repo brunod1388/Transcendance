@@ -17,6 +17,7 @@ import { FortyTwoGuard } from "./guard/FortyTwo.guard";
 import { GetUser } from "./decorator";
 import { User } from "../users/entities/User.entity";
 import { Create42UserDto } from "../users/dtos/Create42User.dto";
+import { JwtGuard } from "./guard";
 
 // In order to call the functions of the AuthService class, the AuthController will
 // have to instantiate a AuthService class. To avoid explicit
@@ -150,5 +151,16 @@ export class AuthController {
         //res.status(302).redirect(url.href);
         //    res.cookie('jwt_token', token);
         //    return res.redirect('http://localhost:3000/users/me');
+    }
+
+    @UseGuards(JwtGuard)
+    @Get("logout")
+    logout(@Res({ passthrough: true }) res: Response) {
+        // Clearing the cookies will ensure that the routes protected by the JWTGuard
+        // are no longer authorized and a login will have to be performed so that a new
+        // jwt token is generated
+        res.clearCookie("JWTtoken");
+    //    res.setHeader("Access-Control-Allow-Origin", "*");
+        return res.redirect("http://localhost:9000/login");
     }
 }
