@@ -5,7 +5,7 @@ import avatar from "../../../assets/images/smile.png";
 import axios from "axios";
 import { useAuth } from "../../../context";
 import { defaultUser } from "../../../@types";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 axios.defaults.baseURL = `http://localhost:3000`;
 axios.defaults.withCredentials = true;
@@ -24,18 +24,18 @@ export default function TopChatbar() {
     //}, [token]);
 
     function logout(e: MouseEvent<HTMLButtonElement>) {
-            updateUser(defaultUser);
-            updateToken("");
-            Cookies.remove("JWTtoken", { sameSite: 'none', secure: true });
-            navigate('/login');
+        updateUser(defaultUser);
+        updateToken("");
+        Cookies.remove("JWTtoken", { sameSite: "none", secure: true });
+        navigate("/login");
     }
 
     return (
         <div className="topChatBar">
             <span className="logo">ChannelName</span>
             <div className="user">
-                <img src={avatar} alt="" />
-                <span>Kikou</span>
+                <img src={userAuth.avatar} alt="" />
+                <span>{userAuth.username}</span>
                 <button className="button-purple" onClick={logout}>
                     logout
                 </button>

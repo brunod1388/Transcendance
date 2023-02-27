@@ -8,29 +8,29 @@ export type CreateUserParams = {
     username: string;
     email: string;
     password: string;
-    enable2FA: boolean;
-    code2FA: string;
 };
 
 export type Create42UserParams = {
     idFortyTwo: number;
     username: string;
     email: string;
-    enable2FA: boolean;
-    code2FA: string;
+    authStrategy: string;
+    avatar: string;
 };
 
 export type UpdateUserParams = {
-    username: string;
-    email: string;
-    password: string;
-    enable2FA: boolean;
-    code2FA: string;
+    username?: string;
+    email?: string;
+    password?: string;
+    enable2FA?: boolean;
+    code2FA?: string;
+    avatar?: string;
 };
 
 export type Update42UserParams = {
-    username: string;
-    email: string;
-    enable2FA: boolean;
-    code2Fa: string;
+    username?: string;
+    email?: string;
+    enable2FA?: boolean;
+    code2Fa?: string;
+    avatar?: string;
 };

@@ -16,8 +16,6 @@ interface DataType {
     email: string;
     password: string;
     confirmPassword: string;
-    enable2FA: boolean;
-    code2FA: string;
 }
 
 const defaultDataType: DataType = {
@@ -25,8 +23,6 @@ const defaultDataType: DataType = {
     email: "",
     password: "",
     confirmPassword: "",
-    enable2FA: false,
-    code2FA: "",
 };
 
 const defaultRequest: AxiosRequestConfig = {
@@ -86,8 +82,6 @@ function SubscribePage({ setRequest }: Props) {
             email: target.email.value,
             password: target.password.value,
             confirmPassword: target.confirmPassword.value,
-            enable2FA: false,
-            code2FA: "",
         };
         console.log(data);
         console.log("handleSubmit launched");

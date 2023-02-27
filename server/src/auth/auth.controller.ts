@@ -12,11 +12,13 @@ import {
 import { Response } from "express";
 import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto";
-import { CreateUserDto } from "../users/dtos/UserValidation.dto";
+import {
+    CreateUserDto,
+    Create42UserDto,
+} from "../users/dtos/UserValidation.dto";
 import { FortyTwoGuard } from "./guard/FortyTwo.guard";
 import { GetUser } from "./decorator";
 import { User } from "../users/entities/User.entity";
-import { Create42UserDto } from "../users/dtos/Create42User.dto";
 import { JwtGuard } from "./guard";
 
 // In order to call the functions of the AuthService class, the AuthController will
@@ -48,16 +50,17 @@ export class AuthController {
                 secure: true,
             });
 
-            if (dto.enable2FA) {
-                const { confirmPassword, ...userDetails } = dto;
-                return this.authService.activate2FA(ret["user"], userDetails);
-            }
+            //    if (dto.enable2FA) {
+            //        const { confirmPassword, ...userDetails } = dto;
+            //        return this.authService.activate2FA(ret["user"], userDetails);
+            //    }
 
             //  the validated dto (data transfer object) is passed to the auth.Service
             //  return this.authService.signup(dto, response);
             return {
                 id: ret["user"]["id"],
                 username: ret["user"]["username"],
+                avatar: ret["user"]["avatar"],
                 authStrategy: ret["user"]["authStrategy"],
                 enable2FA: ret["user"]["enable2FA"],
             };
@@ -83,15 +86,16 @@ export class AuthController {
                 secure: true,
             });
 
-            if (ret.user && ret.user.enable2FA) {
-                return this.authService.verify2FAcode(dto.code2FA, ret["user"]);
-            }
+            //    if (ret.user && ret.user.enable2FA) {
+            //        return this.authService.verify2FAcode(dto.code2FA, ret["user"]);
+            //    }
 
             //  the validated dto (data transfer object) is passed to the auth.Service
             //  return this.authService.signup(dto, response);
             return {
                 id: ret["user"]["id"],
                 username: ret["user"]["username"],
+                avatar: ret["user"]["avatar"],
                 authStrategy: ret["user"]["authStrategy"],
                 enable2FA: ret["user"]["enable2FA"],
             };
@@ -101,6 +105,12 @@ export class AuthController {
         }
 
         //return this.authService.signin(dto);
+    }
+
+    @UseGuards(JwtGuard)
+    @Post("enable2FA")
+    async enable2FA(@Body() id: number) {
+        return this.authService.activate2FA(id);
     }
 
     @UseGuards(FortyTwoGuard)
@@ -117,8 +127,8 @@ export class AuthController {
             idFortyTwo: req.user.idFortyTwo,
             username: req.user.login,
             email: req.user.email,
-            enable2FA: false,
-            code2FA: "",
+            authStrategy: "42",
+            avatar: req.user.avatar,
         };
         //    const token = this.authService.signToken(user.id, user.username, user.email);
 
@@ -160,7 +170,7 @@ export class AuthController {
         // are no longer authorized and a login will have to be performed so that a new
         // jwt token is generated
         res.clearCookie("JWTtoken");
-    //    res.setHeader("Access-Control-Allow-Origin", "*");
+        //    res.setHeader("Access-Control-Allow-Origin", "*");
         return res.redirect("http://localhost:9000/login");
     }
 }

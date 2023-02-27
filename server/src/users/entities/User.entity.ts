@@ -39,13 +39,13 @@ export class User {
     @Column()
     createdAt: Date;
 
-    // A nullable property allows the field to be null as default if no value is passed (i.e. optional)
-    @Column({ nullable: true })
+    @Column({ default: "password" })
     authStrategy: string;
 
     @Column({ default: false })
     enable2FA: boolean;
 
+    // A nullable property allows the field to be null as default if no value is passed (i.e. optional)
     @Column({ nullable: true })
     code2FA: string;
 

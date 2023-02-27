@@ -48,6 +48,7 @@ function Home() {
             updateUser({
                 id: response.data.id,
                 username: response.data.username,
+                avatar: response.data.avatar,
                 authStrategy: response.data.authStrategy,
                 enable2FA: response.data.enable2FA,
             });
@@ -56,10 +57,12 @@ function Home() {
 
     useEffect(() => {
         if (error?.response?.status === 401) {
-            console.log("*** UNAUTHORIZED USE OF THE SITE - PLEASE SIGNIN IN ***");
-            navigate('/login');
+            console.log(
+                "*** UNAUTHORIZED USE OF THE SITE - PLEASE SIGNIN IN ***"
+            );
+            navigate("/login");
         }
-    }, [error])
+    }, [error]);
 
     /*
     React.useEffect(() => {

@@ -66,8 +66,8 @@ export class FtStrategy extends PassportStrategy(Strategy, "42") {
                 idFortyTwo: profile.id,
                 username: profile.login,
                 email: profile.email,
-                enable2FA: false,
-                code2FA: "",
+                authStrategy: "42",
+                avatar: profile.photo,
             });
         }
         return user;

@@ -1,4 +1,10 @@
-import { IsEmail, IsNotEmpty, IsString, IsBoolean } from "class-validator";
+import {
+    IsEmail,
+    IsNotEmpty,
+    IsNumber,
+    IsString,
+    IsBoolean,
+} from "class-validator";
 
 export class CreateUserDto {
     @IsString()
@@ -18,18 +24,42 @@ export class CreateUserDto {
     @IsNotEmpty()
     confirmPassword: string;
 
+    //@IsBoolean()
+    //enable2FA: boolean;
+
     //@IsString()
-    //@IsNotEmpty()
-    //authStrategy: string;
-
-    @IsBoolean()
-    enable2FA: boolean;
-
-    @IsString()
-    code2FA: string;
+    //code2FA: string;
 }
 
 export class UpdateUserDto {
+    @IsString()
+    @IsNotEmpty()
+    username?: string;
+
+    @IsEmail()
+    @IsNotEmpty()
+    email?: string;
+
+    @IsString()
+    @IsNotEmpty()
+    password?: string;
+
+    @IsBoolean()
+    enable2FA?: boolean;
+
+    @IsString()
+    code2FA?: string;
+
+    @IsString()
+    @IsNotEmpty()
+    avatar?: string;
+}
+
+export class Create42UserDto {
+    @IsNumber()
+    @IsNotEmpty()
+    idFortyTwo: number;
+
     @IsString()
     @IsNotEmpty()
     username: string;
@@ -40,11 +70,37 @@ export class UpdateUserDto {
 
     @IsString()
     @IsNotEmpty()
-    password: string;
-
-    @IsBoolean()
-    enable2FA: boolean;
+    authStrategy: string;
 
     @IsString()
-    code2FA: string;
+    @IsNotEmpty()
+    avatar: string;
+
+    //@IsBoolean()
+    //enable2FA: boolean;
+
+    //@IsString()
+    //code2FA: string;
+}
+
+export class Update42UserDto {
+    @IsString()
+    @IsNotEmpty()
+    username?: string;
+
+    @IsEmail()
+    @IsNotEmpty()
+    email?: string;
+
+    @IsBoolean()
+    @IsNotEmpty()
+    enable2FA?: boolean;
+
+    @IsString()
+    @IsNotEmpty()
+    code2FA?: string;
+
+    @IsString()
+    @IsNotEmpty()
+    avatar?: string;
 }

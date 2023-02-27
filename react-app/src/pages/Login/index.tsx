@@ -22,13 +22,11 @@ import { SetStateType } from "../../@types";
 interface DataType {
     username: string;
     password: string;
-    code2FA: string;
 }
 
 const defaultDataType: DataType = {
     username: "",
     password: "",
-    code2FA: "",
 };
 
 const defaultRequest: AxiosRequestConfig = {
@@ -86,7 +84,6 @@ function LoginPage({ setRequest }: Props) {
         const data: DataType = {
             username: target.username.value,
             password: target.password.value,
-            code2FA: "",
         };
         console.log(data);
         console.log("handleSubmit launched");

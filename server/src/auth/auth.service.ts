@@ -1,10 +1,18 @@
-import { ForbiddenException, Injectable } from "@nestjs/common";
+import {
+    ForbiddenException,
+    NotFoundException,
+    Injectable,
+} from "@nestjs/common";
 //import { User, Bookmark } from "@prisma/client";
 //import { PrismaService } from "src/prisma/prisma.service";
 import { UsersService } from "../users/users.service";
 import { User } from "../users/entities/User.entity";
 import { AuthDto } from "./dto";
-import { CreateUserDto, UpdateUserDto } from "../users/dtos/UserValidation.dto";
+import {
+    CreateUserDto,
+    UpdateUserDto,
+    Create42UserDto,
+} from "../users/dtos/UserValidation.dto";
 import * as argon from "argon2";
 //import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { JwtService } from "@nestjs/jwt";
@@ -12,7 +20,7 @@ import { ConfigService } from "@nestjs/config";
 import * as speakeasy from "speakeasy";
 import * as QRCode from "qrcode";
 import { Response } from "express";
-import { Create42UserDto } from "../users/dtos/Create42User.dto";
+//import { Create42UserDto } from "../users/dtos/Create42User.dto";
 
 @Injectable()
 export class AuthService {
@@ -80,9 +88,19 @@ export class AuthService {
     */
     }
 
-    async activate2FA(user: User, dto: UpdateUserDto) {
+    //async activate2FA(user: User, dto: UpdateUserDto) {
+    async activate2FA(id: number) {
+        const user = await this.usersService.findUserId(id);
+        if (user === null || user === undefined) {
+            throw new NotFoundException(
+                "The specified id does not match an existing user"
+            );
+        }
         const secret = this.generate2FAsecret();
-        dto.code2FA = secret.base32;
+        const dto: UpdateUserDto = {
+            enable2FA: true,
+            code2FA: secret.base32,
+        };
         const updated = await this.usersService.updateUser(user.id, dto);
         console.log("Updated user: ", updated);
         const dataURL = await QRCode.toDataURL(secret.otpauthUrl);
@@ -111,16 +129,23 @@ export class AuthService {
         });
     */
         const user = await this.usersService.findUser(dto.username);
-        let valid2FA = false;
-        if (user && user.enable2FA && user.code2FA != "") {
-            valid2FA = this.verify2FAcode(dto.code2FA, user);
+        if (user && user.authStrategy === "42") {
+            throw new ForbiddenException(
+                "Password authentication not possible - user with 42 authStrategy"
+            );
         }
+
+        //let valid2FA = false;
+        //if (user && user.enable2FA && user.code2FA != "") {
+        //    valid2FA = this.verify2FAcode(dto.code2FA, user);
+        //}
+
         // if user does not exist, throw exception (guard condition)
         if (!user) throw new ForbiddenException("Credentials incorrect");
         // compare password (user.password is hashed; dto.password is plain text)
         const pwMatches = await argon.verify(user.password, dto.password);
         // if password incorrent, throw exception
-        if (!pwMatches || (user.enable2FA && !valid2FA))
+        if (!pwMatches)
             throw new ForbiddenException("Credentials incorrect");
 
         const token = await this.signToken(user.id, user.username, user.email);

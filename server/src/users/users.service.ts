@@ -35,25 +35,26 @@ export class UsersService {
 
     findUserId(id: number) {
         // console.log('id: ', typeof id);
-        // if (typeof id === "number") {
-        return this.userRepository.findOne({
-            where: { id: id },
-        });
-        //  }
+    //    if (typeof id === "number") {
+            return this.userRepository.findOne({
+                where: { id: id },
+            });
+    //    }
 
-        //  return undefined;
+    //    return undefined;
     }
 
     findUserIdFortyTwo(idFT: number) {
         //    if (idFortyTwo !== null) {
         console.log("User Service argument: ", idFT);
         console.log("User Service argument_TYPE: ", typeof idFT);
-        return this.userRepository.findOne({
-            where: { idFortyTwo: idFT },
-        });
-        //    }
+    //    if (typeof idFT === "number") {
+            return this.userRepository.findOne({
+                where: { idFortyTwo: idFT },
+            });
+    //    }
 
-        //    return undefined;
+    //    return undefined;
     }
 
     // The type annotation for userDetails argument is CreateUserParams (custom type defined in utils folder)

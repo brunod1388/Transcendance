@@ -26,11 +26,12 @@
 // 	token: "",
 // };
 
-export type Strategy = "42" | "password" | null;
+export type Strategy = "42" | "password";
 
 export interface AuthUser {
     id: number;
     username: string;
+    avatar: string;
     authStrategy: Strategy;
     enable2FA: boolean;
 }
@@ -52,7 +53,8 @@ export interface AuthContextType {
 export const defaultUser: AuthUser = {
     id: 0,
     username: "",
-    authStrategy: "42",
+    avatar: "",
+    authStrategy: "password",
     enable2FA: false,
 };
 
