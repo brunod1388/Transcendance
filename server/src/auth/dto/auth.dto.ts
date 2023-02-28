@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class AuthDto {
     @IsString()
@@ -13,6 +13,17 @@ export class AuthDto {
     @IsNotEmpty()
     password: string;
 
-//    @IsString()
-//    code2FA: string;
+    //    @IsString()
+    //    code2FA: string;
+}
+
+export class userIdDTO {
+    @IsNumber()
+    @IsNotEmpty()
+    id: number;
+}
+
+export class TFverifyDTO {
+    id: number;
+    code: string;
 }

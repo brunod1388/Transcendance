@@ -55,7 +55,7 @@ function Login() {
 
     useEffect(() => {
         if (loading === false && response?.status === 200) {
-            navigate("/home");
+            navigate("/twofactor");
         }
     }, [loading, response]);
 

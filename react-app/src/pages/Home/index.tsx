@@ -23,7 +23,7 @@ function Home() {
     const [request, setRequest] = useState<AxiosRequestConfig>(defaultRequest);
     const navigate = useNavigate();
     const { userAuth, token, updateUser, updateToken } = useAuth();
-    const { response, loading, error } = useAxios(request);
+    const { response, error } = useAxios(request);
 
     useEffect(() => {
         let isMounted = true;

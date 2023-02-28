@@ -11,6 +11,17 @@ export const useAxios = (axiosParams: AxiosRequestConfig) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        console.log("Inside useAxios: ", axiosParams);
+        console.log(
+            "Type of id: ",
+            typeof axiosParams?.data?.id,
+            axiosParams.data.id
+        );
+        console.log(
+            "Type of code: ",
+            typeof axiosParams?.data?.code,
+            axiosParams.data.code
+        );
         const fetchData = async () => {
             try {
                 console.log(axiosParams);

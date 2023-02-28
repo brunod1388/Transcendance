@@ -9,6 +9,7 @@ import Subscribe from "./pages/Subscribe";
 import Test from "./pages/TestPage";
 import { useInvitation } from "./hooks";
 import PongPage from "./pages/Pong";
+import TwoFactorAuth from "./pages/Enable2FA";
 
 function App() {
     // in the future use this to be sur to not access to the chat if no authentified
@@ -40,6 +41,7 @@ function App() {
                 <Route path="test" element={<Test />} />
                 <Route path="play" element={<Play />} />
                 <Route path="pong" element={<PongPage />} />
+                <Route path="twofactor" element={<TwoFactorAuth />} />
                 {/* <EventLayer /> */}
             </Route>
         </Routes>

@@ -11,7 +11,7 @@ import {
 } from "@nestjs/common";
 import { Response } from "express";
 import { AuthService } from "./auth.service";
-import { AuthDto } from "./dto";
+import { AuthDto, userIdDTO, TFverifyDTO } from "./dto";
 import {
     CreateUserDto,
     Create42UserDto,
@@ -109,8 +109,15 @@ export class AuthController {
 
     @UseGuards(JwtGuard)
     @Post("enable2FA")
-    async enable2FA(@Body() id: number) {
-        return this.authService.activate2FA(id);
+    async enable2FA(@Body() dto: userIdDTO) {
+        return this.authService.activate2FA(dto.id);
+    }
+
+    @UseGuards(JwtGuard)
+    @Get("verify2FA")
+    async verify2FA(@Body() dto: TFverifyDTO) {
+        console.log("In authController: ", dto["code"], dto["id"]);
+        return this.authService.verify2FAcode(dto.code, dto.id);
     }
 
     @UseGuards(FortyTwoGuard)
