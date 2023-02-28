@@ -7,7 +7,7 @@ export default function Search() {
             <div className="searchForm">
                 <input type="text" placeholder="type a user" />
             </div>
-            <User keyId="searchUser"/>
+            <User keyId="searchUser" />
         </div>
     );
 }

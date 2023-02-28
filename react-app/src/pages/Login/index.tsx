@@ -3,28 +3,41 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import "../../assets/styles/global.scss";
-// import { useUser } from "../../hooks/useTest";
-import {useNavigate} from "react-router-dom";
+import { useUser } from "../../context/test-context";
+import { useNavigate } from "react-router-dom";
 import { useSocket } from "../../hooks";
+
+interface user {
+    id: number;
+    username: string;
+}
 
 function Login() {
     const [err, setErr] = useState(false);
     // const navigate = useNavigate();
-    // const user = useUser();
+    const user = useUser();
     const [socket] = useSocket();
 
     async function handleSubmit(e: any) {
         e.preventDefault();
         const email = e.target[0].value;
         const password = e.target[1].value;
-
-        console.log(`email: ${email}`);
-        console.log(`password: ${password}`);
-        setErr(err ? false : true);
-        socket.emit("findUserMail", {email}, (res?: string) => {
-
-        });
-
+        console.log(`user:`);
+        console.log(user.user);
+        try {
+            socket.emit("findUserByMail", { email },
+                (res?: user | string) => {
+                    console.log("respone:");
+                    if (res === "not found")
+                        console.log("Pas vetrou");
+                    else if (typeof res === user){
+                        console.log(res);
+                        // user.setUser( )
+                    }
+                });
+            } catch (error) {
+                setErr(err ? false : true);
+        }
     }
 
     return (

@@ -132,7 +132,7 @@ function Subscribe() {
 
     const [socket] = useSocket();
     function signup(e: any) {
-        console.log(test);
+        console.log("TEST");
         socket.emit(
             "newUser",
             {
@@ -145,7 +145,7 @@ function Subscribe() {
                 console.log(res);
             }
         );
-        navigate("/", { replace: true });
+        // navigate("/", { replace: true });
     }
 
     return (
