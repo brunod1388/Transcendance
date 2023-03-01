@@ -37,17 +37,17 @@ interface Props {
 
 function Subscribe() {
     const navigate = useNavigate();
-    const { userAuth, token, updateUser, updateToken } = useAuth();
+    //const { userAuth, token, updateUser, updateToken } = useAuth();
     const [request, setRequest] = useState<AxiosRequestConfig>(defaultRequest);
     const { response, loading } = useAxios(request);
 
-    useEffect(() => {
-        console.log("Updated userAuth: ", userAuth);
-    }, [userAuth]);
+    // useEffect(() => {
+    //     console.log("Updated userAuth: ", userAuth);
+    // }, [userAuth]);
 
-    useEffect(() => {
-        console.log("Updated Auth: ", token);
-    }, [token]);
+    // useEffect(() => {
+    //     console.log("Updated Auth: ", token);
+    // }, [token]);
 
     useEffect(() => {
         if (loading === false && response?.status === 201) {
@@ -55,18 +55,18 @@ function Subscribe() {
         }
     }, [loading, response]);
 
-    useEffect(() => {
-        console.log(`statut: ${response?.status}`);
-        console.log(`data: ${response?.data}`);
-        const token = Cookies.get("JWTtoken");
-        console.log("Response cookie: ", token);
-        if (token) {
-            updateToken(token);
-        }
-        if (response !== undefined) {
-            updateUser(response.data);
-        }
-    }, [response]);
+    // useEffect(() => {
+    //     console.log(`statut: ${response?.status}`);
+    //     console.log(`data: ${response?.data}`);
+    //     const token = Cookies.get("JWTtoken");
+    //     console.log("Response cookie: ", token);
+    //     if (token) {
+    //         updateToken(token);
+    //     }
+    //     if (response !== undefined) {
+    //         updateUser(response.data);
+    //     }
+    // }, [response]);
 
     return <SubscribePage setRequest={setRequest} />;
 }

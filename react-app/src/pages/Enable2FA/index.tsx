@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState, FormEvent } from "react";
 import { AxiosRequestConfig } from "axios";
 import { useAuth } from "../../context";
@@ -6,18 +6,15 @@ import { useAxios } from "../../hooks";
 
 interface DataType {
     code: string;
-    id: number;
 }
 
 const defaultDataType: DataType = {
     code: "",
-    id: 0,
 };
 
 const defaultRequest: AxiosRequestConfig = {
-    method: "",
-    url: "",
-    data: {},
+    method: "GET",
+    url: "/auth/enable2FA",
 };
 
 const defaultVerifyRequest: AxiosRequestConfig = {
@@ -33,36 +30,28 @@ interface Props {
 function TwoFactorAuth() {
     //const navigate = useNavigate();
 
-    const [request, setRequest] = useState<AxiosRequestConfig>(defaultRequest);
+    const [request] = useState<AxiosRequestConfig>(defaultRequest);
     const [code, setCode] = useState<string>("");
     const { response } = useAxios(request);
     const { userAuth } = useAuth();
 
-    useEffect(() => {
-        let isMounted = true;
-        if (isMounted) {
-            setRequest({
-                method: "POST",
-                url: "/auth/enable2FA",
-                data: { id: Number(userAuth.id) },
-            });
-        }
-        return () => {
-            isMounted = false;
-        };
-    }, []);
+    // useEffect(() => {
+    //     let isMounted = true;
+    //     if (isMounted) {
+    //         setRequest({
+    //             method: "GET",
+    //             url: "/auth/enable2FA",
+    //         });
+    //     }
+    //     return () => {
+    //         isMounted = false;
+    //     };
+    // }, []);
 
     useEffect(() => {
-        let isMounted = true;
-
-        if (isMounted) {
-            if (response?.data?.url) {
-                setCode(response.data.url);
-            }
+        if (response?.data?.url) {
+            setCode(response.data.url);
         }
-        return () => {
-            isMounted = false;
-        };
     }, [response]);
 
     return <TwoFactorAuthPage qrcode={code} />;
@@ -71,15 +60,13 @@ function TwoFactorAuth() {
 function TwoFactorAuthPage({ qrcode }: Props) {
     const [request, setRequest] =
         useState<AxiosRequestConfig>(defaultVerifyRequest);
-    const { response } = useAxios(request);
+    const { response, error } = useAxios(request);
     const { userAuth, updateUser } = useAuth();
     const navigate = useNavigate();
 
-    const [err, setErr] = useState(false);
-
     useEffect(() => {
-        console.log("Response: ", response);
-        if (response?.data === true) {
+        //console.log("Response in 2FA: ", response);
+        if (response?.status === 201) {
             updateUser({
                 id: userAuth.id,
                 username: userAuth.username,
@@ -88,43 +75,40 @@ function TwoFactorAuthPage({ qrcode }: Props) {
                 enable2FA: true,
             });
             navigate("/home");
-        } else {
-            setErr(true);
         }
     }, [response]);
 
     useEffect(() => {
-        console.log("Request variable: ", request);
-    }, [request]);
+        //console.log("Error in 2FA: ", error);
+    }, [error])
 
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const target = e.currentTarget;
-        console.log("handleSubmit launched");
         const dto: DataType = {
             code: String(target.code.value),
-            id: Number(userAuth.id),
         };
         setRequest({
-            method: "GET",
-            url: "/auth/verify2FA",
+            method: "POST",
+            url: "/auth/activate2FA",
             data: dto,
         });
-
-        console.log("Code: ", target.code.value);
     }
 
     return (
         <div className="form_container">
+            <span className="logo">Two Factor Authentication</span>
             <div className="form_wrapper">
-                <span className="logo">Transcendance</span>
-                <span className="title">Two Factor Authentication</span>
+                <span className="title">Scan QR with Google Authenticator then input code below </span>
                 <img src={qrcode} />
                 <form onSubmit={handleSubmit}>
                     <input name="code" type="text" placeholder="code" />
-                    <button>Verify and complete two factor activation</button>
-                    {err && <span>Something went wrong</span>}
+                    <button>Verify code and complete two factor activation</button>
+                    {error?.response?.status != 404 && <span>Verification code incorrect</span>}
                 </form>
+                <p className="detail">
+                    Cancel activation of Two Factor Authentication? <Link to="/home">Home</Link>
+                </p>
             </div>
         </div>
     );

@@ -17,13 +17,14 @@ export class AuthDto {
     //    code2FA: string;
 }
 
-export class userIdDTO {
-    @IsNumber()
-    @IsNotEmpty()
-    id: number;
-}
+// export class userIdDTO {
+//     @IsNumber()
+//     @IsNotEmpty()
+//     id: number;
+// }
 
 export class TFverifyDTO {
-    id: number;
+    @IsString()
+    @IsNotEmpty()
     code: string;
 }

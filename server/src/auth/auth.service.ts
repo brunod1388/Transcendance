@@ -89,7 +89,7 @@ export class AuthService {
     }
 
     //async activate2FA(user: User, dto: UpdateUserDto) {
-    async activate2FA(id: number) {
+    async enable2FA(id: number) {
         const user = await this.usersService.findUserId(id);
         if (user === null || user === undefined) {
             throw new NotFoundException(
@@ -110,6 +110,34 @@ export class AuthService {
         //    });
         //return { url: secret.otpauthUrl };
         return { url: dataURL };
+    }
+
+    async disactivate2FA(id: number) {
+        const user = await this.usersService.findUserId(id);
+        if (user === null || user === undefined) {
+            throw new NotFoundException(
+                "The specified id does not match an existing user"
+            );
+        }
+        const dto: UpdateUserDto = {
+            enable2FA: false,
+        };
+        const updated = await this.usersService.updateUser(user.id, dto);
+        console.log("Updated user: ", updated);
+    }
+
+    async activate2FA(id: number) {
+        const user = await this.usersService.findUserId(id);
+        if (user === null || user === undefined) {
+            throw new NotFoundException(
+                "The specified id does not match an existing user"
+            );
+        }
+        const dto: UpdateUserDto = {
+            enable2FA: true,
+        };
+        const updated = await this.usersService.updateUser(user.id, dto);
+        console.log("Updated user: ", updated);
     }
 
     async login42(dto: Create42UserDto) {

@@ -1,6 +1,7 @@
 import {
     Body,
     Controller,
+    ForbiddenException,
     Get,
     HttpCode,
     HttpStatus,
@@ -11,7 +12,7 @@ import {
 } from "@nestjs/common";
 import { Response } from "express";
 import { AuthService } from "./auth.service";
-import { AuthDto, userIdDTO, TFverifyDTO } from "./dto";
+import { AuthDto, TFverifyDTO } from "./dto";
 import {
     CreateUserDto,
     Create42UserDto,
@@ -108,16 +109,30 @@ export class AuthController {
     }
 
     @UseGuards(JwtGuard)
-    @Post("enable2FA")
-    async enable2FA(@Body() dto: userIdDTO) {
-        return this.authService.activate2FA(dto.id);
+    @Get("enable2FA")
+    async enable2FA(@Request() req) {
+        const dataURL = this.authService.enable2FA(req.user.id);
+        await this.authService.disactivate2FA(req.user.id);
+        return dataURL;
     }
 
     @UseGuards(JwtGuard)
-    @Get("verify2FA")
-    async verify2FA(@Body() dto: TFverifyDTO) {
-        console.log("In authController: ", dto["code"], dto["id"]);
-        return this.authService.verify2FAcode(dto.code, dto.id);
+    @Post("activate2FA")
+    async activate2FA(
+        @Request() req, 
+        @Body() dto: TFverifyDTO
+    ) {
+        const isVerified = await this.authService.verify2FAcode(dto.code, req.user.id);
+        if (!isVerified) {
+            throw new ForbiddenException("Verifictation code incorrect");
+        }
+        await this.authService.activate2FA(req.user.id);
+    }
+
+    @UseGuards(JwtGuard)
+    @Post("verify2FA")
+    async verify2FA(@Request() req,@Body() dto: TFverifyDTO) {
+        return this.authService.verify2FAcode(dto.code, req.user.id);
     }
 
     @UseGuards(FortyTwoGuard)
