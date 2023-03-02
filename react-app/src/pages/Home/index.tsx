@@ -5,53 +5,53 @@ import Navbar from "../../components/chat/Navbar";
 import Chat from "../../components/chat/Chat";
 import { useAuth } from "../../context";
 import { useAxios } from "../../hooks";
-import { defaultUser } from "../../@types";
-import Cookies from "js-cookie";
+//import { defaultUser } from "../../@types";
+//import Cookies from "js-cookie";
 //import axios from "axios";
 import { AxiosRequestConfig } from "axios";
 import "./home.scss";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 //axios.defaults.baseURL = `http://localhost:3000`;
 //axios.defaults.withCredentials = true;
 
 const defaultRequest: AxiosRequestConfig = {
-    method: "",
-    url: "",
+    method: "GET",
+    url: "/users/me",
 };
 
 function Home() {
-    const [request, setRequest] = useState<AxiosRequestConfig>(defaultRequest);
+    const [request] = useState<AxiosRequestConfig>(defaultRequest);
     const navigate = useNavigate();
-    const { userAuth, token, updateUser, updateToken } = useAuth();
+    const { userAuth } = useAuth();
+    const { setItem, removeItem } = useLocalStorage();
     const { response, error } = useAxios(request);
 
-    useEffect(() => {
-        let isMounted = true;
+    // useEffect(() => {
+    //     let isMounted = true;
 
-        if (isMounted) {
-            setRequest({
-                method: "GET",
-                url: "/users/me",
-            });
-        }
-        return () => {
-            isMounted = false;
-        };
-    }, []);
+    //     if (isMounted) {
+    //         setRequest({
+    //             method: "GET",
+    //             url: "/users/me",
+    //         });
+    //     }
+    //     return () => {
+    //         isMounted = false;
+    //     };
+    // }, []);
 
     useEffect(() => {
-        if (response !== undefined && userAuth === defaultUser) {
-            const jwtToken = Cookies.get("JWTtoken");
-            if (jwtToken && token === "") {
-                updateToken(jwtToken);
-            }
-            updateUser({
+        if (response !== undefined) {
+            const user = {
                 id: response.data.id,
                 username: response.data.username,
                 avatar: response.data.avatar,
                 authStrategy: response.data.authStrategy,
                 enable2FA: response.data.enable2FA,
-            });
+            };
+            setItem("user", JSON.stringify(user));
+            //updateUser();
         }
     }, [response]);
 
@@ -60,6 +60,7 @@ function Home() {
             console.log(
                 "*** UNAUTHORIZED USE OF THE SITE - PLEASE SIGNIN IN ***"
             );
+            removeItem("user");
             navigate("/login");
         }
     }, [error]);
@@ -108,10 +109,6 @@ function Home() {
     useEffect(() => {
         console.log("AUTH user in homepage: ", userAuth);
     }, [userAuth]);
-
-    useEffect(() => {
-        console.log("AUTH token in homepage: ", token);
-    }, [token]);
 
     return (
         <div className="home">

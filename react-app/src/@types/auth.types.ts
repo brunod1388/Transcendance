@@ -36,18 +36,18 @@ export interface AuthUser {
     enable2FA: boolean;
 }
 
-export type Token = string;
+//export type Token = string;
 
 export interface AuthType {
     userAuth: AuthUser;
-    token: Token;
+    //isAuth: boolean;
 }
 
 export interface AuthContextType {
     userAuth: AuthUser;
-    token: Token;
-    updateUser: (newUser: AuthUser) => void;
-    updateToken: (newToken: Token) => void;
+    //isAuth: boolean;
+    updateUser: () => void;
+    //switchIsAuth: () => void;
 }
 
 export const defaultUser: AuthUser = {
@@ -60,7 +60,7 @@ export const defaultUser: AuthUser = {
 
 export const defaultContext: AuthContextType = {
     userAuth: defaultUser,
-    token: "",
-    updateUser: (newUser: AuthUser) => {},
-    updateToken: (newToken: Token) => {},
+    //isAuth: false,
+    updateUser: () => {},
+    //switchIsAuth: () => {},
 };

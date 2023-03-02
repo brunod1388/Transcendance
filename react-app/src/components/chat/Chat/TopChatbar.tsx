@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, MouseEvent } from "react";
+import { MouseEvent } from "react";
 // import { useContext } from "react";
-import avatar from "../../../assets/images/smile.png";
+//import avatar from "../../../assets/images/smile.png";
 import axios from "axios";
 import { useAuth } from "../../../context";
-import { defaultUser } from "../../../@types";
+//import { defaultUser } from "../../../@types";
 import Cookies from "js-cookie";
+import { useLocalStorage } from "../../../hooks/useLocalStorage";
 
 axios.defaults.baseURL = `http://localhost:3000`;
 axios.defaults.withCredentials = true;
@@ -13,7 +14,8 @@ axios.defaults.withCredentials = true;
 export default function TopChatbar() {
     // const { currentUser } = useContext(AuthContext);
     const navigate = useNavigate();
-    const { userAuth, token, updateUser, updateToken } = useAuth();
+    const { userAuth, updateUser } = useAuth();
+    const { removeItem } = useLocalStorage();
 
     //useEffect(() => {
     //    console.log("Auth user: ", userAuth);
@@ -24,9 +26,9 @@ export default function TopChatbar() {
     //}, [token]);
 
     function logout(e: MouseEvent<HTMLButtonElement>) {
-        updateUser(defaultUser);
-        updateToken("");
+        removeItem("user");
         Cookies.remove("JWTtoken", { sameSite: "none", secure: true });
+        updateUser();
         navigate("/login");
     }
 

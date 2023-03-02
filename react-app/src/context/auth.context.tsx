@@ -1,33 +1,62 @@
-import { createContext, PropsWithChildren, useContext, useState } from "react";
+import {
+    createContext,
+    PropsWithChildren,
+    useContext,
+    useEffect,
+    useState,
+} from "react";
 import {
     AuthType,
     AuthContextType,
-    AuthUser,
-    Token,
+    //AuthUser,
     defaultUser,
     defaultContext,
 } from "../@types";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 interface Props {}
 
 const AuthContext = createContext<AuthContextType>(defaultContext);
 
 export function AuthProvider(props: PropsWithChildren<Props>) {
+    const { getItem } = useLocalStorage();
     const [Auth, setAuth] = useState<AuthType>({
         userAuth: defaultUser,
-        token: "",
+        //isAuth: false,
     });
 
-    const updateUser = (newUser: AuthUser) => {
-        setAuth((prev: AuthType) => ({ userAuth: newUser, token: prev.token }));
+    useEffect(() => {
+        window.addEventListener("storage", updateUser);
+
+        return () => {
+            window.removeEventListener("storage", updateUser);
+        };
+    }, []);
+
+    const updateUser = () => {
+        const user = getItem("user");
+        if (user) {
+            setAuth({
+                userAuth: JSON.parse(user),
+            });
+            //    if (!Auth.isAuth) {
+            //        switchIsAuth();
+            //    }
+            //} else if (Auth.isAuth) {
+            //    switchIsAuth();
+            //}
+            //setAuth((prev: AuthType) => ({ userAuth: newUser, isAuth: prev.isAuth }));
+        } else {
+            setAuth({ userAuth: defaultUser });
+        }
     };
 
-    const updateToken = (newToken: Token) => {
-        setAuth((prev: AuthType) => ({
-            userAuth: { ...prev.userAuth },
-            token: newToken,
-        }));
-    };
+    //const switchIsAuth = () => {
+    //    setAuth((prev: AuthType) => ({
+    //        userAuth: { ...prev.userAuth },
+    //        //isAuth: !prev.isAuth,
+    //    }));
+    //};
 
     // useMemo hook returns an object (containing Auth & Setters)
     // it tracks any changes in Auth/Setters and only changes providerValue
@@ -36,9 +65,9 @@ export function AuthProvider(props: PropsWithChildren<Props>) {
     //  const providerValue = useMemo(() => ({ Auth, Setters }), [Auth, Setters]);
     const providerValue = {
         userAuth: Auth.userAuth,
-        token: Auth.token,
+        //isAuth: Auth.isAuth,
         updateUser: updateUser,
-        updateToken: updateToken,
+        //switchIsAuth: switchIsAuth,
     };
 
     return (

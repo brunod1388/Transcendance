@@ -118,11 +118,11 @@ export class AuthController {
 
     @UseGuards(JwtGuard)
     @Post("activate2FA")
-    async activate2FA(
-        @Request() req, 
-        @Body() dto: TFverifyDTO
-    ) {
-        const isVerified = await this.authService.verify2FAcode(dto.code, req.user.id);
+    async activate2FA(@Request() req, @Body() dto: TFverifyDTO) {
+        const isVerified = await this.authService.verify2FAcode(
+            dto.code,
+            req.user.id
+        );
         if (!isVerified) {
             throw new ForbiddenException("Verifictation code incorrect");
         }
@@ -131,7 +131,7 @@ export class AuthController {
 
     @UseGuards(JwtGuard)
     @Post("verify2FA")
-    async verify2FA(@Request() req,@Body() dto: TFverifyDTO) {
+    async verify2FA(@Request() req, @Body() dto: TFverifyDTO) {
         return this.authService.verify2FAcode(dto.code, req.user.id);
     }
 

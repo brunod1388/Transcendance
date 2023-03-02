@@ -4,11 +4,11 @@ import Add from "../../assets/images/add-image.png";
 // import { useSocket } from "../../hooks/useSocket";
 import { AxiosRequestConfig } from "axios";
 import "../../assets/styles/global.scss";
-import { useAuth } from "../../context";
+//import { useAuth } from "../../context";
 import { useAxios } from "../../hooks";
 //import { useSignup } from "../../hooks/useSignup";
 //import axios from "axios";
-import Cookies from "js-cookie";
+//import Cookies from "js-cookie";
 import { SetStateType } from "../../@types";
 
 interface DataType {

@@ -1,7 +1,7 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState, FormEvent } from "react";
 import { AxiosRequestConfig } from "axios";
-import { useAuth } from "../../context";
+//import { useAuth } from "../../context";
 import { useAxios } from "../../hooks";
 
 interface DataType {
@@ -33,7 +33,7 @@ function TwoFactorAuth() {
     const [request] = useState<AxiosRequestConfig>(defaultRequest);
     const [code, setCode] = useState<string>("");
     const { response } = useAxios(request);
-    const { userAuth } = useAuth();
+    //const { userAuth } = useAuth();
 
     // useEffect(() => {
     //     let isMounted = true;
@@ -61,26 +61,26 @@ function TwoFactorAuthPage({ qrcode }: Props) {
     const [request, setRequest] =
         useState<AxiosRequestConfig>(defaultVerifyRequest);
     const { response, error } = useAxios(request);
-    const { userAuth, updateUser } = useAuth();
+    //const { userAuth, updateUser } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
         //console.log("Response in 2FA: ", response);
         if (response?.status === 201) {
-            updateUser({
-                id: userAuth.id,
-                username: userAuth.username,
-                avatar: userAuth.avatar,
-                authStrategy: userAuth.authStrategy,
-                enable2FA: true,
-            });
+            // updateUser({
+            //     id: userAuth.id,
+            //     username: userAuth.username,
+            //     avatar: userAuth.avatar,
+            //     authStrategy: userAuth.authStrategy,
+            //     enable2FA: true,
+            // });
             navigate("/home");
         }
     }, [response]);
 
     useEffect(() => {
         //console.log("Error in 2FA: ", error);
-    }, [error])
+    }, [error]);
 
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -99,15 +99,22 @@ function TwoFactorAuthPage({ qrcode }: Props) {
         <div className="form_container">
             <span className="logo">Two Factor Authentication</span>
             <div className="form_wrapper">
-                <span className="title">Scan QR with Google Authenticator then input code below </span>
-                <img src={qrcode} />
+                <span className="title">
+                    Scan QR with Google Authenticator then input code below{" "}
+                </span>
+                <img alt="" src={qrcode} />
                 <form onSubmit={handleSubmit}>
                     <input name="code" type="text" placeholder="code" />
-                    <button>Verify code and complete two factor activation</button>
-                    {error?.response?.status != 404 && <span>Verification code incorrect</span>}
+                    <button>
+                        Verify code and complete two factor activation
+                    </button>
+                    {error?.response?.status !== 404 && (
+                        <span>Verification code incorrect</span>
+                    )}
                 </form>
                 <p className="detail">
-                    Cancel activation of Two Factor Authentication? <Link to="/home">Home</Link>
+                    Cancel activation of Two Factor Authentication?{" "}
+                    <Link to="/home">Home</Link>
                 </p>
             </div>
         </div>

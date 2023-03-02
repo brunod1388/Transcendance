@@ -3,11 +3,11 @@ import { useState, useEffect, FormEvent } from "react";
 // import { useSocket } from "../../hooks/useSocket";
 import { AxiosRequestConfig } from "axios";
 import "../../assets/styles/global.scss";
-import { useAuth } from "../../context";
+//import { useAuth } from "../../context";
 import { useAxios } from "../../hooks";
 //import { useSignup } from "../../hooks/useSignup";
 //import axios from "axios";
-import Cookies from "js-cookie";
+//import Cookies from "js-cookie";
 import { SetStateType } from "../../@types";
 
 // import style from "../assets/styles/pages.module.css";
@@ -55,7 +55,7 @@ function Login() {
 
     useEffect(() => {
         if (loading === false && response?.status === 200) {
-            navigate("/twofactor");
+            navigate("/login");
         }
     }, [loading, response]);
 
