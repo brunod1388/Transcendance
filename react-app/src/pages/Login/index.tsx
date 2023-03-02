@@ -55,7 +55,7 @@ function Login() {
 
     useEffect(() => {
         if (loading === false && response?.status === 200) {
-            navigate("/login");
+            navigate("/home");
         }
     }, [loading, response]);
 

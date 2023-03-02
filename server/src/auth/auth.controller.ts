@@ -76,13 +76,18 @@ export class AuthController {
     @Post("signin")
     async signin(
         @Body() dto: AuthDto,
-        @Res({ passthrough: true }) response: Response
+        @Res({ passthrough: true }) res: Response
     ) {
         try {
             const ret = await this.authService.signin(dto);
 
             //response.setHeader("Authorization", `Bearer ${ret["access_token"]}`);
-            response.cookie("JWTtoken", ret["access_token"]["access_token"], {
+            //        console.log("User enable2FA: ", ret["user"]["enable2FA"]);
+            //        if (ret["user"]["enable2FA"]) {
+            //            res.setHeader("Access-Control-Allow-Origin", "*");
+            //            return res.redirect("http://localhost:9000/verify2fa");
+            //        }
+            res.cookie("JWTtoken", ret["access_token"]["access_token"], {
                 sameSite: "none",
                 secure: true,
             });
@@ -129,10 +134,32 @@ export class AuthController {
         await this.authService.activate2FA(req.user.id);
     }
 
-    @UseGuards(JwtGuard)
+    //@HttpCode(HttpStatus.OK)
+    //@UseGuards(JwtGuard)
+    @HttpCode(HttpStatus.OK)
     @Post("verify2FA")
-    async verify2FA(@Request() req, @Body() dto: TFverifyDTO) {
-        return this.authService.verify2FAcode(dto.code, req.user.id);
+    async verify2FA(
+        @Request() req,
+        @Body() dto: TFverifyDTO,
+        @Res({ passthrough: true }) res: Response
+    ) {
+        const isVerified = await this.authService.verify2FAcode(
+            dto.code,
+            req.user.id
+        );
+        if (!isVerified) {
+            throw new ForbiddenException("Verification code incorrect");
+        }
+        const token = await this.authService.signToken(
+            req.user.id,
+            req.user.username,
+            req.user.email
+        );
+        res.cookie("JWTtoken", token["access_token"], {
+            sameSite: "none",
+            secure: true,
+        });
+        //return res.redirect("http://localhost:9000/");
     }
 
     @UseGuards(FortyTwoGuard)
