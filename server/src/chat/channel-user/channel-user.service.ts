@@ -7,11 +7,14 @@ import { ChannelService } from "../channel/channel.service";
 @Injectable()
 export class ChannelUserService {
     constructor(
-        // @InjectRepository(ChannelUser)
-        // private ChannelUserRepository: Repository<ChannelUser>,
-        // @Inject(forwardRef(() => ChannelService))
-        // private ChannelService: ChannelService
+        @InjectRepository(ChannelUser)
+        private channelRepository: Repository<ChannelUser>
     ) {}
-
-    // createChannelUser(userId: number, channelId: number) {}
+    // @InjectRepository(ChannelUser)
+    // private ChannelUserRepository: Repository<ChannelUser>
+    //     @Inject(forwardRef(() => ChannelService))
+    //     private ChannelService: ChannelService
+    createChannelUser(userId: number, channelId: number) {
+        console.log("");
+    }
 }

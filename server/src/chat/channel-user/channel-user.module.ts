@@ -10,7 +10,7 @@ import { ChannelModule } from "../channel/channel.module";
     imports: [
         TypeOrmModule.forFeature([ChannelUser]),
         UsersModule,
-        // forwardRef(() => ChannelModule),
+        forwardRef(() => ChannelModule),
     ],
     providers: [ChannelUserService],
     exports: [ChannelUserService],

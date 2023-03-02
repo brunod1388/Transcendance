@@ -15,8 +15,6 @@ export default function NewChannel(props: Props) {
 
     function handleSubmit(e: any) {
         e.preventDefault();
-        console.log("TEST");
-        console.log(user.user.userName);
         socket.emit(
             "newChannel",
             {
