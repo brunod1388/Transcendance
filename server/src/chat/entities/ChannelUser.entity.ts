@@ -14,11 +14,14 @@ export class ChannelUser {
     id: number;
 
     @ManyToOne(() => User, (user) => user.ownedChannels)
-    user: number;
+    user: User;
 
     @ManyToOne(() => Channel, (channel) => channel.owner)
     channel: Channel;
 
     @Column()
     rights: rightType;
+
+    @Column()
+    isPending: boolean;
 }

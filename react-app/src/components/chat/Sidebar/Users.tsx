@@ -13,7 +13,8 @@ export default function Users(props: Props) {
                 <User
                     isPrivate={true}
                     isNew={i % 3 === 0 ? true : false}
-                    keyId={`d${i}`} key={i}
+                    keyId={`d${i}`}
+                    key={i}
                 />
             ))}
         </div>

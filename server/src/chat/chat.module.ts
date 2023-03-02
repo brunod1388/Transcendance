@@ -21,7 +21,13 @@ import { UsersModule } from "../users/users.module";
         UsersModule,
     ],
     controllers: [],
-    providers: [ChatGateway, MutedService, BlockedService, ChannelUserService],
+    providers: [
+        ChatGateway,
+        MutedService,
+        BlockedService,
+        ChannelUserService,
+        ChannelModule,
+    ],
     exports: [],
 })
 export class ChatModule {}

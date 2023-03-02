@@ -9,15 +9,33 @@ import { UsersService } from "../../users/users.service";
 export class ChannelService {
     constructor(
         @InjectRepository(Channel)
-        private channelRepository: Repository<Channel>
+        private channelRepository: Repository<Channel>,
+        private userService: UsersService
     ) {}
 
-    createChannel(channelDetails: CreateChannelDto) {
+    findChannelById(id: number) {
+        return this.channelRepository.findOne({
+            where: { id: id },
+        });
+    }
+
+    // getChannelsForUserId(userId: number) {
+    //     return this.channelRepository.find({
+    //         where: { owner: userId}
+    //     })
+    // }
+
+    async createChannel(channelDetails: CreateChannelDto) {
         const newChannel = this.channelRepository.create({
             ...channelDetails,
         });
-        // newChannel.owner = channelDetails.ownerId;
-        console.log(newChannel);
+        console.log(await this.userService.findUserId(channelDetails.ownerId));
+        newChannel.owner = await this.userService.findUserId(
+            channelDetails.ownerId
+        );
+        // newChannel.channelUsers = [];
+        // newChannel.ownerId = channelDetails.ownerId;
+        // console.log(newChannel.owner);
         // console.log(this.users.findUserId(channelDetails.ownerId))
         return this.channelRepository.save(newChannel);
     }

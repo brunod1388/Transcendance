@@ -7,14 +7,18 @@ import { useUser } from "../../context/test-context";
 import { useNavigate } from "react-router-dom";
 import { useSocket } from "../../hooks";
 
-interface user {
-    id: number;
-    username: string;
-}
+// interface resp{
+//     found.boolean
+// }
+// interface user {
+//     id: number;
+//     username: string;
+// }
 
 function Login() {
     const [err, setErr] = useState(false);
-    // const navigate = useNavigate();
+    const [notFound, setNotFound] = useState(false);
+    const navigate = useNavigate();
     const user = useUser();
     const [socket] = useSocket();
 
@@ -22,21 +26,16 @@ function Login() {
         e.preventDefault();
         const email = e.target[0].value;
         const password = e.target[1].value;
-        console.log(`user:`);
-        console.log(user.user);
+        setErr(false);
         try {
-            socket.emit("findUserByMail", { email },
-                (res?: user | string) => {
-                    console.log("respone:");
-                    if (res === "not found")
-                        console.log("Pas vetrou");
-                    else if (typeof res === user){
-                        console.log(res);
-                        // user.setUser( )
-                    }
-                });
-            } catch (error) {
-                setErr(err ? false : true);
+            socket.emit("findUserByMail", { email }, (res?: any) => {
+                if (res.found) {
+                    user.setUser(res.user.id, res.user.username);
+                    navigate("/home");
+                } else setNotFound(true);
+            });
+        } catch (error) {
+            setErr(err ? false : true);
         }
     }
 
@@ -46,10 +45,15 @@ function Login() {
             <div className="form_wrapper">
                 <span className="title">Login</span>
                 <form onSubmit={handleSubmit}>
-                    <input type="email" placeholder="email" />
+                    <input
+                        type="email"
+                        placeholder="email"
+                        onChange={() => setNotFound(false)}
+                    />
                     <input type="password" placeholder="password" />
                     <button>Sign in</button>
                     {err && <span>Something went wrong</span>}
+                    {notFound && <span>User does not exist</span>}
                 </form>
                 <p className="detail">
                     You don't have an account?{" "}

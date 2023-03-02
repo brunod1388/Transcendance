@@ -41,35 +41,6 @@ export default function Navbar() {
                         key={`${i}`}
                     />
                 ))}
-                {/*
-                {channels.map((channel) => (
-                    <ChannelIcon
-                        name={channel.name}
-                        image={channel.imageUrl}
-                        onClick={iconClick}
-                    />
-                ))}
-                {channels.map((channel) => (
-                    <ChannelIcon
-                        name={channel.name}
-                        image={channel.imageUrl}
-                        onClick={iconClick}
-                    />
-                ))}
-                {channels.map((channel) => (
-                    <ChannelIcon
-                        name={channel.name}
-                        image={channel.imageUrl}
-                        onClick={iconClick}
-                    />
-                ))}
-                {channels.map((channel) => (
-                    <ChannelIcon
-                        name={channel.name}
-                        image={channel.imageUrl}
-                        onClick={iconClick}
-                    />
-                ))} */}
             </div>
             <span className="separator" />
             <ChannelIcon
