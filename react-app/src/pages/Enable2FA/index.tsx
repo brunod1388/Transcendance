@@ -57,7 +57,7 @@ function TwoFactorAuthPage({ qrcode }: Props) {
         if (request !== defaultVerifyRequest) {
             sendData();
         }
-    }, [request])
+    }, [request]);
 
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();

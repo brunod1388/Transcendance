@@ -13,7 +13,7 @@ import { ChannelUser } from "../../chat/entities/ChannelUser.entity";
 export class User {
     // This decorator indicates that field will be an auto-incrementing numeric value (auto-generated)
     // Equivalent to the primary key for a SQL table
-    @PrimaryGeneratedColumn("uuid")
+    @PrimaryGeneratedColumn({ type: "bigint" })
     id: number;
 
     // Uniquely identifies users (based on 42 authentication) while permitting username to be selected

@@ -27,7 +27,7 @@ function Login() {
 
     useEffect(() => {
         if (loading === false && response?.status === 200) {
-            navigate("/twofactor");
+            navigate("/home");
         }
     }, [loading, response]);
 
@@ -35,7 +35,7 @@ function Login() {
         if (request !== defaultRequest) {
             sendData();
         }
-    }, [request])
+    }, [request]);
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -67,7 +67,7 @@ function Login() {
                         placeholder="password"
                     />
                     <button>Login</button>
-                    {error && (<p>Credentials Incorrect</p>)}
+                    {error && <p>Credentials Incorrect</p>}
                 </form>
                 <button type="button" onClick={login42}>
                     Login with 42

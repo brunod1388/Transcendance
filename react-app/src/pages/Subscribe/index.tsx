@@ -40,7 +40,7 @@ function Subscribe() {
         if (request !== defaultRequest) {
             sendData();
         }
-    }, [request])
+    }, [request]);
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -59,7 +59,7 @@ function Subscribe() {
         if (checking !== null) {
             checking.href = "http://localhost:3000/auth/login42";
         }
-    }       
+    }
 
     return (
         <div className="form_container">
@@ -89,7 +89,7 @@ function Subscribe() {
                         <span>Add an Avatar</span>
                     </label>
                     <button type="submit">Sign up</button>
-                    {error && (<p>Invalid Input</p>)}
+                    {error && <p>Invalid Input</p>}
                 </form>
                 <button type="button" onClick={signup42}>
                     Sign up with 42
