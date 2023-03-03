@@ -8,26 +8,30 @@ axios.defaults.headers.common["crossorigin"] = true;
 export const useAxios = (axiosParams: AxiosRequestConfig) => {
     const [response, setResponse] = useState<AxiosResponse>();
     const [error, setError] = useState<AxiosError>();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(
+        axiosParams.method === "GET" || axiosParams.method === "get"
+    );
+
+    const fetchData = async (params: AxiosRequestConfig) => {
+        try {
+            const result = await axios.request(params);
+            setResponse(result);
+        } catch (err: any) {
+            setError(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const sendData = () => {
+        fetchData(axiosParams);
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                console.log(axiosParams);
-                const res = await axios.request(axiosParams);
-                setResponse(res);
-            } catch (err: any) {
-                setError(err);
-                setLoading(false);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchData();
-    }, [axiosParams]);
+        if (axiosParams.method === "GET" || axiosParams.method === "get") {
+            fetchData(axiosParams);
+        }
+    }, []);
 
-    //  useEffect(() => {
-    //      fetchData();
-    //  }, [axiosParams]);
-    return { response, error, loading };
+    return { response, error, loading, sendData };
 };

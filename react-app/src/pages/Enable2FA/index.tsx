@@ -1,7 +1,6 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState, FormEvent } from "react";
 import { AxiosRequestConfig } from "axios";
-//import { useAuth } from "../../context";
 import { useAxios } from "../../hooks";
 
 interface DataType {
@@ -18,8 +17,8 @@ const defaultRequest: AxiosRequestConfig = {
 };
 
 const defaultVerifyRequest: AxiosRequestConfig = {
-    method: "",
-    url: "",
+    method: "POST",
+    url: "/auth/activate2FA",
     data: defaultDataType,
 };
 
@@ -28,25 +27,9 @@ interface Props {
 }
 
 function TwoFactorAuth() {
-    //const navigate = useNavigate();
-
     const [request] = useState<AxiosRequestConfig>(defaultRequest);
     const [code, setCode] = useState<string>("");
     const { response } = useAxios(request);
-    //const { userAuth } = useAuth();
-
-    // useEffect(() => {
-    //     let isMounted = true;
-    //     if (isMounted) {
-    //         setRequest({
-    //             method: "GET",
-    //             url: "/auth/enable2FA",
-    //         });
-    //     }
-    //     return () => {
-    //         isMounted = false;
-    //     };
-    // }, []);
 
     useEffect(() => {
         if (response?.data?.url) {
@@ -60,27 +43,21 @@ function TwoFactorAuth() {
 function TwoFactorAuthPage({ qrcode }: Props) {
     const [request, setRequest] =
         useState<AxiosRequestConfig>(defaultVerifyRequest);
-    const { response, error } = useAxios(request);
+    const { response, error, sendData } = useAxios(request);
     //const { userAuth, updateUser } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
-        //console.log("Response in 2FA: ", response);
         if (response?.status === 201) {
-            // updateUser({
-            //     id: userAuth.id,
-            //     username: userAuth.username,
-            //     avatar: userAuth.avatar,
-            //     authStrategy: userAuth.authStrategy,
-            //     enable2FA: true,
-            // });
             navigate("/home");
         }
     }, [response]);
 
     useEffect(() => {
-        //console.log("Error in 2FA: ", error);
-    }, [error]);
+        if (request !== defaultVerifyRequest) {
+            sendData();
+        }
+    }, [request])
 
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -88,11 +65,7 @@ function TwoFactorAuthPage({ qrcode }: Props) {
         const dto: DataType = {
             code: String(target.code.value),
         };
-        setRequest({
-            method: "POST",
-            url: "/auth/activate2FA",
-            data: dto,
-        });
+        setRequest((prev: AxiosRequestConfig) => ({ ...prev, data: dto }));
     }
 
     return (
@@ -108,7 +81,7 @@ function TwoFactorAuthPage({ qrcode }: Props) {
                     <button>
                         Verify code and complete two factor activation
                     </button>
-                    {error?.response?.status !== 404 && (
+                    {error?.response?.status === 403 && (
                         <span>Verification code incorrect</span>
                     )}
                 </form>

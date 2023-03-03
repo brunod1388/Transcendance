@@ -102,7 +102,6 @@ export class AuthService {
             code2FA: secret.base32,
         };
         const updated = await this.usersService.updateUser(user.id, dto);
-        console.log("Updated user: ", updated);
         const dataURL = await QRCode.toDataURL(secret.otpauthUrl);
         //    const dataURL = async  QRCode.toDataURL(secret.otpauthUrl, function (err, dataURL) {
         //        if (err) throw err
@@ -222,7 +221,6 @@ export class AuthService {
 
     // totp : time-based one-time password
     async verify2FAcode(code2FA: string, id: number) {
-        console.log("Inside verify2FAcode: ", code2FA, id);
         const user = await this.usersService.findUserId(id);
         if (user === null || user === undefined) {
             throw new NotFoundException(

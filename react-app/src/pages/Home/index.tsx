@@ -51,7 +51,6 @@ function Home() {
                 enable2FA: response.data.enable2FA,
             };
             setItem("user", JSON.stringify(user));
-            //updateUser();
         }
     }, [response]);
 

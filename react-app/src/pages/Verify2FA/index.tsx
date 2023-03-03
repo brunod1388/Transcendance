@@ -3,8 +3,6 @@ import { useState, useEffect, FormEvent } from "react";
 import { AxiosRequestConfig } from "axios";
 import { useAxios } from "../../hooks";
 
-import { SetStateType } from "../../@types";
-
 interface DataType {
     code: string;
 }
@@ -14,19 +12,15 @@ const defaultDataType: DataType = {
 };
 
 const defaultRequest: AxiosRequestConfig = {
-    method: "post",
-    url: "/verify2FA",
+    method: "POST",
+    url: "/auth/verify2FA",
     data: defaultDataType,
 };
-
-interface Props {
-    setRequest: SetStateType<AxiosRequestConfig>;
-}
 
 function Verify2FA() {
     const navigate = useNavigate();
     const [request, setRequest] = useState<AxiosRequestConfig>(defaultRequest);
-    const { response, loading } = useAxios(request);
+    const { response, loading, error, sendData } = useAxios(request);
 
     useEffect(() => {
         if (loading === false && response?.status === 200) {
@@ -34,23 +28,19 @@ function Verify2FA() {
         }
     }, [loading, response]);
 
-    return <LoginPage setRequest={setRequest} />;
-}
-
-function LoginPage({ setRequest }: Props) {
-    const [err] = useState(false);
+    useEffect(() => {
+        if (request !== defaultRequest) {
+            sendData();
+        }
+    }, [request]);
 
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const target = e.currentTarget;
-        const conf: AxiosRequestConfig = {
-            method: "POST",
-            url: "/auth/verify2FA",
-            data: { code: String(target.code.value) },
+        const dto: DataType = {
+            code: String(target.code.value),
         };
-        console.log(conf);
-        console.log("handleSubmit launched");
-        setRequest(conf);
+        setRequest((prev: AxiosRequestConfig) => ({ ...prev, data: dto }));
     }
 
     return (
@@ -63,7 +53,7 @@ function LoginPage({ setRequest }: Props) {
                 <form onSubmit={handleSubmit}>
                     <input name="code" type="text" placeholder="code" />
                     <button>Verify</button>
-                    {err && <span>Something went wrong</span>}
+                    {error && <span>Something went wrong</span>}
                 </form>
             </div>
         </div>
