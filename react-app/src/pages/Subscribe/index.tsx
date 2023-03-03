@@ -59,7 +59,7 @@ function Subscribe() {
         if (checking !== null) {
             checking.href = "http://localhost:3000/auth/login42";
         }
-    }
+    }       
 
     return (
         <div className="form_container">

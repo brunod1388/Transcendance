@@ -9,6 +9,7 @@ import { ChannelUserService } from "./channel-user/channel-user.service";
 import { ChannelUserModule } from "./channel-user/channel-user.module";
 import { BlockedModule } from "./blocked/blocked.module";
 import { MutedModule } from "./muted/muted.module";
+import { UsersModule } from "../users/users.module";
 
 @Module({
     imports: [
@@ -17,6 +18,7 @@ import { MutedModule } from "./muted/muted.module";
         ChannelUserModule,
         BlockedModule,
         MutedModule,
+        UsersModule,
     ],
     controllers: [],
     providers: [ChatGateway, MutedService, BlockedService, ChannelUserService],
