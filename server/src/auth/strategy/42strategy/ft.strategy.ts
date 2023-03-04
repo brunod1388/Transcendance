@@ -70,6 +70,8 @@ export class FtStrategy extends PassportStrategy(Strategy, "42") {
                 avatar: profile.photo,
             });
         }
+        delete user.password;
+        delete user.code2FA;
         return user;
     }
 }

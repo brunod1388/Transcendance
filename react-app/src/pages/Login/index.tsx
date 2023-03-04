@@ -27,7 +27,7 @@ function Login() {
 
     useEffect(() => {
         if (loading === false && response?.status === 200) {
-            navigate("/home");
+            navigate(response.data?.redirect);
         }
     }, [loading, response]);
 

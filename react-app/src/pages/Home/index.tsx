@@ -8,6 +8,7 @@ import { useAxios } from "../../hooks";
 import { AxiosRequestConfig } from "axios";
 import "./home.scss";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import Cookies from "js-cookie";
 
 const defaultRequest: AxiosRequestConfig = {
     method: "GET",
@@ -42,6 +43,7 @@ function Home() {
                 "*** UNAUTHORIZED USE OF THE SITE - PLEASE SIGNIN IN ***"
             );
             removeItem("user");
+            Cookies.remove("JWTtoken", { sameSite: "none", secure: true });
             navigate("/login");
         }
     }, [error]);
