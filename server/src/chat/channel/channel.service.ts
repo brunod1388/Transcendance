@@ -4,13 +4,16 @@ import { Repository } from "typeorm";
 import { Channel } from "../entities/Channel.entity";
 import { CreateChannelDto, UpdateChannelDto } from "../dtos/Channel.dto";
 import { UsersService } from "../../users/users.service";
+import { ChannelUserService } from "../channelUser/channelUsers.service";
+import { rightType } from "../entities/ChannelUser.entity";
 
 @Injectable()
 export class ChannelService {
     constructor(
         @InjectRepository(Channel)
         private channelRepository: Repository<Channel>,
-        private userService: UsersService
+        private userService: UsersService,
+        private channelUserService: ChannelUserService
     ) {}
 
     findChannelById(id: number) {
@@ -33,6 +36,12 @@ export class ChannelService {
         newChannel.owner = await this.userService.findUserId(
             channelDetails.ownerId
         );
+        this.channelUserService.createChannelUser({
+            channelId: newChannel.id,
+            userId: newChannel.owner.id,
+            rights: rightType.ADMIN,
+            isPending: false
+        })
         // newChannel.channelUsers = [];
         // newChannel.ownerId = channelDetails.ownerId;
         // console.log(newChannel.owner);

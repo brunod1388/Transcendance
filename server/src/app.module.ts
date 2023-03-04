@@ -6,7 +6,7 @@ import { AuthModule } from "./auth/auth.module";
 import { UsersModule } from "./users/users.module";
 import { PongModule } from "./pong/pong.module";
 import { GatewayModule } from "./gateway/gateway.module";
-import { ChannelUserModule } from "./chat/channel-user/channel-user.module";
+import { ChannelUsersModule } from "./chat/channelUser/channelUsers.module";
 import { ChannelModule } from "./chat/channel/channel.module";
 
 @Module({
@@ -18,8 +18,6 @@ import { ChannelModule } from "./chat/channel/channel.module";
         ChatModule,
         PongModule,
         GatewayModule,
-        ChannelUserModule,
-        ChannelModule,
     ],
     providers: [],
     exports: [],

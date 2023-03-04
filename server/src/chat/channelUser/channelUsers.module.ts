@@ -1,8 +1,7 @@
 import { Module, forwardRef } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-
 import { ChannelUser } from "../entities/ChannelUser.entity";
-import { ChannelUserService } from "./channel-user.service";
+import { ChannelUserService } from "./channelUsers.service";
 import { UsersModule } from "src/users/users.module";
 import { ChannelModule } from "../channel/channel.module";
 
@@ -15,4 +14,4 @@ import { ChannelModule } from "../channel/channel.module";
     providers: [ChannelUserService],
     exports: [ChannelUserService],
 })
-export class ChannelUserModule {}
+export class ChannelUsersModule {}
