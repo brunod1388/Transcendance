@@ -40,8 +40,8 @@ export class ChannelService {
             channelId: newChannel.id,
             userId: newChannel.owner.id,
             rights: rightType.ADMIN,
-            isPending: false
-        })
+            isPending: false,
+        });
         // newChannel.channelUsers = [];
         // newChannel.ownerId = channelDetails.ownerId;
         // console.log(newChannel.owner);

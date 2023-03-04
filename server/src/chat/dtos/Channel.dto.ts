@@ -13,7 +13,7 @@ export class CreateChannelDto {
     @IsNotEmpty()
     type: ChannelType;
 
-    @ValidateIf(o => o.type === 'protected')
+    @ValidateIf((o) => o.type === "protected")
     @IsNotEmpty()
     password: string;
 }
@@ -34,7 +34,7 @@ export class UpdateChannelDto {
     @IsNotEmpty()
     type: ChannelType;
 
-    @ValidateIf(o => o.type === 'protected')
+    @ValidateIf((o) => o.type === "protected")
     @IsNotEmpty()
     password: string;
 }

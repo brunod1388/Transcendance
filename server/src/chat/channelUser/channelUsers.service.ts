@@ -18,13 +18,34 @@ export class ChannelUserService {
     ) {}
 
     async createChannelUser(channelUserDetails: CreateChannelUserDto) {
-        const user = await this.userService.findUserId(channelUserDetails.userId);
-        const channel = await this.channelService.findChannelById(channelUserDetails.channelId);
-        const newChannelUser = await this.channelUserRepository.create({...channelUserDetails});
+        const user = await this.userService.findUserId(
+            channelUserDetails.userId
+        );
+        const channel = await this.channelService.findChannelById(
+            channelUserDetails.channelId
+        );
+        const newChannelUser = await this.channelUserRepository.create({
+            ...channelUserDetails,
+        });
 
         newChannelUser.user = user;
         newChannelUser.channel = channel;
 
         return this.channelUserRepository.save(newChannelUser);
     }
+
+    async getUserChannels(userId: number) {
+        const channels = await this.channelUserRepository.find({
+            relations: { user: true, channel: true },
+            where: {user: {id: userId}}
+        })
+    }
+
+    async getChannelUsers(channelId: number) {
+        const channels = await this.channelUserRepository.find({
+            relations: { channel: true, user: true},
+            where: {channel: {id: channelId}}
+        })
+    }
+    
 }

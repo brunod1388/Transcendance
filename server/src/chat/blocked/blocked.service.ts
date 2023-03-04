@@ -5,7 +5,7 @@ import { Repository } from "typeorm";
 
 @Injectable()
 export class BlockedService {
-	constructor(
+    constructor(
         @InjectRepository(BlockedUser)
         private channelUserRepository: Repository<BlockedUser>
     ) {}

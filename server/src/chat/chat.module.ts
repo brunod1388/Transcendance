@@ -18,7 +18,12 @@ import { MutedUser } from "./entities/MutedUser.entity";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([BlockedUser, ChannelUser, Channel, MutedUser]),
+        TypeOrmModule.forFeature([
+            BlockedUser,
+            ChannelUser,
+            Channel,
+            MutedUser,
+        ]),
         ChannelModule,
         MessageModule,
         ChannelUsersModule,

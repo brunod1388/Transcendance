@@ -1,4 +1,3 @@
-
 import { IsNotEmpty, IsNumber } from "class-validator";
 import { rightType } from "../entities/ChannelUser.entity";
 
