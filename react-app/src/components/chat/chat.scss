@@ -4,107 +4,144 @@
 	display: flex;
 	width: 100%;
 	height: calc(100% - $topbar-height);
-}
+	
+	.SideBar {
+		width: 200px;
+		border-right: 1px solid #363556;
+		background-color: $sidebar-bg-color;
+		display: flex;
+		flex-direction: column;
+		border-radius: 10px 0 0 0 ;
+		.search {
+			
+			border-bottom: 1px solid grey;
+			padding: 5px;
+			
+			.searchForm {
+				padding: 10px;
+				input {
+					background-color: transparent;
+					border: none;
+					color: white;
+					outline: none;
+					// border-bottom: 1px solid $purple;
+					&::placeholder {
+						color: lightgray;
+					}
+				}
+			}
+		}
+		.users {
+			display: flex;
+			flex-direction: column;
+			overflow: scroll;
+			padding: 5px;
+			gap: 5px;
+		}
+	}
 
-.SideBar {
-	width: 200px;
-	border-right: 1px solid #363556;
-	background-color: $sidebar-bg-color;
-	display: flex;
-	flex-direction: column;
-	.search {
-
-		border-bottom: 1px solid grey;
-		padding: 5px;
-
-		.searchForm {
+	.feed {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		width: 100%;
+		background-color: $dark-purple;
+		
+		.messages {
+			overflow-y: scroll;
+			width: 100%;
+		}
+		.input {
+			height: 40px;
+			background-color: $dark-grey;
 			padding: 10px;
+			display: flex;
+			justify-content: space-between;
+			gap: 10px;
 			input {
-				background-color: transparent;
+				overflow: auto;
+				height: auto;
+				width: 100%;
 				border: none;
-				color: white;
 				outline: none;
-				// border-bottom: 1px solid $purple;
+				color:white;
+				border-radius: 5px;
+				padding: 0 10px;
+				background-color: $dark-purple;
+				resize: vertical;
 				&::placeholder {
-					color: lightgray;
+					color: rgb(216, 216, 216);
+				}
+			}
+
+			.textarea {
+				display: block;
+				width: 100%;
+				overflow: hidden;
+				resize: both;
+				min-height: 40px;
+				line-height: 20px;
+			}
+
+			.send {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				img {
+					height: 25px;
+					cursor: pointer;
+					filter: $filter-purple;
+				}
+				label {
+
+				}
+				button {
+					border: none;
+					padding: 5px 15px;
+					border-radius: 5px;
+				}
+
+				img:hover{
+					filter: $filter-white;
 				}
 			}
 		}
 	}
-	.users {
+
+	.friendButton {
+		position: absolute;
+		top: 50vh;
+		right: 7.5%;
+		width: 20px;
+		height: 35px;
+		border-radius: 5px 0px 0px 5px;
+		outline: none;
+		border: none;
+		background-color: $dark-grey;
+		opacity: 0.7;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		img {
+			height: 15px;
+			filter: $filter-white;
+		}
+
+		&:hover {
+			background-color: $purple;
+		}
+	}
+	.friendBar {
 		display: flex;
 		flex-direction: column;
-		overflow: scroll;
-		padding: 5px;
-		gap: 5px;
-	}
-}
-
-.feed {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	width: 100%;
-	background-color: $dark-purple;
-
-	.messages {
-		overflow-y: scroll;
-		width: 100%;
-	}
-	.input {
-		height: 40px;
+		gap: 3px;
 		background-color: $dark-grey;
-		padding: 10px;
-		display: flex;
-		justify-content: space-between;
-		gap: 10px;
-		input {
-			overflow: auto;
-			height: auto;
-			width: 100%;
-			border: none;
-			outline: none;
-			color:white;
-			border-radius: 5px;
-			padding: 0 10px;
-			background-color: $dark-purple;
-			resize: vertical;
-			&::placeholder {
-				color: rgb(216, 216, 216);
-			}
-		}
-
-		.textarea {
-			display: block;
-			width: 100%;
-			overflow: hidden;
-			resize: both;
-			min-height: 40px;
-			line-height: 20px;
-			}
-
-		.send {
-			display: flex;
-			align-items: center;
-			gap: 10px;
-			img {
-				height: 25px;
-				cursor: pointer;
-				filter: $filter-purple;
-			}
-			label {
-
-			}
-			button {
-				border: none;
-				padding: 5px 15px;
-				border-radius: 5px;
-			}
-
-			img:hover{
-				filter: $filter-white;
-			}
+		overflow-y: scroll;
+		min-width: 120px;
+		padding: 8px;
+		.title {
+			color: $purple;
+			padding: 5px;
 		}
 	}
-
 }

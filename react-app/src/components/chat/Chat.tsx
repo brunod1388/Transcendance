@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Message from "./components/Message";
 import Attach from "../../assets/images/paper-clip.png";
 import AddImage from "../../assets/images/add-image.png";
+import Contact from "../../assets/images/contact.png";
 import "./chat.scss";
 
 import User from "./components/User";
@@ -11,6 +12,8 @@ const imgUrl =
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF6qx2Sw1RVNAU_cLLe9v0H32Rvufjjbrqsw&usqp=CAU";
 
 export default function Chat() {
+    const [friendsVisible, setFriendsVisible] = useState(true);
+
     return (
         <div className="chat">
             <div className="SideBar">
@@ -24,7 +27,7 @@ export default function Chat() {
                     {[...Array(20)].map((e, i) => (
                         <User
                             isPrivate={true}
-                            isNew={i % 3 === 0 ? true : false}
+                            hasNewMsg={i % 3 === 0 ? true : false}
                             keyId={`d${i}`}
                             key={i}
                         />
@@ -63,6 +66,24 @@ export default function Chat() {
                     </div>
                 </div>
             </div>
+            <button 
+                className="friendButton"
+                onClick={() => {setFriendsVisible(friendsVisible ? false : true)}}
+            >
+                <img src={Contact} alt="" />
+            </button>
+            { friendsVisible &&
+                <div className="friendBar">
+                    <span className="title">Friends</span>
+                    {[...Array(20)].map((e, i) => (
+                        <User
+                            isPrivate={true}
+                            keyId={`d${i}`}
+                            key={i}
+                        />
+                    ))}
+                </div>
+            }
         </div>
     );
 }
