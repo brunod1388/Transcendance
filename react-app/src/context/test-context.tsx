@@ -1,23 +1,44 @@
-import { createContext, useRef, PropsWithChildren } from "react";
+import { createContext, PropsWithChildren, useContext, useState } from "react";
 
-// const SERVER_URL = "http://localhost:3000";
-
-export interface UserObj {
+interface UserType {
     id: number;
     userName: string;
-    count: 0;
 }
-export const UserContext = createContext<UserObj>({} as UserObj);
-const defaultUser = { id: -1, userName: "defaultUser", count: 0 };
+
+interface UserContextType {
+    user: UserType;
+    setUser: (id: number, userName: string) => void;
+}
+const defaultUser = { id: -1, userName: "defaultName" };
+const defaultContext = {
+    user: defaultUser,
+    setUser: (id: number, userName: string) => {},
+};
+
+const UserContext = createContext<UserContextType>(defaultContext);
 
 interface Props {}
 
-export function UserProvider(props: PropsWithChildren<Props>) {
-    const user = useRef<any>(defaultUser);
+function UserProvider(props: PropsWithChildren<Props>) {
+    const [user, setUser] = useState<UserType>(defaultUser);
 
+    const setUserVal = (id: number, name: string) => {
+        setUser({ id: id, userName: name });
+    };
+
+    const userValue = {
+        user: user,
+        setUser: setUserVal,
+    };
     return (
-        <UserContext.Provider value={user.current}>
+        <UserContext.Provider value={userValue}>
             {props.children}
         </UserContext.Provider>
     );
 }
+
+function useUser(): UserContextType {
+    return useContext(UserContext);
+}
+
+export { UserProvider, useUser };

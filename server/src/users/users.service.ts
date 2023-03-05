@@ -22,7 +22,15 @@ export class UsersService {
         // find is asynchronous method (see further details on such methods below)
         return this.userRepository.find();
     }
+    findUserByMail(email: string) {
+        if (typeof email === "string") {
+            return this.userRepository.findOne({
+                where: { email: email },
+            });
+        }
 
+        return undefined;
+    }
     // Username is a unique field so can be used to identify user but perhaps should utilise id ??
     findUser(username: string) {
         if (typeof username === "string") {

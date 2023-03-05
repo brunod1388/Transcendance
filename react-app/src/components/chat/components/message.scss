@@ -1,0 +1,52 @@
+@import "../../../assets/styles/global.scss";
+
+.message {
+	flex-grow: 1;
+	display: flex;
+	gap: 20px;
+	margin-bottom: 20px;
+	padding: 0px 10px;
+	.messageInfo {
+		display: flex;
+		flex-direction: column;
+		color: grey;
+		font-weight: 300;
+		img {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			object-fit: cover;
+		}
+	}
+
+	.messageContent {
+		max-width: 80%;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+
+		p {
+			background-color: $purple-message;
+			padding: 10px 20px;
+			border-radius: 0px 10px 10px 10px;
+			max-width: max-content;
+		}
+
+		img {
+			width: 50%;
+			border-radius: 10px;
+			box-shadow: inset 1px 1px 10px black;
+		}
+	}
+
+	&.owner {
+		flex-direction: row-reverse;
+		.messageContent {
+			align-items: flex-end;
+			p {
+				background-color:#3582e0;
+				border-radius: 10px 0px 10px 10px;
+			}
+		}
+	}
+}
