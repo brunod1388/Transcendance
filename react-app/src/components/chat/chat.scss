@@ -1,3 +1,110 @@
 @import "../../assets/styles/global.scss";
 
+.chat {
+	display: flex;
+	width: 100%;
+	height: calc(100% - $topbar-height);
+}
 
+.SideBar {
+	width: 200px;
+	border-right: 1px solid #363556;
+	background-color: $sidebar-bg-color;
+	display: flex;
+	flex-direction: column;
+	.search {
+
+		border-bottom: 1px solid grey;
+		padding: 5px;
+
+		.searchForm {
+			padding: 10px;
+			input {
+				background-color: transparent;
+				border: none;
+				color: white;
+				outline: none;
+				// border-bottom: 1px solid $purple;
+				&::placeholder {
+					color: lightgray;
+				}
+			}
+		}
+	}
+	.users {
+		display: flex;
+		flex-direction: column;
+		overflow: scroll;
+		padding: 5px;
+		gap: 5px;
+	}
+}
+
+.feed {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	width: 100%;
+	background-color: $dark-purple;
+
+	.messages {
+		overflow-y: scroll;
+		width: 100%;
+	}
+	.input {
+		height: 40px;
+		background-color: $dark-grey;
+		padding: 10px;
+		display: flex;
+		justify-content: space-between;
+		gap: 10px;
+		input {
+			overflow: auto;
+			height: auto;
+			width: 100%;
+			border: none;
+			outline: none;
+			color:white;
+			border-radius: 5px;
+			padding: 0 10px;
+			background-color: $dark-purple;
+			resize: vertical;
+			&::placeholder {
+				color: rgb(216, 216, 216);
+			}
+		}
+
+		.textarea {
+			display: block;
+			width: 100%;
+			overflow: hidden;
+			resize: both;
+			min-height: 40px;
+			line-height: 20px;
+			}
+
+		.send {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			img {
+				height: 25px;
+				cursor: pointer;
+				filter: $filter-purple;
+			}
+			label {
+
+			}
+			button {
+				border: none;
+				padding: 5px 15px;
+				border-radius: 5px;
+			}
+
+			img:hover{
+				filter: $filter-white;
+			}
+		}
+	}
+
+}
