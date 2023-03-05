@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+
+$chat-bg-color: #363556;
+$purple-message: #9e9ed2;
+$dark-grey: #272637;
+$purple: #7774bf;
+$dark-purple: #413f61;
+$purple-gray: #4a486c;
+$filter-purple: invert(46%) sepia(13%) saturate(1581%) hue-rotate(203deg) brightness(99%) contrast(83%);
+$filter-white: invert(96%) sepia(4%) saturate(0%) hue-rotate(13deg) brightness(105%) contrast(106%);
+
+$topbar-height: 35px;
+$base-font: 'Source Sans Pro', sans-serif;
+
+@keyframes appear{
+	0% { opacity: 0%; }
+	50% { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+@keyframes scaleIn {
+	0% { transform: scale(0); }
+	20% { transform: scale(0); }
+	100% { transform: scale(1); }
+}

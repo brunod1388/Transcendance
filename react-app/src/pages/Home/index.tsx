@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Sidebar from "../../components/chat/Sidebar";
-import Navbar from "../../components/chat/Navbar";
+import React from "react";
+import Navbar from "../../components/home/Navbar";
+import Topbar from "../../components/home/Topbar";
 import Chat from "../../components/chat/Chat";
 import { useAuth } from "../../context";
 import { useAxios } from "../../hooks";
@@ -54,10 +55,14 @@ function Home() {
 
     return (
         <div className="home">
-            <div className="container">
+            <div className="homeContainer">
                 <Navbar />
-                <Sidebar />
-                <Chat />
+                <div className="mainContainer">
+                    <Topbar />
+                    <div className="featureContainer">
+                        <Chat />
+                    </div>
+                </div>
             </div>
         </div>
     );

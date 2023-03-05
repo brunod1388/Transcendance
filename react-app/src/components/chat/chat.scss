@@ -1,3 +1,162 @@
-@import "../../assets/styles/global.scss";
+@import "../../assets/styles/variables.scss";
 
+.chat {
+	display: flex;
+	width: 100%;
+	height: calc(100% - $topbar-height);
+	.SideBar {
+		background-color: $chat-bg-color;
+		width: 170px;
+		display: flex;
+		flex-direction: column;
+		border-radius: 10px 0 0 0 ;
+		.search {
 
+			border-bottom: 2px solid $dark-grey;
+			padding: 5px;
+			padding-right: 8px;
+			.searchForm {
+				padding: 10px;
+				padding-top: 5px;
+				input {
+					background-color: transparent;
+					border: none;
+					color: white;
+					outline: none;
+					&::placeholder {
+						color: lightgray;
+					}
+				}
+			}
+		}
+		.users {
+			display: flex;
+			flex-direction: column;
+			overflow: scroll;
+			padding: 5px;
+			padding-right: 8px;
+			gap: 5px;
+		}
+	}
+	
+	.feed {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		width: 100%;
+		background-color: $chat-bg-color;
+		.messages {
+			background-color: $dark-purple;
+			overflow-y: scroll;
+			width: 100%;
+			border-radius: 0 0 0 5px;
+		}
+		.input {
+			background-color: white;
+			background-color: $dark-purple;
+			margin: 8px;
+			margin-left: 0px;
+			height: 40px;
+			padding: 5px;
+			padding-left: 0;
+			display: flex;
+			border-radius: 5px;
+			gap: 10px;
+			input {
+				overflow: auto;
+				height: auto;
+				width: 100%;
+				border: none;
+				outline: none;
+				color:white;
+				border-radius: 5px;
+				padding: 0 10px;
+				background-color: $dark-purple;
+				resize: vertical;
+				&::placeholder {
+					color: rgb(216, 216, 216);
+				}
+			}
+
+			.textarea {
+				display: block;
+				width: 100%;
+				overflow: hidden;
+				resize: both;
+				min-height: 40px;
+				line-height: 20px;
+			}
+
+			.send {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				img {
+					height: 25px;
+					cursor: pointer;
+					filter: $filter-purple;
+				}
+				label {
+
+				}
+				button {
+					border: none;
+					padding: 4px 15px;
+					border-radius: 5px;
+					&:hover {
+
+					}
+				}
+
+				img:hover{
+					filter: $filter-white;
+				}
+			}
+		}
+	}
+
+	.friendButton {
+		position:absolute;
+		top: 50vh;
+		right: 7.5%;
+		width: 20px;
+		height: 35px;
+		border-radius: 5px 0px 0px 5px;
+		outline: none;
+		border: none;
+		background-color: $dark-grey;
+		opacity: 0.7;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		img {
+			height: 15px;
+			filter: $filter-white;
+		}
+
+		&:hover {
+			background-color: $purple;
+		}
+	}
+	.friendBar {
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
+		background-color: $dark-grey;
+		overflow-y: scroll;
+		min-width: 120px;
+		padding: 8px;
+		.title {
+			color: $purple;
+			padding-bottom: 5px;
+		}
+		.userPlate {
+			background: none;
+			padding: 3px;
+			img {
+				width: 20px;
+				height: 20px;
+			}
+		}
+	}
+}

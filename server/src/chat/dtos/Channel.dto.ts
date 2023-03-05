@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString, ValidateIf } from "class-validator";
 import { ChannelType } from "../entities/Channel.entity";
 
 export class CreateChannelDto {
@@ -13,6 +13,8 @@ export class CreateChannelDto {
     @IsNotEmpty()
     type: ChannelType;
 
+    @ValidateIf((o) => o.type === "protected")
+    @IsNotEmpty()
     password: string;
 }
 
@@ -32,5 +34,7 @@ export class UpdateChannelDto {
     @IsNotEmpty()
     type: ChannelType;
 
+    @ValidateIf((o) => o.type === "protected")
+    @IsNotEmpty()
     password: string;
 }

@@ -1,38 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
-
-$sidebar-bg-color: #363556;
-$purple-message: #9e9ed2;
-$dark-gray: #292943;
-$dark-purple: #2e2d4c;
-$purple: #7774bf;
-$purple-gray: #4a486c;
-$color-dark1: #292943;
-
-$filter-purple: invert(46%) sepia(13%) saturate(1581%) hue-rotate(203deg) brightness(99%) contrast(83%);
-$filter-white: invert(96%) sepia(4%) saturate(0%) hue-rotate(13deg) brightness(105%) contrast(106%);
-
-$topbar-height: 45px;
-$base-font: 'Source Sans Pro', sans-serif;
-
-@keyframes appear{
-	0% { opacity: 0%; }
-	50% { opacity: 0; }
-	100% { opacity: 1; }
-}
-
-@keyframes scaleIn {
-	0% { transform: scale(0); }
-	20% { transform: scale(0); }
-	100% { transform: scale(1); }
-}
+@import "./variables.scss";
 
 .button-purple {
 	color: white;
 	border: none;
 	outline: none;
 	background-color: #827fc6;
+	// &:hover {
+	// 	box-shadow: inset 0px 0px 3px rgba(255, 255, 255, 0.663);
+	// }
 	&:hover {
-		box-shadow: inset 0px 0px 3px rgba(255, 255, 255, 0.663);
+		color: $purple;
+		background-color: white;
+		font-weight: 400;
 	}
 	&:active {
 		background-color: #363556;

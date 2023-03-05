@@ -1,9 +1,9 @@
-@import "../../../assets/styles/global.scss";
+@import "../../../assets/styles/variables.scss";
 
 .navbar {
 	display: flex;
 	flex-direction: column;
-	width: 50px;
+	width: 40px;
 	padding: 10px 5px;
 	align-items: center;
 	gap: 10px;

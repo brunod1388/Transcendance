@@ -1,7 +1,7 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect, FormEvent, MouseEvent } from "react";
 import { AxiosRequestConfig } from "axios";
-import "../../assets/styles/global.scss";
+import "../../assets/styles/form.scss";
 import { useAxios } from "../../hooks";
 
 interface DataType {
@@ -24,6 +24,13 @@ function Login() {
     const navigate = useNavigate();
     const [request, setRequest] = useState<AxiosRequestConfig>(defaultRequest);
     const { response, loading, error, sendData } = useAxios(request);
+    // import { useUser } from "../../context/test-context";
+    // import { useSocket } from "../../hooks";
+
+    //     const [err, setErr] = useState(false);
+    const [notFound, setNotFound] = useState(false);
+    //     const user = useUser();
+    //     const [socket] = useSocket();
 
     useEffect(() => {
         if (loading === false && response?.status === 200) {
@@ -52,6 +59,19 @@ function Login() {
         if (checking !== null) {
             checking.href = "http://localhost:3000/auth/login42";
         }
+        // const email = e.target[0].value;
+        // const password = e.target[1].value;
+        // setErr(false);
+        // try {
+        //     socket.emit("findUserByMail", { email }, (res?: any) => {
+        //         if (res.found) {
+        //             user.setUser(res.user.id, res.user.username);
+        //             navigate("/home");
+        //         } else setNotFound(true);
+        //     });
+        // } catch (error) {
+        //     setErr(err ? false : true);
+        // }
     }
 
     return (
@@ -60,7 +80,12 @@ function Login() {
             <div className="form_wrapper">
                 <span className="title">Login</span>
                 <form onSubmit={handleSubmit}>
-                    <input name="username" type="text" placeholder="username" />
+                    <input
+                        name="username"
+                        type="text"
+                        placeholder="username"
+                        onChange={() => setNotFound(false)}
+                    />
                     <input
                         name="password"
                         type="password"
@@ -68,6 +93,8 @@ function Login() {
                     />
                     <button>Login</button>
                     {error && <p>Credentials Incorrect</p>}
+                    {/* {err && <span>Something went wrong</span>} */}
+                    {notFound && <span>User does not exist</span>}
                 </form>
                 <button type="button" onClick={login42}>
                     Login with 42
