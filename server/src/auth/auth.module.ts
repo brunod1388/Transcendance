@@ -12,7 +12,7 @@ import { TFAjwtStrategy } from "./strategy/TFAstrategy";
 @Module({
     imports: [UsersModule, JwtModule.register({})],
     controllers: [AuthController],
-    providers: [AuthService, JwtStrategy, FtStrategy, TFAjwtStrategy ],
+    providers: [AuthService, JwtStrategy, FtStrategy, TFAjwtStrategy],
     exports: [AuthService],
 })
 export class AuthModule {}

@@ -75,7 +75,11 @@ export class AuthController {
 
     @UseGuards(JwtGuard)
     @Post("activate2FA")
-    async activate2FA(@Request() req, @Body() dto: TFverifyDTO, @Res({ passthrough: true }) res: Response) {
+    async activate2FA(
+        @Request() req,
+        @Body() dto: TFverifyDTO,
+        @Res({ passthrough: true }) res: Response
+    ) {
         const isVerified = await this.authService.verify2FAcode(
             dto.code,
             req.user.id
@@ -85,10 +89,10 @@ export class AuthController {
         }
         try {
             const ret = await this.authService.activate2FA(req.user.id);
-            res.clearCookie("JWTtoken", { sameSite: 'none', secure: true });
+            res.clearCookie("JWTtoken", { sameSite: "none", secure: true });
             res.cookie("JWTtoken", ret["access_token"], {
-            sameSite: "none",
-            secure: true,
+                sameSite: "none",
+                secure: true,
             });
         } catch (error) {
             throw error;
@@ -113,7 +117,7 @@ export class AuthController {
         const token = await this.authService.signToken(
             req.user.id,
             req.user.username,
-            isVerified,
+            isVerified
         );
         res.cookie("JWTtoken", token["access_token"], {
             sameSite: "none",

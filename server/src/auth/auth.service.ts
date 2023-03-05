@@ -106,7 +106,6 @@ export class AuthService {
     }
 
     async signin(dto: AuthDto) {
-
         const user = await this.usersService.findUser(dto.username);
         if (user && user.authStrategy === "42") {
             throw new ForbiddenException(
@@ -141,7 +140,7 @@ export class AuthService {
     // Promise<{access_token: string}> a function description, ensures that an object of type string is returned
     async sign2faToken(
         userId: number,
-        username: string,
+        username: string
     ): Promise<{ access_token: string }> {
         const payload = {
             sub: userId,
