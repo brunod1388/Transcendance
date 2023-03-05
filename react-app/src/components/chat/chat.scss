@@ -1,4 +1,4 @@
-@import "../../assets/styles/global.scss";
+@import "../../assets/styles/variables.scss";
 
 .chat {
 	display: flex;
@@ -44,6 +44,7 @@
 		flex-direction: column;
 		height: 100%;
 		width: 100%;
+		background-color: $chat-bg-color;
 		.messages {
 			background-color: $dark-purple;
 			overflow-y: scroll;
@@ -51,12 +52,15 @@
 			border-radius: 0 0 0 5px;
 		}
 		.input {
-			background-color: $chat-bg-color;
+			background-color: white;
+			background-color: $dark-purple;
+			margin: 8px;
+			margin-left: 0px;
 			height: 40px;
-			padding: 8px;
+			padding: 5px;
 			padding-left: 0;
 			display: flex;
-			justify-content: space-between;
+			border-radius: 5px;
 			gap: 10px;
 			input {
 				overflow: auto;
@@ -97,8 +101,11 @@
 				}
 				button {
 					border: none;
-					padding: 5px 15px;
+					padding: 4px 15px;
 					border-radius: 5px;
+					&:hover {
+
+					}
 				}
 
 				img:hover{
@@ -142,6 +149,14 @@
 		.title {
 			color: $purple;
 			padding-bottom: 5px;
+		}
+		.userPlate {
+			background: none;
+			padding: 3px;
+			img {
+				width: 20px;
+				height: 20px;
+			}
 		}
 	}
 }

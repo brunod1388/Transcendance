@@ -4,7 +4,7 @@ import Add from "../../assets/images/add-image.png";
 import { AxiosRequestConfig } from "axios";
 // import { useSocket } from "../../hooks/useSocket";
 
-import "../../assets/styles/global.scss";
+import "../../assets/styles/form.scss";
 import { useAxios } from "../../hooks";
 
 interface DataType {

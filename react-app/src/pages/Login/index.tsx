@@ -1,7 +1,7 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect, FormEvent, MouseEvent } from "react";
 import { AxiosRequestConfig } from "axios";
-import "../../assets/styles/global.scss";
+import "../../assets/styles/form.scss";
 import { useAxios } from "../../hooks";
 
 interface DataType {

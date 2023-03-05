@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Message from "./components/Message";
-import Attach from "../../assets/images/paper-clip.png";
-import AddImage from "../../assets/images/add-image.png";
+import AddImage from "../../assets/images/addImage.png";
 import Contact from "../../assets/images/contact.png";
 import "./chat.scss";
 
@@ -62,9 +61,6 @@ export default function Chat() {
                             style={{ display: "none" }}
                             id="file"
                         />
-                        <label htmlFor="file">
-                            <img src={Attach} alt="" />
-                        </label>
                         <button className="button-purple">Send</button>
                     </div>
                 </div>

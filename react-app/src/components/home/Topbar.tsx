@@ -43,7 +43,7 @@ export default function Topbar() {
         <div className="topbar">
             <span className="channelName">ChannelName</span>
             <div className="user">
-                <img src={userAuth.avatar} alt="" />
+                <img className="avatar" src={userAuth.avatar} alt="" />
                 <span>{userAuth.username}</span>
                 <img className="imgButton" src={play} alt="" />
                 <img className="imgButton" src={addContact} alt="" />

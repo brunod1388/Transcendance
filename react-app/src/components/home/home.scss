@@ -1,4 +1,4 @@
-@import "../../assets/styles/global.scss";
+@import "../../assets/styles/variables.scss";
 
 
 .topbar {
@@ -25,7 +25,6 @@
 		img {
 			height: $image-size;
 			width: $image-size;
-			border-radius: 50%;
 
 			&.avatar {
 				border-radius: 50%;
