@@ -13,18 +13,19 @@
 		font-weight: bold;
 		padding: 0px 10px;
 	}
-	
 	.user {
 		height: 30px;
 		display: flex;
 		gap: 10px;
 		align-items: center;
-		padding: 0px 10px;
+		// padding: 0px 10px;
+		padding-right: 10px;
 		$image-size: 25px;
 
 		img {
 			height: $image-size;
 			width: $image-size;
+			border-radius: 50%;
 
 			&.avatar {
 				border-radius: 50%;

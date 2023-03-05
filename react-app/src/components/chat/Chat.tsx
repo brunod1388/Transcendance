@@ -11,7 +11,7 @@ const imgUrl =
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF6qx2Sw1RVNAU_cLLe9v0H32Rvufjjbrqsw&usqp=CAU";
 
 export default function Chat() {
-    const [friendsVisible, setFriendsVisible] = useState(true);
+    const [friendsVisible, setFriendsVisible] = useState(false);
 
     return (
         <div className="chat">
