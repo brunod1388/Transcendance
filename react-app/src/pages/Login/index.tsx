@@ -52,13 +52,6 @@ function Login() {
             password: target.password.value,
         };
         setRequest((prev: AxiosRequestConfig) => ({ ...prev, data: data }));
-    }
-
-    function login42(e: MouseEvent<HTMLButtonElement>) {
-        const checking = window.location;
-        if (checking !== null) {
-            checking.href = "http://localhost:3000/auth/login42";
-        }
         // const email = e.target[0].value;
         // const password = e.target[1].value;
         // setErr(false);
@@ -72,6 +65,13 @@ function Login() {
         // } catch (error) {
         //     setErr(err ? false : true);
         // }
+    }
+
+    function login42(e: MouseEvent<HTMLButtonElement>) {
+        const checking = window.location;
+        if (checking !== null) {
+            checking.href = "http://localhost:3000/auth/login42";
+        }
     }
 
     return (
