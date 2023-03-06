@@ -54,15 +54,7 @@ function Subscribe() {
             password: target.password.value,
             confirmPassword: target.confirmPassword.value,
         };
-        //     setRequest((prev: AxiosRequestConfig) => ({ ...prev, data: data }));
-
-        // ----- TEST ----
-        console.log("TEST");
-        socket.emit("newUser", data, (res?: string) => {
-            console.log(res);
-        });
-        navigate("/", { replace: true });
-        // ----- TEST -----
+        setRequest((prev: AxiosRequestConfig) => ({ ...prev, data: data }));
     }
 
     function signup42(e: MouseEvent<HTMLButtonElement>) {

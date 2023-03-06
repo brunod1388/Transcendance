@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import UserMenu from "./UserMenu";
 import "./user.scss";
+import { NoUserIcon } from "../../../assets/images";
 
 type Props = {
     imgSrc?: string;
@@ -9,12 +10,9 @@ type Props = {
     isPrivate?: boolean;
 };
 
-const imgTest =
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF6qx2Sw1RVNAU_cLLe9v0H32Rvufjjbrqsw&usqp=CAU";
-
 export default function User(props: Props) {
     const {
-        imgSrc = imgTest,
+        imgSrc = NoUserIcon,
         hasNewMsg = false,
         keyId,
         isPrivate = false,

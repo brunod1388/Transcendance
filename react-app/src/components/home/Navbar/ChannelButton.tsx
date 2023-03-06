@@ -7,7 +7,7 @@ interface Props {
     onClick?: any;
 }
 
-export default function ChannelIcon(props: Props) {
+export default function ChannelButton(props: Props) {
     const { image, name, filter = false, onClick } = props;
     return (
         <div className="channel tooltip" onClick={onClick}>

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Message from "./components/Message";
-import AddImage from "../../assets/images/addImage.png";
-import Contact from "../../assets/images/contact.png";
+import { AddImageIcon, ContactIcon } from "../../assets/images";
 import "./chat.scss";
 
 import User from "./components/User";
@@ -55,7 +54,7 @@ export default function Chat() {
                 <div className="input">
                     <input type="text" placeholder="Type something..." />
                     <div className="send">
-                        <img src={AddImage} alt="" />
+                        <img src={AddImageIcon} alt="" />
                         <input
                             type="file"
                             style={{ display: "none" }}
@@ -71,7 +70,7 @@ export default function Chat() {
                     setFriendsVisible(friendsVisible ? false : true);
                 }}
             >
-                <img src={Contact} alt="" />
+                <img src={ContactIcon} alt="" />
             </button>
             {friendsVisible && (
                 <div className="friendBar">

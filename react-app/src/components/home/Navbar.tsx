@@ -1,17 +1,15 @@
 import React from "react";
-import ChannelIcon from "./Navbar/ChannelIcon";
-import smile from "../../assets/images/smile-blue.png";
-import jouer from "../../assets/images/jouer.png";
-import plus from "../../assets/images/plus.png";
-import "./Navbar/navbar.scss";
 import NewChannel from "./Navbar/NewChannel";
+import ChannelButton from "./Navbar/ChannelButton";
 import { useState } from "react";
+import { ChatIcon, AddChannelIcon, NoChannelIcon} from "../../assets/images";
+import "./Navbar/navbar.scss";
 
 export default function Navbar() {
     const channels: any[] = [
-        { name: "channel1", imageUrl: smile },
-        { name: "channel2", imageUrl: smile },
-        { name: "channel3", imageUrl: smile },
+        { name: "channel1", imageUrl: NoChannelIcon },
+        { name: "channel2", imageUrl: NoChannelIcon },
+        { name: "channel3", imageUrl: NoChannelIcon },
     ];
     const [newChannel, setNewChannel] = useState(false);
 
@@ -25,16 +23,16 @@ export default function Navbar() {
 
     return (
         <div className="navbar">
-            <ChannelIcon
+            <ChannelButton
                 filter={true}
                 name="PrivateMessage"
-                image={jouer}
+                image={ChatIcon}
                 onClick={privateClick}
             />
             <span className="separator" />
             <div className="icon_wrapper">
                 {channels.map((channel, i) => (
-                    <ChannelIcon
+                    <ChannelButton
                         name={channel.name}
                         image={channel.imageUrl}
                         onClick={iconClick}
@@ -43,10 +41,10 @@ export default function Navbar() {
                 ))}
             </div>
             <span className="separator" />
-            <ChannelIcon
+            <ChannelButton
                 filter={true}
                 name="Add Channel"
-                image={plus}
+                image={AddChannelIcon}
                 onClick={addClick}
             />
             {newChannel && <NewChannel quitForm={() => setNewChannel(false)} />}

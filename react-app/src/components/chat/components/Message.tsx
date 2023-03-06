@@ -1,5 +1,6 @@
 import React from "react";
 import "./message.scss";
+import { NoUserIcon } from "../../../assets/images";
 
 interface Props {
     owner?: boolean;
@@ -7,14 +8,14 @@ interface Props {
 }
 
 const imgUrl =
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF6qx2Sw1RVNAU_cLLe9v0H32Rvufjjbrqsw&usqp=CAU";
+"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF6qx2Sw1RVNAU_cLLe9v0H32Rvufjjbrqsw&usqp=CAU";
 
 export default function Message(props: Props) {
-    const { owner = false, imageUrl = "" } = props;
+    const { owner = false, imageUrl = NoUserIcon } = props;
     return (
         <div className={"message" + (owner ? " owner" : "")}>
             <div className="messageInfo">
-                <img src={imgUrl} alt="" />
+                <img src={imageUrl} alt="" />
                 <span>Time</span>
             </div>
             <div className="messageContent">

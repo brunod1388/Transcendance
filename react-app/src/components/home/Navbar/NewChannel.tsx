@@ -16,20 +16,19 @@ export default function NewChannel(props: Props) {
     function handleSubmit(e: any) {
         e.preventDefault();
         const target = e.target;
-        const newChannel = {name: target.channelName.value,
-                            type: target.channelType.value,
-                            password: target.password?.value,
-                            ownerId: userAuth.id}
+        const newChannel = {
+            name: target.channelName.value,
+            type: target.channelType.value,
+            password: target.password?.value,
+            ownerId: userAuth.id,
+        };
 
-        socket.emit(
-            "newChannel", newChannel,
-            (res?: string) => {
-                if (res === `OK`) props.quitForm();
-                else setIsUnique(false);
-                console.log("RESPONSE");
-                console.log(res);
-            }
-        );
+        socket.emit("newChannel", newChannel, (res?: string) => {
+            if (res === `OK`) props.quitForm();
+            else setIsUnique(false);
+            console.log("RESPONSE");
+            console.log(res);
+        });
     }
 
     return (
@@ -40,7 +39,11 @@ export default function NewChannel(props: Props) {
                         <span className="title">New Channel</span>
                     </div>
                     <form onSubmit={handleSubmit}>
-                        <input name="channelName" type="text" placeholder="ChannelName" />
+                        <input
+                            name="channelName"
+                            type="text"
+                            placeholder="ChannelName"
+                        />
                         {!isUnique && (
                             <p className="error">Channel Name already exist!</p>
                         )}
@@ -57,7 +60,11 @@ export default function NewChannel(props: Props) {
                             <option value="protected">protected</option>
                         </select>
                         {isPrivate && (
-                            <input name="password" type="password" placeholder="Password" />
+                            <input
+                                name="password"
+                                type="password"
+                                placeholder="Password"
+                            />
                         )}
                         {isPrivate && (
                             <input
