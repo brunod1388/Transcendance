@@ -2,7 +2,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect, FormEvent, MouseEvent } from "react";
 import Add from "../../assets/images/add-image.png";
 import { AxiosRequestConfig } from "axios";
-// import { useSocket } from "../../hooks/useSocket";
+import { useSocket } from "../../hooks/useSocket";
 
 import "../../assets/styles/form.scss";
 import { useAxios } from "../../hooks";
@@ -31,6 +31,7 @@ function Subscribe() {
     const navigate = useNavigate();
     const [request, setRequest] = useState<AxiosRequestConfig>(defaultRequest);
     const { response, loading, error, sendData } = useAxios(request);
+    const [socket] = useSocket();
 
     useEffect(() => {
         if (loading === false && response?.status === 201) {
@@ -53,7 +54,15 @@ function Subscribe() {
             password: target.password.value,
             confirmPassword: target.confirmPassword.value,
         };
-        setRequest((prev: AxiosRequestConfig) => ({ ...prev, data: data }));
+        //     setRequest((prev: AxiosRequestConfig) => ({ ...prev, data: data }));
+
+        // ----- TEST ----
+        console.log("TEST");
+        socket.emit("newUser", data, (res?: string) => {
+            console.log(res);
+        });
+        navigate("/", { replace: true });
+        // ----- TEST -----
     }
 
     function signup42(e: MouseEvent<HTMLButtonElement>) {
@@ -62,23 +71,6 @@ function Subscribe() {
             checking.href = "http://localhost:3000/auth/login42";
         }
     }
-    // const [socket] = useSocket();
-    // function signup(e: any) {
-    //     console.log("TEST");
-    //     socket.emit(
-    //         "newUser",
-    //         {
-    //             username: e.target[0].value,
-    //             email: e.target[1].value,
-    //             password: e.target[2].value,
-    //             confirmPassword: e.target[3].value,
-    //         },
-    //         (res?: string) => {
-    //             console.log(res);
-    //         }
-    //     );
-    //     // navigate("/", { replace: true });
-    // }
 
     return (
         <div className="form_container">

@@ -6,7 +6,6 @@ import { AuthProvider } from "./context";
 import { SocketProvider, NotificationProvider } from "./context";
 import { BrowserRouter } from "react-router-dom";
 
-import { UserProvider } from "./context/test-context"; //for testing purpose
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -18,11 +17,9 @@ root.render(
             <BrowserRouter>
                 <AuthProvider>
                     <NotificationProvider>
-                        <UserProvider>
-                            {" "}
-                            {/* testing purpose */}
-                            <App />
-                        </UserProvider>
+                        {" "}
+                        {/* testing purpose */}
+                        <App />
                     </NotificationProvider>
                 </AuthProvider>
             </BrowserRouter>

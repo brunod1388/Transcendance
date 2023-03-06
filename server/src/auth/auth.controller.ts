@@ -20,7 +20,7 @@ import {
 import { FortyTwoGuard } from "./guard/FortyTwo.guard";
 import { GetUser } from "./decorator";
 import { User } from "../users/entities/User.entity";
-import { JwtGuard } from "./guard";
+import { JwtGuard, tfaGuard } from "./guard";
 
 // In order to call the functions of the AuthService class, the AuthController will
 // have to instantiate a AuthService class. To avoid explicit
@@ -32,43 +32,12 @@ export class AuthController {
 
     //    @HttpCode(HttpStatus.OK)
     @Post("signup")
-    async signup(
+    signup(
         @Request() req,
         @Body() dto: CreateUserDto,
         @Res({ passthrough: true }) response: Response
     ) {
-        //    response.setHeader(
-        //        "Access-Control-Allow-Origin",
-        //        "http://localhost:9000"
-        //    );
-
-        try {
-            const ret = await this.authService.signup(dto);
-
-            //response.setHeader("Authorization", `Bearer ${ret["access_token"]}`);
-            response.cookie("JWTtoken", ret["access_token"]["access_token"], {
-                sameSite: "none",
-                secure: true,
-            });
-
-            //    if (dto.enable2FA) {
-            //        const { confirmPassword, ...userDetails } = dto;
-            //        return this.authService.activate2FA(ret["user"], userDetails);
-            //    }
-
-            //  the validated dto (data transfer object) is passed to the auth.Service
-            //  return this.authService.signup(dto, response);
-            return {
-                id: ret["user"]["id"],
-                username: ret["user"]["username"],
-                avatar: ret["user"]["avatar"],
-                authStrategy: ret["user"]["authStrategy"],
-                enable2FA: ret["user"]["enable2FA"],
-            };
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
+        return this.authService.signup(dto);
     }
 
     // return status code 200 (OK) on signin as no new resource is created
@@ -81,36 +50,19 @@ export class AuthController {
         try {
             const ret = await this.authService.signin(dto);
 
-            //response.setHeader("Authorization", `Bearer ${ret["access_token"]}`);
-            //        console.log("User enable2FA: ", ret["user"]["enable2FA"]);
-            //        if (ret["user"]["enable2FA"]) {
-            //            res.setHeader("Access-Control-Allow-Origin", "*");
-            //            return res.redirect("http://localhost:9000/verify2fa");
-            //        }
             res.cookie("JWTtoken", ret["access_token"]["access_token"], {
                 sameSite: "none",
                 secure: true,
             });
 
-            //    if (ret.user && ret.user.enable2FA) {
-            //        return this.authService.verify2FAcode(dto.code2FA, ret["user"]);
-            //    }
-
-            //  the validated dto (data transfer object) is passed to the auth.Service
-            //  return this.authService.signup(dto, response);
-            return {
-                id: ret["user"]["id"],
-                username: ret["user"]["username"],
-                avatar: ret["user"]["avatar"],
-                authStrategy: ret["user"]["authStrategy"],
-                enable2FA: ret["user"]["enable2FA"],
-            };
+            if (ret["user"]["enable2FA"]) {
+                return { redirect: "/verify2fa" };
+            }
+            return { redirect: "/home" };
         } catch (error) {
             console.log(error);
             throw error;
         }
-
-        //return this.authService.signin(dto);
     }
 
     @UseGuards(JwtGuard)
@@ -123,7 +75,11 @@ export class AuthController {
 
     @UseGuards(JwtGuard)
     @Post("activate2FA")
-    async activate2FA(@Request() req, @Body() dto: TFverifyDTO) {
+    async activate2FA(
+        @Request() req,
+        @Body() dto: TFverifyDTO,
+        @Res({ passthrough: true }) res: Response
+    ) {
         const isVerified = await this.authService.verify2FAcode(
             dto.code,
             req.user.id
@@ -131,12 +87,20 @@ export class AuthController {
         if (!isVerified) {
             throw new ForbiddenException("Verifictation code incorrect");
         }
-        await this.authService.activate2FA(req.user.id);
+        try {
+            const ret = await this.authService.activate2FA(req.user.id);
+            res.clearCookie("JWTtoken", { sameSite: "none", secure: true });
+            res.cookie("JWTtoken", ret["access_token"], {
+                sameSite: "none",
+                secure: true,
+            });
+        } catch (error) {
+            throw error;
+        }
     }
 
-    //@HttpCode(HttpStatus.OK)
-    //@UseGuards(JwtGuard)
     @HttpCode(HttpStatus.OK)
+    @UseGuards(tfaGuard)
     @Post("verify2FA")
     async verify2FA(
         @Request() req,
@@ -153,13 +117,12 @@ export class AuthController {
         const token = await this.authService.signToken(
             req.user.id,
             req.user.username,
-            req.user.email
+            isVerified
         );
         res.cookie("JWTtoken", token["access_token"], {
             sameSite: "none",
             secure: true,
         });
-        //return res.redirect("http://localhost:9000/");
     }
 
     @UseGuards(FortyTwoGuard)
@@ -168,7 +131,6 @@ export class AuthController {
         return user;
     }
 
-    //    callback(@GetUser() user: User, @Res({passthrough: true}) res) {
     @UseGuards(FortyTwoGuard)
     @Get("login42/callback")
     async callback(@Request() req, @Res({ passthrough: true }) res: Response) {
@@ -179,7 +141,6 @@ export class AuthController {
             authStrategy: "42",
             avatar: req.user.avatar,
         };
-        //    const token = this.authService.signToken(user.id, user.username, user.email);
 
         const token = await this.authService.login42(dto);
 
@@ -195,31 +156,9 @@ export class AuthController {
 
         res.setHeader("Access-Control-Allow-Origin", "*");
 
-        /*    const url = new URL(`${req.protocol}:${req.hostname}`);
-        url.port = "3000";
-        url.pathname = "login42";
-        url.searchParams.set("code", token["access_token"]);
-    */
-        return res.redirect("http://localhost:9000/");
-        //    return {
-        //        id: req.user.id,
-        //        username: req.user.login,
-        //        authStrategy: req.user.authStrategy,
-        //        enable2FA: req.user.enable2FA,
-        //    };
-        //res.status(302).redirect(url.href);
-        //    res.cookie('jwt_token', token);
-        //    return res.redirect('http://localhost:3000/users/me');
-    }
-
-    @UseGuards(JwtGuard)
-    @Get("logout")
-    logout(@Res({ passthrough: true }) res: Response) {
-        // Clearing the cookies will ensure that the routes protected by the JWTGuard
-        // are no longer authorized and a login will have to be performed so that a new
-        // jwt token is generated
-        res.clearCookie("JWTtoken");
-        //    res.setHeader("Access-Control-Allow-Origin", "*");
-        return res.redirect("http://localhost:9000/login");
+        if (req.user.enable2FA) {
+            return res.redirect("http://localhost:9000/verify2fa");
+        }
+        return res.redirect("http://localhost:9000/home");
     }
 }

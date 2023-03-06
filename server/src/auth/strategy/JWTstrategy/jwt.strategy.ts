@@ -1,5 +1,5 @@
 import { PassportStrategy } from "@nestjs/passport";
-import { Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { Request } from "express";
@@ -23,13 +23,22 @@ export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
     }
 
     // The token will be transformed into an object and passed into payload
-    async validate(payload: { sub: number; username: string; email: string }) {
+    async validate(payload: {
+        sub: number;
+        username: string;
+        tfaValid: boolean;
+    }) {
         const user = await this.usersService.findUserId(payload.sub);
         // the hashed password is deleted to ensure we don't inadvertently export sensitive info
         delete user.password;
+        delete user.code2FA;
+
         // By returning the user, it will append the user to the user object of the request object
         // If the user is not found (null returned) a 401 error will be returned
-        return user;
+        if (user && (!user.enable2FA || payload.tfaValid)) {
+            return user;
+        }
+        throw new UnauthorizedException("Unauthorized Credentials");
     }
 
     private static extractFromCookie(req: Request): string | null {

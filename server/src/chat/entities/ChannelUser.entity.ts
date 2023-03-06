@@ -10,7 +10,7 @@ export enum rightType {
 
 @Entity({ name: "channelUsers" })
 export class ChannelUser {
-    @PrimaryGeneratedColumn("uuid")
+    @PrimaryGeneratedColumn({ type: "bigint" })
     id: number;
 
     @ManyToOne(() => User, (user) => user.ownedChannels)

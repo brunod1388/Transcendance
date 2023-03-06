@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AddImage from "../../../assets/images/add-image.png";
-import { useSocket } from "../../../hooks/useSocket";
-import { useUser } from "../../../context/test-context";
+import { useSocket } from "../../../hooks";
+import { useAuth } from "../../../context";
 
 interface Props {
     quitForm: any;
@@ -11,18 +11,18 @@ export default function NewChannel(props: Props) {
     const [isPrivate, setIsPrivate] = useState(false);
     const [socket] = useSocket();
     const [isUnique, setIsUnique] = useState(true);
-    const user = useUser();
+    const { userAuth } = useAuth();
 
     function handleSubmit(e: any) {
         e.preventDefault();
+        const target = e.target;
+        const newChannel = {name: target.channelName.value,
+                            type: target.channelType.value,
+                            password: target.password?.value,
+                            ownerId: userAuth.id}
+
         socket.emit(
-            "newChannel",
-            {
-                name: e.target[0].value,
-                type: e.target[1].value,
-                Password: e.target[2].value,
-                ownerID: user.user.id,
-            },
+            "newChannel", newChannel,
             (res?: string) => {
                 if (res === `OK`) props.quitForm();
                 else setIsUnique(false);
@@ -30,14 +30,6 @@ export default function NewChannel(props: Props) {
                 console.log(res);
             }
         );
-
-        // console.log(`name: ${e.target[0].value}`);
-        // console.log(`type: ${e.target[1].value}`);
-        // console.log(`password: ${e.target[2].value}`);
-        // console.log(`repassword: ${e.target[3].value}`);
-        // console.log(`***user id ${user.user.id}`)
-        // console.log(`***username ${user.user.userName}`)
-        // console.log(`***username ${user.user.email}`)
     }
 
     return (
@@ -48,7 +40,7 @@ export default function NewChannel(props: Props) {
                         <span className="title">New Channel</span>
                     </div>
                     <form onSubmit={handleSubmit}>
-                        <input type="text" placeholder="ChannelName" />
+                        <input name="channelName" type="text" placeholder="ChannelName" />
                         {!isUnique && (
                             <p className="error">Channel Name already exist!</p>
                         )}
@@ -65,7 +57,7 @@ export default function NewChannel(props: Props) {
                             <option value="protected">protected</option>
                         </select>
                         {isPrivate && (
-                            <input type="password" placeholder="Password" />
+                            <input name="password" type="password" placeholder="Password" />
                         )}
                         {isPrivate && (
                             <input
