@@ -7,13 +7,18 @@ import {
     ParseIntPipe,
     Post,
     Put,
+    UploadedFile,
     UseGuards,
+    UseInterceptors,
 } from "@nestjs/common";
 import { CreateUserDto, UpdateUserDto } from "./dtos/UserValidation.dto";
 import { UsersService } from "./users.service";
 import { JwtGuard } from "../auth/guard";
 import { GetUser } from "../auth/decorator";
 import { User } from "./entities/User.entity";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { diskStorage } from "multer";
+import { v4 as uuidv4 } from 'uuid';
 
 // The controller is typically used for handling incoming requets and sending outbound responses
 // The controller will usually do things such as extract query parameters, validate request body,
@@ -70,6 +75,26 @@ export class UsersController {
         // Validation has not been perforemed (TO DO !!!)
         // Here the update result response does not have to be returned
         await this.userService.updateUser(id, updateUserDto);
+    }
+
+    @Post("avatar")
+    @UseInterceptors(FileInterceptor('file', {
+        storage: diskStorage({
+            // path within the parent directory (src) where the file will be saved
+            destination: "./uploads/avatars",
+
+            // originalname is from multer, with regex we filter out
+            // whitespace characters (/\s/g) and add a uuid to ensure uniqueness
+            filename: (req, file, cb) => {
+                const filename: string = path.parse(file.originalname).name.replace(/\s/g, '') + uuidv4();
+                const extension: string = path.parse(file.originalname).ext;
+
+                cb(null, `${filename}${extension}`)
+            }
+        })
+    }))
+    uploadFile(@UploadedFile() file: Express.Multer.file) {
+        console.log(file);
     }
 
     @Delete(":id")
