@@ -7,6 +7,8 @@ import {
     ParseIntPipe,
     Post,
     Put,
+    Request,
+    Res,
     UploadedFile,
     UseGuards,
     UseInterceptors,
@@ -18,7 +20,8 @@ import { GetUser } from "../auth/decorator";
 import { User } from "./entities/User.entity";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
-import { v4 as uuidv4 } from 'uuid';
+import path = require("path");
+import { v4 as uuidv4 } from "uuid";
 
 // The controller is typically used for handling incoming requets and sending outbound responses
 // The controller will usually do things such as extract query parameters, validate request body,
@@ -78,23 +81,40 @@ export class UsersController {
     }
 
     @Post("avatar")
-    @UseInterceptors(FileInterceptor('file', {
-        storage: diskStorage({
-            // path within the parent directory (src) where the file will be saved
-            destination: "./uploads/avatars",
+    @UseInterceptors(
+        FileInterceptor("file", {
+            storage: diskStorage({
+                // path within the parent directory (server) where the file will be saved
+                destination: "./uploads",
 
-            // originalname is from multer, with regex we filter out
-            // whitespace characters (/\s/g) and add a uuid to ensure uniqueness
-            filename: (req, file, cb) => {
-                const filename: string = path.parse(file.originalname).name.replace(/\s/g, '') + uuidv4();
-                const extension: string = path.parse(file.originalname).ext;
+                // originalname is from multer, with regex we filter out
+                // whitespace characters (/\s/g) and add a uuid to ensure uniqueness
+                filename: (req, file, cb) => {
+                    const filename: string =
+                        path.parse(file.originalname).name.replace(/\s/g, "") +
+                        uuidv4();
+                    const extension: string = path.parse(file.originalname).ext;
 
-                cb(null, `${filename}${extension}`)
-            }
+                    cb(null, `${filename}${extension}`);
+                },
+            }),
         })
-    }))
-    uploadFile(@UploadedFile() file: Express.Multer.file) {
-        console.log(file);
+    )
+    uploadAvatar(@Request() req, @UploadedFile() file) {
+        console.log("IN SERVER uploadAvatar");
+        try {
+            console.log(file);
+            const dto: UpdateUserDto = { avatar: "http://localhost:3000/users/avatar/" + file.filename };
+            return this.userService.uploadAvatar(req.user.id, dto);
+        } catch (err) {
+            console.log(err);
+            throw err;
+        }
+    }
+
+    @Get("avatar/:filename")
+    async getAvatar(@Param("filename") filename, @Res() res) {
+        res.sendFile(filename, { root: "uploads" });
     }
 
     @Delete(":id")

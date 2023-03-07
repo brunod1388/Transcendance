@@ -98,6 +98,10 @@ export class UsersService {
         return this.userRepository.update({ id }, { ...update42UserDetails });
     }
 
+    uploadAvatar(id: number, avatarFilename: UpdateUserParams) {
+        return this.userRepository.update({ id }, { ...avatarFilename });
+    }
+
     deleteUser(id: number) {
         return this.userRepository.delete({ id });
     }

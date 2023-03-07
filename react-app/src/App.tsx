@@ -11,6 +11,7 @@ import { useInvitation } from "./hooks";
 import PongPage from "./pages/Pong";
 import TwoFactorAuth from "./pages/Enable2FA";
 import Verify2FA from "./pages/Verify2FA";
+import ProfileSettings from "./pages/ProfileSettings";
 
 function App() {
     // in the future use this to be sur to not access to the chat if no authentified
@@ -44,6 +45,7 @@ function App() {
                 <Route path="pong" element={<PongPage />} />
                 <Route path="twofactor" element={<TwoFactorAuth />} />
                 <Route path="verify2fa" element={<Verify2FA />} />
+                <Route path="settings" element={<ProfileSettings />} />
                 {/* <EventLayer /> */}
             </Route>
         </Routes>

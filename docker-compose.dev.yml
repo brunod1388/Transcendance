@@ -22,6 +22,7 @@ services:
     volumes:
       - ./server/src:/nestjs-server/src
       - ./server/tests:/nestjs-server/tests
+      - ./server/uploads:/nestjs-server/uploads
 
   react-app:
     container_name: react-app
