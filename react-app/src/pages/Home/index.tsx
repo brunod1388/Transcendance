@@ -10,6 +10,7 @@ import { AxiosRequestConfig } from "axios";
 import "./home.scss";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import Cookies from "js-cookie";
+import { useSocket } from "../../hooks";
 
 const defaultRequest: AxiosRequestConfig = {
     method: "GET",

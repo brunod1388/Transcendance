@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import {
+    Column,
+    Entity,
+    PrimaryGeneratedColumn,
+    ManyToOne,
+    Index,
+} from "typeorm";
 
 import { Channel } from "./Channel.entity";
 import { User } from "../../users/entities/User.entity";
@@ -9,6 +15,7 @@ export enum rightType {
 }
 
 @Entity({ name: "channelUsers" })
+@Index(["user", "channel"], { unique: true })
 export class ChannelUser {
     @PrimaryGeneratedColumn({ type: "bigint" })
     id: number;

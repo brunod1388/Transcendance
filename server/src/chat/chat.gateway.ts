@@ -8,9 +8,11 @@ import {
 import { Socket, Server } from "socket.io";
 import { UsersService } from "../users/users.service";
 import { CreateUserDto } from "../users/dtos/UserValidation.dto";
-import { CreateChannelDto } from "./dtos/Channel.dto";
+import { ChannelDto, CreateChannelDto } from "./dtos/Channel.dto";
 import { ChannelService } from "./channel/channel.service";
 import { User } from "src/users/entities/User.entity";
+import { ChannelUserService } from "./channelUser/channelUsers.service";
+import { rightType } from "./entities";
 
 @WebSocketGateway({
     cors: {
@@ -20,7 +22,8 @@ import { User } from "src/users/entities/User.entity";
 export class ChatGateway {
     constructor(
         private userService: UsersService,
-        private channelService: ChannelService
+        private channelService: ChannelService,
+        private channelUserService: ChannelUserService
     ) {}
 
     @WebSocketServer()
@@ -38,38 +41,46 @@ export class ChatGateway {
         @MessageBody() data: CreateChannelDto
     ): Promise<string> {
         try {
-            const user = await this.userService.findUserId(data.ownerId);
             const newChannel = await this.channelService.createChannel(data);
+            await this.channelUserService.createChannelUser({
+                channelId: newChannel.id,
+                userId: newChannel.owner.id,
+                rights: rightType.ADMIN,
+                isPending: false,
+            });
         } catch (error) {
-            console.log(error.message);
             return error;
         }
         return `OK`;
     }
 
-    // TEST PURPOSE BELOW
-
-    @SubscribeMessage("newUser")
-    async createUserTmp(@MessageBody() data: CreateUserDto): Promise<string> {
-        try {
-            await this.userService.createUser(data);
-        } catch (error) {
-            console.log(error.message);
-            return error;
-        }
-        console.log("djsljdaldaksjdlsajdlaklAAAAAAA");
-        return `user ${data.username} created`;
+    @SubscribeMessage("getChannels")
+    // async getChannels(@MessageBody() data: any): Promise<ChannelDto[]>{
+    async getChannels(@MessageBody() userId: number): Promise<ChannelDto[]> {
+        // const { userId } = data;
+        // console.log(`data: ${data}`);
+        // const channels = await this.channelUserService.getUserChannels(userId);
+        const channels = await this.channelService.getUserChannels(userId);
+        console.log(channels);
+        return channels;
     }
 
-    @SubscribeMessage("findUser")
-    async findUserByName(
-        @MessageBody() name: string
-    ): Promise<{ found: boolean; user: User }> {
-        const user = await this.userService.findUser(name);
-        if (user) console.log("vetrou!");
-        else console.log("pas vetrou");
-        return user
-            ? { found: true, user: user }
-            : { found: false, user: user };
-    }
+    // @SubscribeMessage("joinRoom")
+    // async joinRoom(@MessageBody() data: any): Promise<string> {
+    //     const { userId } = data;
+
+    //     return await this.channelService.getChannelsForUserId(userId);
+    // }
+
+    // @SubscribeMessage("findUser")
+    // async findUserByName(
+    //     @MessageBody() name: string
+    // ): Promise<{ found: boolean; user: User }> {
+    //     const user = await this.userService.findUser(name);
+    //     if (user) console.log("vetrou!");
+    //     else console.log("pas vetrou");
+    //     return user
+    //         ? { found: true, user: user }
+    //         : { found: false, user: user };
+    // }
 }

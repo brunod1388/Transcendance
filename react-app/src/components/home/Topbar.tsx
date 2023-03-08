@@ -1,6 +1,11 @@
 import React from "react";
 
-import {PlayIcon, SettingIcon, AddUserIcon} from "../../assets/images";
+import {
+    PlayIcon,
+    SettingIcon,
+    AddUserIcon,
+    NoUserIcon,
+} from "../../assets/images";
 import "./home.scss";
 
 import { useNavigate } from "react-router-dom";
@@ -21,7 +26,7 @@ export default function Topbar() {
     const navigate = useNavigate();
     const { userAuth, updateUser } = useAuth();
     const { removeItem } = useLocalStorage();
-
+    const avatar = userAuth.avatar;
     //useEffect(() => {
     //    console.log("Auth user: ", userAuth);
     //}, [userAuth]);
@@ -41,7 +46,11 @@ export default function Topbar() {
         <div className="topbar">
             <span className="channelName">ChannelName</span>
             <div className="user">
-                <img className="avatar" src={userAuth.avatar} alt="" />
+                <img
+                    className="avatar"
+                    src={avatar ? avatar : NoUserIcon}
+                    alt=""
+                />
                 <span>{userAuth.username}</span>
                 <img className="imgButton" src={PlayIcon} alt="" />
                 <img className="imgButton" src={AddUserIcon} alt="" />
