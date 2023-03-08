@@ -64,14 +64,16 @@ export default function Chat() {
                     </div>
                 </div>
             </div>
-            <button
-                className="friendButton"
-                onClick={() => {
-                    setFriendsVisible(friendsVisible ? false : true);
-                }}
-            >
-                <img src={ContactIcon} alt="" />
-            </button>
+            <div className="button_container">
+                <button
+                    className="friendButton"
+                    onClick={() => {
+                        setFriendsVisible(friendsVisible ? false : true);
+                    }}
+                >
+                    <img src={ContactIcon} alt="" />
+                </button>
+            </div>
             {friendsVisible && (
                 <div className="friendBar">
                     <span className="title">Friends</span>

@@ -114,14 +114,20 @@
 			}
 		}
 	}
+	.button_container {
+		display: flex;
+		justify-content: end;
+	}
 
 	.friendButton {
 		position:absolute;
 		top: 50vh;
-		right: 7.5%;
+		// right: 7.5%;
+		justify-self: end;
 		width: 20px;
 		height: 35px;
 		border-radius: 5px 0px 0px 5px;
+		justify-self: self-end;
 		outline: none;
 		border: none;
 		background-color: $dark-grey;
