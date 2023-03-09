@@ -17,3 +17,9 @@ export const defaultChatContext = {
     chat: defaultChat,
     updateChat: () => {},
 };
+
+export interface ChannelType {
+    id: number;
+    name: string;
+    image?: any;
+}

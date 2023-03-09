@@ -6,50 +6,39 @@ import { ChatIcon, AddChannelIcon, NoChannelIcon } from "../../assets/images";
 import "./Navbar/navbar.scss";
 import { useAuth, useChat } from "../../context";
 import { useSocket } from "../../hooks";
-
-interface ChannelType {
-    id: number;
-    name: string;
-    image?: any;
-}
+import {ChannelType} from "../../@types"
 
 export default function Navbar() {
-    const channelss: any[] = [
-        { name: "channel1", image: NoChannelIcon, id: 1 },
-        { name: "channel2", image: NoChannelIcon, id: 2 },
-        { name: "channel3", image: NoChannelIcon, id: 3 },
-    ];
+
     const [newChannel, setNewChannel] = useState(false);
     const { userAuth } = useAuth();
     const [socket] = useSocket();
-    const [channels, setChannels] = useState<ChannelType[]>();
-    const { chat, updateChat } = useChat();
+    const [channels, setChannels] = useState<ChannelType[]>([]);
+    const { channel, updateChannel } = useChat();
 
     useEffect(() => {
-        console.log(userAuth);
-        console.log(userAuth.id);
-        socket.emit("getChannels", userAuth.id, (res: ChannelType[]) => {
+        socket.emit("getChannels", userAuth.id, (res: any) => {
             console.log(res);
             setChannels(res);
         });
-    }, []);
+    }, [userAuth, newChannel]);
 
     function privateClick() {
-        // updateChat((prev) => ({
-        //     ...channels,
-        //     currentChannelType: "directMessage",
-        // }));
+        updateChannel({...channel,
+            currentChannelId: 0,
+            currentChannelName: "Private Message",
+            currentChannelType: "directMessage"
+        });
     }
 
     function channelClick(id: number) {
-        // updateChat((prev) => ({
-        //     ...channels,
-        //     currentChannelId: id,
-        //     currentChannelType: "channel",
-        // }));
-        // socket.emit("joinRoom", userAuth.id, (res: string) => {
-        //     console.log(res);
-        // })
+        let channelName = channels?.find((chan) => {return chan.id == id})?.name;
+        const currentChannelName: string = channelName ? channelName : "";
+        updateChannel({
+                currentChannelId: id,
+                currentChannelName: currentChannelName,
+                currentChannelType: "channel"
+        });
     }
 
     function addClick() {
@@ -66,18 +55,18 @@ export default function Navbar() {
             />
             <span className="separator" />
             <div className="icon_wrapper">
-                {channels?.map((channel) => (
+                {channels?.map((chan) => (
                     <ChannelButton
-                        name={channel.name}
+                        name={chan.name}
                         image={
-                            channel.image === null
+                            chan.image === null
                                 ? NoChannelIcon
-                                : channel.image
+                                : chan.image
                         }
                         onClick={() => {
-                            channelClick(channel.id);
+                            channelClick(chan.id);
                         }}
-                        key={channel.id}
+                        key={chan.id}
                     />
                 ))}
             </div>
@@ -88,7 +77,8 @@ export default function Navbar() {
                 image={AddChannelIcon}
                 onClick={addClick}
             />
-            {newChannel && <NewChannel quitForm={() => setNewChannel(false)} />}
+            {newChannel &&
+                <NewChannel quitForm={() => setNewChannel(false)} />}
         </div>
     );
 }

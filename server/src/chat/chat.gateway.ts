@@ -37,8 +37,7 @@ export class ChatGateway {
     }
 
     @SubscribeMessage("newChannel")
-    async createChannel(
-        @MessageBody() data: CreateChannelDto
+    async createChannel(@MessageBody() data: CreateChannelDto
     ): Promise<string> {
         try {
             const newChannel = await this.channelService.createChannel(data);
@@ -55,18 +54,21 @@ export class ChatGateway {
     }
 
     @SubscribeMessage("getChannels")
-    // async getChannels(@MessageBody() data: any): Promise<ChannelDto[]>{
-    async getChannels(@MessageBody() userId: number): Promise<ChannelDto[]> {
-        // const { userId } = data;
-        // console.log(`data: ${data}`);
-        // const channels = await this.channelUserService.getUserChannels(userId);
+    async getChannels(socket: Socket, userId: number): Promise<ChannelDto[]> {
         const channels = await this.channelService.getUserChannels(userId);
         console.log(channels);
         return channels;
     }
+    // @SubscribeMessage("getChannels")
+    // async getChannels(@MessageBody() userId: number): Promise<ChannelDto[]> {
+    //     const channels = await this.channelService.getUserChannels(userId);
+    //     console.log(channels);
+    //     // return this.server.emit("channels", channels);
+    //     return channels;
+    // }
 
     // @SubscribeMessage("joinRoom")
-    // async joinRoom(@MessageBody() data: any): Promise<string> {
+    // async joinRoom(socket: Socket, room: string): Promise<string> {
     //     const { userId } = data;
 
     //     return await this.channelService.getChannelsForUserId(userId);

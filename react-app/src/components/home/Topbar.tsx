@@ -11,9 +11,8 @@ import "./home.scss";
 import { useNavigate } from "react-router-dom";
 import { MouseEvent } from "react";
 // import { useContext } from "react";
-//import avatar from "../../../assets/images/smile.png";
 import axios from "axios";
-import { useAuth } from "../../context";
+import { useAuth, useChat } from "../../context";
 //import { defaultUser } from "../../../@types";
 import Cookies from "js-cookie";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
@@ -27,6 +26,7 @@ export default function Topbar() {
     const { userAuth, updateUser } = useAuth();
     const { removeItem } = useLocalStorage();
     const avatar = userAuth.avatar;
+    const {channel} = useChat();
     //useEffect(() => {
     //    console.log("Auth user: ", userAuth);
     //}, [userAuth]);
@@ -44,7 +44,7 @@ export default function Topbar() {
 
     return (
         <div className="topbar">
-            <span className="channelName">ChannelName</span>
+            <span className="channelName">{channel.currentChannelName}</span>
             <div className="user">
                 <img
                     className="avatar"

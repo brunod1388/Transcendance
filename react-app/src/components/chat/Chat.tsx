@@ -1,15 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Message from "./components/Message";
 import { AddImageIcon, ContactIcon } from "../../assets/images";
 import "./chat.scss";
 
 import User from "./components/User";
+import { useAuth, useChat } from "../../context";
+import { useSocket } from "../../hooks";
 
 const imgUrl =
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF6qx2Sw1RVNAU_cLLe9v0H32Rvufjjbrqsw&usqp=CAU";
 
+export enum rightType {
+    NORMAL = "normal",
+    ADMIN = "admin",
+}
+
+interface UserType {
+    id: number;
+    username: string;
+    avatar?: string;
+    rights: rightType;
+}
+
+interface MessageType {
+    id: number;
+    ownerId: number;
+    created: Date;
+    content: string;
+    image?: string;
+}
+
+
 export default function Chat() {
     const [friendsVisible, setFriendsVisible] = useState(false);
+    const {channel} = useChat();
+    const [socket] = useSocket();
+    const [users, setUsers] = useState<UserType[]>([]);
+    const [messages, setMessages] = useState<MessageType[]>([]);
+    const {userAuth} = useAuth();
+
+    useEffect(() => {
+        if (channel.currentChannelType == "channel")
+            socket.emit("getChannelUsers", channel.currentChannelId, (users: UserType[]) => {
+                setUsers(users);
+            });
+        else
+            socket.emit("getPrivateUsers", channel.currentChannelId, userAuth.id, (users: UserType[]) => {
+                setUsers(users);
+            });
+
+        socket.emit("getMessages",  100, (messages: MessageType[]) => {
+            setMessages(messages);
+        });
+    }, [channel])
 
     return (
         <div className="chat">
