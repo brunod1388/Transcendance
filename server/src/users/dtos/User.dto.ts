@@ -10,14 +10,4 @@ export interface UserDTO {
     id: number;
     username: string;
     email: string;
-    password: string;
-    createdAt: Date;
-    authStrategy: string;
-    ownedChannels: Channel[];
-    messages: Message[];
-    mutedUsers: MutedUser[];
-    blockedUsers: BlockedUser[];
-    channelUsers: ChannelUser[];
-    friends: Friend[];
-    friendsOf: Friend[];
 }

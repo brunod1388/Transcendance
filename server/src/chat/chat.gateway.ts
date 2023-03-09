@@ -56,16 +56,16 @@ export class ChatGateway {
     @SubscribeMessage("getChannels")
     async getChannels(socket: Socket, userId: number): Promise<ChannelDto[]> {
         const channels = await this.channelService.getUserChannels(userId);
-        console.log(channels);
         return channels;
     }
-    // @SubscribeMessage("getChannels")
-    // async getChannels(@MessageBody() userId: number): Promise<ChannelDto[]> {
-    //     const channels = await this.channelService.getUserChannels(userId);
-    //     console.log(channels);
-    //     // return this.server.emit("channels", channels);
-    //     return channels;
-    // }
+
+    @SubscribeMessage("getChannelUsers")
+    async getChannelUsers(@MessageBody() channelId: number): Promise<User[]> {
+        const channels = await this.channelService.getChannelUsers(channelId);
+        console.log(channels);
+        // return this.server.emit("channels", channels);
+        return channels;
+    }
 
     // @SubscribeMessage("joinRoom")
     // async joinRoom(socket: Socket, room: string): Promise<string> {

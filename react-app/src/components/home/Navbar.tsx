@@ -17,8 +17,7 @@ export default function Navbar() {
     const { channel, updateChannel } = useChat();
 
     useEffect(() => {
-        socket.emit("getChannels", userAuth.id, (res: any) => {
-            console.log(res);
+        socket.emit("getChannels", userAuth.id, (res: ChannelType[]) => {
             setChannels(res);
         });
     }, [userAuth, newChannel]);

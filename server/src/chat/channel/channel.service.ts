@@ -12,7 +12,8 @@ export class ChannelService {
     constructor(
         @InjectRepository(Channel)
         private channelRepository: Repository<Channel>,
-        // private channelUserRepository: Repository<ChannelUser>,
+        @InjectRepository(User)
+        private userRepository: Repository<User>,
         private userService: UsersService,
         private channelUserService: ChannelUserService
     ) {}
@@ -24,8 +25,6 @@ export class ChannelService {
     }
 
     async getUserChannels(userId: number): Promise<Channel[]> {
-        console.log("===================");
-        console.log(userId);
         const channels = await this.channelRepository.find({
             relations: {
                 channelUsers: true
@@ -50,5 +49,21 @@ export class ChannelService {
             ...channelDetails,
             owner: owner,
         });
+    }
+
+    async getChannelUsers(channelId: number): Promise<User[]> {
+        const users = this.userRepository.find({
+            relations: {
+                channelUsers: true
+            },
+            where: {
+                channelUsers: { channel: { id: channelId}}
+            },
+            select: {
+                id: true,
+                username: true
+            }
+        })
+        return users;
     }
 }

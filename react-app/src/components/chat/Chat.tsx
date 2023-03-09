@@ -41,12 +41,13 @@ export default function Chat() {
 
     useEffect(() => {
         if (channel.currentChannelType == "channel")
-            socket.emit("getChannelUsers", channel.currentChannelId, (users: UserType[]) => {
-                setUsers(users);
+            socket.emit("getChannelUsers", channel.currentChannelId, (usersReceived: UserType[]) => {
+                console.log(usersReceived);
+                setUsers(usersReceived);
             });
         else
-            socket.emit("getPrivateUsers", channel.currentChannelId, userAuth.id, (users: UserType[]) => {
-                setUsers(users);
+            socket.emit("getPrivateUsers", channel.currentChannelId, userAuth.id, (usersReceived: UserType[]) => {
+                setUsers(usersReceived);
             });
 
         socket.emit("getMessages",  100, (messages: MessageType[]) => {
