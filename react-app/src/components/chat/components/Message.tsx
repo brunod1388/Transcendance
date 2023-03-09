@@ -8,7 +8,7 @@ interface Props {
 }
 
 const imgUrl =
-"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF6qx2Sw1RVNAU_cLLe9v0H32Rvufjjbrqsw&usqp=CAU";
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF6qx2Sw1RVNAU_cLLe9v0H32Rvufjjbrqsw&usqp=CAU";
 
 export default function Message(props: Props) {
     const { owner = false, imageUrl = NoUserIcon } = props;

@@ -2,7 +2,7 @@ import React from "react";
 import NewChannel from "./Navbar/NewChannel";
 import ChannelButton from "./Navbar/ChannelButton";
 import { useState } from "react";
-import { ChatIcon, AddChannelIcon, NoChannelIcon} from "../../assets/images";
+import { ChatIcon, AddChannelIcon, NoChannelIcon } from "../../assets/images";
 import "./Navbar/navbar.scss";
 
 export default function Navbar() {

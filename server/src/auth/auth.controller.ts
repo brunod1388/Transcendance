@@ -82,7 +82,11 @@ export class AuthController {
     ) {
         try {
             await this.authService.deactivate2FA(req.user.id);
-            const ret = await this.authService.signToken(req.user.id, req.user.username, false);
+            const ret = await this.authService.signToken(
+                req.user.id,
+                req.user.username,
+                false
+            );
             res.clearCookie("JWTtoken", { sameSite: "none", secure: true });
             res.cookie("JWTtoken", ret["access_token"], {
                 sameSite: "none",
@@ -162,7 +166,6 @@ export class AuthController {
         } catch (error) {
             throw error;
         }
-
     }
 
     @UseGuards(FortyTwoGuard)

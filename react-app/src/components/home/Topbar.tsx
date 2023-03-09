@@ -1,6 +1,6 @@
 import React from "react";
 
-import {PlayIcon, SettingIcon, AddUserIcon} from "../../assets/images";
+import { PlayIcon, SettingIcon, AddUserIcon } from "../../assets/images";
 import "./home.scss";
 
 import { useNavigate, Link } from "react-router-dom";
