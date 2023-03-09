@@ -63,7 +63,13 @@ export class ChatGateway {
     async getChannelUsers(@MessageBody() channelId: number): Promise<User[]> {
         const channels = await this.channelService.getChannelUsers(channelId);
         console.log(channels);
-        // return this.server.emit("channels", channels);
+        return channels;
+    }
+
+    @SubscribeMessage("getPrivateUsers")
+    async getPrivateUsers(@MessageBody() userId: number): Promise<User[]> {
+        const channels = await this.channelService.getChannelUsers(userId);
+        console.log(channels);
         return channels;
     }
 

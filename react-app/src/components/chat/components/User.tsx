@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import UserMenu from "./UserMenu";
 import "./user.scss";
 import { NoUserIcon } from "../../../assets/images";
+import { UserType } from "../../../@types";
+import { useChat } from "../../../context";
 
 type Props = {
     imgSrc?: string;
     hasNewMsg?: boolean;
     keyId: string;
     isPrivate?: boolean;
+    user: UserType;
 };
 
 export default function User(props: Props) {
@@ -16,7 +19,9 @@ export default function User(props: Props) {
         hasNewMsg = false,
         keyId,
         isPrivate = false,
+        user
     } = props;
+
     const [selected, setSelected] = useState(false); //use userId when emplemented
     return (
         <div className="userChat" key={keyId}>
@@ -26,7 +31,7 @@ export default function User(props: Props) {
             >
                 <img src={imgSrc} alt="" />
                 <div className="userChatInfo">
-                    <span>Username</span>
+                    <span>{user.username}</span>
                     {isPrivate && hasNewMsg && <p>last message</p>}
                 </div>
                 {hasNewMsg && (

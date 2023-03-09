@@ -4,7 +4,7 @@ import { Repository } from "typeorm";
 import { CreateChannelDto, UpdateChannelDto } from "../dtos/Channel.dto";
 import { UsersService } from "../../users/users.service";
 import { ChannelUserService } from "../channelUser/channelUsers.service";
-import { Channel, ChannelUser, rightType } from "../entities";
+import { Channel, ChannelType, ChannelUser, rightType } from "../entities";
 import { User } from "src/users/entities/User.entity";
 
 @Injectable()
@@ -58,6 +58,24 @@ export class ChannelService {
             },
             where: {
                 channelUsers: { channel: { id: channelId}}
+            },
+            select: {
+                id: true,
+                username: true
+            }
+        })
+        return users;
+    }
+
+    async getPrivateUsers(userId: number): Promise<User[]> {
+        const users = this.userRepository.find({
+            relations: {
+                channelUsers: { channel: true },
+            },
+            where: {
+                channelUsers: {
+                    channel: { type: ChannelType.DIRECT }
+                }
             },
             select: {
                 id: true,
