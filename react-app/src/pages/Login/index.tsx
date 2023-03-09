@@ -24,13 +24,8 @@ function Login() {
     const navigate = useNavigate();
     const [request, setRequest] = useState<AxiosRequestConfig>(defaultRequest);
     const { response, loading, error, sendData } = useAxios(request);
-    // import { useUser } from "../../context/test-context";
-    // import { useSocket } from "../../hooks";
-
-    //     const [err, setErr] = useState(false);
     const [notFound, setNotFound] = useState(false);
-    //     const user = useUser();
-    //     const [socket] = useSocket();
+    //     const [err, setErr] = useState(false);
 
     useEffect(() => {
         if (loading === false && response?.status === 200) {
@@ -59,19 +54,6 @@ function Login() {
         if (checking !== null) {
             checking.href = "http://localhost:3000/auth/login42";
         }
-        // const email = e.target[0].value;
-        // const password = e.target[1].value;
-        // setErr(false);
-        // try {
-        //     socket.emit("findUserByMail", { email }, (res?: any) => {
-        //         if (res.found) {
-        //             user.setUser(res.user.id, res.user.username);
-        //             navigate("/home");
-        //         } else setNotFound(true);
-        //     });
-        // } catch (error) {
-        //     setErr(err ? false : true);
-        // }
     }
 
     return (

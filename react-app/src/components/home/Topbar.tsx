@@ -1,8 +1,6 @@
 import React from "react";
-import avatar from "../../assets/images/smile.png";
-import setting from "../../assets/images/setting.png";
-import play from "../../assets/images/play2.png";
-import addContact from "../../assets/images/add-user.png";
+
+import {PlayIcon, SettingIcon, AddUserIcon} from "../../assets/images";
 import "./home.scss";
 
 import { useNavigate, Link } from "react-router-dom";
@@ -45,10 +43,10 @@ export default function Topbar() {
             <div className="user">
                 <img className="avatar" src={userAuth.avatar} alt="" />
                 <span>{userAuth.username}</span>
-                <img className="imgButton" src={play} alt="" />
-                <img className="imgButton" src={addContact} alt="" />
+                <img className="imgButton" src={PlayIcon} alt="" />
+                <img className="imgButton" src={AddUserIcon} alt="" />
                 <Link to="/settings">
-                    <img className="imgButton" src={setting} alt="" />
+                    <img className="imgButton" src={SettingIcon} alt="" />
                 </Link>
                 <button className="button-purple" onClick={logout}>
                     logout

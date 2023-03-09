@@ -57,14 +57,15 @@ export class ChatGateway {
             console.log(error.message);
             return error;
         }
+        console.log("djsljdaldaksjdlsajdlaklAAAAAAA");
         return `user ${data.username} created`;
     }
 
-    @SubscribeMessage("findUserByMail")
-    async findUserByMail(
-        @MessageBody() data: any
+    @SubscribeMessage("findUser")
+    async findUserByName(
+        @MessageBody() name: string
     ): Promise<{ found: boolean; user: User }> {
-        const user = await this.userService.findUserByMail(data.email);
+        const user = await this.userService.findUser(name);
         if (user) console.log("vetrou!");
         else console.log("pas vetrou");
         return user

@@ -1,7 +1,6 @@
 import style from "../assets/styles/theme.module.css";
 export { style };
 export * from "./invitation/useInvitation";
-export * from "./useInput";
 export * from "./useInterval";
 export * from "./useKeyboard";
 export * from "./useQuery";
