@@ -63,7 +63,7 @@ export class AuthService {
         return { url: dataURL };
     }
 
-    async disactivate2FA(id: number) {
+    async deactivate2FA(id: number) {
         const user = await this.usersService.findUserId(id);
         if (user === null || user === undefined) {
             throw new NotFoundException(
@@ -207,6 +207,23 @@ export class AuthService {
             encoding: "base32",
             token: code2FA,
         });
+    }
+
+    async updateUser(id: number, dto: UpdateUserDto) {
+        const user = await this.usersService.findUserId(id);
+        if (user === null || user === undefined) {
+            throw new NotFoundException(
+                "The specified id does not match an existing user"
+            );
+        }
+        const updated = await this.usersService.updateUser(user.id, dto);
+        console.log("Updated user: ", updated);
+        const updatedUser = await this.usersService.findUserId(id);
+        if (updatedUser.enable2FA) {
+            return this.signToken(updatedUser.id, updatedUser.username, true);
+        } else {
+            return this.signToken(updatedUser.id, updatedUser.username, false);
+        }
     }
 
     async generateQRcode(path: string, response: Response) {

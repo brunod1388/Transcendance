@@ -53,7 +53,7 @@ function Verify2FA() {
                 <form onSubmit={handleSubmit}>
                     <input name="code" type="text" placeholder="code" />
                     <button>Verify</button>
-                    {error && <span>Something went wrong</span>}
+                    {error && <span>Invalid code</span>}
                 </form>
             </div>
         </div>

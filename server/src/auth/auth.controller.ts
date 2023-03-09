@@ -16,6 +16,7 @@ import { AuthDto, TFverifyDTO } from "./dto";
 import {
     CreateUserDto,
     Create42UserDto,
+    UpdateUserDto,
 } from "../users/dtos/UserValidation.dto";
 import { FortyTwoGuard } from "./guard/FortyTwo.guard";
 import { GetUser } from "./decorator";
@@ -69,8 +70,27 @@ export class AuthController {
     @Get("enable2FA")
     async enable2FA(@Request() req) {
         const dataURL = this.authService.enable2FA(req.user.id);
-        await this.authService.disactivate2FA(req.user.id);
+        await this.authService.deactivate2FA(req.user.id);
         return dataURL;
+    }
+
+    @UseGuards(JwtGuard)
+    @Post("deactivate2FA")
+    async deactivate2FA(
+        @Request() req,
+        @Res({ passthrough: true }) res: Response
+    ) {
+        try {
+            await this.authService.deactivate2FA(req.user.id);
+            const ret = await this.authService.signToken(req.user.id, req.user.username, false);
+            res.clearCookie("JWTtoken", { sameSite: "none", secure: true });
+            res.cookie("JWTtoken", ret["access_token"], {
+                sameSite: "none",
+                secure: true,
+            });
+        } catch (error) {
+            throw error;
+        }
     }
 
     @UseGuards(JwtGuard)
@@ -123,6 +143,26 @@ export class AuthController {
             sameSite: "none",
             secure: true,
         });
+    }
+
+    @UseGuards(JwtGuard)
+    @Post("update")
+    async updateUser(
+        @Request() req,
+        @Body() dto: UpdateUserDto,
+        @Res({ passthrough: true }) res: Response
+    ) {
+        try {
+            const ret = await this.authService.updateUser(req.user.id, dto);
+            res.clearCookie("JWTtoken", { sameSite: "none", secure: true });
+            res.cookie("JWTtoken", ret["access_token"], {
+                sameSite: "none",
+                secure: true,
+            });
+        } catch (error) {
+            throw error;
+        }
+
     }
 
     @UseGuards(FortyTwoGuard)

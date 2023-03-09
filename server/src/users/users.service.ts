@@ -94,9 +94,9 @@ export class UsersService {
         return this.userRepository.update({ id }, { ...updateUserDetails });
     }
 
-    update42User(id: number, update42UserDetails: Update42UserParams) {
-        return this.userRepository.update({ id }, { ...update42UserDetails });
-    }
+    // update42User(id: number, update42UserDetails: Update42UserParams) {
+    //     return this.userRepository.update({ id }, { ...update42UserDetails });
+    // }
 
     uploadAvatar(id: number, avatarFilename: UpdateUserParams) {
         return this.userRepository.update({ id }, { ...avatarFilename });

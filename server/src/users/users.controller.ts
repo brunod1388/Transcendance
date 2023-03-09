@@ -104,7 +104,9 @@ export class UsersController {
         console.log("IN SERVER uploadAvatar");
         try {
             console.log(file);
-            const dto: UpdateUserDto = { avatar: "http://localhost:3000/users/avatar/" + file.filename };
+            const dto: UpdateUserDto = {
+                avatar: "http://localhost:3000/users/avatar/" + file.filename,
+            };
             return this.userService.uploadAvatar(req.user.id, dto);
         } catch (err) {
             console.log(err);
