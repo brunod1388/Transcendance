@@ -31,7 +31,9 @@ export class User {
     @Column({ nullable: true })
     password: string;
 
-    @Column({ nullable: true })
+    @Column({
+        default: "http://localhost:3000/users/avatar/default_avatar.jpg",
+    })
     avatar: string;
 
     // A default value can be set as follows @Column({ default: new Date() })
