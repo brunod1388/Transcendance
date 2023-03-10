@@ -8,10 +8,7 @@ import {
 } from "typeorm";
 
 import { User } from "../../users/entities/User.entity";
-import { Message } from "./Message.entity";
-import { MutedUser } from "./MutedUser.entity";
-import { BlockedUser } from "./BlockedUser.entity";
-import { ChannelUser } from "./ChannelUser.entity";
+import { BlockedUser, ChannelUser, Message, MutedUser } from "../entities";
 
 // to put in a dto
 export enum ChannelType {
@@ -30,6 +27,9 @@ export class Channel {
 
     @Column({ unique: true, type: "varchar", length: 42 })
     name: string;
+
+    @Column({ default: null })
+    image: string;
 
     @Column({ type: "enum", enum: ChannelType })
     type: ChannelType;

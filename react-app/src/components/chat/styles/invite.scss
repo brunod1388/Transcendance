@@ -1,0 +1,31 @@
+@import "../../../assets/styles/variables.scss";
+
+
+.invite {
+	display: flex;
+	width: auto;
+	display: flex;
+	input {
+		width: calc(100% - 50px);
+		height: 17px;
+		border: none;
+		border-radius: 5px 0 0 5px;
+		padding: 9px;
+		color: white;
+		background-color: $dark-purple;
+		outline: none;
+	}
+	button {
+		height: 35px;
+		flex-grow: 1;
+		border: none;
+		border-radius: 0 5px 5px 0;
+		img {
+			height: 20px;
+			filter: $filter-white;
+			&:hover {
+				filter: $filter-purple;
+			}
+		}
+	}
+}

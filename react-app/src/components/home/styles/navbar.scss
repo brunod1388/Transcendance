@@ -7,7 +7,7 @@
 	padding: 10px 5px;
 	align-items: center;
 	gap: 10px;
-	background-color: #272637;
+	background-color: $dark-grey;
 	align-content: space-between;
 	.separator {
 		background-color: $purple-gray;
@@ -20,7 +20,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		overflow-y: scroll;
+		// overflow-y: scroll;
 	}
 
 	.channel {

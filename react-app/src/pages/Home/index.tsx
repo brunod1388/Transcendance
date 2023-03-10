@@ -1,20 +1,27 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import React from "react";
-import Navbar from "../../components/home/Navbar";
-import Topbar from "../../components/home/Topbar";
+import { FC, useEffect, useState } from "react";
+import { Navbar, Topbar } from "../../components/home";
 import Chat from "../../components/chat/Chat";
 import { useAuth } from "../../context";
 import { useAxios } from "../../hooks";
 import { AxiosRequestConfig } from "axios";
-import "./home.scss";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import Cookies from "js-cookie";
+import { useFeature, Feature } from "../../context/feature.context";
+import ProfileSettings from "../ProfileSettings";
+import "./home.scss";
 
 const defaultRequest: AxiosRequestConfig = {
     method: "GET",
     url: "/users/me",
 };
+
+const featureComponent = new Map<number, JSX.Element>([
+    [Feature.None, <></>],
+    [Feature.Chat, <Chat />],
+    [Feature.Setting, <ProfileSettings />],
+    // [Feature.Pong, <Pong />],
+])
 
 function Home() {
     const [request] = useState<AxiosRequestConfig>(defaultRequest);
@@ -22,6 +29,7 @@ function Home() {
     const { userAuth } = useAuth();
     const { setItem, getItem, removeItem } = useLocalStorage();
     const { response, error } = useAxios(request);
+    const { feature } = useFeature();
 
     useEffect(() => {
         if (response !== undefined) {
@@ -60,7 +68,7 @@ function Home() {
                 <div className="mainContainer">
                     <Topbar />
                     <div className="featureContainer">
-                        <Chat />
+                        {featureComponent.get(feature)}
                     </div>
                 </div>
             </div>

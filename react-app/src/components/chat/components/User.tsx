@@ -1,22 +1,20 @@
 import React, { useState } from "react";
 import UserMenu from "./UserMenu";
-import "./user.scss";
 import { NoUserIcon } from "../../../assets/images";
+import { UserType } from "../../../@types";
+import { useChat } from "../../../context";
+import "../styles/user.scss";
 
 type Props = {
-    imgSrc?: string;
     hasNewMsg?: boolean;
     keyId: string;
     isPrivate?: boolean;
+    user: UserType;
 };
 
 export default function User(props: Props) {
-    const {
-        imgSrc = NoUserIcon,
-        hasNewMsg = false,
-        keyId,
-        isPrivate = false,
-    } = props;
+    const { hasNewMsg = false, keyId, isPrivate = false, user } = props;
+
     const [selected, setSelected] = useState(false); //use userId when emplemented
     return (
         <div className="userChat" key={keyId}>
@@ -24,9 +22,12 @@ export default function User(props: Props) {
                 className="userPlate"
                 onClick={() => setSelected(selected ? false : true)}
             >
-                <img src={imgSrc} alt="" />
+                <img
+                    src={user.avatar === "" ? NoUserIcon : user.avatar}
+                    alt=""
+                />
                 <div className="userChatInfo">
-                    <span>Username</span>
+                    <span>{user.username}</span>
                     {isPrivate && hasNewMsg && <p>last message</p>}
                 </div>
                 {hasNewMsg && (

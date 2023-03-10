@@ -6,3 +6,8 @@ body {
 	background: rgb(52,19,65);
 	background: linear-gradient(248deg, rgba(52,19,65,1) 0%, rgba(61,23,101,1) 52%, rgba(67,53,79,1) 100%);
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}

@@ -9,7 +9,7 @@ export class Message {
     id: number;
 
     @ManyToOne(() => User, (user) => user.id)
-    creator: number;
+    creator: User;
 
     @ManyToOne(() => Channel, (channel) => channel.id)
     channel: Channel;

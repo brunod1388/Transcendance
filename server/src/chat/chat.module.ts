@@ -11,10 +11,9 @@ import { BlockedModule } from "./blocked/blocked.module";
 import { MutedModule } from "./muted/muted.module";
 import { UsersModule } from "../users/users.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { ChannelUser } from "./entities/ChannelUser.entity";
-import { BlockedUser } from "./entities/BlockedUser.entity";
-import { Channel } from "./entities/Channel.entity";
-import { MutedUser } from "./entities/MutedUser.entity";
+import { ChannelUser, BlockedUser, Channel, MutedUser } from "./entities";
+import { User } from "src/users/entities/User.entity";
+import { FriendModule } from "src/users/friend/friend.module";
 
 @Module({
     imports: [
@@ -23,6 +22,7 @@ import { MutedUser } from "./entities/MutedUser.entity";
             ChannelUser,
             Channel,
             MutedUser,
+            User,
         ]),
         ChannelModule,
         MessageModule,
@@ -30,6 +30,7 @@ import { MutedUser } from "./entities/MutedUser.entity";
         BlockedModule,
         MutedModule,
         UsersModule,
+        FriendModule
     ],
     controllers: [],
     providers: [

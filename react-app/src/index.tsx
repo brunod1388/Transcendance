@@ -5,6 +5,8 @@ import "./index.scss";
 import { AuthProvider } from "./context";
 import { SocketProvider, NotificationProvider } from "./context";
 import { BrowserRouter } from "react-router-dom";
+import { ChatProvider } from "./context";
+import { FeatureProvider } from "./context/feature.context";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -16,9 +18,11 @@ root.render(
             <BrowserRouter>
                 <AuthProvider>
                     <NotificationProvider>
-                        {" "}
-                        {/* testing purpose */}
-                        <App />
+                        <ChatProvider>
+                            <FeatureProvider>
+                                <App />
+                            </FeatureProvider>
+                        </ChatProvider>
                     </NotificationProvider>
                 </AuthProvider>
             </BrowserRouter>

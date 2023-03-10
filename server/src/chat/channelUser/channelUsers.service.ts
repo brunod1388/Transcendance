@@ -5,6 +5,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { ChannelService } from "../channel/channel.service";
 import { CreateChannelUserDto } from "../dtos/ChannelUsers.dto";
 import { UsersService } from "src/users/users.service";
+import { User } from "src/users/entities/User.entity";
+import { Channel } from "diagnostics_channel";
 
 @Injectable()
 export class ChannelUserService {
@@ -26,25 +28,37 @@ export class ChannelUserService {
         );
         const newChannelUser = await this.channelUserRepository.create({
             ...channelUserDetails,
+            user: user,
+            channel: channel,
         });
-
-        newChannelUser.user = user;
-        newChannelUser.channel = channel;
-
-        return this.channelUserRepository.save(newChannelUser);
+        return await this.channelUserRepository.save(newChannelUser);
     }
 
     async getUserChannels(userId: number) {
         const channels = await this.channelUserRepository.find({
+            select: {
+                channel: {
+                    id: true,
+                    name: true,
+                },
+            },
             relations: { user: true, channel: true },
             where: { user: { id: userId } },
         });
+        return channels;
     }
 
     async getChannelUsers(channelId: number) {
         const channels = await this.channelUserRepository.find({
             relations: { channel: true, user: true },
             where: { channel: { id: channelId } },
+            select: {
+                rights: true,
+                user: {
+                    id: true,
+                    username: true,
+                },
+            },
         });
     }
 }

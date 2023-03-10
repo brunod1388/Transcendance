@@ -2,15 +2,16 @@ import React, { useState } from "react";
 import AddImage from "../../../assets/images/add-image.png";
 import { useSocket } from "../../../hooks";
 import { useAuth } from "../../../context";
+import { ChannelType } from "../../../@types";
 
 interface Props {
-    quitForm: any;
+    quitForm: () => void;
 }
 
 export default function NewChannel(props: Props) {
     const [isPrivate, setIsPrivate] = useState(false);
     const [socket] = useSocket();
-    const [isUnique, setIsUnique] = useState(true);
+    const [error, setErrot] = useState(false);
     const { userAuth } = useAuth();
 
     function handleSubmit(e: any) {
@@ -23,11 +24,10 @@ export default function NewChannel(props: Props) {
             ownerId: userAuth.id,
         };
 
-        socket.emit("newChannel", newChannel, (res?: string) => {
-            if (res === `OK`) props.quitForm();
-            else setIsUnique(false);
-            console.log("RESPONSE");
+        socket.emit("newChannel", newChannel, (res?: any) => {
             console.log(res);
+            if (res === `OK`) props.quitForm();
+            else setErrot(true);
         });
     }
 
@@ -44,8 +44,8 @@ export default function NewChannel(props: Props) {
                             type="text"
                             placeholder="ChannelName"
                         />
-                        {!isUnique && (
-                            <p className="error">Channel Name already exist!</p>
+                        {error && (
+                            <p className="error">Something went wrong!</p>
                         )}
                         <select
                             name="channelType"

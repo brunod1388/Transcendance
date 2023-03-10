@@ -4,3 +4,4 @@ export * from "./notifications.types";
 export * from "./other/MessageType";
 export * from "./other/SetStateType";
 export * from "./auth.types";
+export * from "./chat.types";
