@@ -11,3 +11,4 @@ export { default as SettingIcon } from "./setting.png";
 export { default as SmileblueIcon } from "./smile-blue.png";
 export { default as smileIcon } from "./smile.png";
 export { default as NoUserIcon } from "./user.png";
+export { default as Bell } from "./bell.png";
