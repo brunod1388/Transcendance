@@ -2,7 +2,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect, FormEvent, MouseEvent } from "react";
 import Add from "../../assets/images/add-image.png";
 import { AxiosRequestConfig } from "axios";
-import { useSocket } from "../../hooks/useSocket";
+import Cookies from "js-cookie";
 
 import "../../assets/styles/form.scss";
 import { useAxios } from "../../hooks";
@@ -31,7 +31,12 @@ function Subscribe() {
     const navigate = useNavigate();
     const [request, setRequest] = useState<AxiosRequestConfig>(defaultRequest);
     const { response, loading, error, sendData } = useAxios(request);
-    const [socket] = useSocket();
+
+    useEffect(() => {
+        if (Cookies.get("JWTtoken")) {
+            navigate("/home");
+        }
+    }, []);
 
     useEffect(() => {
         if (loading === false && response?.status === 201) {
@@ -69,7 +74,6 @@ function Subscribe() {
             <span className="logo">Transcendance</span>
             <div className="form_wrapper register">
                 <span className="title">Register</span>
-                {/* <form onSubmit={signup}> */}
                 <form onSubmit={handleSubmit}>
                     <input
                         name="username"

@@ -3,6 +3,7 @@ import { useState, useEffect, FormEvent, MouseEvent } from "react";
 import { AxiosRequestConfig } from "axios";
 import "../../assets/styles/form.scss";
 import { useAxios } from "../../hooks";
+import Cookies from "js-cookie";
 
 interface DataType {
     username: string;
@@ -25,7 +26,12 @@ function Login() {
     const [request, setRequest] = useState<AxiosRequestConfig>(defaultRequest);
     const { response, loading, error, sendData } = useAxios(request);
     const [notFound, setNotFound] = useState(false);
-    //     const [err, setErr] = useState(false);
+
+    useEffect(() => {
+        if (Cookies.get("JWTtoken")) {
+            navigate("/home");
+        }
+    }, []);
 
     useEffect(() => {
         if (loading === false && response?.status === 200) {
