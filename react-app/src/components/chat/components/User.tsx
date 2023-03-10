@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import UserMenu from "./UserMenu";
-import "./user.scss";
 import { NoUserIcon } from "../../../assets/images";
 import { UserType } from "../../../@types";
 import { useChat } from "../../../context";
+import "../styles/user.scss";
 
 type Props = {
     imgSrc?: string;
@@ -19,7 +19,7 @@ export default function User(props: Props) {
         hasNewMsg = false,
         keyId,
         isPrivate = false,
-        user
+        user,
     } = props;
 
     const [selected, setSelected] = useState(false); //use userId when emplemented

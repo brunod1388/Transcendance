@@ -13,6 +13,7 @@ import { ChannelService } from "./channel/channel.service";
 import { User } from "src/users/entities/User.entity";
 import { ChannelUserService } from "./channelUser/channelUsers.service";
 import { rightType } from "./entities";
+import { FriendService } from "src/users/friend/friend.service";
 
 @WebSocketGateway({
     cors: {
@@ -23,7 +24,8 @@ export class ChatGateway {
     constructor(
         private userService: UsersService,
         private channelService: ChannelService,
-        private channelUserService: ChannelUserService
+        private channelUserService: ChannelUserService,
+        private friendService: FriendService,
     ) {}
 
     @WebSocketServer()
@@ -37,7 +39,8 @@ export class ChatGateway {
     }
 
     @SubscribeMessage("newChannel")
-    async createChannel(@MessageBody() data: CreateChannelDto
+    async createChannel(
+        @MessageBody() data: CreateChannelDto
     ): Promise<string> {
         try {
             const newChannel = await this.channelService.createChannel(data);
@@ -54,7 +57,7 @@ export class ChatGateway {
     }
 
     @SubscribeMessage("getChannels")
-    async getChannels(socket: Socket, userId: number): Promise<ChannelDto[]> {
+    async getChannels(@MessageBody() userId: number): Promise<ChannelDto[]> {
         const channels = await this.channelService.getUserChannels(userId);
         return channels;
     }
@@ -73,6 +76,35 @@ export class ChatGateway {
         return channels;
     }
 
+    @SubscribeMessage("inviteFriend")
+    async inviteFriend(@MessageBody() username: string, @MessageBody() userId: number): Promise<string> {
+        const friend = await this.userService.findUser(username);
+        if (friend === undefined)
+            return "User Not Found"
+        this.friendService.createChannelUser({
+            userId: userId,
+            friendId: friend.id,
+        });
+        return "Ok";
+    }
+
+    @SubscribeMessage("inviteContact")
+    async inviteContact(@MessageBody() username: string, @MessageBody() channelId: number): Promise<string> {
+        const user = await this.userService.findUser(username);
+        console.log(username)
+        if (user === undefined)
+            return "User Not Found"
+        this.channelUserService.createChannelUser({
+            userId: user.id,
+            channelId: channelId,
+            rights: rightType.NORMAL,
+            isPending: true
+        });
+        console.log("test : ", username)
+        console.log("test : ", channelId)
+        return "ok";
+    }
+ 
     // @SubscribeMessage("joinRoom")
     // async joinRoom(socket: Socket, room: string): Promise<string> {
     //     const { userId } = data;

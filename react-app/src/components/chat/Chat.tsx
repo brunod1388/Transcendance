@@ -1,14 +1,9 @@
-import React, { useEffect, useState } from "react";
-import Message from "./components/Message";
-import { AddImageIcon, ContactIcon } from "../../assets/images";
-import "./chat.scss";
-
-import User from "./components/User";
-import { useAuth, useChat } from "../../context";
-import { useSocket } from "../../hooks";
+import { useState } from "react";
+import { ContactIcon } from "../../assets/images";
 import Sidebar from "./components/Sidebar";
 import Friendbar from "./components/Friendbar";
 import Feed from "./components/Feed";
+import "./styles/chat.scss";
 
 export default function Chat() {
     const [friendsVisible, setFriendsVisible] = useState(false);
@@ -27,9 +22,7 @@ export default function Chat() {
                     <img src={ContactIcon} alt="" />
                 </button>
             </div>
-            {friendsVisible && (
-                <Friendbar />
-            )}
+            {friendsVisible && <Friendbar />}
         </div>
     );
 }

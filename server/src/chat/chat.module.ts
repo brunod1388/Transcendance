@@ -13,6 +13,7 @@ import { UsersModule } from "../users/users.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ChannelUser, BlockedUser, Channel, MutedUser } from "./entities";
 import { User } from "src/users/entities/User.entity";
+import { FriendModule } from "src/users/friend/friend.module";
 
 @Module({
     imports: [
@@ -29,6 +30,7 @@ import { User } from "src/users/entities/User.entity";
         BlockedModule,
         MutedModule,
         UsersModule,
+        FriendModule
     ],
     controllers: [],
     providers: [

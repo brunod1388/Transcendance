@@ -28,7 +28,6 @@ export default function NewChannel(props: Props) {
             console.log(res);
             if (res === `OK`) props.quitForm();
             else setErrot(true);
-
         });
     }
 

@@ -8,7 +8,6 @@ type Props = {};
 
 export type ChannelContextType = "none" | "directMessage" | "channel";
 
-
 export interface ChannelType {
     currentChannelId: number;
     currentChannelName: string;

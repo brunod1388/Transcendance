@@ -6,10 +6,9 @@ import { ChatIcon, AddChannelIcon, NoChannelIcon } from "../../assets/images";
 import "./Navbar/navbar.scss";
 import { useAuth, useChat } from "../../context";
 import { useSocket } from "../../hooks";
-import {ChannelType} from "../../@types"
+import { ChannelType } from "../../@types";
 
 export default function Navbar() {
-
     const [newChannel, setNewChannel] = useState(false);
     const { userAuth } = useAuth();
     const [socket] = useSocket();
@@ -23,20 +22,23 @@ export default function Navbar() {
     }, [userAuth, newChannel]);
 
     function privateClick() {
-        updateChannel({...channel,
+        updateChannel({
+            ...channel,
             currentChannelId: 0,
             currentChannelName: "Private Message",
-            currentChannelType: "directMessage"
+            currentChannelType: "directMessage",
         });
     }
 
     function channelClick(id: number) {
-        let channelName = channels?.find((chan) => {return chan.id == id})?.name;
+        let channelName = channels?.find((chan) => {
+            return chan.id == id;
+        })?.name;
         const currentChannelName: string = channelName ? channelName : "";
         updateChannel({
-                currentChannelId: id,
-                currentChannelName: currentChannelName,
-                currentChannelType: "channel"
+            currentChannelId: id,
+            currentChannelName: currentChannelName,
+            currentChannelType: "channel",
         });
     }
 
@@ -57,11 +59,7 @@ export default function Navbar() {
                 {channels?.map((chan) => (
                     <ChannelButton
                         name={chan.name}
-                        image={
-                            chan.image === null
-                                ? NoChannelIcon
-                                : chan.image
-                        }
+                        image={chan.image === null ? NoChannelIcon : chan.image}
                         onClick={() => {
                             channelClick(chan.id);
                         }}
@@ -76,8 +74,7 @@ export default function Navbar() {
                 image={AddChannelIcon}
                 onClick={addClick}
             />
-            {newChannel &&
-                <NewChannel quitForm={() => setNewChannel(false)} />}
+            {newChannel && <NewChannel quitForm={() => setNewChannel(false)} />}
         </div>
     );
 }

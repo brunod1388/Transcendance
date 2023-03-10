@@ -1,21 +1,16 @@
-import React from "react";
-
 import {
     PlayIcon,
     SettingIcon,
     AddUserIcon,
     NoUserIcon,
 } from "../../assets/images";
-import "./home.scss";
-
 import { useNavigate } from "react-router-dom";
 import { MouseEvent } from "react";
-// import { useContext } from "react";
 import axios from "axios";
 import { useAuth, useChat } from "../../context";
-//import { defaultUser } from "../../../@types";
 import Cookies from "js-cookie";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import "./topbar.scss";
 
 axios.defaults.baseURL = `http://localhost:3000`;
 axios.defaults.withCredentials = true;
@@ -26,7 +21,7 @@ export default function Topbar() {
     const { userAuth, updateUser } = useAuth();
     const { removeItem } = useLocalStorage();
     const avatar = userAuth.avatar;
-    const {channel} = useChat();
+    const { channel } = useChat();
     //useEffect(() => {
     //    console.log("Auth user: ", userAuth);
     //}, [userAuth]);
@@ -53,7 +48,6 @@ export default function Topbar() {
                 />
                 <span>{userAuth.username}</span>
                 <img className="imgButton" src={PlayIcon} alt="" />
-                <img className="imgButton" src={AddUserIcon} alt="" />
                 <img className="imgButton" src={SettingIcon} alt="" />
                 <button className="button-purple" onClick={logout}>
                     logout

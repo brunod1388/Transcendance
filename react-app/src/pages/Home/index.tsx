@@ -1,16 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import React from "react";
 import Navbar from "../../components/home/Navbar";
 import Topbar from "../../components/home/Topbar";
 import Chat from "../../components/chat/Chat";
 import { useAuth } from "../../context";
 import { useAxios } from "../../hooks";
 import { AxiosRequestConfig } from "axios";
-import "./home.scss";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import Cookies from "js-cookie";
-import { useSocket } from "../../hooks";
+import "./home.scss";
 
 const defaultRequest: AxiosRequestConfig = {
     method: "GET",

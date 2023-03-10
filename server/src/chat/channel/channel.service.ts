@@ -27,7 +27,7 @@ export class ChannelService {
     async getUserChannels(userId: number): Promise<Channel[]> {
         const channels = await this.channelRepository.find({
             relations: {
-                channelUsers: true
+                channelUsers: true,
             },
             where: {
                 channelUsers: { user: { id: userId } },
@@ -54,16 +54,16 @@ export class ChannelService {
     async getChannelUsers(channelId: number): Promise<User[]> {
         const users = this.userRepository.find({
             relations: {
-                channelUsers: true
+                channelUsers: true,
             },
             where: {
-                channelUsers: { channel: { id: channelId}}
+                channelUsers: { channel: { id: channelId } },
             },
             select: {
                 id: true,
-                username: true
-            }
-        })
+                username: true,
+            },
+        });
         return users;
     }
 
@@ -74,14 +74,14 @@ export class ChannelService {
             },
             where: {
                 channelUsers: {
-                    channel: { type: ChannelType.DIRECT }
-                }
+                    channel: { type: ChannelType.DIRECT },
+                },
             },
             select: {
                 id: true,
-                username: true
-            }
-        })
+                username: true,
+            },
+        });
         return users;
     }
 }
