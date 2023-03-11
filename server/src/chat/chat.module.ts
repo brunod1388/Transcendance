@@ -30,7 +30,7 @@ import { FriendModule } from "src/users/friend/friend.module";
         BlockedModule,
         MutedModule,
         UsersModule,
-        FriendModule
+        FriendModule,
     ],
     controllers: [],
     providers: [

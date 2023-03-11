@@ -62,6 +62,7 @@ export class ChannelService {
             select: {
                 id: true,
                 username: true,
+                avatar: true
             },
         });
         return users;

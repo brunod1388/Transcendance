@@ -25,7 +25,7 @@ export class ChatGateway {
         private userService: UsersService,
         private channelService: ChannelService,
         private channelUserService: ChannelUserService,
-        private friendService: FriendService,
+        private friendService: FriendService
     ) {}
 
     @WebSocketServer()
@@ -77,10 +77,12 @@ export class ChatGateway {
     }
 
     @SubscribeMessage("inviteFriend")
-    async inviteFriend(@MessageBody() username: string, @MessageBody() userId: number): Promise<string> {
+    async inviteFriend(
+        @MessageBody() username: string,
+        @MessageBody() userId: number
+    ): Promise<string> {
         const friend = await this.userService.findUser(username);
-        if (friend === undefined)
-            return "User Not Found"
+        if (friend === undefined) return "User Not Found";
         this.friendService.createChannelUser({
             userId: userId,
             friendId: friend.id,
@@ -89,22 +91,24 @@ export class ChatGateway {
     }
 
     @SubscribeMessage("inviteContact")
-    async inviteContact(@MessageBody() username: string, @MessageBody() channelId: number): Promise<string> {
+    async inviteContact(
+        @MessageBody() username: string,
+        @MessageBody() channelId: number
+    ): Promise<string> {
         const user = await this.userService.findUser(username);
-        console.log(username)
-        if (user === undefined)
-            return "User Not Found"
+        console.log(username);
+        if (user === undefined) return "User Not Found";
         this.channelUserService.createChannelUser({
             userId: user.id,
             channelId: channelId,
             rights: rightType.NORMAL,
-            isPending: true
+            isPending: true,
         });
-        console.log("test : ", username)
-        console.log("test : ", channelId)
+        console.log("test : ", username);
+        console.log("test : ", channelId);
         return "ok";
     }
- 
+
     // @SubscribeMessage("joinRoom")
     // async joinRoom(socket: Socket, room: string): Promise<string> {
     //     const { userId } = data;

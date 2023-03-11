@@ -7,7 +7,6 @@ import { FriendDto } from "../dtos/Friend.dto";
 
 @Injectable()
 export class FriendService {
-
     constructor(
         @InjectRepository(Friend)
         private friendRepository: Repository<Friend>,
@@ -16,45 +15,37 @@ export class FriendService {
     ) {}
 
     async createChannelUser(friendDetails: FriendDto): Promise<string> {
-        const user = await this.userService.findUserId(
-            friendDetails.userId
-        );
+        const user = await this.userService.findUserId(friendDetails.userId);
         const friend = await this.userService.findUserId(
             friendDetails.friendId
         );
-		if (friend === undefined || user === undefined)
-			return "error";
+        if (friend === undefined || user === undefined) return "error";
         const newFriend = await this.friendRepository.create({
             user: user,
             friend: friend,
-			isPending: true
+            isPending: true,
         });
-		await this.friendRepository.save(newFriend);
+        await this.friendRepository.save(newFriend);
         return "friend created";
     }
 
-	async acceptFriendship(friendDetails: FriendDto): Promise<string> {
-        const user = await this.userService.findUserId(
-            friendDetails.userId
-        );
+    async acceptFriendship(friendDetails: FriendDto): Promise<string> {
+        const user = await this.userService.findUserId(friendDetails.userId);
         const friend = await this.userService.findUserId(
             friendDetails.friendId
         );
-		if (friend === undefined || user === undefined)
-			return "error";
+        if (friend === undefined || user === undefined) return "error";
         const friendship = await this.friendRepository.findOne({
             relations: {
-				user: true,
-			},
-			where: {
-				user: { id: user.id},
-				friend: {id: friend.id}
-			}
+                user: true,
+            },
+            where: {
+                user: { id: user.id },
+                friend: { id: friend.id },
+            },
         });
-		friendship.isPending = true;
-		await this.friendRepository.save(friendship);
+        friendship.isPending = true;
+        await this.friendRepository.save(friendship);
         return "friendship accepted";
     }
-	
-
 }

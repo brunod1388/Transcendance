@@ -57,6 +57,7 @@ export class ChannelUserService {
                 user: {
                     id: true,
                     username: true,
+                    avatar: true,
                 },
             },
         });

@@ -1,8 +1,7 @@
 import { IsNotEmpty, IsNumber } from "class-validator";
 
 export class FriendDto {
-
-	@IsNumber()
+    @IsNumber()
     @IsNotEmpty()
     userId: number;
 

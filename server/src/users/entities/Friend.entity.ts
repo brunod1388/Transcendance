@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, Index } from "typeorm";
+import {
+    Column,
+    Entity,
+    PrimaryGeneratedColumn,
+    ManyToOne,
+    Index,
+} from "typeorm";
 
 import { Channel } from "../../chat/entities/Channel.entity";
 import { User } from "./User.entity";
