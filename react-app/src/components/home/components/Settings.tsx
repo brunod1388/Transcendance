@@ -2,8 +2,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect, ChangeEvent, FormEvent, MouseEvent } from "react";
 import { AxiosRequestConfig } from "axios";
 import { useAxios } from "../../../hooks";
-import { useAuth } from "../../../context";
-import "../../../assets/styles/form.scss";
+import { Feature, useAuth, useFeature } from "../../../context";
+import "../styles/settings.scss";
 
 const defaultAvatarRequest: AxiosRequestConfig = {
     method: "POST",
@@ -47,6 +47,7 @@ function Settings() {
     const [emailReq, setEmailReq] =
         useState<AxiosRequestConfig>(defaultEmailRequest);
     const [twofaReq, setTwofaReq] = useState<boolean>(false);
+    const { setFeature } = useFeature();
     const {
         response: resA,
         loading: loadA,
@@ -152,55 +153,54 @@ function Settings() {
     }
 
     return (
-        <div className="form_container">
-            <span className="logo">Manage Profile Settings</span>
-            <div className="form_wrapper register">
-                <span className="title">Change your username</span>
-                <form onSubmit={handleUsername}>
-                    <input
-                        name="username"
-                        type="text"
-                        placeholder="new username"
-                    />
-                    <button type="submit">Update username</button>
-                    {errU && <p>Error: Username already taken</p>}
-                    {resU && !loadU && <p>Username successfully changed</p>}
-                </form>
-                <span className="title">Change your email</span>
-                <form onSubmit={handleEmail}>
-                    <input name="email" type="email" placeholder="new email" />
-                    <button type="submit">Update email</button>
-                    {errE && <p>Error: Email already taken</p>}
-                    {resE && !loadE && <p>Email successfully changed</p>}
-                </form>
-                <span className="title">
-                    Change your profile avatar by uploading an image
-                </span>
+        <div className="settings">
+            <h1 className="logo">Manage Profile Settings</h1>
+            <br />
+            <span className="title">Change your username</span>
+            <form onSubmit={handleUsername}>
                 <input
-                    type="file"
-                    name="file"
-                    placeholder="upload your avatar"
-                    onChange={handleImage}
+                    name="username"
+                    type="text"
+                    placeholder="new username"
                 />
-                {errA && <p>Error: Invalid file</p>}
-                {resA && !loadA && <p>Avatar successfully changed</p>}
-                <span className="title">
-                    Two factor authentication settings
-                </span>
-                {userAuth.enable2FA && (
-                    <button type="button" onClick={disableTwoFactor}>
-                        Disable Two Factor Authentication
-                    </button>
-                )}
-                {!userAuth.enable2FA && (
-                    <button type="button" onClick={enableTwoFactor}>
-                        Enable Two Factor Authentication
-                    </button>
-                )}
-                <p className="detail">
-                    To return to the homepage click <Link to="/home">here</Link>
-                </p>
-            </div>
+                <button type="submit">Update username</button>
+                {errU && <p>Error: Username already taken</p>}
+                {resU && !loadU && <p>Username successfully changed</p>}
+            </form>
+            <span className="title">Change your email</span>
+            <form onSubmit={handleEmail}>
+                <input name="email" type="email" placeholder="new email" />
+                <button type="submit">Update email</button>
+                {errE && <p>Error: Email already taken</p>}
+                {resE && !loadE && <p>Email successfully changed</p>}
+            </form>
+            <span className="title">
+                Change your profile avatar by uploading an image
+            </span>
+            <input
+                type="file"
+                name="file"
+                placeholder="upload your avatar"
+                onChange={handleImage}
+            />
+            {errA && <p>Error: Invalid file</p>}
+            {resA && !loadA && <p>Avatar successfully changed</p>}
+            <span className="title">
+                Two factor authentication settings
+            </span>
+            {userAuth.enable2FA && (
+                <button type="button" onClick={disableTwoFactor}>
+                    Disable Two Factor Authentication
+                </button>
+            )}
+            {!userAuth.enable2FA && (
+                <button type="button" onClick={enableTwoFactor}>
+                    Enable Two Factor Authentication
+                </button>
+            )}
+            <p className="detail">
+                To return to the homepage click <span onClick={() => setFeature(Feature.Chat)}>here</span>
+            </p>
         </div>
     );
 }

@@ -1,5 +1,4 @@
 import "./assets/styles/App.scss";
-import React from "react";
 import { PropsWithChildren } from "react";
 import { Route, Routes } from "react-router-dom";
 import { useInvitation } from "./hooks";
