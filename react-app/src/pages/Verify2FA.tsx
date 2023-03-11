@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, FormEvent } from "react";
 import { AxiosRequestConfig } from "axios";
-import { useAxios } from "../../hooks";
+import { useAxios } from "../hooks";
 
 interface DataType {
     code: string;
@@ -60,4 +60,4 @@ function Verify2FA() {
     );
 }
 
-export default Verify2FA;
+export { Verify2FA };

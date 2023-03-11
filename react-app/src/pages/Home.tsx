@@ -1,15 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { FC, useEffect, useState } from "react";
-import { Navbar, Topbar } from "../../components/home";
-import Chat from "../../components/chat/Chat";
-import { useAuth } from "../../context";
-import { useAxios } from "../../hooks";
+import { Navbar, Topbar, Settings } from "../components/home";
+import Chat from "../components/chat/Chat";
+import { useAuth } from "../context";
+import { useAxios } from "../hooks";
 import { AxiosRequestConfig } from "axios";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 import Cookies from "js-cookie";
-import { useFeature, Feature } from "../../context/feature.context";
-import ProfileSettings from "../ProfileSettings";
-import "./home.scss";
+import { useFeature, Feature } from "../context/feature.context";
+import "./styles/home.scss";
 
 const defaultRequest: AxiosRequestConfig = {
     method: "GET",
@@ -19,7 +18,7 @@ const defaultRequest: AxiosRequestConfig = {
 const featureComponent = new Map<number, JSX.Element>([
     [Feature.None, <></>],
     [Feature.Chat, <Chat />],
-    [Feature.Setting, <ProfileSettings />],
+    [Feature.Setting, <Settings />],
     // [Feature.Pong, <Pong />],
 ])
 
@@ -76,4 +75,4 @@ function Home() {
     );
 }
 
-export default Home;
+export { Home };

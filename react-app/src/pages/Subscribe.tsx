@@ -1,11 +1,10 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect, FormEvent, MouseEvent } from "react";
-import Add from "../../assets/images/add-image.png";
+import Add from "../assets/images/add-image.png";
 import { AxiosRequestConfig } from "axios";
 import Cookies from "js-cookie";
-
-import "../../assets/styles/form.scss";
-import { useAxios } from "../../hooks";
+import { useAxios } from "../hooks";
+import "../assets/styles/form.scss";
 
 interface DataType {
     username: string;
@@ -110,4 +109,4 @@ function Subscribe() {
     );
 }
 
-export default Subscribe;
+export { Subscribe };

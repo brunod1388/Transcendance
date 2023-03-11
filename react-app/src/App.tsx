@@ -1,17 +1,16 @@
-import "./App.scss";
+import "./assets/styles/App.scss";
 import React from "react";
 import { PropsWithChildren } from "react";
 import { Route, Routes } from "react-router-dom";
-import Login from "./pages/Login";
-import Home from "./pages/Home";
-import Play from "./pages/Play";
-import Subscribe from "./pages/Subscribe";
-import Test from "./pages/TestPage";
 import { useInvitation } from "./hooks";
-import PongPage from "./pages/Pong";
-import TwoFactorAuth from "./pages/Enable2FA";
-import Verify2FA from "./pages/Verify2FA";
-import ProfileSettings from "./pages/ProfileSettings";
+import {
+    Login,
+    Home,
+    Play,
+    Subscribe,
+    TwoFactorAuth,
+    Verify2FA
+} from "./pages";
 
 function App() {
     // in the future use this to be sur to not access to the chat if no authentified
@@ -40,12 +39,9 @@ function App() {
                 <Route path="login" element={<Login />} />
                 <Route path="subscribe" element={<Subscribe />} />
                 <Route path="home" element={<Home />} />
-                <Route path="test" element={<Test />} />
                 <Route path="play" element={<Play />} />
-                <Route path="pong" element={<PongPage />} />
                 <Route path="twofactor" element={<TwoFactorAuth />} />
                 <Route path="verify2fa" element={<Verify2FA />} />
-                <Route path="settings" element={<ProfileSettings />} />
                 {/* <EventLayer /> */}
             </Route>
         </Routes>

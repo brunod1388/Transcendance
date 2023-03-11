@@ -1,7 +1,7 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState, FormEvent } from "react";
 import { AxiosRequestConfig } from "axios";
-import { useAxios } from "../../hooks";
+import { useAxios } from "../hooks";
 
 interface DataType {
     code: string;
@@ -94,7 +94,7 @@ function TwoFactorAuthPage({ qrcode }: Props) {
     );
 }
 
-export default TwoFactorAuth;
+export { TwoFactorAuth };
 
 /*
 import { useNavigate, Link } from "react-router-dom";

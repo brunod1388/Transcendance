@@ -1,8 +1,8 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect, FormEvent, MouseEvent } from "react";
 import { AxiosRequestConfig } from "axios";
-import "../../assets/styles/form.scss";
-import { useAxios } from "../../hooks";
+import "../assets/styles/form.scss";
+import { useAxios } from "../hooks";
 import Cookies from "js-cookie";
 
 interface DataType {
@@ -96,4 +96,4 @@ function Login() {
     );
 }
 
-export default Login;
+export { Login };

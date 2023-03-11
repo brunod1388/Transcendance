@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useSocket } from "../../hooks";
-import { InvitationRequestDTO } from "../../@types";
+import { useSocket } from "../hooks";
+import { InvitationRequestDTO } from "../@types";
 import { Socket } from "socket.io-client";
 
 function newGame(value: string, socket: Socket) {
@@ -96,4 +96,4 @@ function Play() {
     );
 }
 
-export default Play;
+export { Play };

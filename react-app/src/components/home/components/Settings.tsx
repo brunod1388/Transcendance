@@ -36,7 +36,7 @@ const default2faRequest: AxiosRequestConfig = {
     data: null,
 };
 
-function ProfileSettings() {
+function Settings() {
     const navigate = useNavigate();
     const { userAuth } = useAuth();
     const [avatarReq, setAvatarReq] =
@@ -205,4 +205,4 @@ function ProfileSettings() {
     );
 }
 
-export default ProfileSettings;
+export { Settings };
