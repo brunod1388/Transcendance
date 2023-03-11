@@ -21,7 +21,7 @@ const featureComponent = new Map<number, JSX.Element>([
     [Feature.Setting, <Settings />],
     // [Feature.Pong, <Pong />],
     // [Feature.Ranking, <Ranking />],
-])
+]);
 
 function Home() {
     const [request] = useState<AxiosRequestConfig>(defaultRequest);

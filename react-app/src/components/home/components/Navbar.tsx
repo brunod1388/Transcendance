@@ -2,8 +2,12 @@ import React, { useEffect } from "react";
 import NewChannel from "./NewChannel";
 import ChannelButton from "./ChannelButton";
 import { useState } from "react";
-import { ChatIcon, AddChannelIcon, NoChannelIcon } from "../../../assets/images";
-import { useAuth, useChat, Feature, useFeature  } from "../../../context";
+import {
+    ChatIcon,
+    AddChannelIcon,
+    NoChannelIcon,
+} from "../../../assets/images";
+import { useAuth, useChat, Feature, useFeature } from "../../../context";
 import { useSocket } from "../../../hooks";
 import { ChannelType } from "../../../@types";
 import "../styles/navbar.scss";
@@ -23,8 +27,7 @@ function Navbar() {
     }, [userAuth, newChannel]);
 
     function privateClick() {
-        if (feature !== Feature.Chat)
-            setFeature(Feature.Chat)
+        if (feature !== Feature.Chat) setFeature(Feature.Chat);
         updateChannel({
             ...channel,
             currentChannelId: 0,
@@ -34,8 +37,7 @@ function Navbar() {
     }
 
     function channelClick(id: number) {
-        if (feature !== Feature.Chat)
-            setFeature(Feature.Chat)
+        if (feature !== Feature.Chat) setFeature(Feature.Chat);
         let channelName = channels?.find((chan) => {
             return chan.id == id;
         })?.name;
@@ -48,8 +50,7 @@ function Navbar() {
     }
 
     function addClick() {
-        if (feature !== Feature.Chat)
-            setFeature(Feature.Chat)
+        if (feature !== Feature.Chat) setFeature(Feature.Chat);
         setNewChannel(true);
     }
 

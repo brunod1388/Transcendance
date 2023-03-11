@@ -4,3 +4,4 @@ export * from "./Login";
 export * from "./Play";
 export * from "./Subscribe";
 export * from "./Verify2FA";
+export * from "./Settings";

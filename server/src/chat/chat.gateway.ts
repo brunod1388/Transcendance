@@ -25,7 +25,7 @@ export class ChatGateway {
         private userService: UsersService,
         private channelService: ChannelService,
         private channelUserService: ChannelUserService,
-        private friendService: FriendService,
+        private friendService: FriendService
     ) {}
 
     @WebSocketServer()
@@ -80,14 +80,12 @@ export class ChatGateway {
     async inviteFriend(@MessageBody() data: any): Promise<string> {
         const [friend, userId] = data;
         const newFriend = await this.userService.findUser(friend);
-        if (newFriend === undefined)
-            return "User Not Found"
+        if (newFriend === undefined) return "User Not Found";
         const res = await this.friendService.createFriend({
             userId: userId,
             friendId: friend.id,
         });
-        if (res === undefined)
-            return "Something went wrong"
+        if (res === undefined) return "Something went wrong";
         return "Invitation sent";
     }
 
@@ -95,17 +93,16 @@ export class ChatGateway {
     async inviteContact(@MessageBody() data: any): Promise<string> {
         const [username, channelId] = data;
         const user = await this.userService.findUser(username);
-        if (user === undefined)
-            return "User Not Found"
+        if (user === undefined) return "User Not Found";
         this.channelUserService.createChannelUser({
             userId: user.id,
             channelId: channelId,
             rights: rightType.NORMAL,
-            isPending: true
+            isPending: true,
         });
         return "Invitation Sent";
     }
- 
+
     // @SubscribeMessage("joinRoom")
     // async joinRoom(socket: Socket, room: string): Promise<string> {
     //     const { userId } = data;

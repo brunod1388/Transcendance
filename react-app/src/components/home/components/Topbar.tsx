@@ -3,7 +3,7 @@ import {
     SettingIcon,
     AddUserIcon,
     NoUserIcon,
-    Bell
+    Bell,
 } from "../../../assets/images";
 import { useNavigate, Link } from "react-router-dom";
 import { MouseEvent, useState } from "react";
@@ -24,8 +24,8 @@ function Topbar() {
     const { removeItem } = useLocalStorage();
     const avatar = userAuth.avatar;
     const { channel } = useChat();
-    const {setFeature} = useFeature();
-    const [ notif, setNotif] = useState(false);
+    const { setFeature } = useFeature();
+    const [notif, setNotif] = useState(false);
     //useEffect(() => {
     //    console.log("Auth user: ", userAuth);
     //}, [userAuth]);
@@ -58,28 +58,44 @@ function Topbar() {
                         alt=""
                         onClick={() => setNotif(!notif)}
                     />
-                    {notif && 
-                            <div className="notifications">
-                                <span className="title">Invitation</span>
-                                <Notification type="friend" name="name1"></Notification>
-                                <Notification type="friend" name="name2"></Notification>
-                                <Notification type="channel" name="name1"></Notification>
-                                <Notification type="channel" name="name2"></Notification>
-                            </div>
-                    }
-                    </div>
+                    {notif && (
+                        <div className="notifications">
+                            <span className="title">Invitation</span>
+                            <Notification
+                                type="friend"
+                                name="name1"
+                            ></Notification>
+                            <Notification
+                                type="friend"
+                                name="name2"
+                            ></Notification>
+                            <Notification
+                                type="channel"
+                                name="name1"
+                            ></Notification>
+                            <Notification
+                                type="channel"
+                                name="name2"
+                            ></Notification>
+                        </div>
+                    )}
+                </div>
                 <img
                     className="imgButton"
                     src={PlayIcon}
                     alt=""
                     onClick={() => setFeature(Feature.Pong)}
                 />
-                <img
+                {/* <img
                     className="imgButton"
                     src={SettingIcon}
                     alt=""
-                    onClick={() => setFeature(Feature.Setting)}
-                />
+                    onClick={() => <Link></Link>
+                    }
+                /> */}
+                <Link to="/settings">
+                    <img className="imgButton" src={SettingIcon} alt="" />
+                </Link>
                 <button className="button-purple" onClick={logout}>
                     logout
                 </button>

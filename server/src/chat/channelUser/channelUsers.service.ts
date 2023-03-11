@@ -47,5 +47,4 @@ export class ChannelUserService {
         });
         return channels;
     }
-
 }

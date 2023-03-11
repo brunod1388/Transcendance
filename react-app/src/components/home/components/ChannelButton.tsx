@@ -1,4 +1,3 @@
-
 interface Props {
     image?: any;
     name: string;

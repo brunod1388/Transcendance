@@ -44,8 +44,7 @@ export class FriendService {
                 friend: { id: friend.id },
             },
         });
-		if (friendship === undefined)
-			return "Frienship never sent";
+        if (friendship === undefined) return "Frienship never sent";
         friendship.isPending = false;
         await this.friendRepository.save(friendship);
         return "friendship accepted";

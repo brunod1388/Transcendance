@@ -8,7 +8,8 @@ import {
     Play,
     Subscribe,
     TwoFactorAuth,
-    Verify2FA
+    Verify2FA,
+    Settings,
 } from "./pages";
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
                 <Route path="play" element={<Play />} />
                 <Route path="twofactor" element={<TwoFactorAuth />} />
                 <Route path="verify2fa" element={<Verify2FA />} />
+                <Route path="settings" element={<Settings />} />
                 {/* <EventLayer /> */}
             </Route>
         </Routes>
