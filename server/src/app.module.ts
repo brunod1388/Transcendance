@@ -5,9 +5,12 @@ import { ChatModule } from "./chat/chat.module";
 import { AuthModule } from "./auth/auth.module";
 import { UsersModule } from "./users/users.module";
 import { PongModule } from "./pong/pong.module";
-import { GatewayModule } from "./gateway/gateway.module";
+// import { GatewayModule } from "./general/general.module";
 import { ChannelUsersModule } from "./chat/channelUser/channelUsers.module";
 import { ChannelModule } from "./chat/channel/channel.module";
+import { GameModule } from "./game/game.module";
+import { ClientsModule } from "./clients/clients.module";
+import { GeneralModule } from "./general/general.module";
 
 @Module({
     imports: [
@@ -17,7 +20,9 @@ import { ChannelModule } from "./chat/channel/channel.module";
         UsersModule,
         ChatModule,
         PongModule,
-        GatewayModule,
+        GameModule,
+        ClientsModule,
+		GeneralModule
     ],
     providers: [],
     exports: [],

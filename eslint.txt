@@ -1,0 +1,73 @@
+server              | /nestjs-server/src/app.module.ts
+server              |    9:10  warning  'ChannelUsersModule' is defined but never used  @typescript-eslint/no-unused-vars
+server              |   10:10  warning  'ChannelModule' is defined but never used       @typescript-eslint/no-unused-vars
+server              | 
+server              | /nestjs-server/src/auth/auth.controller.ts
+server              |   39:37  warning  'response' is defined but never used  @typescript-eslint/no-unused-vars
+server              | 
+server              | /nestjs-server/src/auth/auth.service.ts
+server              |   36:17  warning  'confirmPassword' is assigned a value but never used  @typescript-eslint/no-unused-vars
+server              |   42:13  warning  'user' is assigned a value but never used             @typescript-eslint/no-unused-vars
+server              |   60:15  warning  'updated' is assigned a value but never used          @typescript-eslint/no-unused-vars
+server              | 
+server              | /nestjs-server/src/auth/dto/auth.dto.ts
+server              |   1:22  warning  'IsNumber' is defined but never used  @typescript-eslint/no-unused-vars
+server              | 
+server              | /nestjs-server/src/chat/channel/channel.service.ts
+server              |    4:28  warning  'UpdateChannelDto' is defined but never used  @typescript-eslint/no-unused-vars
+server              |    7:32  warning  'ChannelUser' is defined but never used       @typescript-eslint/no-unused-vars
+server              |    7:45  warning  'rightType' is defined but never used         @typescript-eslint/no-unused-vars
+server              |   71:27  warning  'userId' is defined but never used            @typescript-eslint/no-unused-vars
+server              | 
+server              | /nestjs-server/src/chat/channelUser/channelUsers.service.ts
+server              |   8:10  warning  'User' is defined but never used     @typescript-eslint/no-unused-vars
+server              |   9:10  warning  'Channel' is defined but never used  @typescript-eslint/no-unused-vars
+server              | 
+server              | /nestjs-server/src/chat/chat.gateway.ts
+server              |    8:10  warning  'Socket' is defined but never used         @typescript-eslint/no-unused-vars
+server              |    8:18  warning  'Server' is defined but never used         @typescript-eslint/no-unused-vars
+server              |   10:10  warning  'CreateUserDto' is defined but never used  @typescript-eslint/no-unused-vars
+server              | 
+server              | /nestjs-server/src/chat/chat.service.ts
+server              |   6:31  warning  'ModifyMessageParams' is defined but never used  @typescript-eslint/no-unused-vars
+server              | 
+server              | /nestjs-server/src/clients/clients.controller.ts
+server              |   20:32  warning  'updateClientDto' is defined but never used   @typescript-eslint/no-unused-vars
+server              |   20:66  error    Unexpected empty async method 'updateClient'  @typescript-eslint/no-empty-function
+server              | 
+server              | /nestjs-server/src/clients/clients.service.ts
+server              |   2:10  warning  'InjectRepository' is defined but never used  @typescript-eslint/no-unused-vars
+server              | 
+server              | /nestjs-server/src/game/game.service.ts
+server              |   17:20  warning  'invitation' is defined but never used    @typescript-eslint/no-unused-vars
+server              |   17:51  error    Unexpected empty method 'sendInvitation'  @typescript-eslint/no-empty-function
+server              |   19:17  error    Unexpected empty method 'startGame'       @typescript-eslint/no-empty-function
+server              | 
+server              | /nestjs-server/src/general/general.service.ts
+server              |   16:35  warning  'reason' is defined but never used     @typescript-eslint/no-unused-vars
+server              |   33:15  warning  'server' is defined but never used     @typescript-eslint/no-unused-vars
+server              |   33:31  warning  'client' is defined but never used     @typescript-eslint/no-unused-vars
+server              |   33:47  warning  'broadcast' is defined but never used  @typescript-eslint/no-unused-vars
+server              | 
+server              | /nestjs-server/src/invitations/InvitationPong.ts
+server              |   2:10  warning  'InvitationResponseDTO' is defined but never used  @typescript-eslint/no-unused-vars
+server              | 
+server              | /nestjs-server/src/invitations/dtos/RoomStatut.dto.ts
+server              |   1:20  warning  'IsNotEmpty' is defined but never used  @typescript-eslint/no-unused-vars
+server              | 
+server              | /nestjs-server/src/pong/dtos/Broadcast.dto.ts
+server              |   1:10  warning  'IsNumber' is defined but never used  @typescript-eslint/no-unused-vars
+server              | 
+server              | /nestjs-server/src/users/dtos/User.dto.ts
+server              |   1:10  warning  'Channel' is defined but never used      @typescript-eslint/no-unused-vars
+server              |   2:10  warning  'Friend' is defined but never used       @typescript-eslint/no-unused-vars
+server              |   4:10  warning  'Message' is defined but never used      @typescript-eslint/no-unused-vars
+server              |   5:10  warning  'MutedUser' is defined but never used    @typescript-eslint/no-unused-vars
+server              |   6:10  warning  'BlockedUser' is defined but never used  @typescript-eslint/no-unused-vars
+server              |   7:10  warning  'ChannelUser' is defined but never used  @typescript-eslint/no-unused-vars
+server              | 
+server              | /nestjs-server/src/users/entities/Friend.entity.ts
+server              |   9:10  warning  'Channel' is defined but never used  @typescript-eslint/no-unused-vars
+server              | 
+server              | /nestjs-server/src/users/users.service.ts
+server              |   9:5  warning  'Update42UserParams' is defined but never used  @typescript-eslint/no-unused-vars
