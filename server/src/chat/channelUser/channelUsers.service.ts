@@ -48,18 +48,4 @@ export class ChannelUserService {
         return channels;
     }
 
-    async getChannelUsers(channelId: number) {
-        const channels = await this.channelUserRepository.find({
-            relations: { channel: true, user: true },
-            where: { channel: { id: channelId } },
-            select: {
-                rights: true,
-                user: {
-                    id: true,
-                    username: true,
-                    avatar: true,
-                },
-            },
-        });
-    }
 }

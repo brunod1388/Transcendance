@@ -23,7 +23,7 @@ export class Friend {
     @ManyToOne(() => User, (user) => user.id)
     user: User;
 
-    @ManyToOne(() => Channel, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id)
     friend: User;
 
     @Column()

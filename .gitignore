@@ -29,3 +29,4 @@ yarn-error.log*
 test.css
 test.html
 database-volume/
+server/uploads

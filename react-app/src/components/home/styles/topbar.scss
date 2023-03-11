@@ -1,5 +1,6 @@
 @import "../../../assets/styles/variables.scss";
 
+$image-size: 25px;
 
 .topbar {
 	display: flex;
@@ -11,16 +12,16 @@
 	width: 100%;
 	.channelName {
 		font-weight: bold;
+		font-size:x-large;
 		padding: 0px 10px;
 	}
 	.user {
+		position: relative;
 		height: 30px;
 		display: flex;
 		gap: 10px;
 		align-items: center;
-		// padding: 0px 10px;
 		padding-right: 10px;
-		$image-size: 25px;
 
 		img {
 			height: $image-size;
@@ -29,7 +30,7 @@
 				border-radius: 50%;
 				object-fit: cover;
 			}
-	
+
 			&.imgButton {
 				filter: $filter-purple;
 				&:hover {
@@ -47,6 +48,69 @@
 				color: $purple;
 				background-color: white;
 				font-weight: 400;
+			}
+		}
+	}
+	
+	.notificationContainer {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		width: $image-size;
+
+		.title {
+			padding: 0px 15px;
+			padding-bottom: 5px;
+		}
+
+		.notifications {
+			top: calc($image-size + 5px);
+			left: -30px;
+			position: absolute;
+			// gap: 7px;
+			width: 205px;
+			// padding: 10px 0;
+			display: flex;
+			flex-direction: column;
+			background-color: $dark-grey;
+			border-radius: 0 0 0 7px;
+			.notification {
+				align-items: center;
+				display: flex;
+				// width: 100%;
+				gap: 10px;
+				padding: 5px;
+				&:hover {
+					background-color: $purple;
+				}
+				.name {
+					flex-grow: 1;
+				}
+
+				img {
+					width: 15px;
+					height: 15px;
+
+					&.animate {
+						&:hover {
+							animation: rotation 1s infinite;
+						}
+					}
+				}
+
+				.decline {
+					width: 20px;
+					height: 20px;
+				}
+				.icon {
+					padding-left: 10px;
+				}
+
+				&:last-of-type {
+					&:hover {
+						border-radius: 0 0 0 7px;
+					}
+				}
 			}
 		}
 	}

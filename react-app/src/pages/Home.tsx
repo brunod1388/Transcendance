@@ -20,6 +20,7 @@ const featureComponent = new Map<number, JSX.Element>([
     [Feature.Chat, <Chat />],
     [Feature.Setting, <Settings />],
     // [Feature.Pong, <Pong />],
+    // [Feature.Ranking, <Ranking />],
 ])
 
 function Home() {

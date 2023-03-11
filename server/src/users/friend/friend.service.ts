@@ -14,12 +14,12 @@ export class FriendService {
         private userService: UsersService
     ) {}
 
-    async createChannelUser(friendDetails: FriendDto): Promise<string> {
+    async createFriend(friendDetails: FriendDto): Promise<string> {
         const user = await this.userService.findUserId(friendDetails.userId);
         const friend = await this.userService.findUserId(
             friendDetails.friendId
         );
-        if (friend === undefined || user === undefined) return "error";
+        if (friend === undefined || user === undefined) return undefined;
         const newFriend = await this.friendRepository.create({
             user: user,
             friend: friend,
@@ -44,7 +44,9 @@ export class FriendService {
                 friend: { id: friend.id },
             },
         });
-        friendship.isPending = true;
+		if (friendship === undefined)
+			return "Frienship never sent";
+        friendship.isPending = false;
         await this.friendRepository.save(friendship);
         return "friendship accepted";
     }
