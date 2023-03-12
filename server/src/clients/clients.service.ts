@@ -14,7 +14,7 @@ export class ClientsService {
     private clientsList = new Array<Client>();
 
     saveClient(userId: number, socketId: string, username: string) {
-		console.log(this.clientsList);
+        console.log(this.clientsList);
         this.clientsList[username] = { username, socketId, userId };
         console.log(this.clientsList);
     }

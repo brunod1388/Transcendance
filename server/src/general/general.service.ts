@@ -14,7 +14,7 @@ export class GeneralService {
     }
 
     disconnection(socket: Socket, reason: any) {
-        this.clientsService.removeClient(socket.id);
+        // this.clientsService.removeClient(socket.id);
         console.log("disconnection");
     }
 

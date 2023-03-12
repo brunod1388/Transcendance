@@ -10,11 +10,11 @@ export const SocketContext = createContext<Socket>({} as Socket);
 interface Props {}
 
 export function SocketProvider(props: PropsWithChildren<Props>) {
-    const socket = useRef<Socket>(io(SERVER_URL, {autoConnect: false}));
+    const socket = useRef<Socket>(io(SERVER_URL, { autoConnect: false }));
     const { userAuth } = useAuth();
 
     useEffect(() => {
-		socket.current.connect();
+        socket.current.connect();
         socket.current.on("connect", () => {
             axios.post("http://localhost:3000/clients/online", {
                 socketId: socket.current.id,
@@ -24,7 +24,7 @@ export function SocketProvider(props: PropsWithChildren<Props>) {
         });
         return () => {
             socket.current.off("connect");
-			// socket.current.disconnect();
+            // socket.current.disconnect();
         };
     }, []);
 
