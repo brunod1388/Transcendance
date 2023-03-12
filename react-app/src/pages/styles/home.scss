@@ -37,4 +37,31 @@
 		border-radius: 10px 0 0 0;
 		background-color: $dark-purple;
 	}
+
+	.button_container {
+		display: flex;
+		justify-content: end;
+	}
+
+	.friendButton {
+		position:absolute;
+		top: 50vh;
+		width: 20px;
+		height: 35px;
+		border-radius: 5px 0px 0px 5px;
+		border: none;
+		background-color: $dark-grey;
+		opacity: 0.7;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		img {
+			height: 15px;
+			filter: $filter-white;
+		}
+
+		&:hover {
+			background-color: $purple;
+		}
+	}
 }

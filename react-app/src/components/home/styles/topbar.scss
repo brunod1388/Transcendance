@@ -10,10 +10,20 @@ $image-size: 25px;
 	justify-content: space-between;
 	color: aliceblue;
 	width: 100%;
-	.channelName {
-		font-weight: bold;
-		font-size:x-large;
-		padding: 0px 10px;
+
+	.channel {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		.channelImg {
+			height: 24px;
+		}
+	
+		.channelName {
+			font-weight: bold;
+			font-size:x-large;
+			padding: 0px 10px;
+		}
 	}
 	.user {
 		position: relative;

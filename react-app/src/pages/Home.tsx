@@ -8,6 +8,8 @@ import { AxiosRequestConfig } from "axios";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import Cookies from "js-cookie";
 import { useFeature, Feature } from "../context/feature.context";
+import { ContactIcon } from "../assets/images";
+import Friendbar from "../components/home/components/Friendbar";
 import "./styles/home.scss";
 
 const defaultRequest: AxiosRequestConfig = {
@@ -30,6 +32,7 @@ function Home() {
     const { setItem, getItem, removeItem } = useLocalStorage();
     const { response, error } = useAxios(request);
     const { feature } = useFeature();
+    const [friendsVisible, setFriendsVisible] = useState(false);
 
     useEffect(() => {
         if (response !== undefined) {
@@ -71,6 +74,17 @@ function Home() {
                         {featureComponent.get(feature)}
                     </div>
                 </div>
+                <div className="button_container">
+                    <button
+                        className="friendButton"
+                        onClick={() => {
+                            setFriendsVisible(friendsVisible ? false : true);
+                        }}
+                    >
+                        <img src={ContactIcon} alt="" />
+                    </button>
+                </div>
+                {friendsVisible && <Friendbar />}
             </div>
         </div>
     );

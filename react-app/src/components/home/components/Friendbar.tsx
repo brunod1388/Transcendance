@@ -1,7 +1,7 @@
-import React from "react";
-import User from "./User";
+import React, { useState } from "react";
+import User from "../../chat/components/User";
 import { UserType } from "../../../@types";
-import AddContact from "./AddContact";
+import AddContact from "../../chat/components/AddContact";
 import "../styles/friendbar.scss";
 
 type Props = {};
@@ -11,6 +11,8 @@ const usr: UserType = {
     username: "testUser",
 };
 export default function Friendbar({}: Props) {
+    const [friendsVisible, setFriendsVisible] = useState(false);
+
     return (
         <div className="friendBar">
             <span className="title">Friends</span>

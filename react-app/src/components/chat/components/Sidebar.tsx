@@ -16,10 +16,10 @@ export default function Sidebar({}: Props) {
     const [searchUser, setSearchUser] = useState<UserType>();
 
     useEffect(() => {
-        if (channel.currentChannelType == "channel")
+        if (channel.type == "channel")
             socket.emit(
                 "getChannelUsers",
-                channel.currentChannelId,
+                channel.id,
                 (usersReceived: UserType[]) => {
                     setUsers(usersReceived);
                 }
@@ -49,7 +49,7 @@ export default function Sidebar({}: Props) {
                     <User
                         user={user}
                         isPrivate={
-                            channel.currentChannelType === "directMessage"
+                            channel.type === "directMessage"
                         }
                         keyId={`${user.id}`}
                         key={i}

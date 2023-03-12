@@ -1,11 +1,11 @@
 export interface ChatType {
-    currentChannelId: number;
-    currentChannelName: string;
+    id: number;
+    name: string;
 }
 
 export const defaultChat: ChatType = {
-    currentChannelId: 0,
-    currentChannelName: "",
+    id: 0,
+    name: "",
 };
 
 export interface ChatContextType {

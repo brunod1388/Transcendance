@@ -30,22 +30,23 @@ function Navbar() {
         if (feature !== Feature.Chat) setFeature(Feature.Chat);
         updateChannel({
             ...channel,
-            currentChannelId: 0,
-            currentChannelName: "Private Message",
-            currentChannelType: "directMessage",
+            id: 0,
+            name: "Private Message",
+            type: "directMessage",
         });
     }
 
     function channelClick(id: number) {
         if (feature !== Feature.Chat) setFeature(Feature.Chat);
-        let channelName = channels?.find((chan) => {
+        let channel = channels?.find((chan) => {
             return chan.id == id;
-        })?.name;
-        const currentChannelName: string = channelName ? channelName : "";
+        });
+        const name: string = channel ? channel.name : "";
         updateChannel({
-            currentChannelId: id,
-            currentChannelName: currentChannelName,
-            currentChannelType: "channel",
+            id: id,
+            name: name,
+            type: "channel",
+            image: channel?.image ? channel.image : NoChannelIcon
         });
     }
 

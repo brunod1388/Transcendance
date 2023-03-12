@@ -9,15 +9,17 @@ type Props = {};
 export type ChannelContextType = "none" | "directMessage" | "channel";
 
 export interface ChannelType {
-    currentChannelId: number;
-    currentChannelName: string;
-    currentChannelType: ChannelContextType;
+    id: number;
+    name: string;
+    type: ChannelContextType;
+    image: string;
 }
 
 const defaultChannel: ChannelType = {
-    currentChannelId: 0,
-    currentChannelName: "",
-    currentChannelType: "none",
+    id: 0,
+    name: "",
+    type: "none",
+    image: ""
 };
 
 export interface ChatContextType {

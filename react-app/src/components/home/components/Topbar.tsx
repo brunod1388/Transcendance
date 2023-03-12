@@ -44,7 +44,10 @@ function Topbar() {
 
     return (
         <div className="topbar">
-            <span className="channelName">{channel.currentChannelName}</span>
+            <div className="channel">
+                <img className="channelImg" src={channel.image} alt="" />
+                <span className="channelName">{channel.name}</span>
+            </div>
             <div className="user">
                 <img
                     className="avatar"

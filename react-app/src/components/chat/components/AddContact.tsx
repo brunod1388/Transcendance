@@ -35,7 +35,7 @@ export default function AddContact(props: Props) {
             socket.emit(
                 "inviteChannelUser",
                 inviteName,
-                channel.currentChannelId,
+                channel.id,
                 (res: any) => {
                     console.log(res);
                 }
