@@ -32,7 +32,7 @@ export class FriendService {
         return "friend created";
     }
 
-    async handleFriendship(friendDto: FriendDTO): Promise<string> {
+    async updateFriend(friendDto: FriendDTO): Promise<string> {
         const friend = await this.friendRepository.findOne({
             where: {
                 id: friendDto.id,

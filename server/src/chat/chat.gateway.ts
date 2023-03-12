@@ -67,9 +67,8 @@ export class ChatGateway {
 
     @SubscribeMessage("getChannelsPending")
     async getChannelsPending(
-        @MessageBody() data: any
+        @MessageBody() userId: number
     ): Promise<ChannelUserDTO[]> {
-        const [userId] = data;
         return await this.channelUserService.getChannelUsers(userId, true);
     }
 
@@ -82,14 +81,12 @@ export class ChatGateway {
     @SubscribeMessage("getChannelUsers")
     async getChannelUsers(@MessageBody() channelId: number): Promise<User[]> {
         const channels = await this.channelService.getChannelUsers(channelId);
-        console.log(channels);
         return channels;
     }
 
     @SubscribeMessage("getPrivateUsers")
     async getPrivateUsers(@MessageBody() userId: number): Promise<User[]> {
         const channels = await this.channelService.getChannelUsers(userId);
-        console.log(channels);
         return channels;
     }
 
@@ -106,10 +103,10 @@ export class ChatGateway {
         return "Invitation sent";
     }
 
-    @SubscribeMessage("handleFriend")
-    async handleFriend(@MessageBody() data: any): Promise<string> {
+    @SubscribeMessage("updateFriend")
+    async updateFriend(@MessageBody() data: any): Promise<string> {
         const [friendId, isPending] = data;
-        const res = this.friendService.handleFriendship(friendId);
+        const res = this.friendService.updateFriend(friendId);
         if (res === undefined) return "Something went wrong";
         return "Invitation sent";
     }
@@ -126,6 +123,14 @@ export class ChatGateway {
             isPending: true,
         });
         return "Invitation Sent";
+    }
+
+    @SubscribeMessage("updateChannelUser")
+    async updateChannelUser(@MessageBody() data: any): Promise<string | ChannelUserDTO> {
+        const [channelId, isPending] = data;
+        const res = this.channelUserService.updateChannelUser(channelId);
+        if (res === undefined) return "Something went wrong";
+        return res;
     }
 
     // @SubscribeMessage("joinRoom")

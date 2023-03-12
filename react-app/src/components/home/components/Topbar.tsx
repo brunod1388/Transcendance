@@ -12,17 +12,11 @@ import { useAuth, useChat, Feature, useFeature } from "../../../context";
 import Cookies from "js-cookie";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import "../styles/topbar.scss";
-import Invitation from "./Invitation";
+import Invitations from "./Invitation";
 import { useSocket } from "../../../hooks";
 
 axios.defaults.baseURL = `http://localhost:3000`;
 axios.defaults.withCredentials = true;
-
-interface invitationType {
-    invitationId: number;
-    type: "Friend" | "Channel";
-    name: string;
-}
 
 function Topbar() {
     // const { currentUser } = useContext(AuthContext);
@@ -33,8 +27,6 @@ function Topbar() {
     const { channel } = useChat();
     const { setFeature } = useFeature();
     const [notif, setNotif] = useState(false);
-    const [invitations, setInvitations] = useState<invitationType[]>([]);
-    const [socket] = useSocket();
     //useEffect(() => {
     //    console.log("Auth user: ", userAuth);
     //}, [userAuth]);
@@ -49,29 +41,6 @@ function Topbar() {
         updateUser();
         navigate("/login");
     }
-
-    useEffect(() => {
-        // socket.emit("getFriends", userAuth.id, true, (res: any) => {
-        //     console.log(res);
-        // })
-        socket.emit("getChannelsPending", userAuth.id, (res: any) => {
-            console.log(res);
-            console.log(
-                res.map((channelUser: any) => ({
-                    id: channelUser.channel.id,
-                    type: "Channel",
-                    name: channelUser.channel.name,
-                }))
-            );
-            const channelInvitations = res.map((channelUser: any) => ({
-                id: channelUser.channel.id,
-                type: "Channel",
-                name: channelUser.channel.name,
-            }));
-            // setInvitations([...invitations, channelInvitations]);
-            console.log("TEST  :", [...invitations, channelInvitations]);
-        });
-    }, []);
 
     return (
         <div className="topbar">
@@ -92,38 +61,7 @@ function Topbar() {
                         alt=""
                         onClick={() => setNotif(!notif)}
                     />
-                    {notif && (
-                        <div className="invitations">
-                            <span className="title">Invitation</span>
-                            {invitations.map((invite) => (
-                                <Invitation
-                                    id={invite.invitationId}
-                                    type={invite.type}
-                                    name={invite.name}
-                                />
-                            ))}
-                            {/* <Invitation
-                                id={3}
-                                type="Friend"
-                                name="name1"
-                            ></Invitation>
-                            <Invitation
-                                id={3}
-                                type="Friend"
-                                name="name2"
-                            ></Invitation>
-                            <Invitation
-                                id={3}
-                                type="Channel"
-                                name="name1"
-                            ></Invitation>
-                            <Invitation
-                                id={3}
-                                type="Channel"
-                                name="name2"
-                            ></Invitation> */}
-                        </div>
-                    )}
+                    {notif && <Invitations />}
                 </div>
                 <img
                     className="imgButton"

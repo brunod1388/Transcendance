@@ -56,7 +56,7 @@ export class ChannelUserService {
         return channelUsers;
     }
 
-    async handleChannelUser(
+    async updateChannelUser(
         channelUserDetails: ChannelUserDTO
     ): Promise<string> {
         const {
@@ -73,6 +73,6 @@ export class ChannelUserService {
         channelUser.isPending = false;
         channelUser.rights = rights;
         await this.channelUserRepository.save(channelUser);
-        return "Friend accepted";
+        return "ChannelUser updated";
     }
 }
