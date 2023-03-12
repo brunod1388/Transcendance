@@ -33,7 +33,7 @@ export default function AddContact(props: Props) {
             });
         } else {
             socket.emit(
-                "inviteContact",
+                "inviteChannelUser",
                 inviteName,
                 channel.currentChannelId,
                 (res: any) => {

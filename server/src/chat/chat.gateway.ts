@@ -14,6 +14,7 @@ import { User } from "src/users/entities/User.entity";
 import { ChannelUserService } from "./channelUser/channelUsers.service";
 import { rightType } from "./entities";
 import { FriendService } from "src/users/friend/friend.service";
+import { ChannelUserDTO } from "./dtos/ChannelUsers.dto";
 
 @WebSocketGateway({
     cors: {
@@ -57,10 +58,26 @@ export class ChatGateway {
     }
 
     @SubscribeMessage("getChannels")
-    async getChannels(@MessageBody() userId: number): Promise<ChannelDto[]> {
-        const channels = await this.channelService.getUserChannels(userId);
-        return channels;
+    async getChannels(@MessageBody() data: any): Promise<ChannelUserDTO[]> {
+        const [userId, isPending] = data;
+        return (
+            await this.channelUserService.getChannelUsers(userId, isPending)
+        ).map((channelUser) => channelUser.channel);
     }
+
+    @SubscribeMessage("getChannelsPending")
+    async getChannelsPending(
+        @MessageBody() data: any
+    ): Promise<ChannelUserDTO[]> {
+        const [userId] = data;
+        return await this.channelUserService.getChannelUsers(userId, true);
+    }
+
+    // @SubscribeMessage("getChannels")
+    // async getChannels(@MessageBody() userId: number): Promise<ChannelDto[]> {
+    //     const channels = await this.channelService.getUserChannels(userId);
+    //     return channels;
+    // }
 
     @SubscribeMessage("getChannelUsers")
     async getChannelUsers(@MessageBody() channelId: number): Promise<User[]> {
@@ -89,7 +106,15 @@ export class ChatGateway {
         return "Invitation sent";
     }
 
-    @SubscribeMessage("inviteContact")
+    @SubscribeMessage("handleFriend")
+    async handleFriend(@MessageBody() data: any): Promise<string> {
+        const [friendId, isPending] = data;
+        const res = this.friendService.handleFriendship(friendId);
+        if (res === undefined) return "Something went wrong";
+        return "Invitation sent";
+    }
+
+    @SubscribeMessage("inviteChannelUser")
     async inviteContact(@MessageBody() data: any): Promise<string> {
         const [username, channelId] = data;
         const user = await this.userService.findUser(username);

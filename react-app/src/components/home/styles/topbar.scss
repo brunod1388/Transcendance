@@ -51,8 +51,8 @@ $image-size: 25px;
 			}
 		}
 	}
-	
-	.notificationContainer {
+
+	.invitationContainer {
 		position: relative;
 		display: flex;
 		flex-direction: column;
@@ -63,18 +63,18 @@ $image-size: 25px;
 			padding-bottom: 5px;
 		}
 
-		.notifications {
+		.invitations {
 			top: calc($image-size + 5px);
-			left: -30px;
+			left: -130px;
 			position: absolute;
 			// gap: 7px;
-			width: 205px;
+			width: 305px;
 			// padding: 10px 0;
 			display: flex;
 			flex-direction: column;
 			background-color: $dark-grey;
 			border-radius: 0 0 0 7px;
-			.notification {
+			.invitation {
 				align-items: center;
 				display: flex;
 				// width: 100%;

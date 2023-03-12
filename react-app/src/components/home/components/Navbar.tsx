@@ -21,7 +21,7 @@ function Navbar() {
     const { feature, setFeature } = useFeature();
 
     useEffect(() => {
-        socket.emit("getChannels", userAuth.id, (res: ChannelType[]) => {
+        socket.emit("getChannels", userAuth.id, false, (res: ChannelType[]) => {
             setChannels(res);
         });
     }, [userAuth, newChannel]);

@@ -36,12 +36,6 @@ export interface UserType {
     rights?: channelRightType;
 }
 
-export interface UserType {
-    id: number;
-    username: string;
-    avatar?: string;
-}
-
 export interface MessageType {
     id: number;
     creator: UserType;

@@ -158,7 +158,11 @@ function Settings() {
             <div className="form_wrapper register">
                 <span className="title">Change your username</span>
                 <form onSubmit={handleUsername}>
-                    <input name="username" type="text" placeholder="new username" />
+                    <input
+                        name="username"
+                        type="text"
+                        placeholder="new username"
+                    />
                     <button type="submit">Update username</button>
                     {errU && <p>Error: Username already taken</p>}
                     {resU && !loadU && <p>Username successfully changed</p>}
@@ -181,7 +185,9 @@ function Settings() {
                 />
                 {errA && <p>Error: Invalid file</p>}
                 {resA && !loadA && <p>Avatar successfully changed</p>}
-                <span className="title">Two factor authentication settings</span>
+                <span className="title">
+                    Two factor authentication settings
+                </span>
                 {userAuth.enable2FA && (
                     <button type="button" onClick={disableTwoFactor}>
                         Disable Two Factor Authentication
@@ -193,7 +199,7 @@ function Settings() {
                     </button>
                 )}
                 <p className="detail">
-                To return to the homepage click <Link to="/home">here</Link>
+                    To return to the homepage click <Link to="/home">here</Link>
                 </p>
             </div>
         </div>

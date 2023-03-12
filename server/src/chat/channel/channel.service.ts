@@ -24,23 +24,6 @@ export class ChannelService {
         });
     }
 
-    async getUserChannels(userId: number): Promise<Channel[]> {
-        const channels = await this.channelRepository.find({
-            relations: {
-                channelUsers: true,
-            },
-            where: {
-                channelUsers: { user: { id: userId } },
-            },
-            select: {
-                id: true,
-                name: true,
-                image: true,
-            },
-        });
-        return channels;
-    }
-
     async createChannel(channelDetails: CreateChannelDto): Promise<Channel> {
         const owner: User = await this.userService.findUserId(
             channelDetails.ownerId

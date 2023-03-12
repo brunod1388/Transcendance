@@ -1,9 +1,9 @@
 import { Injectable, Inject, forwardRef } from "@nestjs/common";
-import { ChannelUser } from "../entities/ChannelUser.entity";
+import { ChannelUser, rightType } from "../entities/ChannelUser.entity";
 import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { ChannelService } from "../channel/channel.service";
-import { CreateChannelUserDto } from "../dtos/ChannelUsers.dto";
+import { ChannelUserDTO, CreateChannelUserDto } from "../dtos/ChannelUsers.dto";
 import { UsersService } from "src/users/users.service";
 import { User } from "src/users/entities/User.entity";
 import { Channel } from "diagnostics_channel";
@@ -34,17 +34,45 @@ export class ChannelUserService {
         return await this.channelUserRepository.save(newChannelUser);
     }
 
-    async getUserChannels(userId: number) {
-        const channels = await this.channelUserRepository.find({
-            select: {
-                channel: {
-                    id: true,
-                    name: true,
-                },
+    async getChannelUsers(
+        userId: number,
+        isPending: boolean
+    ): Promise<ChannelUserDTO[]> {
+        const channelUsers = await this.channelUserRepository.find({
+            relations: {
+                user: true,
+                channel: true,
             },
-            relations: { user: true, channel: true },
-            where: { user: { id: userId } },
+            where: {
+                isPending: isPending,
+                user: { id: userId },
+            },
+            select: {
+                id: true,
+                user: { id: true, username: true, avatar: true },
+                channel: { id: true, name: true, image: true },
+            },
         });
-        return channels;
+        return channelUsers;
+    }
+
+    async handleChannelUser(
+        channelUserDetails: ChannelUserDTO
+    ): Promise<string> {
+        const {
+            id,
+            isPending = false,
+            rights = rightType.NORMAL,
+        } = channelUserDetails;
+        const channelUser = await this.channelUserRepository.findOne({
+            where: {
+                id: id,
+            },
+        });
+        if (channelUser === undefined) return "ChannelUser does not exist";
+        channelUser.isPending = false;
+        channelUser.rights = rights;
+        await this.channelUserRepository.save(channelUser);
+        return "Friend accepted";
     }
 }
