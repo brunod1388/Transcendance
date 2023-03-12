@@ -27,7 +27,7 @@ interface PropsGame {
     room: string;
     host: boolean;
     opponent: string;
-	onEnd: () => void
+    onEnd: () => void;
 }
 
 interface PropsPong {
@@ -37,7 +37,7 @@ interface PropsPong {
     onScore: (side: string) => void;
 }
 interface PropsMain {
-	onEnd: () => void
+    onEnd: () => void;
 }
 
 export function Pong(props: PropsMain) {
@@ -55,7 +55,9 @@ export function Pong(props: PropsMain) {
     if (isLoading) {
         return <div>Loading</div>;
     }
-    return <Game room={room} host={host} opponent={opponent} onEnd={props.onEnd} />;
+    return (
+        <Game room={room} host={host} opponent={opponent} onEnd={props.onEnd} />
+    );
 }
 
 function Game({ room, host, opponent, onEnd }: PropsGame) {

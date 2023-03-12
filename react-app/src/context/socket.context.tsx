@@ -10,17 +10,23 @@ export const SocketContext = createContext<Socket>({} as Socket);
 interface Props {}
 
 export function SocketProvider(props: PropsWithChildren<Props>) {
-    const socket = useRef<Socket>(io(SERVER_URL));
-	const {userAuth} = useAuth();
+    const socket = useRef<Socket>(io(SERVER_URL, {autoConnect: false}));
+    const { userAuth } = useAuth();
 
-
-	useEffect(() => {
-		socket.current.on("connect", () => {
-			axios.post("http://localhost:3000/clients/online",
-			{ socketId: socket.current.id, username: userAuth.username, id: userAuth.id } )
-		  });
-		  return () => {socket.current.off("connect");}
-	}, [])
+    useEffect(() => {
+		socket.current.connect();
+        socket.current.on("connect", () => {
+            axios.post("http://localhost:3000/clients/online", {
+                socketId: socket.current.id,
+                username: userAuth.username,
+                id: userAuth.id,
+            });
+        });
+        return () => {
+            socket.current.off("connect");
+			// socket.current.disconnect();
+        };
+    }, []);
 
     return (
         <SocketContext.Provider value={socket.current}>

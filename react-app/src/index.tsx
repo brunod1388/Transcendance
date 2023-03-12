@@ -13,10 +13,9 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <React.StrictMode>
-       
-            <BrowserRouter>
-                <AuthProvider>
-				<SocketProvider>
+        <BrowserRouter>
+            <AuthProvider>
+                <SocketProvider>
                     <NotificationProvider>
                         <ChatProvider>
                             <FeatureProvider>
@@ -24,9 +23,8 @@ root.render(
                             </FeatureProvider>
                         </ChatProvider>
                     </NotificationProvider>
-					</SocketProvider>
-                </AuthProvider>
-            </BrowserRouter>
-       
+                </SocketProvider>
+            </AuthProvider>
+        </BrowserRouter>
     </React.StrictMode>
 );

@@ -13,9 +13,10 @@ export class ClientsService {
     // variable containing the users online
     private clientsList = new Array<Client>();
 
-    saveClient(userId: number, socketId: string, username: string) {	
-        this.clientsList[username] = { username, socketId, userId };
+    saveClient(userId: number, socketId: string, username: string) {
 		console.log(this.clientsList);
+        this.clientsList[username] = { username, socketId, userId };
+        console.log(this.clientsList);
     }
 
     updateClient(username: string, socketId: string, userId: number) {
@@ -28,10 +29,10 @@ export class ClientsService {
     }
 
     removeClient(key: string) {
-		console.log('disconnection function');
+        console.log("disconnection function");
         this.clientsList = this.clientsList.filter((client) => {
             return client.socketId !== key && client.username !== key;
         });
-		console.log(`after ${this.clientsList}`);
+        console.log(`after ${this.clientsList}`);
     }
 }

@@ -25,12 +25,15 @@ export function leaveGame(
     navigate("/home");
 }
 
-
-export function joinGame(socket: Socket, room: string, activatePong: (room: string) => void) {
-	console.log("jaingame");
-	if (socket !== undefined) {
-		socket.emit("join", room);
-		socket.emit("game-join", room);
-		activatePong(room);
-	}
+export function joinGame(
+    socket: Socket,
+    room: string,
+    activatePong: (room: string) => void
+) {
+    console.log("jaingame");
+    if (socket !== undefined) {
+        socket.emit("join", room);
+        socket.emit("game-join", room);
+        activatePong(room);
+    }
 }

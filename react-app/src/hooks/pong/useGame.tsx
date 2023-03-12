@@ -9,7 +9,7 @@ export function useGame(
     room: string,
     host: boolean,
     navigate: NavigateFunction,
-	onEnd: () => void
+    onEnd: () => void
 ): [number, Score, (side: string) => void] {
     const [score, setScore] = useState<Score>(new Score(0, 0));
     const [statut, setStatut] = useState<number>(PLAYING);
@@ -70,7 +70,7 @@ export function useGame(
     useEffect(() => {
         if (statut !== PLAYING) {
             const timer = setTimeout(() => {
-				onEnd();
+                onEnd();
                 navigate("/home");
             }, 3000);
 

@@ -18,6 +18,11 @@ export class ClientsController {
 
     @Post("online")
     async onlineClient(@Body() updateClientDto: UpdateClientDto) {
-        this.clientsService.saveClient(updateClientDto.id, updateClientDto.socketId, updateClientDto.username);
+		console.log('hello')
+        this.clientsService.saveClient(
+            updateClientDto.id,
+            updateClientDto.socketId,
+            updateClientDto.username
+        );
     }
 }

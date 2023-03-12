@@ -44,4 +44,4 @@ const renderContent = (content: any) => {
         return content();
     }
     return <pre>{JSON.stringify(content, null, 2)}</pre>;
-}
+};

@@ -12,7 +12,7 @@ export class GameInvitationDto {
     @IsNotEmpty()
     to: string;
 
-	@IsString()
-	@IsNotEmpty()
-	room: string;
+    @IsString()
+    @IsNotEmpty()
+    room: string;
 }

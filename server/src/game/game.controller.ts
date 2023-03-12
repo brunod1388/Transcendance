@@ -14,7 +14,7 @@ export class GameController {
         // this.gameService.sendInvitation(invitation);
     }
 
-	@Post("response")
+    @Post("response")
     async handleGameResponse(@Body() response: GameResponseDto) {
         console.log("invitation received");
         await this.gameService.emit2(response);

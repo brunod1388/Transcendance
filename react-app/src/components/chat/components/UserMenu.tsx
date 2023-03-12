@@ -3,7 +3,7 @@ import axios from "axios";
 import { UserType } from "../../../@types";
 import { useAuth } from "../../../context";
 import { useSocket } from "../../../hooks";
-import { createId, sendInvitation} from "../../../utils";
+import { createId, sendInvitation } from "../../../utils";
 
 interface Props {
     user: UserType;

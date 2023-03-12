@@ -9,8 +9,8 @@ import { InvitationRequestDTO } from "../invitations/dtos/InvitationRequest.dto"
 import { InvitationResponseDTO } from "../invitations/dtos/InvitationResponse.dto";
 import { OnModuleInit } from "@nestjs/common";
 
-import { BroadcastDTO } from "./dtos/Broadcast.dto";
-import { GameEndDTO } from "./dtos/GameEnd.dto";
+import { BroadcastDTO } from "../general/dto/Broadcast.dto";
+import { GameEndDTO } from "../general/dto/GameEnd.dto";
 
 @WebSocketGateway({ cors: { origin: ["http://localhost:9000"] } })
 export class PongGateway implements OnModuleInit {

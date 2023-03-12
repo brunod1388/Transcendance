@@ -31,11 +31,11 @@ function Home() {
     const { userAuth } = useAuth();
     const { setItem, getItem, removeItem } = useLocalStorage();
     const { response, error } = useAxios(request);
-	const [isPong, setIsPong] = useState<Boolean>(false);
+    const [isPong, setIsPong] = useState<Boolean>(false);
     const { feature } = useFeature();
     const [socket] = useSocket();
-	const dispatch = useNotificationsDispatch();
-	const [searchParams, setSearchParams] = useSearchParams();
+    const dispatch = useNotificationsDispatch();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
         if (response !== undefined) {
@@ -68,19 +68,25 @@ function Home() {
     }, [userAuth]);
 
     useEffect(() => {
-        socket.on("hello", (invitation: any) => CreateInvitation(invitation, dispatch));
-		socket.on("goodbye", (response: any) => CreateResponse(response, dispatch));
+        socket.on("invitation", (invitation: any) =>
+            CreateInvitation(invitation, dispatch)
+        );
+        socket.on("response", (response: any) => {
+            if (Number(userAuth.id) === Number(response.to)) {
+                CreateResponse(response, dispatch);
+            }
+        });
         return () => {
-            socket.off("hello");
-			socket.off("goodbye");
+            socket.off("invitation");
+            socket.off("response");
         };
     }, []);
-	
-	useEffect(() => {
-		if (searchParams.has("room") === true) {
-			setIsPong(true);
-		}
-	}, [searchParams])
+
+    useEffect(() => {
+        if (searchParams.has("room") === true) {
+            setIsPong(true);
+        }
+    }, [searchParams]);
 
     return (
         <div className="home">
@@ -89,8 +95,14 @@ function Home() {
                 <div className="mainContainer">
                     <Topbar />
                     <div className="featureContainer">
-                        {isPong && <Pong onEnd={() => {setIsPong(false)}}/>}
-						{isPong === false && featureComponent.get(feature)}
+                        {isPong && (
+                            <Pong
+                                onEnd={() => {
+                                    setIsPong(false);
+                                }}
+                            />
+                        )}
+                        {isPong === false && featureComponent.get(feature)}
                     </div>
                 </div>
             </div>

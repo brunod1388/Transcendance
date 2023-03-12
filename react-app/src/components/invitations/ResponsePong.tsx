@@ -1,4 +1,4 @@
-import { useSocket} from "../../hooks";
+import { useSocket } from "../../hooks";
 import { useTimeout } from "../../hooks";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { joinGame } from "../../utils";
@@ -12,14 +12,14 @@ interface Props {
 }
 
 export function ResponsePong({ room, accepted, onDisplay }: Props) {
-    const {setFeature} = useFeature();
+    const { setFeature } = useFeature();
     const [socket] = useSocket();
-	const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
-	const activatePong = (roomName: string) => {
-		setFeature(Feature.Pong);
-		setSearchParams({["room"]: roomName});
-	}
+    const activatePong = (roomName: string) => {
+        setFeature(Feature.Pong);
+        setSearchParams({ ["room"]: roomName });
+    };
 
     useTimeout(() => {
         onDisplay(false);

@@ -17,26 +17,21 @@ interface Props {
 // This notification contains two button to respond to the invitation,
 export function InvitationPong({ id, invitation, onDisplay }: Props) {
     const [socket] = useSocket();
-    const {setFeature} = useFeature();
+    const { setFeature } = useFeature();
     const dispatch = useNotificationsDispatch();
-	const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
-	const activatePong = (roomName: string) => {
-		setFeature(Feature.Pong);
-		setSearchParams({["room"]: roomName});
-	}
+    const activatePong = (roomName: string) => {
+        setFeature(Feature.Pong);
+        setSearchParams({ ["room"]: roomName });
+    };
 
     useTimeout(() => {
         onClose();
     }, 3000);
 
     const onClose = (statut: number = NONE) => {
-		sendResponse(
-            statut,
-            "pong",
-            invitation.from,
-            invitation.room
-        );
+        sendResponse(statut, "pong", invitation.from, invitation.room);
         if (statut === ACCEPTED) {
             console.log(invitation.room);
             joinGame(socket, invitation.room, activatePong);

@@ -7,21 +7,22 @@ import { GameResponseDto } from "./dto/gameResponse.dto";
 
 @Injectable()
 export class GameService {
-	@Inject(GeneralGateway)
-	private generalGateway: GeneralGateway;
+    @Inject(GeneralGateway)
+    private generalGateway: GeneralGateway;
 
-	@Inject(ClientsService)
-	private clientsService: ClientsService;
+    @Inject(ClientsService)
+    private clientsService: ClientsService;
 
+    emit(invitation: GameInvitationDto) {
+        const socketId = this.clientsService.findByUsername(
+            invitation.to
+        ).socketId;
+        this.generalGateway.server.to(socketId).emit("invitation", invitation);
+    }
 
-	emit(invitation: GameInvitationDto) {
-		const socketId = this.clientsService.findByUsername(invitation.to).socketId;
-		this.generalGateway.server.to(socketId).emit("hello", invitation);
-	}
-
-	emit2(response: GameResponseDto) {
-		this.generalGateway.server.emit("goodbye", response);
-	}
+    emit2(response: GameResponseDto) {
+        this.generalGateway.server.emit("response", response);
+    }
     // constructor(
     //     // private clientsService: ClientsService
     // ) {}
