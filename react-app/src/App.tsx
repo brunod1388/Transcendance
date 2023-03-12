@@ -1,11 +1,9 @@
 import "./assets/styles/App.scss";
 import { PropsWithChildren } from "react";
 import { Route, Routes } from "react-router-dom";
-import { useInvitation } from "./hooks";
 import {
     Login,
     Home,
-    Play,
     Subscribe,
     TwoFactorAuth,
     Verify2FA,
@@ -22,7 +20,6 @@ function App() {
         //     return <Navigate to="/login" />;
         return props.children;
     }
-    useInvitation();
     return (
         <Routes>
             <Route path="/">
@@ -39,7 +36,7 @@ function App() {
                 <Route path="login" element={<Login />} />
                 <Route path="subscribe" element={<Subscribe />} />
                 <Route path="home" element={<Home />} />
-                <Route path="play" element={<Play />} />
+                {/* <Route path="play" element={<Play />} /> */}
                 <Route path="twofactor" element={<TwoFactorAuth />} />
                 <Route path="verify2fa" element={<Verify2FA />} />
                 <Route path="settings" element={<Settings />} />

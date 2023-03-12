@@ -1,6 +1,5 @@
 import style from "../assets/styles/theme.module.css";
 export { style };
-export * from "./invitation/useInvitation";
 export * from "./useInterval";
 export * from "./useKeyboard";
 export * from "./useQuery";
@@ -8,3 +7,4 @@ export * from "./useSocket";
 export * from "./useTheme";
 export * from "./useTimeout";
 export * from "./useAxios";
+export * from "./useNotificatons";

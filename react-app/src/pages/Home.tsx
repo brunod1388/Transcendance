@@ -1,14 +1,16 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { FC, useEffect, useState } from "react";
 import { Navbar, Topbar, Settings } from "../components/home";
 import Chat from "../components/chat/Chat";
 import { useAuth } from "../context";
-import { useAxios } from "../hooks";
+import { useAxios, useNotificationsDispatch, useSocket } from "../hooks";
 import { AxiosRequestConfig } from "axios";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import Cookies from "js-cookie";
 import { useFeature, Feature } from "../context/feature.context";
 import "./styles/home.scss";
+import { CreateInvitation, CreateResponse } from "../components/invitations";
+import { Pong } from "../components/pong";
 
 const defaultRequest: AxiosRequestConfig = {
     method: "GET",
@@ -29,7 +31,11 @@ function Home() {
     const { userAuth } = useAuth();
     const { setItem, getItem, removeItem } = useLocalStorage();
     const { response, error } = useAxios(request);
+	const [isPong, setIsPong] = useState<Boolean>(false);
     const { feature } = useFeature();
+    const [socket] = useSocket();
+	const dispatch = useNotificationsDispatch();
+	const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
         if (response !== undefined) {
@@ -61,6 +67,21 @@ function Home() {
         console.log("AUTH user in homepage: ", userAuth);
     }, [userAuth]);
 
+    useEffect(() => {
+        socket.on("hello", (invitation: any) => CreateInvitation(invitation, dispatch));
+		socket.on("goodbye", (response: any) => CreateResponse(response, dispatch));
+        return () => {
+            socket.off("hello");
+			socket.off("goodbye");
+        };
+    }, []);
+	
+	useEffect(() => {
+		if (searchParams.has("room") === true) {
+			setIsPong(true);
+		}
+	}, [searchParams])
+
     return (
         <div className="home">
             <div className="homeContainer">
@@ -68,7 +89,8 @@ function Home() {
                 <div className="mainContainer">
                     <Topbar />
                     <div className="featureContainer">
-                        {featureComponent.get(feature)}
+                        {isPong && <Pong onEnd={() => {setIsPong(false)}}/>}
+						{isPong === false && featureComponent.get(feature)}
                     </div>
                 </div>
             </div>

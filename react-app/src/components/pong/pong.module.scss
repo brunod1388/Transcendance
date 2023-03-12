@@ -1,12 +1,41 @@
+$width: 650px;
+$height: 480px;
+$scoreSize: 45px;
+$scoreWidth: 18px;
+$paddleBorderWidth: 3px; // together must be equal to PADDLE_WIDTH * 2
+$paddleWidth: 11px;       // together must be equal to PADDLE_WIDTH * 2
+$paddleHeight: 80px;	 // must be equal to PADDLE_HEIGHT * 2
+$ballRadius: 20px; 		  // must be equal to BALL_RADIUS * 2
 
-.container{
+@font-face {
+	font-family: BebasNeue-Regular;
+	src: url(../../assets/fonts/BebasNeue-Regular.ttf);
+}
+
+.container {
 	outline: none;
 	position: relative;
-	background-color: black;
-	width: 250px;
-	height: 250px;
+	background-color: rgb(30, 23, 59);
+	width: $width;
+	height: $height;
 	margin-left: 100px;
 }
+.score {
+	position: absolute;
+	top: 35px;
+	font-family: BebasNeue-Regular;
+	font-size: $scoreSize;
+	color: rgb(40, 31, 79);
+}
+
+#left {
+	left: (calc($width/2) - 9) + 40px;
+}
+
+#right {
+	right: (calc($width/2) - 9) + 40px;
+}
+
 .input {
 	position: relative;
 	background-color: transparent;
@@ -15,45 +44,96 @@
 	width: 100%;
 	height: 100%;
 }
+
 .paddle {
 	position: absolute;
-	width: 10px;
-	height: 60px;
-	background-color: red;
+	width: $paddleWidth;
+	height: $paddleHeight;
+	background-color: rgb(216, 88, 136);
+}
+
+
+.paddle.left {
+	border-right: $paddleBorderWidth solid rgb(179, 53, 97);
+}
+
+.paddle.right {
+	border-left: $paddleBorderWidth solid rgb(147, 52, 96);
+}
+
+.line {
+stroke: rgb(40, 31, 79);
+stroke-width: 3;
+stroke-dasharray: 19;
 }
 
 .ball {
-	/* transition: width 1s, height 1s;
-	transition-timing-function: ease; */
-	width: 10px;
-	height: 10px;
-	border-radius: 100%;
-	background-color:  white;
+	overflow: hidden;
+	width: $ballRadius;
+	height: $ballRadius;
+	background: #c9f364;
+	border-radius: 50%;
 	position: absolute;
 }
 
-
-/* .GameMap {
-	background-color: black;
+.ball:before {
+	content: '';
+	position: absolute;
 	width: 100%;
 	height: 100%;
-} */
-
-/* .Oponent {
-	height: 20px;
-	width: 2px;
+	border: 1px solid #fff;
+	border-radius: 50%;
+	box-sizing: border-box;
+	background: transparent;
+	left: -65%;
 }
 
-.Player {
-	height: 20px;
-	background-color: ;
-	width: 2px;
+.ball:after {
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border: 1px solid #fff;
+	border-radius: 50%;
+	box-sizing: border-box;
+	background: transparent;
+	right: -65%;
 }
 
-.PlayerScore {
-
+.lost {
+	color: cyan;
+	font-family: Basbeue-Regular;
+	font-size: 50px;
+	position: absolute;
+	top: 40%;
+	left: 40%;
+	margin: -25px 0 0 -25px;
 }
 
-.OponentScore {
+.finalScore {
+	font-size: 20px;
+	color: white;
+	position: absolute;
+	top: 55%;
+	left: 50%;
+	margin: -25px 0 0 -25px;
+}
 
-} */
+
+.win {
+	color: gold;
+	font-family: Basbeue-Regular;
+	font-size: 50px;
+	position: absolute;
+	top: 40%;
+	left: 40%;
+	margin: -25px 0 0 -25px;
+}
+
+
+.endScreen {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}

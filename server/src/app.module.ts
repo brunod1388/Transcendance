@@ -19,10 +19,9 @@ import { GeneralModule } from "./general/general.module";
         AuthModule,
         UsersModule,
         ChatModule,
-        PongModule,
         GameModule,
         ClientsModule,
-		GeneralModule
+        GeneralModule,
     ],
     providers: [],
     exports: [],

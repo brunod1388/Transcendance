@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Score, PLAYING, LEFT, WIN } from "../../@types";
+import { Score, PLAYING, LEFT, WIN1, WIN2 } from "../../@types";
 import { useSocket } from "..";
 import { changeScore } from "../../utils/pong.utils";
 import { Broadcast } from "../../@types";
@@ -8,7 +8,8 @@ import { NavigateFunction } from "react-router-dom";
 export function useGame(
     room: string,
     host: boolean,
-    navigate: NavigateFunction
+    navigate: NavigateFunction,
+	onEnd: () => void
 ): [number, Score, (side: string) => void] {
     const [score, setScore] = useState<Score>(new Score(0, 0));
     const [statut, setStatut] = useState<number>(PLAYING);
@@ -21,7 +22,11 @@ export function useGame(
 
     // A player has won.
     useEffect(() => {
-        if (score.player1 >= 10 || score.player2 >= 10) setStatut(WIN);
+        if (score.player1 >= 10) {
+            setStatut(WIN1);
+        } else if (score.player2 >= 10) {
+            setStatut(WIN2);
+        }
     }, [score]);
 
     // Send the new score.
@@ -40,13 +45,17 @@ export function useGame(
             setScore(newScore);
         });
         socket.on("game-player-left", (user: string) => {
-            setStatut(LEFT);
+            if (host) {
+                setStatut(WIN1);
+            } else {
+                setStatut(WIN2);
+            }
         });
         return () => {
             socket.off("game-score");
             socket.off("game-player-left");
         };
-    }, [socket]);
+    }, [socket, host]);
 
     useEffect(() => {
         if (host === true && statut !== PLAYING) {
@@ -61,6 +70,7 @@ export function useGame(
     useEffect(() => {
         if (statut !== PLAYING) {
             const timer = setTimeout(() => {
+				onEnd();
                 navigate("/home");
             }, 3000);
 

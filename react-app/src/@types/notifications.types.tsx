@@ -42,9 +42,9 @@ export type State = Notification[];
 
 export type DispatchType = Dispatch<Action>;
 
-export interface ContextType {
+export interface NotificationsContextType {
     notifications: State;
-    dispatchNotifications: DispatchType;
+    dispatch: DispatchType;
 }
 
 // export interface Example extends Notification {}

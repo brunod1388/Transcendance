@@ -11,4 +11,8 @@ export class InvitationDto {
     @IsString()
     @IsNotEmpty()
     to: string;
+
+	@IsString()
+	@IsNotEmpty()
+	room: string;
 }

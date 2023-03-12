@@ -16,8 +16,8 @@ export class ClientsController {
         console.log("invitation received");
     }
 
-    @Post("update")
-    async updateClient(@Body() updateClientDto: UpdateClientDto) {
-        console.log("updateClient");
+    @Post("online")
+    async onlineClient(@Body() updateClientDto: UpdateClientDto) {
+        this.clientsService.saveClient(updateClientDto.id, updateClientDto.socketId, updateClientDto.username);
     }
 }

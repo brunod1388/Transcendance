@@ -7,6 +7,7 @@ import { Socket, Server } from "socket.io";
 import { OnModuleInit } from "@nestjs/common";
 import { BroadcastDTO } from "src/pong/dtos/Broadcast.dto";
 import { GeneralService } from "./general.service";
+import { GameEndDTO } from "src/pong/dtos/GameEnd.dto";
 
 @WebSocketGateway({ cors: { origin: ["http://localhost:9000"] } })
 export class GeneralGateway implements OnModuleInit {
@@ -20,7 +21,7 @@ export class GeneralGateway implements OnModuleInit {
         this.server.on("connection", (socket: Socket) => {
             this.generalService.connection(socket);
             socket.on("disconnect", (reason) => {
-                this.generalService.disconnection(socket, reason);
+                // this.generalService.disconnection(socket, reason);
             });
         });
     }
@@ -37,9 +38,19 @@ export class GeneralGateway implements OnModuleInit {
         this.generalService.leaveRoom(client, room);
     }
 
+	@SubscribeMessage("game-join")
+    handleJoinGame(client: Socket, room: string) {
+		this.generalService.gameJoin(this.server, room);
+    }
+
     // Event to broadcast different event inside a specific room.
     @SubscribeMessage("game-broadcast")
     handleBroadcastGame(client: Socket, broadcast: BroadcastDTO) {
-        this.generalService.broadcast(this.server, client, broadcast);
+        this.generalService.gameBroadcast(client, broadcast);
+    }
+
+	@SubscribeMessage("game-end")
+    handleGameEnd(client: Socket, gameEndDTO: GameEndDTO) {
+		this.generalService.gameEnd();
     }
 }

@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
-import { useReducer, useContext } from "react";
-import { createContext, Context } from "react";
+import { useReducer } from "react";
+import { createContext } from "react";
 import { createPortal } from "react-dom";
 import { Notifications } from "../components/notifications";
 import {
@@ -10,12 +10,25 @@ import {
     RemoveAction,
     ActionType,
     Notification,
-    DispatchType,
-    ContextType,
+    NotificationsContextType,
 } from "../@types/notifications.types";
+import { createId } from "../utils";
 
+// Notifications context has:
+// - one list of notifications
+// - one dispatch function used to update the list
+export const NotificationsContext = createContext<NotificationsContextType>({
+    notifications: [],
+    dispatch: () => {},
+});
+
+// A reducer is similar to a react state with a more complex logic.
+// Using the dispatch function we can realize three action:
+// - adding a new notification (ActionType.ADD)
+// - removing a new notification (ActionType.REMOVE)
+// - removing all notifications (ActionType.REMOVE_ALL)
 export function reducer(state: State, action: Action): State {
-    // console.log("dispatched");
+    console.log(state);
     switch (action.type) {
         case ActionType.ADD:
             return addNotification(state, action as AddAction);
@@ -28,43 +41,42 @@ export function reducer(state: State, action: Action): State {
     }
 }
 
+// Add a notification when receiving an ActionType.ADD
 function addNotification(state: State, action: AddAction): State {
     let id: string;
 
     if (action.payload.id === undefined) {
-        id = Date.now().toString(36) + Math.random().toString(36).substring(2);
+        id = createId();
     } else {
         id = action.payload.id;
     }
-    let newNotification = {
-        id: id,
-        content: action.payload.content,
-        type: action.payload.type,
-    };
-    return [...state, newNotification];
+    return [
+        ...state,
+        {
+            id: id,
+            content: action.payload.content,
+            type: action.payload.type,
+        },
+    ];
 }
 
+// Remove a notification when receiving an ActionType.REMOVE
 function removeNotification(state: State, action: RemoveAction) {
     return state.filter(
         (value: Notification) => value.id !== action.payload.id
     );
 }
 
-export const NotificationsContext: Context<ContextType> =
-    createContext<ContextType>({
-        notifications: [],
-        dispatchNotifications: () => {},
-    });
-
 interface Props {}
 
+// CreatePortal is used to render a child into a different part of the DOM
+// More about:  https://beta.reactjs.org/reference/react-dom/createPortal
 export function NotificationProvider(props: PropsWithChildren<Props>) {
-    const [notifications, dispatchNotifications]: [State, DispatchType] =
-        useReducer(reducer, []);
-    const notificationsData = { notifications, dispatchNotifications };
+    const [notifications, dispatch] = useReducer(reducer, []);
+    const value = { notifications, dispatch };
 
     return (
-        <NotificationsContext.Provider value={notificationsData}>
+        <NotificationsContext.Provider value={value}>
             {props.children}
             {createPortal(
                 <Notifications notifications={notifications} />,
@@ -72,22 +84,4 @@ export function NotificationProvider(props: PropsWithChildren<Props>) {
             )}
         </NotificationsContext.Provider>
     );
-}
-
-export function close(dispatch: DispatchType, id: string) {
-    dispatch({
-        type: ActionType.REMOVE,
-        payload: {
-            id: id,
-        },
-    });
-}
-
-export function useNotifications(): ContextType {
-    return useContext(NotificationsContext);
-}
-
-export function useNotificationsDispatch(): DispatchType {
-    const { dispatchNotifications } = useContext(NotificationsContext);
-    return dispatchNotifications;
 }
