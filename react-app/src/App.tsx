@@ -1,7 +1,6 @@
 import "./assets/styles/App.scss";
 import { PropsWithChildren } from "react";
 import { Route, Routes } from "react-router-dom";
-import { useInvitation } from "./hooks";
 import {
     Login,
     Main,
@@ -15,14 +14,12 @@ import {
 function App() {
     // in the future use this to be sur to not access to the chat if no authentified
     // const { currentUser} = useContext(AuthContext);
-    // Protect route against non authentificated users
-    // needs to uncomment the if structure to work
+    // Protect route against non authentificated userss to uncomment the if structure to work
     function ProtectedRoute(props: PropsWithChildren<any>): any {
         // if (!currentUser)
         //     return <Navigate to="/login" />;
         return props.children;
     }
-    useInvitation();
     return (
         <Routes>
             <Route path="/">

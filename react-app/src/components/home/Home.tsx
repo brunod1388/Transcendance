@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from "react";
 import { Navbar, Topbar, Settings, Friendbar } from ".";
 import Chat from "../chat/Chat";
 import { useAuth } from "../../context";
-import { useAxios } from "../../hooks";
+import { useAxios, useInvitation } from "../../hooks";
 import { AxiosRequestConfig } from "axios";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import Cookies from "js-cookie";
@@ -32,6 +32,8 @@ function Home() {
     const { response, error } = useAxios(request);
     const { feature } = useFeature();
     const [friendsVisible, setFriendsVisible] = useState(false);
+
+    useInvitation();
 
     useEffect(() => {
         if (response !== undefined) {
