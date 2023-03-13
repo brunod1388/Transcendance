@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
     NoChannelIcon,
     NoUserIcon,
@@ -8,18 +8,6 @@ import {
 import { useSocket } from "../../../hooks";
 import { useAuth } from "../../../context";
 
-interface Props {
-    type: "Friend" | "Channel";
-    id: number;
-    name: string;
-    image: string;
-}
-
-const notifIcons = new Map<string, string>([
-    ["Friend", NoUserIcon],
-    ["Channel", NoChannelIcon],
-]);
-
 interface InvitationType {
     id: number;
     type: "Friend" | "Channel";
@@ -28,13 +16,12 @@ interface InvitationType {
 }
 
 export default function Invitations() {
-    const [socket] = useSocket();
     const { userAuth } = useAuth();
+    const [socket] = useSocket();
     const [invitations, setInvitations] = useState<InvitationType[]>([]);
 
-    function updateInvitations(): void {
+    const updateInvitations = useCallback(() => {
         socket.emit("getPendings", userAuth.id, (res: any) => {
-            console.log(res);
             setInvitations(
                 res.map((i: InvitationType) => {
                     if (i.image === "")
@@ -44,7 +31,8 @@ export default function Invitations() {
                 })
             );
         });
-    }
+    },[socket, userAuth.id]);
+
     function handleInvitation(type: string, accept: boolean, id: number) {
         const handleMessage =
             type === "Friend" ? "updateFriend" : "updateChannelUser";
@@ -55,7 +43,7 @@ export default function Invitations() {
     }
     useEffect(() => {
         updateInvitations();
-    }, []);
+    }, [updateInvitations]);
 
     return (
         <div className="invitations">

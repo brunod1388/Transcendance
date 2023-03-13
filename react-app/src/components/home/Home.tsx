@@ -1,4 +1,4 @@
-import { Navbar, Topbar, Settings, Friendbar } from ".";
+import { Navbar, Topbar, Friendbar } from ".";
 import Chat from "../chat/Chat";
 import { useFeature, Feature } from "../../context/feature.context";
 import { ContactIcon } from "../../assets/images";
@@ -8,7 +8,6 @@ import { useState } from "react";
 const featureComponent = new Map<number, JSX.Element>([
     [Feature.None, <></>],
     [Feature.Chat, <Chat />],
-    [Feature.Setting, <Settings />],
     // [Feature.Pong, <Pong />],
     // [Feature.Ranking, <Ranking />],
 ]);

@@ -1,16 +1,9 @@
-import {
-    useEffect,
-    useState,
-    MouseEvent,
-    FormEvent,
-    KeyboardEvent,
-} from "react";
+import { useState, KeyboardEvent } from "react";
 import { AddUserIcon } from "../../../assets/images";
 import "../styles/invite.scss";
 import { useAuth, useChat } from "../../../context";
 import { useSocket } from "../../../hooks";
 
-type inviteType = "friend" | "channelUser";
 type Props = {
     placeholder: string;
     type: string;

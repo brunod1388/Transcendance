@@ -6,11 +6,6 @@ import { useSocket } from "../../../hooks";
 import { MessageType } from "../../../@types";
 import "../styles/feed.scss";
 
-type Props = {};
-
-const imgUrl =
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF6qx2Sw1RVNAU_cLLe9v0H32Rvufjjbrqsw&usqp=CAU";
-
 const messageTest: MessageType = {
     id: 0,
     creator: { id: 1, username: "TestUser" },
@@ -18,7 +13,7 @@ const messageTest: MessageType = {
     content: "this is the message content",
 };
 
-export default function Feed({}: Props) {
+export default function Feed() {
     const [messages, setMessages] = useState<MessageType[]>([]);
     const [socket] = useSocket();
     const { channel } = useChat();

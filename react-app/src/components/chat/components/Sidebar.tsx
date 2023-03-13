@@ -6,9 +6,7 @@ import { UserType } from "../../../@types";
 import "../styles/sidebar.scss";
 import AddContact from "./AddContact";
 
-type Props = {};
-
-export default function Sidebar({}: Props) {
+export default function Sidebar() {
     const { channel } = useChat();
     const [socket] = useSocket();
     const [users, setUsers] = useState<UserType[]>([]);

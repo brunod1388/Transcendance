@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import UserMenu from "./UserMenu";
 import { NoUserIcon } from "../../../assets/images";
 import { UserType } from "../../../@types";
-import { useChat } from "../../../context";
 import "../styles/user.scss";
 
 type Props = {

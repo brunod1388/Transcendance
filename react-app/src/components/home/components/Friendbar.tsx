@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import User from "../../chat/components/User";
 import { UserType } from "../../../@types";
 import AddContact from "../../chat/components/AddContact";
@@ -6,15 +6,12 @@ import "../styles/friendbar.scss";
 import { useSocket } from "../../../hooks";
 import { useAuth } from "../../../context";
 
-type Props = {};
-
 const usr: UserType = {
     id: 113,
     username: "testUser",
 };
 
-function Friendbar({}: Props) {
-    const [friendsVisible, setFriendsVisible] = useState(false);
+function Friendbar() {
     const [friends, setFriends] = useState<UserType[]>([]);
     const [socket] = useSocket();
     const { userAuth } = useAuth();
@@ -29,7 +26,6 @@ function Friendbar({}: Props) {
         <div className="friendBar">
             <span className="title">Friends</span>
             <div className="friends">
-                {/* {[...Array(20)].map((e, i) => ( */}
                 {friends.map((friend, i) => (
                     <User
                         user={friend}

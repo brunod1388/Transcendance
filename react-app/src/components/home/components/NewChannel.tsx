@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import AddImage from "../../../assets/images/add-image.png";
 import { useSocket } from "../../../hooks";
 import { useAuth } from "../../../context";
-import { ChannelType } from "../../../@types";
 
 interface Props {
     quitForm: () => void;

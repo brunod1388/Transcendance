@@ -63,7 +63,6 @@ export class FriendService {
         });
         const friends = friends1.map((friend) => friend.friend);
         friends.concat(friends2.map((friend) => friend.user));
-        console.log(friends);
         return friends;
     }
 

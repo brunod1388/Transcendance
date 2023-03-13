@@ -1,19 +1,17 @@
 import {
     PlayIcon,
     SettingIcon,
-    AddUserIcon,
     NoUserIcon,
     Bell,
 } from "../../../assets/images";
 import { useNavigate, Link } from "react-router-dom";
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useState } from "react";
 import axios from "axios";
 import { useAuth, useChat, Feature, useFeature } from "../../../context";
 import Cookies from "js-cookie";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
-import "../styles/topbar.scss";
 import Invitations from "./Invitation";
-import { useSocket } from "../../../hooks";
+import "../styles/topbar.scss";
 
 axios.defaults.baseURL = `http://localhost:3000`;
 axios.defaults.withCredentials = true;
