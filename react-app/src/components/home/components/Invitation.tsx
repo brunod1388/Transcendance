@@ -20,7 +20,7 @@ const notifIcons = new Map<string, string>([
     ["Channel", NoChannelIcon],
 ]);
 
-interface invitationType {
+interface InvitationType {
     id: number;
     type: "Friend" | "Channel";
     name: string;
@@ -30,28 +30,28 @@ interface invitationType {
 export default function Invitations() {
     const [socket] = useSocket();
     const { userAuth } = useAuth();
-    const [invitations, setInvitations] = useState<invitationType[]>([]);
+    const [invitations, setInvitations] = useState<InvitationType[]>([]);
 
+    function updateInvitations(): void {
+        socket.emit("getPendings", userAuth.id, (res: any) => {
+            console.log(res)
+            setInvitations(res.map((i: InvitationType) => {
+                if (i.image === "")
+                    i.image = i.type === "Friend" ? NoUserIcon : NoChannelIcon;
+                return i;
+            }));
+        })
+    }
     function handleInvitation(type: string, accept: boolean, id: number) {
         const handleMessage =
             type === "Friend" ? "updateFriend" : "updateChannelUser";
         socket.emit(handleMessage, id, accept, (res: any) => {
             console.log(res);
         });
+        updateInvitations();
     }
     useEffect(() => {
-        // socket.emit("getFriends", userAuth.id, true, (res: any) => {
-        //     console.log(res);
-        // })
-        socket.emit("getChannelsPending", userAuth.id, (res: any) => {
-            const channelInvitations = res.map((channelUser: any) => ({
-                id: channelUser.channel.id,
-                type: "Channel",
-                name: channelUser.channel.name,
-                image: channelUser.channel.image ? channelUser.channel.image : ""
-            }));
-            setInvitations(channelInvitations);
-        });
+        updateInvitations();
     }, []);
 
     return (

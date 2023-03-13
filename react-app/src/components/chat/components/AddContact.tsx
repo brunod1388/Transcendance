@@ -28,7 +28,7 @@ export default function AddContact(props: Props) {
 
     function inviteContact() {
         if (props.type === "friend") {
-            socket.emit("inviteFriend", inviteName, userAuth.id, (res: any) => {
+            socket.emit("inviteFriend", userAuth.id, inviteName, (res: any) => {
                 console.log(res);
             });
         } else {

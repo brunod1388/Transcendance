@@ -54,8 +54,8 @@ function Topbar() {
                     src={avatar ? avatar : NoUserIcon}
                     alt=""
                 />
-                <span style={{ color: "red" }}>{userAuth.id}</span>{" "}
                 {/* test purpose*/}
+                <span style={{ color: "red"}}>{userAuth.id}</span>{" "}
                 <span>{userAuth.username}</span>
                 <div className="invitationContainer">
                     <img
@@ -72,13 +72,6 @@ function Topbar() {
                     alt=""
                     onClick={() => setFeature(Feature.Pong)}
                 />
-                {/* <img
-                    className="imgButton"
-                    src={SettingIcon}
-                    alt=""
-                    onClick={() => <Link></Link>
-                    }
-                /> */}
                 <Link to="/settings">
                     <img className="imgButton" src={SettingIcon} alt="" />
                 </Link>
