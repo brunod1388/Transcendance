@@ -31,7 +31,7 @@ export default function Invitations() {
                 })
             );
         });
-    },[socket, userAuth.id]);
+    }, [socket, userAuth.id]);
 
     function handleInvitation(type: string, accept: boolean, id: number) {
         const handleMessage =

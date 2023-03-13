@@ -133,7 +133,7 @@ function Settings() {
     function handleEmail(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const target = e.currentTarget;
-        if (target.username.value) {
+        if (target.email.value) {
             const data = {
                 email: String(target.email.value),
             };

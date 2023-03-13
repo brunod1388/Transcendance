@@ -1,4 +1,5 @@
 import {
+    BadRequestException,
     ForbiddenException,
     NotFoundException,
     Injectable,
@@ -27,6 +28,9 @@ export class AuthService {
     ) {}
 
     async signup(dto: CreateUserDto) {
+        if (dto.password !== dto.confirmPassword) {
+            throw new BadRequestException("Password does not match confirm password");
+        }
         // generate the password hash using argon
         // await is required as argon.hash is an asynchornous function
         //  const hash = await argon.hash(dto.password);
