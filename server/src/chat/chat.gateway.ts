@@ -15,12 +15,24 @@ import { ChannelUserService } from "./channelUser/channelUsers.service";
 import { rightType } from "./entities";
 import { FriendService } from "src/users/friend/friend.service";
 import { ChannelUserDTO } from "./dtos/ChannelUsers.dto";
+import { FriendDTO } from "src/users/dtos/Friend.dto";
+import { UserDTO } from "src/users/dtos/User.dto";
+
+interface InvitationType {
+    id: number;
+    type: "Friend" | "Channel";
+    name: string;
+    image: string;
+}
+
 
 @WebSocketGateway({
     cors: {
         origin: ["http://localhost:9000"],
     },
 })
+
+
 export class ChatGateway {
     constructor(
         private userService: UsersService,
@@ -65,19 +77,6 @@ export class ChatGateway {
         ).map((channelUser) => channelUser.channel);
     }
 
-    @SubscribeMessage("getChannelsPending")
-    async getChannelsPending(
-        @MessageBody() userId: number
-    ): Promise<ChannelUserDTO[]> {
-        return await this.channelUserService.getChannelUsers(userId, true);
-    }
-
-    // @SubscribeMessage("getChannels")
-    // async getChannels(@MessageBody() userId: number): Promise<ChannelDto[]> {
-    //     const channels = await this.channelService.getUserChannels(userId);
-    //     return channels;
-    // }
-
     @SubscribeMessage("getChannelUsers")
     async getChannelUsers(@MessageBody() channelId: number): Promise<User[]> {
         const channels = await this.channelService.getChannelUsers(channelId);
@@ -90,9 +89,39 @@ export class ChatGateway {
         return channels;
     }
 
+    @SubscribeMessage("getPendings")
+    async getPendings(@MessageBody() userId): Promise<any[]> {
+        const friends = await this.friendService.getFriendsPending(userId);
+        const channels = await this.channelUserService.getChannelUsers(userId, true);
+
+        const invitations: InvitationType[] = friends.map((friend: any) => ({
+            id: friend.id,
+            type: "Friend",
+            name: friend.user.username,
+            image: friend.user.avatar ? friend.user.avatar : ""
+        }));
+
+        const channelInvitations: InvitationType[] = channels.map((channelUser: any) => ({
+            id: channelUser.id,
+            type: "Channel",
+            name: channelUser.channel.name,
+            image: channelUser.channel.image ? channelUser.channel.image : ""
+        }));
+        channelInvitations.forEach(channel => { invitations.push(channel)});
+        console.log(invitations);
+        return invitations;
+    }
+
+    @SubscribeMessage("getFriends")
+    async getFriendsPending(@MessageBody() userId: number): Promise<UserDTO[]> {
+        const friends = await this.friendService.getFriends(userId);
+        console.log(friends);
+        return friends;
+    }
+
     @SubscribeMessage("inviteFriend")
     async inviteFriend(@MessageBody() data: any): Promise<string> {
-        const [friend, userId] = data;
+        const [userId, friend] = data;
         const newFriend = await this.userService.findUser(friend);
         if (newFriend === undefined) return "User Not Found";
         const res = await this.friendService.createFriend({
@@ -106,9 +135,9 @@ export class ChatGateway {
     @SubscribeMessage("updateFriend")
     async updateFriend(@MessageBody() data: any): Promise<string> {
         const [friendId, isPending] = data;
-        const res = this.friendService.updateFriend(friendId);
+        const res = this.friendService.updateFriend({id: friendId, isPending: isPending});
         if (res === undefined) return "Something went wrong";
-        return "Invitation sent";
+        return "Friend updated";
     }
 
     @SubscribeMessage("inviteChannelUser")
@@ -128,7 +157,7 @@ export class ChatGateway {
     @SubscribeMessage("updateChannelUser")
     async updateChannelUser(@MessageBody() data: any): Promise<string | ChannelUserDTO> {
         const [channelId, isPending] = data;
-        const res = this.channelUserService.updateChannelUser(channelId);
+        const res = this.channelUserService.updateChannelUser({id: channelId, isPending: false});
         if (res === undefined) return "Something went wrong";
         return res;
     }

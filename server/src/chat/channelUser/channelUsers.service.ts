@@ -70,8 +70,9 @@ export class ChannelUserService {
             },
         });
         if (channelUser === undefined) return "ChannelUser does not exist";
-        channelUser.isPending = false;
+        channelUser.isPending = isPending;
         channelUser.rights = rights;
+        console.log
         await this.channelUserRepository.save(channelUser);
         return "ChannelUser updated";
     }

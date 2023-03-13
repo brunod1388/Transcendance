@@ -24,7 +24,7 @@ export default function Friendbar({}: Props) {
             console.log(res);
             setFriends(res);
         })
-    })
+    },[])
     return (
         <div className="friendBar">
             <span className="title">Friends</span>
