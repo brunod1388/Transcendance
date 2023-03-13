@@ -13,25 +13,30 @@ const usr: UserType = {
     username: "testUser",
 };
 
-export default function Friendbar({}: Props) {
-    const [ friendsVisible, setFriendsVisible ] = useState(false);
-    const [ friends, setFriends ] = useState<UserType[]>([]);
-    const [ socket ] = useSocket();
+function Friendbar({}: Props) {
+    const [friendsVisible, setFriendsVisible] = useState(false);
+    const [friends, setFriends] = useState<UserType[]>([]);
+    const [socket] = useSocket();
     const { userAuth } = useAuth();
 
     useEffect(() => {
         socket.emit("getFriends", userAuth.id, (res: any) => {
             console.log(res);
             setFriends(res);
-        })
-    },[])
+        });
+    }, []);
     return (
         <div className="friendBar">
             <span className="title">Friends</span>
             <div className="friends">
                 {/* {[...Array(20)].map((e, i) => ( */}
                 {friends.map((friend, i) => (
-                    <User user={friend} isPrivate={true} keyId={`d${i}`} key={i} />
+                    <User
+                        user={friend}
+                        isPrivate={true}
+                        keyId={`d${i}`}
+                        key={i}
+                    />
                 ))}
             </div>
             <div className="invitation">
@@ -40,3 +45,5 @@ export default function Friendbar({}: Props) {
         </div>
     );
 }
+
+export { Friendbar };

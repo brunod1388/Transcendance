@@ -55,7 +55,7 @@ function Topbar() {
                     alt=""
                 />
                 {/* test purpose*/}
-                <span style={{ color: "red"}}>{userAuth.id}</span>{" "}
+                <span style={{ color: "red" }}>{userAuth.id}</span>{" "}
                 <span>{userAuth.username}</span>
                 <div className="invitationContainer">
                     <img

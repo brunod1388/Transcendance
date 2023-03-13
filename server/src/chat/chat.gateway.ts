@@ -25,14 +25,11 @@ interface InvitationType {
     image: string;
 }
 
-
 @WebSocketGateway({
     cors: {
         origin: ["http://localhost:9000"],
     },
 })
-
-
 export class ChatGateway {
     constructor(
         private userService: UsersService,
@@ -92,22 +89,31 @@ export class ChatGateway {
     @SubscribeMessage("getPendings")
     async getPendings(@MessageBody() userId): Promise<any[]> {
         const friends = await this.friendService.getFriendsPending(userId);
-        const channels = await this.channelUserService.getChannelUsers(userId, true);
+        const channels = await this.channelUserService.getChannelUsers(
+            userId,
+            true
+        );
 
         const invitations: InvitationType[] = friends.map((friend: any) => ({
             id: friend.id,
             type: "Friend",
             name: friend.user.username,
-            image: friend.user.avatar ? friend.user.avatar : ""
+            image: friend.user.avatar ? friend.user.avatar : "",
         }));
 
-        const channelInvitations: InvitationType[] = channels.map((channelUser: any) => ({
-            id: channelUser.id,
-            type: "Channel",
-            name: channelUser.channel.name,
-            image: channelUser.channel.image ? channelUser.channel.image : ""
-        }));
-        channelInvitations.forEach(channel => { invitations.push(channel)});
+        const channelInvitations: InvitationType[] = channels.map(
+            (channelUser: any) => ({
+                id: channelUser.id,
+                type: "Channel",
+                name: channelUser.channel.name,
+                image: channelUser.channel.image
+                    ? channelUser.channel.image
+                    : "",
+            })
+        );
+        channelInvitations.forEach((channel) => {
+            invitations.push(channel);
+        });
         console.log(invitations);
         return invitations;
     }
@@ -135,7 +141,10 @@ export class ChatGateway {
     @SubscribeMessage("updateFriend")
     async updateFriend(@MessageBody() data: any): Promise<string> {
         const [friendId, isPending] = data;
-        const res = this.friendService.updateFriend({id: friendId, isPending: isPending});
+        const res = this.friendService.updateFriend({
+            id: friendId,
+            isPending: isPending,
+        });
         if (res === undefined) return "Something went wrong";
         return "Friend updated";
     }
@@ -155,9 +164,14 @@ export class ChatGateway {
     }
 
     @SubscribeMessage("updateChannelUser")
-    async updateChannelUser(@MessageBody() data: any): Promise<string | ChannelUserDTO> {
+    async updateChannelUser(
+        @MessageBody() data: any
+    ): Promise<string | ChannelUserDTO> {
         const [channelId, isPending] = data;
-        const res = this.channelUserService.updateChannelUser({id: channelId, isPending: false});
+        const res = this.channelUserService.updateChannelUser({
+            id: channelId,
+            isPending: false,
+        });
         if (res === undefined) return "Something went wrong";
         return res;
     }

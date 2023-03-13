@@ -48,9 +48,7 @@ export default function Sidebar({}: Props) {
                 {users.map((user, i) => (
                     <User
                         user={user}
-                        isPrivate={
-                            channel.type === "directMessage"
-                        }
+                        isPrivate={channel.type === "directMessage"}
                         keyId={`${user.id}`}
                         key={i}
                     />

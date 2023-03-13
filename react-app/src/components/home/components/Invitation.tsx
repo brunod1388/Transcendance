@@ -34,13 +34,16 @@ export default function Invitations() {
 
     function updateInvitations(): void {
         socket.emit("getPendings", userAuth.id, (res: any) => {
-            console.log(res)
-            setInvitations(res.map((i: InvitationType) => {
-                if (i.image === "")
-                    i.image = i.type === "Friend" ? NoUserIcon : NoChannelIcon;
-                return i;
-            }));
-        })
+            console.log(res);
+            setInvitations(
+                res.map((i: InvitationType) => {
+                    if (i.image === "")
+                        i.image =
+                            i.type === "Friend" ? NoUserIcon : NoChannelIcon;
+                    return i;
+                })
+            );
+        });
     }
     function handleInvitation(type: string, accept: boolean, id: number) {
         const handleMessage =
@@ -56,28 +59,39 @@ export default function Invitations() {
 
     return (
         <div className="invitations">
-            {invitations.length === 0 &&
-                <span className="title noInvitation">No pending invitations</span> }
-            { invitations.length > 0 &&
-                <span className="title">Invitation</span>}
-            { invitations.length > 0 && invitations.map((invite) => (
-                <div className="invitation" key={invite.name}>
-                    <img src={invite.image} alt="" className="icon" />
-                    <span className="name">{invite.type} invitation : {invite.name}</span>
-                    <img
-                        className="accept animate"
-                        src={Accept}
-                        alt=""
-                        onClick={() => handleInvitation(invite.type, true, invite.id)}
-                    />
-                    <img
-                        className="decline animate"
-                        src={Decline}
-                        alt=""
-                        onClick={() => handleInvitation(invite.type, false, invite.id)}
-                    />
-                </div>
-            ))}
+            {invitations.length === 0 && (
+                <span className="title noInvitation">
+                    No pending invitations
+                </span>
+            )}
+            {invitations.length > 0 && (
+                <span className="title">Invitation</span>
+            )}
+            {invitations.length > 0 &&
+                invitations.map((invite) => (
+                    <div className="invitation" key={invite.name}>
+                        <img src={invite.image} alt="" className="icon" />
+                        <span className="name">
+                            {invite.type} invitation : {invite.name}
+                        </span>
+                        <img
+                            className="accept animate"
+                            src={Accept}
+                            alt=""
+                            onClick={() =>
+                                handleInvitation(invite.type, true, invite.id)
+                            }
+                        />
+                        <img
+                            className="decline animate"
+                            src={Decline}
+                            alt=""
+                            onClick={() =>
+                                handleInvitation(invite.type, false, invite.id)
+                            }
+                        />
+                    </div>
+                ))}
         </div>
     );
 }

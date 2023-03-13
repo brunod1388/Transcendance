@@ -19,7 +19,7 @@ const defaultChannel: ChannelType = {
     id: 0,
     name: "",
     type: "none",
-    image: ""
+    image: "",
 };
 
 export interface ChatContextType {

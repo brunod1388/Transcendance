@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import { useInvitation } from "./hooks";
 import {
     Login,
-    Home,
+    Main,
     Play,
     Subscribe,
     TwoFactorAuth,
@@ -30,7 +30,7 @@ function App() {
                     index
                     element={
                         <ProtectedRoute>
-                            <Home />
+                            <Main />
                         </ProtectedRoute>
                     }
                 />
@@ -38,7 +38,7 @@ function App() {
                 {/* TO DELETE LATER, only login and subscribe neeeded*/}
                 <Route path="login" element={<Login />} />
                 <Route path="subscribe" element={<Subscribe />} />
-                <Route path="home" element={<Home />} />
+                <Route path="home" element={<Main />} />
                 <Route path="play" element={<Play />} />
                 <Route path="twofactor" element={<TwoFactorAuth />} />
                 <Route path="verify2fa" element={<Verify2FA />} />

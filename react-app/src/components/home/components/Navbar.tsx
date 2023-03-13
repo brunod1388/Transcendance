@@ -46,7 +46,7 @@ function Navbar() {
             id: id,
             name: name,
             type: "channel",
-            image: channel?.image ? channel.image : NoChannelIcon
+            image: channel?.image ? channel.image : NoChannelIcon,
         });
     }
 
