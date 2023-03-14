@@ -11,7 +11,7 @@ import { BlockedModule } from "./blocked/blocked.module";
 import { MutedModule } from "./muted/muted.module";
 import { UsersModule } from "../users/users.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { ChannelUser, BlockedUser, Channel, MutedUser } from "./entities";
+import { ChannelUser, BlockedUser, Channel, MutedUser, Message } from "./entities";
 import { User } from "src/users/entities/User.entity";
 import { FriendModule } from "src/users/friend/friend.module";
 
@@ -23,6 +23,7 @@ import { FriendModule } from "src/users/friend/friend.module";
             Channel,
             MutedUser,
             User,
+            Message
         ]),
         ChannelModule,
         MessageModule,

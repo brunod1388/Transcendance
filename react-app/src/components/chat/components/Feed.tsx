@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useCallback, useEffect, useState } from "react";
 import { AddImageIcon } from "../../../assets/images";
 import Message from "./Message";
 import { useAuth, useChat } from "../../../context";
@@ -6,10 +6,13 @@ import { useSocket } from "../../../hooks";
 import { MessageType } from "../../../@types";
 import "../styles/feed.scss";
 
+const NB_MESSAGE = 5;
+
 const messageTest: MessageType = {
     id: 0,
     creator: { id: 1, username: "TestUser" },
-    created: new Date(Date.now()),
+    createdAt: new Date(Date.now()),
+    modifiedAt: new Date(Date.now()),
     content: "this is the message content",
 };
 
@@ -20,10 +23,22 @@ export default function Feed() {
     const { userAuth } = useAuth();
 
     useEffect(() => {
-        socket.emit("getMessages", 100, (messages: MessageType[]) => {
+        socket.emit("getMessages", channel.id, NB_MESSAGE, (messages: MessageType[]) => {
             setMessages(messages);
+            console.log(messages);
         });
     }, [channel]);
+
+    function handleSubmit(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const content = e.currentTarget.msgContent.value;
+        socket.emit("createMessage", {
+            userId: userAuth.id,
+            channelId: channel.id,
+            content: content}, (res: any) => {
+            console.log(res);
+        })
+    };
 
     return (
         <div className="feed">
@@ -36,29 +51,16 @@ export default function Feed() {
                         message={message}
                     />
                 ))}
-                <Message message={messageTest} />
-                <Message message={messageTest} owner={true} />
-                <Message message={messageTest} />
-                <Message message={messageTest} />
-                <Message message={messageTest} owner={true} />
-                <Message message={messageTest} />
-                <Message message={messageTest} />
-                <Message message={messageTest} owner={true} />
-                <Message message={messageTest} />
-                <Message message={messageTest} />
-                <Message message={messageTest} />
-                <Message message={messageTest} />
-                <Message message={messageTest} />
-                <Message message={messageTest} />
-                <Message message={messageTest} />
             </div>
             <div className="input">
-                <input type="text" placeholder="Type something..." />
-                <div className="send">
+                <form onSubmit={handleSubmit} className="send">
+                    <input name="msgContent" type="text" placeholder="Type something..." />
                     <img src={AddImageIcon} alt="" />
-                    <input type="file" style={{ display: "none" }} id="file" />
+                    <input name="img" type="file" style={{ display: "none" }} id="file" />
                     <button className="button-purple">Send</button>
-                </div>
+                </form>
+                {/* <div className="send">
+                </div> */}
             </div>
         </div>
     );

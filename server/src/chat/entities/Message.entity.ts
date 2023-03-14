@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 import { Channel } from "./Channel.entity";
 import { User } from "../../users/entities/User.entity";
@@ -17,9 +17,9 @@ export class Message {
     @Column()
     content: string;
 
-    @Column()
+    @CreateDateColumn()
     createdAt: Date;
 
-    @Column()
+    @UpdateDateColumn()
     modifiedAt: Date;
 }

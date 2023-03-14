@@ -5,23 +5,30 @@ export class CreateMessageDto {
     @IsNotEmpty()
     userId: number;
 
+    @IsNotEmpty()
+    channelId: number;
+
     @IsString()
     @IsNotEmpty()
     content: string;
-
-    @IsNotEmpty()
-    channelId: number;
 }
 
 export class UpdateMessageDto {
     @IsNumber()
     @IsNotEmpty()
-    userId: number;
+    id: number;
 
     @IsString()
     @IsNotEmpty()
     content: string;
+}
 
+export class GetMessageDto {
+    @IsNumber()
     @IsNotEmpty()
     channelId: number;
+
+    @IsNumber()
+    nb: number;
+    
 }

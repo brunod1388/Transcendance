@@ -13,9 +13,7 @@ export class FriendService {
         @InjectRepository(Friend)
         private friendRepository: Repository<Friend>,
         @Inject(forwardRef(() => UsersService))
-        private userService: UsersService,
-        @InjectRepository(User)
-        private userRepository: Repository<User>
+        private userService: UsersService
     ) {}
 
     async createFriend(friendDetails: CreateFriendDTO): Promise<string> {
@@ -61,8 +59,8 @@ export class FriendService {
                 user: { id: true, username: true, avatar: true },
             },
         });
-        const friends = friends1.map((friend) => friend.friend);
-        friends.concat(friends2.map((friend) => friend.user));
+        let friends = friends1.map((friend) => (friend.friend));
+        friends = friends.concat(friends2.map((friend) => friend.user));
         return friends;
     }
 

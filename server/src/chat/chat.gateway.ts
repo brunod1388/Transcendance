@@ -12,12 +12,14 @@ import { ChannelDto, CreateChannelDto } from "./dtos/Channel.dto";
 import { ChannelService } from "./channel/channel.service";
 import { User } from "src/users/entities/User.entity";
 import { ChannelUserService } from "./channelUser/channelUsers.service";
-import { rightType } from "./entities";
+import { Message, rightType } from "./entities";
 import { FriendService } from "src/users/friend/friend.service";
 import { ChannelUserDTO } from "./dtos/ChannelUsers.dto";
 import { FriendDTO } from "src/users/dtos/Friend.dto";
 import { UserDTO } from "src/users/dtos/User.dto";
-
+import { CreateMessageDto, GetMessageDto, UpdateMessageDto } from "./dtos/Message.dto";
+import { MessageService } from "./message/message.service";
+import { Channel } from "./entities";
 interface InvitationType {
     id: number;
     type: "Friend" | "Channel";
@@ -35,7 +37,8 @@ export class ChatGateway {
         private userService: UsersService,
         private channelService: ChannelService,
         private channelUserService: ChannelUserService,
-        private friendService: FriendService
+        private friendService: FriendService,
+        private messageService: MessageService
     ) {}
 
     @WebSocketServer()
@@ -127,9 +130,9 @@ export class ChatGateway {
 
     @SubscribeMessage("inviteFriend")
     async inviteFriend(@MessageBody() data: any): Promise<string> {
-        const [userId, friend] = data;
-        const newFriend = await this.userService.findUser(friend);
-        if (newFriend === undefined) return "User Not Found";
+        const [userId, friendName] = data;
+        const friend = await this.userService.findUser(friendName);
+        if (friend === undefined) return "User Not Found";
         const res = await this.friendService.createFriend({
             userId: userId,
             friendId: friend.id,
@@ -174,6 +177,30 @@ export class ChatGateway {
         });
         if (res === undefined) return "Something went wrong";
         return res;
+    }
+
+    @SubscribeMessage("createMessage")
+    async createMessage(@MessageBody() messageDTO: CreateMessageDto): Promise<string> {
+        const user = await this.userService.findUserId(messageDTO.userId);
+        const channel = await this.channelService.findChannelById(messageDTO.channelId);
+        const message = this.messageService.createMessage(user, channel, messageDTO.content);
+        if (message === undefined)
+            return "could not write message";
+        return "message created";
+    }
+
+    @SubscribeMessage("updateMessage")
+    async updateMessage(@MessageBody() messageDTO: UpdateMessageDto): Promise<string> {
+        const message = this.messageService.updateMessage(messageDTO);
+        if (message === undefined)
+            return "could not update message";
+        return "message updated";
+    }
+
+    @SubscribeMessage("getMessages")
+    async getMessages(@MessageBody() details: GetMessageDto): Promise<Message[]>{
+        const messages = await this.messageService.getMessage(details);
+        return messages;
     }
 
     // @SubscribeMessage("joinRoom")

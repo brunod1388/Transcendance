@@ -4,6 +4,7 @@ import {
     PrimaryGeneratedColumn,
     ManyToOne,
     Index,
+    Check,
 } from "typeorm";
 
 import { Channel } from "../../chat/entities/Channel.entity";
@@ -16,6 +17,7 @@ export enum rightType {
 
 @Entity({ name: "friends" })
 @Index(["user", "friend"], { unique: true })
+@Check(`"userId" <> "friendId"`)
 export class Friend {
     @PrimaryGeneratedColumn({ type: "bigint" })
     id: number;

@@ -45,15 +45,16 @@ function Topbar() {
             <div className="channel">
                 <img className="channelImg" src={channel.image} alt="" />
                 <span className="channelName">{channel.name}</span>
+                <span style={{ color: "red" }}>{channel.id}</span>
             </div>
             <div className="user">
+                <span style={{ color: "red" }}>{userAuth.id}</span>{" "}
                 <img
                     className="avatar"
                     src={avatar ? avatar : NoUserIcon}
                     alt=""
                 />
                 {/* test purpose*/}
-                <span style={{ color: "red" }}>{userAuth.id}</span>{" "}
                 <span>{userAuth.username}</span>
                 <div className="invitationContainer">
                     <img

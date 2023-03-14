@@ -39,7 +39,7 @@ export interface UserType {
 export interface MessageType {
     id: number;
     creator: UserType;
-    created: Date;
     content: string;
-    image?: string;
+    createdAt: Date;
+    modifiedAt: Date;
 }

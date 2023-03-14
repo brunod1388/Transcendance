@@ -10,7 +10,7 @@ interface Props {
 export default function Message(props: Props) {
     const { owner = false, message } = props;
     const avatar = message.creator.avatar;
-    const date = message.created;
+    // const date = message.createdAt;
 
     return (
         <div className={"message" + (owner ? " owner" : "")}>
@@ -22,7 +22,7 @@ export default function Message(props: Props) {
                 <div className="details">
                     <span className="username">{message.creator.username}</span>
                     <span className="date">
-                        {date.getDate()}/{date.getMonth()}/{date.getFullYear()}
+                        {/* {date.getDate()}/{date.getMonth()}/{date.getFullYear()} */}
                     </span>
                 </div>
                 <p>{message.content}</p>

@@ -9,12 +9,14 @@
 	border-radius: 10px 0 0 0 ;
 	.search {
 
-		border-bottom: 2px solid $dark-grey;
-		padding: 5px;
+		// border-bottom: 2px solid $dark-grey;
+		padding: 8px;
 		padding-right: 8px;
 		.searchForm {
 			padding: 10px;
 			padding-top: 5px;
+			background-color: $purple-gray;
+			border-radius: 5px;
 			input {
 				background-color: transparent;
 				border: none;
