@@ -34,16 +34,13 @@ function Navbar() {
     }, [socket]);
 
     function joinRoom(channel: ChannelDetailsType) {
-        // socket.emit("joinRoom", userAuth.id, channel);
-        socket.emit("joinRoom", {userid: userAuth.id, channelid: channel.id}
-            // , (res: string) => {console.log(res)}
-        );
+        socket.emit("joinRoom", {userid: userAuth.id, channelid: channel.id},
+        (res: string) => console.log(res));
     }
-
+    
     function leaveRoom() {
-        if (channel.room === "")
-            return
-        socket.emit("leaveRoom", userAuth.id, channel.room);
+        socket.emit("leaveRoom", {channelid: channel.id},
+        (res: string) => console.log(res));
         channel.room = "";
     }
 

@@ -1,8 +1,8 @@
 import { useState, KeyboardEvent } from "react";
 import { AddUserIcon } from "../../../assets/images";
-import "../styles/invite.scss";
 import { useAuth, useChat } from "../../../context";
 import { useSocket } from "../../../hooks";
+import "../styles/invite.scss";
 
 type Props = {
     placeholder: string;
@@ -10,6 +10,7 @@ type Props = {
 };
 
 export default function AddContact(props: Props) {
+    const [ message, setMessage ] = useState('');
     const [inviteName, setInviteName] = useState("");
     const { userAuth } = useAuth();
     const { channel } = useChat();
@@ -26,11 +27,16 @@ export default function AddContact(props: Props) {
             });
         } else {
             socket.emit(
-                "inviteChannelUser",
-                inviteName,
-                channel.id,
+                "inviteChannelUser", {
+                    username: inviteName,
+                    channelId: channel.id,
+                },
                 (res: any) => {
                     console.log(res);
+                    setMessage(res);
+                    setTimeout(() => {
+                        setMessage("");
+                    }, 3000);
                 }
             );
         }
@@ -51,6 +57,11 @@ export default function AddContact(props: Props) {
             <button className="button-purple" onClick={() => inviteContact()}>
                 <img src={AddUserIcon} alt="" />
             </button>
+            {message !== "" && 
+                <div className="message">
+                    <p>{message}</p>
+                </div>
+            }
         </div>
     );
 }

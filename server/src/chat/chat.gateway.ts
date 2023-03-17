@@ -64,17 +64,18 @@ export class ChatGateway {
                 id: channelid,
                 nb: 10,
             });
-        console.log(messages)
         client.emit("NLastMessage", messages);
         client.join("room-" + channelid);
         return  "room-" + channelid + " joined";
-        // return "test"
     }
 
     @SubscribeMessage("leaveRoom")
-    leaveRoom(client: Socket, room: string) {
-        client.leave(room);
-        return "left " + room;
+    leaveRoom(
+        @MessageBody('channelid') channelid: number,
+        @ConnectedSocket() client: Socket,
+    ) {
+        client.leave("room-" + channelid);
+        return "room-" + channelid + " left";
     }
 
     @SubscribeMessage("newChannel")
@@ -125,7 +126,7 @@ export class ChatGateway {
         const message = {
             id: newMessage.id,
             creator: {
-                id: newMessage.id,
+                id: newMessage.creator.id,
                 username: newMessage.creator.username,
                 avatar: newMessage.creator.avatar
             },
@@ -134,11 +135,26 @@ export class ChatGateway {
             modifiedAt: newMessage.modifiedAt,
         }
         this.server.to(room).emit("messageListener", message);
-        // client.emit("messageListener", message);
         return "message created";
     }
 
-
+    @SubscribeMessage("inviteChannelUser")
+    async inviteContact(
+            @MessageBody('username') username: string,
+            @MessageBody('channelId') channelId: number
+        ): Promise<string> {
+            console.log("username: ", username)
+            console.log("channelid: ", channelId)
+        const user = await this.userService.findUser(username);
+        console.log("TEST ", user);
+        if (user === null) return "User " + username + " not Found";
+        return (await this.channelUserService.createChannelUser({
+            userId: user.id,
+            channelId: channelId,
+            rights: rightType.NORMAL,
+            isPending: true,
+        }))
+    }
 
 
 
@@ -208,20 +224,6 @@ export class ChatGateway {
         });
         if (res === undefined) return "Something went wrong";
         return "Friend updated";
-    }
-
-    @SubscribeMessage("inviteChannelUser")
-    async inviteContact(@MessageBody() data: any): Promise<string> {
-        const [username, channelId] = data;
-        const user = await this.userService.findUser(username);
-        if (user === undefined) return "User Not Found";
-        this.channelUserService.createChannelUser({
-            userId: user.id,
-            channelId: channelId,
-            rights: rightType.NORMAL,
-            isPending: true,
-        });
-        return "Invitation Sent";
     }
 
     @SubscribeMessage("updateChannelUser")

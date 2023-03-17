@@ -26,12 +26,19 @@ export class ChannelUserService {
         const channel = await this.channelService.findChannelById(
             channelUserDetails.channelId
         );
+        console.log("TEST1")
         const newChannelUser = await this.channelUserRepository.create({
             ...channelUserDetails,
             user: user,
             channel: channel,
         });
-        return await this.channelUserRepository.save(newChannelUser);
+        console.log("TEST2")
+        try {
+            const channelUser = await this.channelUserRepository.save(newChannelUser);
+            return "User " + channelUser.user.username + " invited";
+        } catch (error) {
+            return "error";
+        }
     }
 
     async getChannelUsers(

@@ -32,4 +32,8 @@ $base-font: 'Source Sans Pro', sans-serif;
 	100% { transform: rotate(0deg) scale(1); }
 }
 
-
+@keyframes slideUp {
+	0% { transform: translateY(25px); }
+	50% { transform: translateY(0px); opacity: 1;}
+	100% { opacity: 0; }
+}

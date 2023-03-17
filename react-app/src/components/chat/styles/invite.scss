@@ -1,21 +1,25 @@
 @import "../../../assets/styles/variables.scss";
 
+$invite-height: 17px;
+$invite-width: calc(100% - 50px);
 
 .invite {
 	display: flex;
 	width: auto;
 	display: flex;
 	input {
-		width: calc(100% - 50px);
-		height: 17px;
+		width: $invite-width;
+		height: $invite-height;
 		border: none;
 		border-radius: 5px 0 0 5px;
 		padding: 9px;
 		color: white;
 		background-color: $dark-purple;
 		outline: none;
+		z-index: 1;
 	}
 	button {
+		z-index: 1;
 		height: 35px;
 		flex-grow: 1;
 		border: none;
@@ -27,5 +31,24 @@
 				filter: $filter-purple;
 			}
 		}
+	}
+	position: relative;
+	.message {
+		background-color: pink;
+		// height: calc(2 * $invite-height);
+		padding: 5px;
+		position: absolute;
+		bottom: 15px;
+		width: calc(100% - 20px);
+		background-color: $purple;
+		opacity: 0.9;
+		border-radius: 5px;
+		font-style: italic;
+		font-size: 14px;
+		color: $dark-grey;
+		animation: slideUp 3s;
+		z-index: 0;
+		display: flex;
+		align-items: center;
 	}
 }

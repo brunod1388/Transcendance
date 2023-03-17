@@ -20,7 +20,6 @@ function Home() {
     const [friendsVisible, setFriendsVisible] = useState(false);
     const { userAuth } = useAuth();
     const [socket] = useSocket();
-    const [channels, setChannels] = useState<ChannelType[]>([]);
 
     useEffect(() => {
         socket.emit("getChannels", {userid: userAuth.id, isPendng: false});

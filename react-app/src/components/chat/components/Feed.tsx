@@ -26,25 +26,24 @@ export default function Feed() {
         socket.on("NLastMessage", (messages) => {
             setMessages(messages);
         });
-        socket.on("messageListener", (message) => {
-            console.log("message recu : ", message);
-            console.log("messages: ", messages);
-            setMessages((state) => [message, ...state]);
-        });
         return () => {
             socket.off("NLastMessage");
         };
     }, [socket]);
-
-    // useEffect(() => {
-    //     return () => {
-    //         socket.off("MessageListener");
-    //     };
-    // }, [socket]);
+    
+    useEffect(() => {
+        socket.on("messageListener", (message) => {
+            setMessages((state) => [message, ...state]);
+        });
+        return () => {
+            socket.off("messageListener");
+        };
+    }, [socket]);
 
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const content = e.currentTarget.msgContent.value;
+        if (content === '') return ;
         socket.emit(
             "createMessage",
             {
@@ -52,11 +51,8 @@ export default function Feed() {
                 channelId: channel.id,
                 content: content,
             }
-            // (res: any) => {
-            //     if (res !== "message created")
-            //         console.log("error: message not saved");
-            // }
         );
+        e.currentTarget.msgContent.value = '';
     }
 
     return (
