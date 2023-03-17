@@ -6,38 +6,40 @@ import React, {
 } from "react";
 type Props = {};
 
-export type ChannelContextType = "none" | "directMessage" | "channel";
+// export type ChannelContextType = "none" | "directMessage" | "channel";
 
-export interface ChannelType {
+export interface ChannelDetailsType {
     id: number;
     name: string;
-    type: ChannelContextType;
+    type: string;
     image: string;
+    room: string;
 }
 
-const defaultChannel: ChannelType = {
+const defaultChannel: ChannelDetailsType = {
     id: 0,
     name: "",
     type: "none",
     image: "",
+    room: "",
 };
 
 export interface ChatContextType {
-    channel: ChannelType;
-    updateChannel: (channel: ChannelType) => void;
+    channel: ChannelDetailsType;
+    updateChannel: (channel: ChannelDetailsType) => void;
 }
 
 const defaultChatContext: ChatContextType = {
     channel: defaultChannel,
-    updateChannel: (channel: ChannelType) => {},
+    updateChannel: (channel: ChannelDetailsType) => {},
 };
 
 const ChatContext = createContext<ChatContextType>(defaultChatContext);
 
 export function ChatProvider(props: PropsWithChildren<Props>) {
-    const [channel, setChannel] = useState<ChannelType>(defaultChannel);
+    const [channel, setChannel] = useState<ChannelDetailsType>(defaultChannel);
 
-    const updateChannel = (channel: ChannelType) => {
+    const updateChannel = (channel: ChannelDetailsType) => {
         setChannel(channel);
     };
 

@@ -35,7 +35,7 @@ export class ChannelUserService {
     }
 
     async getChannelUsers(
-        userId: number,
+        channelId: number,
         isPending: boolean
     ): Promise<ChannelUserDTO[]> {
         const channelUsers = await this.channelUserRepository.find({
@@ -45,12 +45,13 @@ export class ChannelUserService {
             },
             where: {
                 isPending: isPending,
-                user: { id: userId },
+                channel: { id: channelId },
             },
             select: {
                 id: true,
                 user: { id: true, username: true, avatar: true },
                 channel: { id: true, name: true, image: true },
+                rights: true
             },
         });
         return channelUsers;
@@ -72,7 +73,6 @@ export class ChannelUserService {
         if (channelUser === undefined) return "ChannelUser does not exist";
         channelUser.isPending = isPending;
         channelUser.rights = rights;
-        console.log;
         await this.channelUserRepository.save(channelUser);
         return "ChannelUser updated";
     }

@@ -23,12 +23,12 @@ export class UpdateMessageDto {
     content: string;
 }
 
-export class GetMessageDto {
+export class GetMessagesDto {
     @IsNumber()
     @IsNotEmpty()
-    channelId: number;
+    id: number;
 
     @IsNumber()
+    @IsNotEmpty()
     nb: number;
-    
 }

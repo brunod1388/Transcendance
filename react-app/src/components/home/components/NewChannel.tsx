@@ -2,6 +2,7 @@ import { useState } from "react";
 import AddImage from "../../../assets/images/add-image.png";
 import { useSocket } from "../../../hooks";
 import { useAuth } from "../../../context";
+import { ChannelType } from "../../../@types";
 
 interface Props {
     quitForm: () => void;
@@ -23,8 +24,7 @@ export default function NewChannel(props: Props) {
             ownerId: userAuth.id,
         };
 
-        socket.emit("newChannel", newChannel, (res?: any) => {
-            console.log(res);
+        socket.emit("newChannel", {newChannel: newChannel}, (res?: any) => {
             if (res === `OK`) props.quitForm();
             else setErrot(true);
         });

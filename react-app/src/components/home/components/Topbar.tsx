@@ -17,7 +17,6 @@ axios.defaults.baseURL = `http://localhost:3000`;
 axios.defaults.withCredentials = true;
 
 function Topbar() {
-    // const { currentUser } = useContext(AuthContext);
     const navigate = useNavigate();
     const { userAuth, updateUser } = useAuth();
     const { removeItem } = useLocalStorage();

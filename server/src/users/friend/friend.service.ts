@@ -59,7 +59,7 @@ export class FriendService {
                 user: { id: true, username: true, avatar: true },
             },
         });
-        let friends = friends1.map((friend) => (friend.friend));
+        let friends = friends1.map((friend) => friend.friend);
         friends = friends.concat(friends2.map((friend) => friend.user));
         return friends;
     }

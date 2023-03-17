@@ -7,7 +7,13 @@ import {
     AddChannelIcon,
     NoChannelIcon,
 } from "../../../assets/images";
-import { useAuth, useChat, Feature, useFeature } from "../../../context";
+import {
+    useAuth,
+    useChat,
+    Feature,
+    useFeature,
+    ChannelDetailsType,
+} from "../../../context";
 import { useSocket } from "../../../hooks";
 import { ChannelType } from "../../../@types";
 import "../styles/navbar.scss";
@@ -21,10 +27,25 @@ function Navbar() {
     const { feature, setFeature } = useFeature();
 
     useEffect(() => {
-        socket.emit("getChannels", userAuth.id, false, (res: ChannelType[]) => {
-            setChannels(res);
+        socket.on("Channels", (chans) => {
+            setChannels(chans);
         });
-    }, [userAuth, newChannel]);
+        return () => { socket.off("Channels") };
+    }, [socket]);
+
+    function joinRoom(channel: ChannelDetailsType) {
+        // socket.emit("joinRoom", userAuth.id, channel);
+        socket.emit("joinRoom", {userid: userAuth.id, channelid: channel.id}
+            // , (res: string) => {console.log(res)}
+        );
+    }
+
+    function leaveRoom() {
+        if (channel.room === "")
+            return
+        socket.emit("leaveRoom", userAuth.id, channel.room);
+        channel.room = "";
+    }
 
     function privateClick() {
         if (feature !== Feature.Chat) setFeature(Feature.Chat);
@@ -37,17 +58,25 @@ function Navbar() {
     }
 
     function channelClick(id: number) {
+        leaveRoom();
         if (feature !== Feature.Chat) setFeature(Feature.Chat);
         let channel = channels?.find((chan) => {
-            return chan.id == id;
+            return chan.id === id;
         });
+        if (channel === undefined) {
+            console.log("error: channel could not be found");
+            return;
+        }
         const name: string = channel ? channel.name : "";
-        updateChannel({
-            id: id,
+        const channelDetails = {
+            id: Number(id),
             name: name,
             type: "channel",
             image: channel?.image ? channel.image : NoChannelIcon,
-        });
+            room: "room-" + channel.id,
+        };
+        updateChannel(channelDetails);
+        joinRoom(channelDetails);
     }
 
     function addClick() {
@@ -64,7 +93,7 @@ function Navbar() {
                 onClick={privateClick}
             />
             <span className="separator" />
-            <div className="icon_wrapper">
+            <div className="channel_wrapper">
                 {channels?.map((chan) => (
                     <ChannelButton
                         name={chan.name}

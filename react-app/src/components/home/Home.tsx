@@ -3,7 +3,10 @@ import Chat from "../chat/Chat";
 import { useFeature, Feature } from "../../context/feature.context";
 import { ContactIcon } from "../../assets/images";
 import "./styles/home.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSocket } from "../../hooks";
+import { ChannelType } from "../../@types";
+import { useAuth } from "../../context";
 
 const featureComponent = new Map<number, JSX.Element>([
     [Feature.None, <></>],
@@ -15,6 +18,13 @@ const featureComponent = new Map<number, JSX.Element>([
 function Home() {
     const { feature } = useFeature();
     const [friendsVisible, setFriendsVisible] = useState(false);
+    const { userAuth } = useAuth();
+    const [socket] = useSocket();
+    const [channels, setChannels] = useState<ChannelType[]>([]);
+
+    useEffect(() => {
+        socket.emit("getChannels", {userid: userAuth.id, isPendng: false});
+    }, [userAuth.id]);
 
     return (
         <div className="home">

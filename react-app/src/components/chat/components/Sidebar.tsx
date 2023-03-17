@@ -14,24 +14,35 @@ export default function Sidebar() {
     const [searchUser, setSearchUser] = useState<UserType>();
 
     useEffect(() => {
-        if (channel.type == "channel")
-            socket.emit(
-                "getChannelUsers",
-                channel.id,
-                (usersReceived: UserType[]) => {
-                    setUsers(usersReceived);
-                }
-            );
-        else
-            socket.emit(
-                "getPrivateUsers",
-                userAuth.id,
-                (usersReceived: UserType[]) => {
-                    setUsers(usersReceived);
-                }
-            );
-    }, [channel]);
-    console.log(users);
+        socket.on("ChannelUsers", (users) => {
+            setUsers(users);
+        });
+        return () => { socket.off("ChannelUsers"); };
+    }, [socket]);
+
+    // useEffect(() => {
+    //     if (channel.type === "channel")
+    //         socket.emit(
+    //             "getChannelUsers",
+    //             channel.id,
+    //             (usersReceived: UserType[]) => {
+    //                 setUsers(usersReceived);
+    //             }
+    //         );
+    //     else
+    //         socket.emit(
+    //             "getPrivateUsers",
+    //             userAuth.id,
+    //             (usersReceived: UserType[]) => {
+    //                 setUsers(usersReceived);
+    //             }
+    //         );
+
+    //     return () => {
+    //         socket.emit("leaveRoom", channel.room);
+    //     };
+    // }, [channel]);
+
     return (
         <div className="SideBar">
             <div className="search">

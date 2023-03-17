@@ -46,9 +46,9 @@ function Main() {
         }
     }, [error]);
 
-    useEffect(() => {
-        console.log("AUTH user in homepage: ", userAuth);
-    }, [userAuth]);
+    // useEffect(() => {
+    //     console.log("AUTH user in homepage: ", userAuth);
+    // }, [userAuth]);
 
     return (
         <SocketProvider>

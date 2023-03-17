@@ -21,6 +21,11 @@ export class ChannelService {
     findChannelById(id: number) {
         return this.channelRepository.findOne({
             where: { id: id },
+            select: {
+                id: true,
+                name: true,
+                image: true,
+            },
         });
     }
 
@@ -34,21 +39,24 @@ export class ChannelService {
         });
     }
 
-    async getChannelUsers(channelId: number): Promise<User[]> {
-        const users = this.userRepository.find({
+    async getChannels(userId: number, isPending: boolean): Promise<Channel[]> {
+        const channels = await this.channelRepository.find({
             relations: {
                 channelUsers: true,
             },
             where: {
-                channelUsers: { channel: { id: channelId } },
+                channelUsers: { user: {
+                    id: userId},
+                    isPending: isPending
+                },
             },
             select: {
                 id: true,
-                username: true,
-                avatar: true,
+                name: true,
+                image: true,
             },
         });
-        return users;
+        return channels;
     }
 
     async getPrivateUsers(userId: number): Promise<User[]> {

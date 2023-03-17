@@ -3,6 +3,7 @@ import {
     SubscribeMessage,
     MessageBody,
     WebSocketServer,
+    ConnectedSocket,
 } from "@nestjs/websockets";
 
 import { Socket, Server } from "socket.io";
@@ -17,7 +18,11 @@ import { FriendService } from "src/users/friend/friend.service";
 import { ChannelUserDTO } from "./dtos/ChannelUsers.dto";
 import { FriendDTO } from "src/users/dtos/Friend.dto";
 import { UserDTO } from "src/users/dtos/User.dto";
-import { CreateMessageDto, GetMessageDto, UpdateMessageDto } from "./dtos/Message.dto";
+import {
+    CreateMessageDto,
+    GetMessagesDto,
+    UpdateMessageDto,
+} from "./dtos/Message.dto";
 import { MessageService } from "./message/message.service";
 import { Channel } from "./entities";
 interface InvitationType {
@@ -44,50 +49,103 @@ export class ChatGateway {
     @WebSocketServer()
     server;
 
-    @SubscribeMessage("send")
-    handleMessage(@MessageBody() message: string): string {
-        console.log(message);
-        this.server.emit("message", message);
-        return "server received message";
+    @SubscribeMessage("joinRoom")
+    async joinRoom(
+        @MessageBody('userid') userId: number,
+        @MessageBody('channelid') channelid: number,
+        @ConnectedSocket() client: Socket,
+    ): Promise<string> {
+
+        const users = (await this.channelUserService
+            .getChannelUsers(channelid, false))
+            .map((channelUser) => ({...channelUser.user, rights: channelUser.rights}));
+        client.emit("ChannelUsers", users);
+        const messages = await this.messageService.getNLastMessage({
+                id: channelid,
+                nb: 10,
+            });
+        console.log(messages)
+        client.emit("NLastMessage", messages);
+        client.join("room-" + channelid);
+        return  "room-" + channelid + " joined";
+        // return "test"
+    }
+
+    @SubscribeMessage("leaveRoom")
+    leaveRoom(client: Socket, room: string) {
+        client.leave(room);
+        return "left " + room;
     }
 
     @SubscribeMessage("newChannel")
     async createChannel(
-        @MessageBody() data: CreateChannelDto
+        @MessageBody('newChannel') channel: CreateChannelDto,
+        @ConnectedSocket() client: Socket
     ): Promise<string> {
         try {
-            const newChannel = await this.channelService.createChannel(data);
+            const newChannel = await this.channelService.createChannel(channel);
             await this.channelUserService.createChannelUser({
                 channelId: newChannel.id,
                 userId: newChannel.owner.id,
                 rights: rightType.ADMIN,
                 isPending: false,
             });
+            const channels = await this.channelService.getChannels(newChannel.owner.id, false);
+            client.emit("Channels", channels);
         } catch (error) {
-            return error;
+            return `Channel Name already in use`
         }
         return `OK`;
     }
 
     @SubscribeMessage("getChannels")
-    async getChannels(@MessageBody() data: any): Promise<ChannelUserDTO[]> {
-        const [userId, isPending] = data;
-        return (
-            await this.channelUserService.getChannelUsers(userId, isPending)
-        ).map((channelUser) => channelUser.channel);
+    async getChannels(
+        @MessageBody('userid') userid: number,
+        @MessageBody('isPending') isPending: boolean,
+        @ConnectedSocket() client: Socket
+    ) {
+        const channels = await this.channelService.getChannels(userid, isPending);
+        client.emit("Channels", channels);
     }
 
-    @SubscribeMessage("getChannelUsers")
-    async getChannelUsers(@MessageBody() channelId: number): Promise<User[]> {
-        const channels = await this.channelService.getChannelUsers(channelId);
-        return channels;
+    @SubscribeMessage("createMessage")
+    async createMessage(
+        @MessageBody() messageDTO: CreateMessageDto,
+        @ConnectedSocket() client: Socket
+    ): Promise<string> {
+        const user = await this.userService.findUserId(messageDTO.userId);
+        const channel = await this.channelService.findChannelById(messageDTO.channelId);
+        const newMessage = await this.messageService.createMessage(
+            user,
+            channel,
+            messageDTO.content
+        );
+        if (newMessage === undefined) return "could not write message";
+        const room = "room-" + channel.id;
+        const message = {
+            id: newMessage.id,
+            creator: {
+                id: newMessage.id,
+                username: newMessage.creator.username,
+                avatar: newMessage.creator.avatar
+            },
+            content: newMessage.content,
+            createdAt: newMessage.createdAt,
+            modifiedAt: newMessage.modifiedAt,
+        }
+        this.server.to(room).emit("messageListener", message);
+        // client.emit("messageListener", message);
+        return "message created";
     }
 
-    @SubscribeMessage("getPrivateUsers")
-    async getPrivateUsers(@MessageBody() userId: number): Promise<User[]> {
-        const channels = await this.channelService.getChannelUsers(userId);
-        return channels;
-    }
+
+
+
+
+
+
+
+
 
     @SubscribeMessage("getPendings")
     async getPendings(@MessageBody() userId): Promise<any[]> {
@@ -179,46 +237,23 @@ export class ChatGateway {
         return res;
     }
 
-    @SubscribeMessage("createMessage")
-    async createMessage(@MessageBody() messageDTO: CreateMessageDto): Promise<string> {
-        const user = await this.userService.findUserId(messageDTO.userId);
-        const channel = await this.channelService.findChannelById(messageDTO.channelId);
-        const message = this.messageService.createMessage(user, channel, messageDTO.content);
-        if (message === undefined)
-            return "could not write message";
-        return "message created";
-    }
+
 
     @SubscribeMessage("updateMessage")
-    async updateMessage(@MessageBody() messageDTO: UpdateMessageDto): Promise<string> {
+    async updateMessage(
+        @MessageBody() messageDTO: UpdateMessageDto
+    ): Promise<string> {
         const message = this.messageService.updateMessage(messageDTO);
-        if (message === undefined)
-            return "could not update message";
+        if (message === undefined) return "could not update message";
         return "message updated";
     }
 
-    @SubscribeMessage("getMessages")
-    async getMessages(@MessageBody() details: GetMessageDto): Promise<Message[]>{
-        const messages = await this.messageService.getMessage(details);
+    @SubscribeMessage("getNLastMessages")
+    async getMessages(
+        @MessageBody() details: GetMessagesDto
+    ): Promise<Message[]> {
+        const messages = await this.messageService.getNLastMessage(details);
         return messages;
     }
 
-    // @SubscribeMessage("joinRoom")
-    // async joinRoom(socket: Socket, room: string): Promise<string> {
-    //     const { userId } = data;
-
-    //     return await this.channelService.getChannelsForUserId(userId);
-    // }
-
-    // @SubscribeMessage("findUser")
-    // async findUserByName(
-    //     @MessageBody() name: string
-    // ): Promise<{ found: boolean; user: User }> {
-    //     const user = await this.userService.findUser(name);
-    //     if (user) console.log("vetrou!");
-    //     else console.log("pas vetrou");
-    //     return user
-    //         ? { found: true, user: user }
-    //         : { found: false, user: user };
-    // }
 }
