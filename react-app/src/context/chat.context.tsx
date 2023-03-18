@@ -26,12 +26,12 @@ const defaultChannel: ChannelDetailsType = {
 
 export interface ChatContextType {
     channel: ChannelDetailsType;
-    updateChannel: (channel: ChannelDetailsType) => void;
+    updateChannel: (channel?: ChannelDetailsType) => void;
 }
 
 const defaultChatContext: ChatContextType = {
     channel: defaultChannel,
-    updateChannel: (channel: ChannelDetailsType) => {},
+    updateChannel: (channel?: ChannelDetailsType) => {},
 };
 
 const ChatContext = createContext<ChatContextType>(defaultChatContext);
@@ -39,9 +39,11 @@ const ChatContext = createContext<ChatContextType>(defaultChatContext);
 export function ChatProvider(props: PropsWithChildren<Props>) {
     const [channel, setChannel] = useState<ChannelDetailsType>(defaultChannel);
 
-    const updateChannel = (channel: ChannelDetailsType) => {
-        setChannel(channel);
-    };
+    function updateChannel(channel?: ChannelDetailsType) {
+        channel !== undefined
+            ? setChannel(channel)
+            : setChannel(defaultChannel);
+    }
 
     const providerValue: ChatContextType = {
         channel: channel,

@@ -20,30 +20,42 @@ export default function Invitations() {
     const [socket] = useSocket();
     const [invitations, setInvitations] = useState<InvitationType[]>([]);
 
-    const updateInvitations = useCallback(() => {
-        socket.emit("getPendings", userAuth.id, (res: any) => {
-            setInvitations(
-                res.map((i: InvitationType) => {
-                    if (i.image === "")
-                        i.image =
-                            i.type === "Friend" ? NoUserIcon : NoChannelIcon;
-                    return i;
-                })
-            );
-        });
-    }, [socket, userAuth.id]);
+    function updateInvitations() {
+        console.log("GetPendings");
+        socket.emit(
+            "getPendings",
+            { userId: userAuth.id },
+            (res: InvitationType[]) => {
+                console.log(res);
+                setInvitations(
+                    res.map((i: InvitationType) => {
+                        if (i.image === "")
+                            i.image =
+                                i.type === "Friend"
+                                    ? NoUserIcon
+                                    : NoChannelIcon;
+                        return i;
+                    })
+                );
+            }
+        );
+    }
 
     function handleInvitation(type: string, accept: boolean, id: number) {
         const handleMessage =
             type === "Friend" ? "updateFriend" : "updateChannelUser";
-        socket.emit(handleMessage, id, accept, (res: any) => {
+        socket.emit(handleMessage, { id: id, accept: accept }, (res: any) => {
             console.log(res);
         });
-        updateInvitations();
+        // updateInvitations();
+        setInvitations((state) =>
+            state.filter((item) => !(item.type === type && item.id === id))
+        );
     }
+
     useEffect(() => {
         updateInvitations();
-    }, [updateInvitations]);
+    }, []);
 
     return (
         <div className="invitations">

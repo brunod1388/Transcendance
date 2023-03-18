@@ -15,6 +15,7 @@ function Friendbar() {
     const [friends, setFriends] = useState<UserType[]>([]);
     const [socket] = useSocket();
     const { userAuth } = useAuth();
+    const [selected, setSelected] = useState("");
 
     useEffect(() => {
         socket.emit("getFriends", userAuth.id, (res: any) => {
@@ -30,8 +31,13 @@ function Friendbar() {
                     <User
                         user={friend}
                         isPrivate={true}
-                        keyId={`d${i}`}
-                        key={i}
+                        key={`friend-${i}`}
+                        selected={`friend-${i}` === selected}
+                        onClick={() =>
+                            setSelected(
+                                selected === `friend-${i}` ? "" : `friend-${i}`
+                            )
+                        }
                     />
                 ))}
             </div>

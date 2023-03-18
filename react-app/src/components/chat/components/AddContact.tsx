@@ -10,7 +10,7 @@ type Props = {
 };
 
 export default function AddContact(props: Props) {
-    const [ message, setMessage ] = useState('');
+    const [message, setMessage] = useState("");
     const [inviteName, setInviteName] = useState("");
     const { userAuth } = useAuth();
     const { channel } = useChat();
@@ -27,7 +27,8 @@ export default function AddContact(props: Props) {
             });
         } else {
             socket.emit(
-                "inviteChannelUser", {
+                "inviteChannelUser",
+                {
                     username: inviteName,
                     channelId: channel.id,
                 },
@@ -57,11 +58,11 @@ export default function AddContact(props: Props) {
             <button className="button-purple" onClick={() => inviteContact()}>
                 <img src={AddUserIcon} alt="" />
             </button>
-            {message !== "" && 
+            {message !== "" && (
                 <div className="message">
                     <p>{message}</p>
                 </div>
-            }
+            )}
         </div>
     );
 }

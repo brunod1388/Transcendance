@@ -45,9 +45,9 @@ export class ChannelService {
                 channelUsers: true,
             },
             where: {
-                channelUsers: { user: {
-                    id: userId},
-                    isPending: isPending
+                channelUsers: {
+                    user: { id: userId },
+                    isPending: isPending,
                 },
             },
             select: {

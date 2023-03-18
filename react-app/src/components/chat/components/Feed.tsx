@@ -30,7 +30,7 @@ export default function Feed() {
             socket.off("NLastMessage");
         };
     }, [socket]);
-    
+
     useEffect(() => {
         socket.on("messageListener", (message) => {
             setMessages((state) => [message, ...state]);
@@ -43,16 +43,13 @@ export default function Feed() {
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const content = e.currentTarget.msgContent.value;
-        if (content === '') return ;
-        socket.emit(
-            "createMessage",
-            {
-                userId: userAuth.id,
-                channelId: channel.id,
-                content: content,
-            }
-        );
-        e.currentTarget.msgContent.value = '';
+        if (content === "") return;
+        socket.emit("createMessage", {
+            userId: userAuth.id,
+            channelId: channel.id,
+            content: content,
+        });
+        e.currentTarget.msgContent.value = "";
     }
 
     return (

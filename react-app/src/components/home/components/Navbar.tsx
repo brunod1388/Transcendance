@@ -27,20 +27,33 @@ function Navbar() {
     const { feature, setFeature } = useFeature();
 
     useEffect(() => {
-        socket.on("Channels", (chans) => {
-            setChannels(chans);
+        socket.emit(
+            "getChannels",
+            { userid: userAuth.id, isPending: false },
+            (chans: ChannelType[]) => {
+                setChannels(chans);
+            }
+        );
+        socket.on("Channels", (chan: ChannelType) => {
+            setChannels((state) => [...state, chan]);
         });
-        return () => { socket.off("Channels") };
-    }, [socket]);
+        return () => {
+            socket.off("Channels");
+        };
+    }, [socket, channels]);
 
     function joinRoom(channel: ChannelDetailsType) {
-        socket.emit("joinRoom", {userid: userAuth.id, channelid: channel.id},
-        (res: string) => console.log(res));
+        socket.emit(
+            "joinRoom",
+            { userid: userAuth.id, channelid: channel.id },
+            (res: string) => console.log(res)
+        );
     }
-    
+
     function leaveRoom() {
-        socket.emit("leaveRoom", {channelid: channel.id},
-        (res: string) => console.log(res));
+        socket.emit("leaveRoom", { channelid: channel.id }, (res: string) =>
+            console.log(res)
+        );
         channel.room = "";
     }
 
@@ -91,14 +104,14 @@ function Navbar() {
             />
             <span className="separator" />
             <div className="channel_wrapper">
-                {channels?.map((chan) => (
+                {channels?.map((chan, i) => (
                     <ChannelButton
                         name={chan.name}
                         image={chan.image === null ? NoChannelIcon : chan.image}
                         onClick={() => {
                             channelClick(chan.id);
                         }}
-                        key={chan.id}
+                        key={i}
                     />
                 ))}
             </div>

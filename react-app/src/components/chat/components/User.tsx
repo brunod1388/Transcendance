@@ -2,26 +2,30 @@ import { useState } from "react";
 import UserMenu from "./UserMenu";
 import { NoUserIcon } from "../../../assets/images";
 import { UserType } from "../../../@types";
+// import "../styles/user.scss";
 import "../styles/user.scss";
 
 type Props = {
     hasNewMsg?: boolean;
-    keyId: string;
     isPrivate?: boolean;
     user: UserType;
+    onClick: () => void;
+    selected: boolean;
 };
 
 export default function User(props: Props) {
-    const { hasNewMsg = false, keyId, isPrivate = false, user } = props;
+    const {
+        hasNewMsg = false,
+        isPrivate = false,
+        user,
+        onClick,
+        selected,
+    } = props;
 
-    const [selected, setSelected] = useState(false); //use userId when emplemented
     return (
-        <div className="userChat" key={keyId}>
-            <div
-                className="userPlate"
-                onClick={() => setSelected(selected ? false : true)}
-            >
-                <img
+        <div className={"userChat " + (selected ? "selected" : "")} onClick={onClick}>
+            <div className={"userPlate " + (selected ? "selected" : "")} onClick={onClick}>
+                <img className={selected ? "selected" : ""}
                     src={user.avatar === "" ? NoUserIcon : user.avatar}
                     alt=""
                 />

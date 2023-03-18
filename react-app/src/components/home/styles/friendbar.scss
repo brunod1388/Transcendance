@@ -1,23 +1,30 @@
 @import "../../../assets/styles/variables.scss";
 
 .friendBar {
+	flex-grow: 0;
+	flex-shrink: 0;
+	width: 160px;
 	display: flex;
 	flex-direction: column;
 	gap: 3px;
 	background-color: $dark-grey;
 	overflow-y: scroll;
-	min-width: 120px;
+	// min-width: 120px;
 	padding: 8px;
+	
 	.title {
 		color: $purple;
 		padding-bottom: 5px;
 	}
 	.userPlate {
 		background: none;
-		padding: 3px;
 		img {
 			width: 20px;
 			height: 20px;
+		}
+		&:hover:not(.selected) {
+			background-color: $purple;
+			border-radius: 10px;
 		}
 	}
 

@@ -49,30 +49,27 @@ export class ChatGateway {
     @WebSocketServer()
     server;
 
+    connectedUser = new Map<number, Socket>();
+
     @SubscribeMessage("joinRoom")
     async joinRoom(
-        @MessageBody('userid') userId: number,
-        @MessageBody('channelid') channelid: number,
-        @ConnectedSocket() client: Socket,
+        @MessageBody("userid") userId: number,
+        @MessageBody("channelid") channelid: number,
+        @ConnectedSocket() client: Socket
     ): Promise<string> {
-
-        const users = (await this.channelUserService
-            .getChannelUsers(channelid, false))
-            .map((channelUser) => ({...channelUser.user, rights: channelUser.rights}));
-        client.emit("ChannelUsers", users);
         const messages = await this.messageService.getNLastMessage({
-                id: channelid,
-                nb: 10,
-            });
+            id: channelid,
+            nb: 10,
+        });
         client.emit("NLastMessage", messages);
         client.join("room-" + channelid);
-        return  "room-" + channelid + " joined";
+        return "room-" + channelid + " joined";
     }
 
     @SubscribeMessage("leaveRoom")
     leaveRoom(
-        @MessageBody('channelid') channelid: number,
-        @ConnectedSocket() client: Socket,
+        @MessageBody("channelid") channelid: number,
+        @ConnectedSocket() client: Socket
     ) {
         client.leave("room-" + channelid);
         return "room-" + channelid + " left";
@@ -80,7 +77,7 @@ export class ChatGateway {
 
     @SubscribeMessage("newChannel")
     async createChannel(
-        @MessageBody('newChannel') channel: CreateChannelDto,
+        @MessageBody("newChannel") channel: CreateChannelDto,
         @ConnectedSocket() client: Socket
     ): Promise<string> {
         try {
@@ -91,22 +88,36 @@ export class ChatGateway {
                 rights: rightType.ADMIN,
                 isPending: false,
             });
-            const channels = await this.channelService.getChannels(newChannel.owner.id, false);
+            const channels = await this.channelService.getChannels(
+                newChannel.owner.id,
+                false
+            );
             client.emit("Channels", channels);
         } catch (error) {
-            return `Channel Name already in use`
+            return `Channel Name already in use`;
         }
         return `OK`;
     }
 
     @SubscribeMessage("getChannels")
     async getChannels(
-        @MessageBody('userid') userid: number,
-        @MessageBody('isPending') isPending: boolean,
-        @ConnectedSocket() client: Socket
+        @MessageBody("userid") userid: number,
+        @MessageBody("isPending") isPending: boolean
     ) {
-        const channels = await this.channelService.getChannels(userid, isPending);
-        client.emit("Channels", channels);
+        return await this.channelService.getChannels(userid, isPending);
+    }
+
+    @SubscribeMessage("getChannelUsers")
+    async getChannelUsers(
+        @MessageBody("channelId") channelId: number
+    ): Promise<UserDTO[]> {
+        const users = (
+            await this.channelUserService.getChannelUsers(channelId, false)
+        ).map((channelUser) => ({
+            ...channelUser.user,
+            rights: channelUser.rights,
+        }));
+        return users;
     }
 
     @SubscribeMessage("createMessage")
@@ -115,7 +126,9 @@ export class ChatGateway {
         @ConnectedSocket() client: Socket
     ): Promise<string> {
         const user = await this.userService.findUserId(messageDTO.userId);
-        const channel = await this.channelService.findChannelById(messageDTO.channelId);
+        const channel = await this.channelService.findChannelById(
+            messageDTO.channelId
+        );
         const newMessage = await this.messageService.createMessage(
             user,
             channel,
@@ -128,56 +141,48 @@ export class ChatGateway {
             creator: {
                 id: newMessage.creator.id,
                 username: newMessage.creator.username,
-                avatar: newMessage.creator.avatar
+                avatar: newMessage.creator.avatar,
             },
             content: newMessage.content,
             createdAt: newMessage.createdAt,
             modifiedAt: newMessage.modifiedAt,
-        }
+        };
         this.server.to(room).emit("messageListener", message);
         return "message created";
     }
 
     @SubscribeMessage("inviteChannelUser")
     async inviteContact(
-            @MessageBody('username') username: string,
-            @MessageBody('channelId') channelId: number
-        ): Promise<string> {
-            console.log("username: ", username)
-            console.log("channelid: ", channelId)
+        @MessageBody("username") username: string,
+        @MessageBody("channelId") channelId: number
+    ): Promise<string> {
         const user = await this.userService.findUser(username);
-        console.log("TEST ", user);
         if (user === null) return "User " + username + " not Found";
-        return (await this.channelUserService.createChannelUser({
+        return await this.channelUserService.createChannelUser({
             userId: user.id,
             channelId: channelId,
             rights: rightType.NORMAL,
             isPending: true,
-        }))
+        });
     }
 
-
-
-
-
-
-
-
     @SubscribeMessage("getPendings")
-    async getPendings(@MessageBody() userId): Promise<any[]> {
+    async getPendings(@MessageBody("userId") userId: number): Promise<any[]> {
         const friends = await this.friendService.getFriendsPending(userId);
-        const channels = await this.channelUserService.getChannelUsers(
+        const channels = await this.channelUserService.getChannelUsersByUserId(
             userId,
             true
         );
-
+        console.log("KIKOUUUUUUUUUUU", userId);
+        console.log(friends);
+        console.log(channels);
         const invitations: InvitationType[] = friends.map((friend: any) => ({
             id: friend.id,
             type: "Friend",
             name: friend.user.username,
             image: friend.user.avatar ? friend.user.avatar : "",
         }));
-
+        console.log(invitations);
         const channelInvitations: InvitationType[] = channels.map(
             (channelUser: any) => ({
                 id: channelUser.id,
@@ -198,7 +203,6 @@ export class ChatGateway {
     @SubscribeMessage("getFriends")
     async getFriendsPending(@MessageBody() userId: number): Promise<UserDTO[]> {
         const friends = await this.friendService.getFriends(userId);
-        console.log(friends);
         return friends;
     }
 
@@ -228,18 +232,20 @@ export class ChatGateway {
 
     @SubscribeMessage("updateChannelUser")
     async updateChannelUser(
-        @MessageBody() data: any
+        @MessageBody("id") channelUserId: number,
+        @MessageBody("accept") accept: boolean
     ): Promise<string | ChannelUserDTO> {
-        const [channelId, isPending] = data;
-        const res = this.channelUserService.updateChannelUser({
-            id: channelId,
-            isPending: false,
-        });
-        if (res === undefined) return "Something went wrong";
+        if (accept) {
+            const res = this.channelUserService.updateChannelUser({
+                id: channelUserId,
+                isPending: false,
+            });
+            if (res === undefined) return "Something went wrong";
+            return res;
+        }
+        const res = this.channelUserService.deleteChannelUser(channelUserId);
         return res;
     }
-
-
 
     @SubscribeMessage("updateMessage")
     async updateMessage(
@@ -258,4 +264,13 @@ export class ChatGateway {
         return messages;
     }
 
+    @SubscribeMessage("connection")
+    async handleConnection(@ConnectedSocket() client: Socket) {
+        console.log("Connection of    ", client.id);
+    }
+
+    @SubscribeMessage("disconnect")
+    async handleDisconnect(@ConnectedSocket() client: Socket) {
+        console.log("Disconnection of ", client.id);
+    }
 }

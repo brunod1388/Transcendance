@@ -22,7 +22,7 @@ function Home() {
     const [socket] = useSocket();
 
     useEffect(() => {
-        socket.emit("getChannels", {userid: userAuth.id, isPendng: false});
+        socket.emit("getChannels", { userid: userAuth.id, isPendng: false });
     }, [userAuth.id]);
 
     return (

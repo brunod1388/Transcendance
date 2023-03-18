@@ -1,4 +1,4 @@
-import { SocketProvider } from "../context";
+import { ChatProvider, SocketProvider } from "../context";
 import { Home } from "../components/home";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -52,7 +52,9 @@ function Main() {
 
     return (
         <SocketProvider>
-            <Home />
+            <ChatProvider>
+                <Home />
+            </ChatProvider>
         </SocketProvider>
     );
 }

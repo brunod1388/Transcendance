@@ -16,11 +16,9 @@ root.render(
         <BrowserRouter>
             <AuthProvider>
                 <NotificationProvider>
-                    <ChatProvider>
-                        <FeatureProvider>
-                            <App />
-                        </FeatureProvider>
-                    </ChatProvider>
+                    <FeatureProvider>
+                        <App />
+                    </FeatureProvider>
                 </NotificationProvider>
             </AuthProvider>
         </BrowserRouter>

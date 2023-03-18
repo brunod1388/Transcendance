@@ -24,7 +24,7 @@ export default function NewChannel(props: Props) {
             ownerId: userAuth.id,
         };
 
-        socket.emit("newChannel", {newChannel: newChannel}, (res?: any) => {
+        socket.emit("newChannel", { newChannel: newChannel }, (res?: any) => {
             if (res === `OK`) props.quitForm();
             else setErrot(true);
         });

@@ -21,7 +21,7 @@ function Topbar() {
     const { userAuth, updateUser } = useAuth();
     const { removeItem } = useLocalStorage();
     const avatar = userAuth.avatar;
-    const { channel } = useChat();
+    const { channel, updateChannel } = useChat();
     const { setFeature } = useFeature();
     const [notif, setNotif] = useState(false);
     //useEffect(() => {
@@ -36,6 +36,7 @@ function Topbar() {
         removeItem("user");
         Cookies.remove("JWTtoken", { sameSite: "none", secure: true });
         updateUser();
+        updateChannel();
         navigate("/login");
     }
 

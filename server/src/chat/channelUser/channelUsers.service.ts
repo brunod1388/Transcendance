@@ -26,15 +26,15 @@ export class ChannelUserService {
         const channel = await this.channelService.findChannelById(
             channelUserDetails.channelId
         );
-        console.log("TEST1")
         const newChannelUser = await this.channelUserRepository.create({
             ...channelUserDetails,
             user: user,
             channel: channel,
         });
-        console.log("TEST2")
         try {
-            const channelUser = await this.channelUserRepository.save(newChannelUser);
+            const channelUser = await this.channelUserRepository.save(
+                newChannelUser
+            );
             return "User " + channelUser.user.username + " invited";
         } catch (error) {
             return "error";
@@ -58,7 +58,30 @@ export class ChannelUserService {
                 id: true,
                 user: { id: true, username: true, avatar: true },
                 channel: { id: true, name: true, image: true },
-                rights: true
+                rights: true,
+            },
+        });
+        return channelUsers;
+    }
+
+    async getChannelUsersByUserId(
+        userId: number,
+        isPending: boolean
+    ): Promise<ChannelUserDTO[]> {
+        const channelUsers = await this.channelUserRepository.find({
+            relations: {
+                user: true,
+                channel: true,
+            },
+            where: {
+                isPending: isPending,
+                user: { id: userId },
+            },
+            select: {
+                id: true,
+                user: { id: true, username: true, avatar: true },
+                channel: { id: true, name: true, image: true },
+                rights: true,
             },
         });
         return channelUsers;
@@ -82,5 +105,10 @@ export class ChannelUserService {
         channelUser.rights = rights;
         await this.channelUserRepository.save(channelUser);
         return "ChannelUser updated";
+    }
+
+    async deleteChannelUser(id: number): Promise<string> {
+        await this.channelUserRepository.delete(id);
+        return `channelUser ${id} deleted`;
     }
 }
