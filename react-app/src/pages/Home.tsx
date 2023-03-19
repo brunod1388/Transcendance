@@ -11,6 +11,7 @@ import { useFeature, Feature } from "../context/feature.context";
 import "./styles/home.scss";
 import { CreateInvitation, CreateResponse } from "../components/invitations";
 import { Pong } from "../components/pong";
+import { InvitationDTO, ResponseDTO } from "../@types";
 
 const defaultRequest: AxiosRequestConfig = {
     method: "GET",
@@ -68,10 +69,12 @@ function Home() {
     }, [userAuth]);
 
     useEffect(() => {
-        socket.on("invitation", (invitation: any) =>
-            CreateInvitation(invitation, dispatch)
-        );
-        socket.on("response", (response: any) => {
+        socket.on("invitation", (invitation: InvitationDTO) => {
+            if (userAuth.username === invitation.to) {
+                CreateInvitation(invitation, dispatch);
+            }
+        });
+        socket.on("response", (response: ResponseDTO) => {
             if (Number(userAuth.id) === Number(response.to)) {
                 CreateResponse(response, dispatch);
             }

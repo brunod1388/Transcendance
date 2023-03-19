@@ -14,10 +14,7 @@ export class GameService {
     private clientsService: ClientsService;
 
     emit(invitation: GameInvitationDto) {
-        const socketId = this.clientsService.findByUsername(
-            invitation.to
-        ).socketId;
-        this.generalGateway.server.to(socketId).emit("invitation", invitation);
+        this.generalGateway.server.emit("invitation", invitation);
     }
 
     emit2(response: GameResponseDto) {
