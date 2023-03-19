@@ -47,7 +47,7 @@ function Settings() {
     const [emailReq, setEmailReq] =
         useState<AxiosRequestConfig>(defaultEmailRequest);
     const [twofaReq, setTwofaReq] = useState<boolean>(false);
-    const { setFeature } = useFeature();
+    // const { setFeature } = useFeature();
     const {
         response: resA,
         loading: loadA,

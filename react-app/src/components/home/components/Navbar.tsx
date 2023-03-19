@@ -48,15 +48,14 @@ function Navbar() {
     }, [socket, channels, channel.id]);
 
     function joinRoom(channel: ChannelDetailsType) {
-        socket.emit(
-            "joinRoom",
-            { userid: userAuth.id, channelid: channel.id },
-        );
+        socket.emit("joinRoom", { userid: userAuth.id, channelid: channel.id });
     }
 
     function leaveRoom() {
-        socket.emit("leaveRoom", { userid: userAuth.id, channelid: channel.id }, (res: string) =>
-            console.log(res)
+        socket.emit(
+            "leaveRoom",
+            { userid: userAuth.id, channelid: channel.id },
+            (res: string) => console.log(res)
         );
         channel.room = "";
     }

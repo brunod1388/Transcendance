@@ -1,10 +1,14 @@
 import { Navbar, Topbar, Friendbar } from ".";
-import Chat from "../chat/Chat";
+import { useSearchParams } from "react-router-dom";
 import { useFeature, Feature } from "../../context/feature.context";
 import { ContactIcon } from "../../assets/images";
-import { useEffect } from "react";
-import { useSocket, useVisible } from "../../hooks";
 import { useAuth, useChat } from "../../context";
+import { useState, useEffect } from "react";
+import { useNotificationsDispatch, useSocket, useVisible } from "../../hooks";
+import { CreateInvitation, CreateResponse } from "../invitations";
+import { InvitationDTO, ResponseDTO } from "../../@types";
+import { Pong } from "../pong";
+import Chat from "../chat/Chat";
 import "./styles/home.scss";
 
 const featureComponent = new Map<number, JSX.Element>([
@@ -16,13 +20,38 @@ const featureComponent = new Map<number, JSX.Element>([
 
 function Home() {
     const { feature } = useFeature();
-    const { userAuth } = useAuth();
-    const [socket] = useSocket();
     const { ref, isVisible, setIsVisible } = useVisible(false);
+    const [socket] = useSocket();
+    const dispatch = useNotificationsDispatch();
+    const {userAuth} = useAuth();
+    const [isPong, setIsPong] = useState<Boolean>(false);
+    const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
         socket.emit("getChannels", { userid: userAuth.id, isPendng: false });
     }, [userAuth.id]);
+
+	useEffect(() => {
+		socket.on("invitation", (invitation: InvitationDTO) => {
+			if (userAuth.username === invitation.to) {
+				CreateInvitation(invitation, dispatch, socket);
+			}});
+		socket.on("response", (response: ResponseDTO) => {
+			console.log('received response');
+			console.log(response.to);
+			console.log(userAuth.id);
+			if (Number(userAuth.id) === Number(response.to)) {
+				CreateResponse(response, dispatch, socket)
+			}});
+			socket.on("joinPong", () => {
+				setIsPong(true);
+			});
+		return () => {
+			socket.off("invitation");
+			socket.off("response");
+			socket.off("joinPong");
+		}
+	}, [])
 
     return (
         <div className="home">
@@ -31,7 +60,16 @@ function Home() {
                 <div className="mainContainer">
                     <Topbar />
                     <div className="featureContainer">
-                        {featureComponent.get(feature)}
+					{isPong && (
+                            <Pong
+                                onEnd={() => {
+                                    setIsPong(false);
+									searchParams.delete('room');
+									setSearchParams(searchParams);
+                                }}
+                            />
+                        )}
+                        {isPong === false && featureComponent.get(feature)}
                     </div>
                 </div>
                 <div className="button_container">

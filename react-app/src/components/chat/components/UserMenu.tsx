@@ -8,6 +8,7 @@ import {
     useFeature,
 } from "../../../context";
 import { useSocket } from "../../../hooks";
+import { sendInvitation } from "../../../utils";
 
 interface Props {
     user: UserType;
@@ -92,9 +93,21 @@ export default function UserMenu(props: Props) {
             )}
             {userAuth.id !== user.id && (
                 <div className="btnContainer">
-                    <button className="Play button-purple" onClick={() => {}}>
-                        Play
-                    </button>
+                    <div className="btnContainer">
+                        <button
+                            className="Play"
+                            onClick={() =>
+                                sendInvitation(
+                                    "pong",
+                                    userAuth.id,
+                                    user.username,
+                                    socket
+                                )
+                            }
+                        >
+                            Play
+                        </button>
+                    </div>
                 </div>
             )}
             {userAuth.id !== user.id && (

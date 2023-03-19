@@ -73,12 +73,12 @@ export class ChatGateway {
         @MessageBody("userid") userid: number,
         @MessageBody("channelid") channelid: number,
         @ConnectedSocket() client: Socket
-        ) {
-            // console.log("room-" + channelid);
-            // console.log("socket.id: ", client.id)
-            // this.connectedUser.delete(userid)
-            // console.log("map:", this.connectedUser)
-            client.leave("room-" + channelid);
+    ) {
+        // console.log("room-" + channelid);
+        // console.log("socket.id: ", client.id)
+        // this.connectedUser.delete(userid)
+        // console.log("map:", this.connectedUser)
+        client.leave("room-" + channelid);
         return "room-" + channelid + " left";
     }
 
@@ -297,6 +297,6 @@ export class ChatGateway {
     }
 
     afterInit(server: Server) {
-        console.log('Socket.IO server initialized');
+        console.log("Socket.IO server initialized");
     }
 }

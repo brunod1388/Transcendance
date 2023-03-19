@@ -6,6 +6,9 @@ import { AuthModule } from "./auth/auth.module";
 import { UsersModule } from "./users/users.module";
 import { ChannelUsersModule } from "./chat/channelUser/channelUsers.module";
 import { ChannelModule } from "./chat/channel/channel.module";
+import { GameModule } from "./game/game.module";
+import { ClientsModule } from "./clients/clients.module";
+import { GeneralModule } from "./general/general.module";
 
 @Module({
     imports: [
@@ -14,6 +17,9 @@ import { ChannelModule } from "./chat/channel/channel.module";
         AuthModule,
         UsersModule,
         ChatModule,
+        GameModule,
+        ClientsModule,
+        GeneralModule,
     ],
     providers: [],
     exports: [],

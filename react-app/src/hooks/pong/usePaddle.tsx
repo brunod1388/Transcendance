@@ -23,6 +23,9 @@ export function useYourPaddle(isHost: boolean, score: Score) {
         socket.on("game-paddle", (position: Position) => {
             setPaddle(position);
         });
+        return () => {
+            socket.off("game-paddle");
+        };
     }, [socket]);
 
     useEffect(() => {

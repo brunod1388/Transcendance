@@ -77,6 +77,9 @@ function BallClient(score: Score) {
         socket.on("game-ball", (position: Position) => {
             setBall(position);
         });
+        return () => {
+            socket.off("game-ball");
+        };
     }, [socket]);
 
     return ball;

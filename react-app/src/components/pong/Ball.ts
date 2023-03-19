@@ -15,12 +15,14 @@ import {
 class BallBase {
     protected pos: Position;
     protected delta: Position;
+    protected speed: number;
     public scored: number;
 
     constructor() {
         this.pos = { x: 0, y: 0 };
         this.delta = { x: 2, y: 0 };
         this.scored = 0;
+        this.speed = 1.5;
     }
 
     public get position() {
@@ -30,8 +32,8 @@ class BallBase {
 
 export class BallData extends BallBase {
     public move(paddleLeft: Position, paddleRight: Position) {
-        this.pos.x += this.delta.x;
-        this.pos.y += this.delta.y;
+        this.pos.x += this.speed * this.delta.x;
+        this.pos.y += this.speed * this.delta.y;
         this.handleCollision(paddleLeft, paddleRight);
     }
 
@@ -100,9 +102,11 @@ export class BallData extends BallBase {
         if (side === "left") {
             this.delta.x = 2 * Math.cos(bounceAngle);
             this.delta.y = 2 * -Math.sin(bounceAngle);
+            this.speed += 0.5;
         } else if (side === "right") {
             this.delta.x = 2 * -Math.cos(bounceAngle);
             this.delta.y = 2 * -Math.sin(bounceAngle);
+            this.speed += 0.5;
         }
         return true;
     }
@@ -122,13 +126,14 @@ export class BallData extends BallBase {
         this.delta.y = 0;
         this.pos.x = WIDTH / 2;
         this.pos.y = HEIGHT / 2;
+        this.speed = 1.5;
     }
 
     launchBall() {
         let dirX = randomNumber(0, 2);
         let dirY = randomNumber(0, 2);
         this.delta.x = randomNumber(0.8, 2);
-        this.delta.y = randomNumber(0.8, 2);
+        this.delta.y = randomNumber(0.8, 1);
         this.delta.x = this.delta.x * (dirX >= 1 ? -1 : 1);
         this.delta.y = this.delta.y * (dirY >= 1 ? -1 : 1);
     }
