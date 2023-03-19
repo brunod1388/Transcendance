@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { NavigateFunction } from "react-router-dom";
 import { useSocket } from "..";
 import { GameInfo } from "../../@types";
+import { useAuth } from "../../context";
 import { leaveGame } from "../../utils/pong.utils";
 
 export function useLoadGame(
@@ -12,6 +13,7 @@ export function useLoadGame(
     const [host, setHost] = useState(false);
     const [opponent, setOpponent] = useState("");
     const [isLoading, setIsLoading] = useState(true);
+    const { userAuth } = useAuth();
 
     useEffect(() => {
         socket.emit("game-join", room);
@@ -19,6 +21,9 @@ export function useLoadGame(
 
     useEffect(() => {
         socket.on("game-info", (info: GameInfo) => {
+            console.log("ready");
+            console.log(`username ${userAuth.username}`);
+            console.log(info.player1);
             let host = info.player1 === socket.id ? true : false;
             let opponent = host ? info.player2 : info.player1;
             setHost(host);

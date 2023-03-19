@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import { CSSProperties, PropsWithChildren } from "react";
 import { leaveGame } from "../../utils/pong.utils";
 import { useNavigate } from "react-router-dom";
 import {
@@ -8,6 +8,10 @@ import {
     PADDLE_HEIGHT,
     PLAYING,
     BALL_RADIUS,
+    HEIGHT,
+    WIDTH,
+    WIN1,
+    WIN2,
 } from "../../@types";
 import { useSocket, useQuery, useTimeout } from "../../hooks";
 import {
@@ -23,6 +27,7 @@ interface PropsGame {
     room: string;
     host: boolean;
     opponent: string;
+    onEnd: () => void;
 }
 
 interface PropsPong {
@@ -31,8 +36,11 @@ interface PropsPong {
     score: Score;
     onScore: (side: string) => void;
 }
+interface PropsMain {
+    onEnd: () => void;
+}
 
-export function Pong() {
+export function Pong(props: PropsMain) {
     const room = useQuery("room"); // room id
     const [socket] = useSocket();
     const navigate = useNavigate();
@@ -47,19 +55,29 @@ export function Pong() {
     if (isLoading) {
         return <div>Loading</div>;
     }
-    return <Game room={room} host={host} opponent={opponent} />;
+    return (
+        <Game room={room} host={host} opponent={opponent} onEnd={props.onEnd} />
+    );
 }
 
-function Game({ room, host, opponent }: PropsGame) {
+function Game({ room, host, opponent, onEnd }: PropsGame) {
     const navigate = useNavigate();
-    const [statut, score, onScore] = useGame(room, host, navigate);
+    const [statut, score, onScore] = useGame(room, host, navigate, onEnd);
 
-    if (statut === PLAYING) {
-        return (
-            <Board host={host} room={room} score={score} onScore={onScore} />
-        );
-    }
-    return <div>GAME ENDED</div>;
+    return (
+        <div>
+            <div className={style.container} tabIndex={-1}>
+                <EndScreen host={host} statut={statut} score={score}>
+                    <Board
+                        host={host}
+                        room={room}
+                        score={score}
+                        onScore={onScore}
+                    />
+                </EndScreen>
+            </div>
+        </div>
+    );
 }
 
 function Board({ host, room, onScore, score }: PropsPong) {
@@ -68,30 +86,48 @@ function Board({ host, room, onScore, score }: PropsPong) {
     const ball = useBall(host, room, paddle1, paddle2, onScore, score);
 
     return (
-        <div className={style.container} tabIndex={-1}>
+        <>
+            <div
+                style={{ width: "100%", height: "100%", position: "absolute" }}
+            >
+                <svg width="100%" height={"100%"}>
+                    <line
+                        className={style.line}
+                        x1={WIDTH / 2}
+                        y1="0"
+                        x2={WIDTH / 2}
+                        y2={HEIGHT}
+                    />
+                </svg>
+            </div>
             <GameScore {...{ ...score }} />
             <Paddle x={paddle1.x} y={paddle1.y} />
             <Paddle x={paddle2.x} y={paddle2.y} />
             <Ball x={ball.x} y={ball.y} />
-        </div>
+        </>
     );
 }
 
 function GameScore(score: Score) {
     return (
         <>
-            <div style={{ color: "white" }}>{score.player1}</div>
-            <div style={{ color: "white" }}>{score.player2}</div>
+            <div className={style.score} id={style["right"]}>
+                {score.player2}
+            </div>
+            <div className={style.score} id={style["left"]}>
+                {score.player1}
+            </div>
         </>
     );
 }
 
 function Paddle(paddle: Position) {
+    const side = paddle.x > WIDTH / 2 ? style.right : style.left;
     const position: CSSProperties = {
         left: paddle.x - PADDLE_WIDTH,
         bottom: paddle.y - PADDLE_HEIGHT,
     };
-    return <div style={position} className={style.paddle}></div>;
+    return <div style={position} className={style.paddle + " " + side}></div>;
 }
 
 function Ball(ball: Position) {
@@ -101,4 +137,44 @@ function Ball(ball: Position) {
     };
 
     return <div style={position} className={style.ball}></div>;
+}
+
+interface Props {
+    score: Score;
+    host: boolean;
+    statut: number;
+}
+
+function EndScreen({
+    score,
+    statut,
+    host,
+    children,
+}: PropsWithChildren<Props>) {
+    if (statut === PLAYING) {
+        return <>{children}</>;
+    }
+
+    if ((host && statut === WIN1) || (!host && statut === WIN2)) {
+        return (
+            <div className={style.endScreen}>
+                <div className={style.wrapper}>
+                    <div className={style.win}>You Win!</div>
+                    <p className={style.finalScore}>
+                        {score.player1}-{score.player2}
+                    </p>
+                </div>
+            </div>
+        );
+    }
+    return (
+        <div className={style.endScreen}>
+            <div className={style.wrapper}>
+                <div className={style.lost}>You Lost...</div>
+                <p className={style.finalScore}>
+                    {score.player1}-{score.player2}
+                </p>
+            </div>
+        </div>
+    );
 }

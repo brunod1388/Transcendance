@@ -1,19 +1,23 @@
 import { DispatchType } from ".";
+// import { NotificationBase } from "../components/notifications";
+
+export const NONE = 0;
+export const ACCEPTED = 1;
+export const DECLINED = -1;
+export const CLOSE = -1;
 
 export interface InvitationDTO {
-    requestId: string;
-    from: string;
+    type: string;
+    to: string;
+    from: number;
+    room: string;
 }
 
-export interface InvitationRequestDTO {
-    fromUser: string;
-    toUser: string;
-}
-
-export interface InvitationResponseDTO {
-    requestId: string;
+export interface ResponseDTO {
+    type: string;
+    to: number;
+    room: string;
     statut: number;
-    fromUser: string;
 }
 export interface RoomStatutDTO {
     player1: string;

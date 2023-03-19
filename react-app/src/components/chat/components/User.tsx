@@ -39,7 +39,7 @@ export default function User(props: Props) {
                 className="menuContainer"
                 style={!selected ? { display: "none" } : {}}
             >
-                <UserMenu />
+                <UserMenu user={user} />
             </div>
         </div>
     );

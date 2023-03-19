@@ -1,18 +1,13 @@
 import style from "./notifications.module.scss";
-import { ActionType } from "../../@types";
-import { useNotifications } from "../../context";
-import React from "react";
+import { useNotificationsDispatch } from "../../hooks";
+import { getStyle, removeNotification } from "../../utils/notifications.utils";
+import { Notification } from "../../@types";
 
 interface Props {
     notifications: Notification[];
 }
 
-interface Notification {
-    id: string;
-    type: string;
-    content: any;
-}
-
+// List of notifications
 export function Notifications({ notifications }: Props) {
     return (
         <div className={style.notifications}>
@@ -25,44 +20,28 @@ export function Notifications({ notifications }: Props) {
     );
 }
 
-function NotificationItem(value: Notification) {
-    const { dispatchNotifications } = useNotifications();
-    let divStyle: string = style.notificationItem + getStyle(value.type);
-
-    const removeOnCLick = (valueId: string) => {
-        let removeAction = {
-            type: ActionType.REMOVE,
-            payload: { id: valueId },
-        };
-        return removeAction;
-    };
-
-    const renderItem = (content: any) => {
-        if (typeof content === "function") {
-            return content();
-        }
-        return <pre>{JSON.stringify(content, null, 2)}</pre>;
-    };
+// Single notification
+function NotificationItem(notification: Notification) {
+    const dispatch = useNotificationsDispatch();
+    let divStyle: string = style.notificationItem + getStyle(notification.type);
 
     return (
         <div className={divStyle}>
             <span
                 role="img"
                 className={style.closeCross}
-                onClick={() => dispatchNotifications(removeOnCLick(value.id))}
+                onClick={() => removeNotification(notification.id, dispatch)}
             >
                 &times;
             </span>
-            {renderItem(value.content)}
+            {renderContent(notification.content)}
         </div>
     );
 }
 
-function getStyle(type: string): string {
-    if (type === "info") {
-        return " " + style.info;
-    } else if (type === "danger") {
-        return " " + style.danger;
+const renderContent = (content: any) => {
+    if (typeof content === "function") {
+        return content();
     }
-    return "";
-}
+    return <pre>{JSON.stringify(content, null, 2)}</pre>;
+};
