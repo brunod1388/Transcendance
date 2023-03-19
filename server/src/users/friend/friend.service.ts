@@ -22,6 +22,17 @@ export class FriendService {
             friendDetails.friendId
         );
         if (friend === undefined || user === undefined) return undefined;
+        const test = this.friendRepository.find({
+            relations: {
+                friend: true,
+                user: true,
+            },
+            where: {
+                user: { id: friend.id },
+                friend: { id: user.id },
+            },
+        });
+        if (test !== null) return "error: friends already or is pending";
         const newFriend = await this.friendRepository.create({
             user: user,
             friend: friend,
@@ -31,14 +42,17 @@ export class FriendService {
             await this.friendRepository.save(newFriend);
             return `Friend ${newFriend.friend.username} invited`;
         } catch (error) {
-            if ("ExecConstraints" === error.routine || "_bt_check_unique" === error.routine)
+            if (
+                "ExecConstraints" === error.routine ||
+                "_bt_check_unique" === error.routine
+            )
                 return "error: friends already or is pending";
             return "error: something went wrong";
         }
     }
 
     async updateFriend(friendDto: FriendDTO): Promise<string> {
-        console.log(friendDto)
+        console.log(friendDto);
         const friend = await this.friendRepository.findOne({
             where: {
                 id: friendDto.id,
@@ -83,5 +97,4 @@ export class FriendService {
         const res = await this.friendRepository.delete({ id: friendId });
         return `friend ${friendId} deleted`;
     }
-
 }

@@ -22,9 +22,11 @@ export default function ChannelUsers() {
             (users: UserType[]) => {
                 setAdmins(users.filter((usr) => usr.rights === "admin"));
                 setUsers(users.filter((usr) => usr.rights === "normal"));
-                const rights = users.find((user) => user.id === userAuth.id)?.rights;
-                console.log({...channel, rights: String(rights)})
-                updateChannel({...channel, rights: String(rights)})
+                const rights = users.find(
+                    (user) => user.id === userAuth.id
+                )?.rights;
+                console.log({ ...channel, rights: String(rights) });
+                updateChannel({ ...channel, rights: String(rights) });
             }
         );
         setSelected("");
@@ -78,11 +80,14 @@ export default function ChannelUsers() {
                     />
                 ))}
             </div>
-            { channel.type === "channel" && 
+            {channel.type === "channel" && (
                 <div className="invitation">
-                    <AddContact placeholder="Invite contact" type="channelUser" />
+                    <AddContact
+                        placeholder="Invite contact"
+                        type="channelUser"
+                    />
                 </div>
-            }
+            )}
         </div>
     );
 }

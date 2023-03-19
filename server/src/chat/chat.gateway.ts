@@ -53,8 +53,8 @@ export class ChatGateway {
 
     @SubscribeMessage("joinRoom")
     async joinRoom(
-        @MessageBody('userid') userId: number,
-        @MessageBody('channelid') channelid: number,
+        @MessageBody("userid") userId: number,
+        @MessageBody("channelid") channelid: number,
         @ConnectedSocket() client: Socket
     ): Promise<string> {
         const messages = await this.messageService.getNLastMessage({
@@ -63,13 +63,13 @@ export class ChatGateway {
         });
         client.emit("NLastMessage", messages);
         client.join("room-" + channelid);
-        return  "room-" + channelid + " joined";
+        return "room-" + channelid + " joined";
     }
 
     @SubscribeMessage("leaveRoom")
     leaveRoom(
-        @MessageBody('channelid') channelid: number,
-        @ConnectedSocket() client: Socket,
+        @MessageBody("channelid") channelid: number,
+        @ConnectedSocket() client: Socket
     ) {
         client.leave("room-" + channelid);
         return "room-" + channelid + " left";
@@ -77,7 +77,7 @@ export class ChatGateway {
 
     @SubscribeMessage("newChannel")
     async createChannel(
-        @MessageBody('newChannel') channel: CreateChannelDto,
+        @MessageBody("newChannel") channel: CreateChannelDto,
         @ConnectedSocket() client: Socket
     ): Promise<string> {
         try {
@@ -88,31 +88,36 @@ export class ChatGateway {
                 rights: rightType.ADMIN,
                 isPending: false,
             });
-            const channels = await this.channelService.getChannels(newChannel.owner.id, false);
+            const channels = await this.channelService.getChannels(
+                newChannel.owner.id,
+                false
+            );
             client.emit("Channels", channels);
         } catch (error) {
-            return `Channel Name already in use`
+            return `Channel Name already in use`;
         }
         return `OK`;
     }
 
     @SubscribeMessage("getChannels")
     async getChannels(
-        @MessageBody('userid') userid: number,
-        @MessageBody('isPending') isPending: boolean
+        @MessageBody("userid") userid: number,
+        @MessageBody("isPending") isPending: boolean
     ) {
-        return (await this.channelService.getChannels(userid, isPending));
+        return await this.channelService.getChannels(userid, isPending);
     }
 
     @SubscribeMessage("getChannelUsers")
-    async getChannelUsers(@MessageBody("channelId") channelId: number): Promise<UserDTO[]> {
-        const users = (await this.channelUserService
-            .getChannelUsers(channelId, false))
-            .map((channelUser) => ({
-                ...channelUser.user, 
-                rights: channelUser.rights,
-                channelUserId: channelUser.id
-            }));
+    async getChannelUsers(
+        @MessageBody("channelId") channelId: number
+    ): Promise<UserDTO[]> {
+        const users = (
+            await this.channelUserService.getChannelUsers(channelId, false)
+        ).map((channelUser) => ({
+            ...channelUser.user,
+            rights: channelUser.rights,
+            channelUserId: channelUser.id,
+        }));
         return users;
     }
 
@@ -122,56 +127,58 @@ export class ChatGateway {
         @ConnectedSocket() client: Socket
     ): Promise<string> {
         const user = await this.userService.findUserId(messageDTO.userId);
-        const channel = await this.channelService.findChannelById(messageDTO.channelId);
+        const channel = await this.channelService.findChannelById(
+            messageDTO.channelId
+        );
         const newMessage = await this.messageService.createMessage(
             user,
             channel,
             messageDTO.content
-            );
-            if (newMessage === undefined) return "could not write message";
-            const room = "room-" + channel.id;
+        );
+        if (newMessage === undefined) return "could not write message";
+        const room = "room-" + channel.id;
         const message = {
             id: newMessage.id,
             creator: {
                 id: newMessage.creator.id,
                 username: newMessage.creator.username,
-                avatar: newMessage.creator.avatar
+                avatar: newMessage.creator.avatar,
             },
             content: newMessage.content,
             createdAt: newMessage.createdAt,
             modifiedAt: newMessage.modifiedAt,
-        }
+        };
         this.server.to(room).emit("messageListener", message);
         return "message created";
     }
 
     @SubscribeMessage("inviteChannelUser")
     async inviteContact(
-        @MessageBody('username') username: string,
-        @MessageBody('channelId') channelId: number
+        @MessageBody("username") username: string,
+        @MessageBody("channelId") channelId: number
     ): Promise<string> {
         const user = await this.userService.findUser(username);
         if (user === null) return "error: User " + username + " not Found";
-        return (await this.channelUserService.createChannelUser({
+        return await this.channelUserService.createChannelUser({
             userId: user.id,
             channelId: channelId,
             rights: rightType.NORMAL,
             isPending: true,
-        }))
+        });
     }
 
     @SubscribeMessage("inviteFriend")
     async inviteFriend(
-        @MessageBody('userid') userId: number,
-        @MessageBody('friendname') friendName: string
+        @MessageBody("userid") userId: number,
+        @MessageBody("friendname") friendName: string
     ): Promise<string> {
         const friend = await this.userService.findUser(friendName);
         if (friend === null) return "error: User" + friendName + " not Found";
         if (friend.id === userId) return "error: can't invite yourself";
-        return (await this.friendService.createFriend({
+        return await this.friendService.createFriend({
             userId: userId,
             friendId: friend.id,
-        }));
+        });
     }
 
     @SubscribeMessage("updateFriend")
@@ -179,8 +186,7 @@ export class ChatGateway {
         @MessageBody("id") friendId: number,
         @MessageBody("accept") accept: boolean
     ): Promise<string> {
-        if (accept)
-        {
+        if (accept) {
             const res = await this.friendService.updateFriend({
                 id: Number(friendId),
                 isPending: false,
@@ -197,8 +203,7 @@ export class ChatGateway {
         @MessageBody("id") channelUserId: number,
         @MessageBody("accept") accept: boolean
     ): Promise<string | ChannelUserDTO> {
-        if (accept)
-        {
+        if (accept) {
             const res = this.channelUserService.updateChannelUser({
                 id: channelUserId,
                 isPending: false,
@@ -206,18 +211,20 @@ export class ChatGateway {
             if (res === undefined) return "Something went wrong";
             return res;
         }
-        const res = await this.channelUserService.deleteChannelUser(channelUserId)
+        const res = await this.channelUserService.deleteChannelUser(
+            channelUserId
+        );
         return res;
     }
 
     @SubscribeMessage("deleteChannelUser")
-    async deleteChannelUser(@MessageBody('id') id: number): Promise<string> {
-        return (await this.channelUserService.deleteChannelUser(Number(id)));
+    async deleteChannelUser(@MessageBody("id") id: number): Promise<string> {
+        return await this.channelUserService.deleteChannelUser(Number(id));
     }
 
     @SubscribeMessage("deleteFriend")
-    async deleteFriend(@MessageBody('id') friendId: number): Promise<string> {
-        return (await this.friendService.deleteFriend(friendId));
+    async deleteFriend(@MessageBody("id") friendId: number): Promise<string> {
+        return await this.friendService.deleteFriend(friendId);
     }
 
     @SubscribeMessage("getPendings")
@@ -255,10 +262,6 @@ export class ChatGateway {
         return friends;
     }
 
-
-
-
-
     @SubscribeMessage("updateMessage")
     async updateMessage(
         @MessageBody() messageDTO: UpdateMessageDto
@@ -279,10 +282,12 @@ export class ChatGateway {
     @SubscribeMessage("connection")
     async handleConnection(@ConnectedSocket() client: Socket) {
         console.log("Connection of    ", client.id);
+        // console.log("client: ", client)
+        // console.log("server: ", this.server)
     }
 
     @SubscribeMessage("disconnect")
     async handleDisconnect(@ConnectedSocket() client: Socket) {
-        console.log("Disconnection of ", client.id)
+        console.log("Disconnection of ", client.id);
     }
 }

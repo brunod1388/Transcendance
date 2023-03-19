@@ -23,7 +23,7 @@ export const defaultChannel: ChannelDetailsType = {
     type: "none",
     image: "",
     room: "",
-    rights: ""
+    rights: "",
 };
 
 export interface ChatContextType {

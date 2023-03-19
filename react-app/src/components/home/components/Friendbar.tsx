@@ -23,8 +23,8 @@ function Friendbar() {
             setFriends(res);
         });
         socket.on("friends", (friend) => {
-            setFriends((state) => [...state, friend])
-    })
+            setFriends((state) => [...state, friend]);
+        });
     }, []);
 
     return (

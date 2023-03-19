@@ -14,18 +14,10 @@ type Props = {
 };
 
 export default function User(props: Props) {
-    const {
-        hasNewMsg = false,
-        user,
-        onClick,
-        selected,
-        type
-    } = props;
+    const { hasNewMsg = false, user, onClick, selected, type } = props;
 
     return (
-        <div
-            className={"userChat " + (selected ? "selected" : "")}
-        >
+        <div className={"userChat " + (selected ? "selected" : "")}>
             <div
                 className={"userPlate " + (selected ? "selected" : "")}
                 onClick={onClick}
@@ -49,7 +41,7 @@ export default function User(props: Props) {
                 className="menuContainer"
                 style={!selected ? { display: "none" } : {}}
             >
-                <UserMenu user={user} type={type}/>
+                <UserMenu user={user} type={type} />
             </div>
         </div>
     );

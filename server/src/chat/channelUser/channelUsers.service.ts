@@ -37,7 +37,10 @@ export class ChannelUserService {
             );
             return "User " + channelUser.user.username + " invited";
         } catch (error) {
-            if ("ExecConstraints" === error.routine || "_bt_check_unique" === error.routine)
+            if (
+                "ExecConstraints" === error.routine ||
+                "_bt_check_unique" === error.routine
+            )
                 return "ChannelUser already exist or is pending";
             return "something went wrong";
         }
@@ -110,7 +113,7 @@ export class ChannelUserService {
     }
 
     async deleteChannelUser(id: number): Promise<string> {
-        await this.channelUserRepository.delete({id});
+        await this.channelUserRepository.delete({ id });
         return `channelUser ${id} deleted`;
     }
 }

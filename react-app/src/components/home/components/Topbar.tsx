@@ -25,7 +25,7 @@ function Topbar() {
     const { channel, updateChannel } = useChat();
     const { setFeature } = useFeature();
     const [notif, setNotif] = useState(false);
-    const {ref, isVisible, setIsVisible } = useVisible(false);
+    const { ref, isVisible, setIsVisible } = useVisible(false);
     //useEffect(() => {
     //    console.log("Auth user: ", userAuth);
     //}, [userAuth]);
@@ -66,7 +66,7 @@ function Topbar() {
                         onClick={() => setIsVisible(!isVisible)}
                     />
                     <div className="invitations" ref={ref}>
-                        {isVisible && <Invitations/>}
+                        {isVisible && <Invitations />}
                     </div>
                 </div>
                 <img

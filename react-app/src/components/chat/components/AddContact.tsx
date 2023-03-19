@@ -14,16 +14,16 @@ export default function AddContact(props: Props) {
     const [inviteName, setInviteName] = useState("");
     const { userAuth } = useAuth();
     const { channel } = useChat();
-    const [ socket ] = useSocket();
+    const [socket] = useSocket();
 
     function handleKeyDown(e: KeyboardEvent<HTMLInputElement>) {
         if (e.key === "Enter") inviteContact();
     }
 
     function inviteContact() {
-        console.log(props.type)
+        console.log(props.type);
         if (props.type === "friend") {
-            console.log("invite friend")
+            console.log("invite friend");
             socket.emit(
                 "inviteFriend",
                 {

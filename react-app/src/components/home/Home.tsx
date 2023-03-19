@@ -35,7 +35,7 @@ function Home() {
                     </div>
                 </div>
                 <div className="button_container">
-                    {!isVisible &&
+                    {!isVisible && (
                         <button
                             className="friendButton"
                             onClick={() => {
@@ -44,7 +44,7 @@ function Home() {
                         >
                             <img src={ContactIcon} alt="" />
                         </button>
-                    }
+                    )}
                 </div>
                 <div className="friendbarContainer" ref={ref}>
                     {isVisible && <Friendbar />}

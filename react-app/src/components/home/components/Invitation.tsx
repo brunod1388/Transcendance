@@ -20,9 +20,7 @@ export default function Invitations() {
     const [socket] = useSocket();
     const [invitations, setInvitations] = useState<InvitationType[]>([]);
 
-    function updateInvitations() {
-       
-    }
+    function updateInvitations() {}
 
     function handleInvitation(type: string, accept: boolean, id: number) {
         const handleMessage =
@@ -36,23 +34,33 @@ export default function Invitations() {
     }
 
     useEffect(() => {
-        socket.emit("getPendings", { userId: userAuth.id },
-            (res: InvitationType[]) => { setInvitations(
-                res.map((i: InvitationType) => {
-                    if (i.image === "")
-                        i.image = i.type === "Friend" ? NoUserIcon : NoChannelIcon;
-                    return i;
+        socket.emit(
+            "getPendings",
+            { userId: userAuth.id },
+            (res: InvitationType[]) => {
+                setInvitations(
+                    res.map((i: InvitationType) => {
+                        if (i.image === "")
+                            i.image =
+                                i.type === "Friend"
+                                    ? NoUserIcon
+                                    : NoChannelIcon;
+                        return i;
                     })
                 );
             }
         );
-        socket.on("friends", (friend) => setInvitations((state) => [...state, friend]));
-        return () => {socket.off("friends")};
+        socket.on("pendings", (friend) =>
+            setInvitations((state) => [...state, friend])
+        );
+        return () => {
+            socket.off("friends");
+        };
     }, []);
 
     return (
         // <div className="invitations">
-        <div >
+        <div>
             {invitations.length === 0 && (
                 <span className="title noInvitation">
                     No pending invitations

@@ -32,8 +32,7 @@ function Navbar() {
             "getChannels",
             { userid: userAuth.id, isPending: false },
             (chans: ChannelType[]) => {
-                if (channel.id !== 0 && chans.length != channels.length)
-                {
+                if (channel.id !== 0 && chans.length != channels.length) {
                     setFeature(Feature.None);
                     updateChannel(defaultChannel);
                 }
@@ -90,7 +89,7 @@ function Navbar() {
             type: "channel",
             image: channel?.image ? channel.image : NoChannelIcon,
             room: "room-" + channel.id,
-            rights: "normal"
+            rights: "normal",
         };
         updateChannel(channelDetails);
         joinRoom(channelDetails);
