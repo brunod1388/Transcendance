@@ -1,0 +1,90 @@
+"filename", "language", "TypeScript JSX", "TypeScript", "SCSS", "comment", "blank", "total"
+"/Users/bruno1388/Desktop/trans/react-app/src/@types/auth.types.ts", "TypeScript", 0, 26, 0, 28, 13, 67
+"/Users/bruno1388/Desktop/trans/react-app/src/@types/chat.types.tsx", "TypeScript JSX", 41, 0, 0, 0, 9, 50
+"/Users/bruno1388/Desktop/trans/react-app/src/@types/index.ts", "TypeScript", 0, 7, 0, 0, 1, 8
+"/Users/bruno1388/Desktop/trans/react-app/src/@types/invitation.types.ts", "TypeScript", 0, 43, 0, 1, 9, 53
+"/Users/bruno1388/Desktop/trans/react-app/src/@types/notifications.types.tsx", "TypeScript JSX", 37, 0, 0, 2, 13, 52
+"/Users/bruno1388/Desktop/trans/react-app/src/@types/other/MessageType.ts", "TypeScript", 0, 5, 0, 0, 1, 6
+"/Users/bruno1388/Desktop/trans/react-app/src/@types/other/SetStateType.ts", "TypeScript", 0, 2, 0, 0, 2, 4
+"/Users/bruno1388/Desktop/trans/react-app/src/@types/other/react-app-env.d.ts", "TypeScript", 0, 0, 0, 1, 1, 2
+"/Users/bruno1388/Desktop/trans/react-app/src/@types/pong.types.tsx", "TypeScript JSX", 68, 0, 0, 0, 13, 81
+"/Users/bruno1388/Desktop/trans/react-app/src/App.tsx", "TypeScript JSX", 39, 0, 0, 23, 6, 68
+"/Users/bruno1388/Desktop/trans/react-app/src/assets/images/index.ts", "TypeScript", 0, 16, 0, 0, 1, 17
+"/Users/bruno1388/Desktop/trans/react-app/src/assets/styles/App.scss", "SCSS", 0, 0, 21, 2, 6, 29
+"/Users/bruno1388/Desktop/trans/react-app/src/assets/styles/form.scss", "SCSS", 0, 0, 119, 4, 14, 137
+"/Users/bruno1388/Desktop/trans/react-app/src/assets/styles/general.scss", "SCSS", 0, 0, 15, 3, 1, 19
+"/Users/bruno1388/Desktop/trans/react-app/src/assets/styles/variables.scss", "SCSS", 0, 0, 31, 2, 7, 40
+"/Users/bruno1388/Desktop/trans/react-app/src/components/chat/Chat.tsx", "TypeScript JSX", 13, 0, 0, 0, 2, 15
+"/Users/bruno1388/Desktop/trans/react-app/src/components/chat/components/AddContact.tsx", "TypeScript JSX", 74, 0, 0, 0, 6, 80
+"/Users/bruno1388/Desktop/trans/react-app/src/components/chat/components/ChannelUsers.tsx", "TypeScript JSX", 90, 0, 0, 0, 4, 94
+"/Users/bruno1388/Desktop/trans/react-app/src/components/chat/components/Feed.tsx", "TypeScript JSX", 82, 0, 0, 0, 8, 90
+"/Users/bruno1388/Desktop/trans/react-app/src/components/chat/components/Message.tsx", "TypeScript JSX", 32, 0, 0, 0, 4, 36
+"/Users/bruno1388/Desktop/trans/react-app/src/components/chat/components/User.tsx", "TypeScript JSX", 44, 0, 0, 0, 4, 48
+"/Users/bruno1388/Desktop/trans/react-app/src/components/chat/components/UserMenu.tsx", "TypeScript JSX", 165, 0, 0, 0, 9, 174
+"/Users/bruno1388/Desktop/trans/react-app/src/components/chat/styles/channelUsers.scss", "SCSS", 0, 0, 43, 1, 3, 47
+"/Users/bruno1388/Desktop/trans/react-app/src/components/chat/styles/chat.scss", "SCSS", 0, 0, 10, 0, 2, 12
+"/Users/bruno1388/Desktop/trans/react-app/src/components/chat/styles/feed.scss", "SCSS", 0, 0, 67, 1, 4, 72
+"/Users/bruno1388/Desktop/trans/react-app/src/components/chat/styles/invite.scss", "SCSS", 0, 0, 51, 0, 2, 53
+"/Users/bruno1388/Desktop/trans/react-app/src/components/chat/styles/message.scss", "SCSS", 0, 0, 53, 0, 8, 61
+"/Users/bruno1388/Desktop/trans/react-app/src/components/chat/styles/user.scss", "SCSS", 0, 0, 105, 1, 10, 116
+"/Users/bruno1388/Desktop/trans/react-app/src/components/home/Home.tsx", "TypeScript JSX", 89, 0, 0, 2, 7, 98
+"/Users/bruno1388/Desktop/trans/react-app/src/components/home/components/ChannelButton.tsx", "TypeScript JSX", 15, 0, 0, 0, 2, 17
+"/Users/bruno1388/Desktop/trans/react-app/src/components/home/components/Friendbar.tsx", "TypeScript JSX", 50, 0, 0, 0, 6, 56
+"/Users/bruno1388/Desktop/trans/react-app/src/components/home/components/Invitation.tsx", "TypeScript JSX", 92, 0, 0, 1, 7, 100
+"/Users/bruno1388/Desktop/trans/react-app/src/components/home/components/Navbar.tsx", "TypeScript JSX", 125, 0, 0, 0, 10, 135
+"/Users/bruno1388/Desktop/trans/react-app/src/components/home/components/NewChannel.tsx", "TypeScript JSX", 87, 0, 0, 0, 6, 93
+"/Users/bruno1388/Desktop/trans/react-app/src/components/home/components/Topbar.tsx", "TypeScript JSX", 76, 0, 0, 7, 7, 90
+"/Users/bruno1388/Desktop/trans/react-app/src/components/home/index.ts", "TypeScript", 0, 4, 0, 0, 1, 5
+"/Users/bruno1388/Desktop/trans/react-app/src/components/home/styles/friendbar.scss", "SCSS", 0, 0, 33, 1, 3, 37
+"/Users/bruno1388/Desktop/trans/react-app/src/components/home/styles/home.scss", "SCSS", 0, 0, 77, 0, 12, 89
+"/Users/bruno1388/Desktop/trans/react-app/src/components/home/styles/navbar.scss", "SCSS", 0, 0, 92, 0, 9, 101
+"/Users/bruno1388/Desktop/trans/react-app/src/components/home/styles/settings.scss", "SCSS", 0, 0, 9, 0, 1, 10
+"/Users/bruno1388/Desktop/trans/react-app/src/components/home/styles/topbar.scss", "SCSS", 0, 0, 113, 3, 16, 132
+"/Users/bruno1388/Desktop/trans/react-app/src/components/invitations/Invitation.tsx", "TypeScript JSX", 52, 0, 0, 0, 8, 60
+"/Users/bruno1388/Desktop/trans/react-app/src/components/invitations/InvitationPong.tsx", "TypeScript JSX", 43, 0, 0, 1, 7, 51
+"/Users/bruno1388/Desktop/trans/react-app/src/components/invitations/Response.tsx", "TypeScript JSX", 53, 0, 0, 0, 7, 60
+"/Users/bruno1388/Desktop/trans/react-app/src/components/invitations/ResponsePong.tsx", "TypeScript JSX", 40, 0, 0, 0, 6, 46
+"/Users/bruno1388/Desktop/trans/react-app/src/components/invitations/index.ts", "TypeScript", 0, 4, 0, 0, 1, 5
+"/Users/bruno1388/Desktop/trans/react-app/src/components/notifications/NotificationBase.ts", "TypeScript", 0, 1, 0, 29, 3, 33
+"/Users/bruno1388/Desktop/trans/react-app/src/components/notifications/Notifications.tsx", "TypeScript JSX", 40, 0, 0, 2, 6, 48
+"/Users/bruno1388/Desktop/trans/react-app/src/components/notifications/index.ts", "TypeScript", 0, 1, 0, 0, 1, 2
+"/Users/bruno1388/Desktop/trans/react-app/src/components/notifications/notifications.module.scss", "SCSS", 0, 0, 57, 0, 8, 65
+"/Users/bruno1388/Desktop/trans/react-app/src/components/pong/Ball.ts", "TypeScript", 0, 125, 0, 0, 20, 145
+"/Users/bruno1388/Desktop/trans/react-app/src/components/pong/Pong.tsx", "TypeScript JSX", 170, 0, 0, 0, 17, 187
+"/Users/bruno1388/Desktop/trans/react-app/src/components/pong/index.ts", "TypeScript", 0, 2, 0, 0, 1, 3
+"/Users/bruno1388/Desktop/trans/react-app/src/components/pong/pong.module.scss", "SCSS", 0, 0, 120, 0, 19, 139
+"/Users/bruno1388/Desktop/trans/react-app/src/context/auth.context.tsx", "TypeScript JSX", 51, 0, 0, 0, 10, 61
+"/Users/bruno1388/Desktop/trans/react-app/src/context/chat.context.tsx", "TypeScript JSX", 52, 0, 0, 1, 12, 65
+"/Users/bruno1388/Desktop/trans/react-app/src/context/feature.context.tsx", "TypeScript JSX", 32, 0, 0, 0, 9, 41
+"/Users/bruno1388/Desktop/trans/react-app/src/context/index.ts", "TypeScript", 0, 5, 0, 0, 1, 6
+"/Users/bruno1388/Desktop/trans/react-app/src/context/notifications.context.tsx", "TypeScript JSX", 67, 0, 0, 12, 9, 88
+"/Users/bruno1388/Desktop/trans/react-app/src/context/socket.context.tsx", "TypeScript JSX", 16, 0, 0, 14, 7, 37
+"/Users/bruno1388/Desktop/trans/react-app/src/hooks/index.ts", "TypeScript", 0, 8, 0, 0, 1, 9
+"/Users/bruno1388/Desktop/trans/react-app/src/hooks/pong/index.ts", "TypeScript", 0, 4, 0, 0, 1, 5
+"/Users/bruno1388/Desktop/trans/react-app/src/hooks/pong/useBall.tsx", "TypeScript JSX", 73, 0, 0, 3, 11, 87
+"/Users/bruno1388/Desktop/trans/react-app/src/hooks/pong/useGame.tsx", "TypeScript JSX", 69, 0, 0, 4, 10, 83
+"/Users/bruno1388/Desktop/trans/react-app/src/hooks/pong/useLoadGame.tsx", "TypeScript JSX", 46, 0, 0, 1, 7, 54
+"/Users/bruno1388/Desktop/trans/react-app/src/hooks/pong/usePaddle.tsx", "TypeScript JSX", 71, 0, 0, 3, 12, 86
+"/Users/bruno1388/Desktop/trans/react-app/src/hooks/useAxios.tsx", "TypeScript JSX", 31, 0, 0, 0, 7, 38
+"/Users/bruno1388/Desktop/trans/react-app/src/hooks/useInterval.tsx", "TypeScript JSX", 16, 0, 0, 2, 4, 22
+"/Users/bruno1388/Desktop/trans/react-app/src/hooks/useKeyboard.tsx", "TypeScript JSX", 24, 0, 0, 10, 7, 41
+"/Users/bruno1388/Desktop/trans/react-app/src/hooks/useLocalStorage.ts", "TypeScript", 0, 19, 0, 0, 6, 25
+"/Users/bruno1388/Desktop/trans/react-app/src/hooks/useNotificatons.tsx", "TypeScript JSX", 10, 0, 0, 0, 3, 13
+"/Users/bruno1388/Desktop/trans/react-app/src/hooks/useQuery.tsx", "TypeScript JSX", 13, 0, 0, 2, 3, 18
+"/Users/bruno1388/Desktop/trans/react-app/src/hooks/useSocket.tsx", "TypeScript JSX", 7, 0, 0, 9, 5, 21
+"/Users/bruno1388/Desktop/trans/react-app/src/hooks/useTimeout.tsx", "TypeScript JSX", 16, 0, 0, 0, 4, 20
+"/Users/bruno1388/Desktop/trans/react-app/src/hooks/useVisible.tsx", "TypeScript JSX", 16, 0, 0, 0, 6, 22
+"/Users/bruno1388/Desktop/trans/react-app/src/index.tsx", "TypeScript JSX", 24, 0, 0, 0, 3, 27
+"/Users/bruno1388/Desktop/trans/react-app/src/pages/Enable2FA.tsx", "TypeScript JSX", 82, 0, 0, 110, 16, 208
+"/Users/bruno1388/Desktop/trans/react-app/src/pages/Login.tsx", "TypeScript JSX", 87, 0, 0, 1, 12, 100
+"/Users/bruno1388/Desktop/trans/react-app/src/pages/Main.tsx", "TypeScript JSX", 52, 0, 0, 3, 8, 63
+"/Users/bruno1388/Desktop/trans/react-app/src/pages/Play.tsx", "TypeScript JSX", 1, 0, 0, 92, 8, 101
+"/Users/bruno1388/Desktop/trans/react-app/src/pages/Settings.tsx", "TypeScript JSX", 190, 0, 0, 2, 18, 210
+"/Users/bruno1388/Desktop/trans/react-app/src/pages/Subscribe.tsx", "TypeScript JSX", 101, 0, 0, 0, 12, 113
+"/Users/bruno1388/Desktop/trans/react-app/src/pages/Verify2FA.tsx", "TypeScript JSX", 54, 0, 0, 0, 10, 64
+"/Users/bruno1388/Desktop/trans/react-app/src/pages/index.ts", "TypeScript", 0, 7, 0, 0, 1, 8
+"/Users/bruno1388/Desktop/trans/react-app/src/utils/index.ts", "TypeScript", 0, 3, 0, 0, 1, 4
+"/Users/bruno1388/Desktop/trans/react-app/src/utils/invitation.utils.tsx", "TypeScript JSX", 54, 0, 0, 7, 7, 68
+"/Users/bruno1388/Desktop/trans/react-app/src/utils/notifications.utils.tsx", "TypeScript JSX", 36, 0, 0, 0, 5, 41
+"/Users/bruno1388/Desktop/trans/react-app/src/utils/pong.utils.tsx", "TypeScript JSX", 36, 0, 0, 0, 4, 40
+"Total", "-", 2944, 282, 1016, 391, 594, 5227
