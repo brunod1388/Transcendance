@@ -34,6 +34,8 @@ export interface UserType {
     username: string;
     avatar?: string;
     rights?: channelRightType;
+    channelUserId?: number;
+    friendId?: number;
 }
 
 export interface MessageType {
@@ -43,3 +45,5 @@ export interface MessageType {
     createdAt: Date;
     modifiedAt: Date;
 }
+
+export type UserPlateType = "channelUser" | "friend" | "direct";

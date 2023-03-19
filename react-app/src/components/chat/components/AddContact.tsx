@@ -14,17 +14,29 @@ export default function AddContact(props: Props) {
     const [inviteName, setInviteName] = useState("");
     const { userAuth } = useAuth();
     const { channel } = useChat();
-    const [socket] = useSocket();
+    const [ socket ] = useSocket();
 
     function handleKeyDown(e: KeyboardEvent<HTMLInputElement>) {
         if (e.key === "Enter") inviteContact();
     }
 
     function inviteContact() {
+        console.log(props.type)
         if (props.type === "friend") {
-            socket.emit("inviteFriend", userAuth.id, inviteName, (res: any) => {
-                console.log(res);
-            });
+            console.log("invite friend")
+            socket.emit(
+                "inviteFriend",
+                {
+                    userid: userAuth.id,
+                    friendname: inviteName,
+                },
+                (res: any) => {
+                    setMessage(res);
+                    setTimeout(() => {
+                        setMessage("");
+                    }, 3000);
+                }
+            );
         } else {
             socket.emit(
                 "inviteChannelUser",
@@ -33,7 +45,6 @@ export default function AddContact(props: Props) {
                     channelId: channel.id,
                 },
                 (res: any) => {
-                    console.log(res);
                     setMessage(res);
                     setTimeout(() => {
                         setMessage("");

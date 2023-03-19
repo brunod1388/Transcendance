@@ -18,11 +18,15 @@ function Friendbar() {
     const [selected, setSelected] = useState("");
 
     useEffect(() => {
-        socket.emit("getFriends", userAuth.id, (res: any) => {
+        socket.emit("getFriends", userAuth.id, (res: UserType[]) => {
             console.log(res);
             setFriends(res);
         });
+        socket.on("friends", (friend) => {
+            setFriends((state) => [...state, friend])
+    })
     }, []);
+
     return (
         <div className="friendBar">
             <span className="title">Friends</span>
@@ -30,7 +34,7 @@ function Friendbar() {
                 {friends.map((friend, i) => (
                     <User
                         user={friend}
-                        isPrivate={true}
+                        type="friend"
                         key={`friend-${i}`}
                         selected={`friend-${i}` === selected}
                         onClick={() =>

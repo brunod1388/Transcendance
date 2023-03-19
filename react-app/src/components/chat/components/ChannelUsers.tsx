@@ -7,7 +7,7 @@ import "../styles/channelUsers.scss";
 import AddContact from "./AddContact";
 
 export default function ChannelUsers() {
-    const { channel } = useChat();
+    const { channel, updateChannel } = useChat();
     const [socket] = useSocket();
     const { userAuth } = useAuth();
     const [searchUser, setSearchUser] = useState<UserType>();
@@ -22,11 +22,14 @@ export default function ChannelUsers() {
             (users: UserType[]) => {
                 setAdmins(users.filter((usr) => usr.rights === "admin"));
                 setUsers(users.filter((usr) => usr.rights === "normal"));
+                const rights = users.find((user) => user.id === userAuth.id)?.rights;
+                console.log({...channel, rights: String(rights)})
+                updateChannel({...channel, rights: String(rights)})
             }
         );
-        setSelected("")
+        setSelected("");
         socket.on("ChannelUsers", (users: UserType[]) => {
-            // setUsers(users);
+            setUsers(users);
             console.log(users);
         });
         return () => {
@@ -49,6 +52,7 @@ export default function ChannelUsers() {
                         user={searchUser}
                         onClick={() => updateSelected("search", 0)}
                         selected={selected === "search-0"}
+                        type="channelUser"
                     />
                 )}
             </div>
@@ -57,26 +61,28 @@ export default function ChannelUsers() {
                 {admins.map((user, i) => (
                     <User
                         user={user}
-                        isPrivate={false}
                         key={`admin-${i}`}
                         onClick={() => updateSelected("admin", i)}
                         selected={selected === `admin-${i}`}
+                        type="channelUser"
                     />
                 ))}
                 {users.length > 0 && <span className="title">Users</span>}
                 {users.map((user, i) => (
                     <User
                         user={user}
-                        isPrivate={false}
                         key={`user-${i}`}
                         onClick={() => updateSelected("user", i)}
                         selected={selected === `user-${i}`}
+                        type="channelUser"
                     />
                 ))}
             </div>
-            <div className="invitation">
-                <AddContact placeholder="Invite contact" type="channelUser" />
-            </div>
+            { channel.type === "channel" && 
+                <div className="invitation">
+                    <AddContact placeholder="Invite contact" type="channelUser" />
+                </div>
+            }
         </div>
     );
 }

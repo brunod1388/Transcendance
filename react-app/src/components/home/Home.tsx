@@ -2,11 +2,10 @@ import { Navbar, Topbar, Friendbar } from ".";
 import Chat from "../chat/Chat";
 import { useFeature, Feature } from "../../context/feature.context";
 import { ContactIcon } from "../../assets/images";
+import { useEffect } from "react";
+import { useSocket, useVisible } from "../../hooks";
+import { useAuth, useChat } from "../../context";
 import "./styles/home.scss";
-import { useEffect, useState } from "react";
-import { useSocket } from "../../hooks";
-import { ChannelType } from "../../@types";
-import { useAuth } from "../../context";
 
 const featureComponent = new Map<number, JSX.Element>([
     [Feature.None, <></>],
@@ -17,9 +16,9 @@ const featureComponent = new Map<number, JSX.Element>([
 
 function Home() {
     const { feature } = useFeature();
-    const [friendsVisible, setFriendsVisible] = useState(false);
     const { userAuth } = useAuth();
     const [socket] = useSocket();
+    const { ref, isVisible, setIsVisible } = useVisible(false);
 
     useEffect(() => {
         socket.emit("getChannels", { userid: userAuth.id, isPendng: false });
@@ -36,16 +35,20 @@ function Home() {
                     </div>
                 </div>
                 <div className="button_container">
-                    <button
-                        className="friendButton"
-                        onClick={() => {
-                            setFriendsVisible(friendsVisible ? false : true);
-                        }}
-                    >
-                        <img src={ContactIcon} alt="" />
-                    </button>
+                    {!isVisible &&
+                        <button
+                            className="friendButton"
+                            onClick={() => {
+                                setIsVisible(!isVisible);
+                            }}
+                        >
+                            <img src={ContactIcon} alt="" />
+                        </button>
+                    }
                 </div>
-                {friendsVisible && <Friendbar />}
+                <div className="friendbarContainer" ref={ref}>
+                    {isVisible && <Friendbar />}
+                </div>
             </div>
         </div>
     );

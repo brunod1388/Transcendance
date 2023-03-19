@@ -30,5 +30,8 @@
 
 	.friends {
 		flex-grow: 1;
+		gap: 5px;
+		display: flex;
+		flex-direction: column;
 	}
 }

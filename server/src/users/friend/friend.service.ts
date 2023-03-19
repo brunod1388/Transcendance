@@ -27,19 +27,25 @@ export class FriendService {
             friend: friend,
             isPending: true,
         });
-        await this.friendRepository.save(newFriend);
-        return "friend created";
+        try {
+            await this.friendRepository.save(newFriend);
+            return `Friend ${newFriend.friend.username} invited`;
+        } catch (error) {
+            if ("ExecConstraints" === error.routine || "_bt_check_unique" === error.routine)
+                return "error: friends already or is pending";
+            return "error: something went wrong";
+        }
     }
 
     async updateFriend(friendDto: FriendDTO): Promise<string> {
+        console.log(friendDto)
         const friend = await this.friendRepository.findOne({
             where: {
                 id: friendDto.id,
-                isPending: friendDto.isPending,
             },
         });
         if (friend === undefined) return "Frienship never sent";
-        friend.isPending = false;
+        friend.isPending = friendDto.isPending;
         await this.friendRepository.save(friend);
         return "Friend accepted";
     }
@@ -73,8 +79,9 @@ export class FriendService {
         return friends;
     }
 
-    async deleteFriend(friendDto: FriendDTO): Promise<string> {
-        const res = await this.friendRepository.delete({ id: friendDto.id });
-        return "friend deleted";
+    async deleteFriend(friendId: number): Promise<string> {
+        const res = await this.friendRepository.delete({ id: friendId });
+        return `friend ${friendId} deleted`;
     }
+
 }

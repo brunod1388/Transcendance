@@ -5,13 +5,14 @@ import {
     Bell,
 } from "../../../assets/images";
 import { useNavigate, Link } from "react-router-dom";
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth, useChat, Feature, useFeature } from "../../../context";
 import Cookies from "js-cookie";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import Invitations from "./Invitation";
 import "../styles/topbar.scss";
+import { useVisible } from "../../../hooks";
 
 axios.defaults.baseURL = `http://localhost:3000`;
 axios.defaults.withCredentials = true;
@@ -24,6 +25,7 @@ function Topbar() {
     const { channel, updateChannel } = useChat();
     const { setFeature } = useFeature();
     const [notif, setNotif] = useState(false);
+    const {ref, isVisible, setIsVisible } = useVisible(false);
     //useEffect(() => {
     //    console.log("Auth user: ", userAuth);
     //}, [userAuth]);
@@ -56,14 +58,16 @@ function Topbar() {
                 />
                 {/* test purpose*/}
                 <span>{userAuth.username}</span>
-                <div className="invitationContainer">
+                <div className="invitationContainer" id="notif">
                     <img
                         className="imgButton"
                         src={Bell}
                         alt=""
-                        onClick={() => setNotif(!notif)}
+                        onClick={() => setIsVisible(!isVisible)}
                     />
-                    {notif && <Invitations />}
+                    <div className="invitations" ref={ref}>
+                        {isVisible && <Invitations/>}
+                    </div>
                 </div>
                 <img
                     className="imgButton"

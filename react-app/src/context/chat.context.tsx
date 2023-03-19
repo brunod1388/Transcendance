@@ -14,14 +14,16 @@ export interface ChannelDetailsType {
     type: string;
     image: string;
     room: string;
+    rights: string;
 }
 
-const defaultChannel: ChannelDetailsType = {
+export const defaultChannel: ChannelDetailsType = {
     id: 0,
     name: "",
     type: "none",
     image: "",
     room: "",
+    rights: ""
 };
 
 export interface ChatContextType {

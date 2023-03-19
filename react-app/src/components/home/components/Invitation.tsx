@@ -21,24 +21,7 @@ export default function Invitations() {
     const [invitations, setInvitations] = useState<InvitationType[]>([]);
 
     function updateInvitations() {
-        console.log("GetPendings");
-        socket.emit(
-            "getPendings",
-            { userId: userAuth.id },
-            (res: InvitationType[]) => {
-                console.log(res);
-                setInvitations(
-                    res.map((i: InvitationType) => {
-                        if (i.image === "")
-                            i.image =
-                                i.type === "Friend"
-                                    ? NoUserIcon
-                                    : NoChannelIcon;
-                        return i;
-                    })
-                );
-            }
-        );
+       
     }
 
     function handleInvitation(type: string, accept: boolean, id: number) {
@@ -47,18 +30,29 @@ export default function Invitations() {
         socket.emit(handleMessage, { id: id, accept: accept }, (res: any) => {
             console.log(res);
         });
-        // updateInvitations();
         setInvitations((state) =>
             state.filter((item) => !(item.type === type && item.id === id))
         );
     }
 
     useEffect(() => {
-        updateInvitations();
+        socket.emit("getPendings", { userId: userAuth.id },
+            (res: InvitationType[]) => { setInvitations(
+                res.map((i: InvitationType) => {
+                    if (i.image === "")
+                        i.image = i.type === "Friend" ? NoUserIcon : NoChannelIcon;
+                    return i;
+                    })
+                );
+            }
+        );
+        socket.on("friends", (friend) => setInvitations((state) => [...state, friend]));
+        return () => {socket.off("friends")};
     }, []);
 
     return (
-        <div className="invitations">
+        // <div className="invitations">
+        <div >
             {invitations.length === 0 && (
                 <span className="title noInvitation">
                     No pending invitations

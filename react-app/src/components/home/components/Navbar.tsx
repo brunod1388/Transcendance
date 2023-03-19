@@ -13,6 +13,7 @@ import {
     Feature,
     useFeature,
     ChannelDetailsType,
+    defaultChannel,
 } from "../../../context";
 import { useSocket } from "../../../hooks";
 import { ChannelType } from "../../../@types";
@@ -31,6 +32,11 @@ function Navbar() {
             "getChannels",
             { userid: userAuth.id, isPending: false },
             (chans: ChannelType[]) => {
+                if (channel.id !== 0 && chans.length != channels.length)
+                {
+                    setFeature(Feature.None);
+                    updateChannel(defaultChannel);
+                }
                 setChannels(chans);
             }
         );
@@ -40,7 +46,7 @@ function Navbar() {
         return () => {
             socket.off("Channels");
         };
-    }, [socket, channels]);
+    }, [socket, channels, channel.id]);
 
     function joinRoom(channel: ChannelDetailsType) {
         socket.emit(
@@ -84,6 +90,7 @@ function Navbar() {
             type: "channel",
             image: channel?.image ? channel.image : NoChannelIcon,
             room: "room-" + channel.id,
+            rights: "normal"
         };
         updateChannel(channelDetails);
         joinRoom(channelDetails);

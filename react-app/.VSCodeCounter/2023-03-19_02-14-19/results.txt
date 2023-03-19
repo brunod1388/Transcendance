@@ -1,0 +1,134 @@
+Date : 2023-03-19 02:14:19
+Directory : /Users/bruno1388/Desktop/trans/react-app/src
+Total : 82 files,  4074 codes, 262 comments, 568 blanks, all 4904 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| TypeScript JSX |         47 |      2,852 |        190 |        393 |      3,435 |
+| SCSS           |         17 |        925 |         43 |        111 |      1,079 |
+| TypeScript     |         18 |        297 |         29 |         64 |        390 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                            | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                               |         82 |      4,074 |        262 |        568 |      4,904 |
+| . (Files)                                                                                       |          2 |         65 |         23 |          9 |         97 |
+| @types                                                                                          |          9 |        224 |         31 |         61 |        316 |
+| @types (Files)                                                                                  |          6 |        217 |         30 |         57 |        304 |
+| @types/other                                                                                    |          3 |          7 |          1 |          4 |         12 |
+| assets                                                                                          |          5 |        202 |         11 |         29 |        242 |
+| assets/images                                                                                   |          1 |         16 |          0 |          1 |         17 |
+| assets/styles                                                                                   |          4 |        186 |         11 |         28 |        225 |
+| components                                                                                      |         36 |      2,105 |         50 |        231 |      2,386 |
+| components/chat                                                                                 |         13 |        791 |          5 |         64 |        860 |
+| components/chat (Files)                                                                         |          1 |         11 |          0 |          2 |         13 |
+| components/chat/components                                                                      |          6 |        451 |          2 |         34 |        487 |
+| components/chat/styles                                                                          |          6 |        329 |          3 |         28 |        360 |
+| components/home                                                                                 |         13 |        811 |         14 |         87 |        912 |
+| components/home (Files)                                                                         |          2 |         54 |          2 |          7 |         63 |
+| components/home/components                                                                      |          6 |        433 |          8 |         39 |        480 |
+| components/home/styles                                                                          |          5 |        324 |          4 |         41 |        369 |
+| components/invitations                                                                          |          2 |        113 |          6 |         18 |        137 |
+| components/notifications                                                                        |          4 |        148 |          0 |         22 |        170 |
+| components/pong                                                                                 |          4 |        242 |         25 |         40 |        307 |
+| context                                                                                         |          6 |        234 |          2 |         50 |        286 |
+| hooks                                                                                           |         15 |        554 |         30 |        100 |        684 |
+| hooks (Files)                                                                                   |          9 |        160 |         15 |         42 |        217 |
+| hooks/invitation                                                                                |          1 |        154 |          4 |         17 |        175 |
+| hooks/pong                                                                                      |          5 |        240 |         11 |         41 |        292 |
+| pages                                                                                           |          8 |        666 |        115 |         85 |        866 |
+| utils                                                                                           |          1 |         24 |          0 |          3 |         27 |
++-------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                                        | language       | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| /Users/bruno1388/Desktop/trans/react-app/src/@types/auth.types.ts                               | TypeScript     |         26 |         28 |         13 |         67 |
+| /Users/bruno1388/Desktop/trans/react-app/src/@types/chat.types.tsx                              | TypeScript JSX |         40 |          0 |          8 |         48 |
+| /Users/bruno1388/Desktop/trans/react-app/src/@types/index.ts                                    | TypeScript     |          7 |          0 |          1 |          8 |
+| /Users/bruno1388/Desktop/trans/react-app/src/@types/invitation.types.ts                         | TypeScript     |         40 |          0 |          9 |         49 |
+| /Users/bruno1388/Desktop/trans/react-app/src/@types/notifications.types.tsx                     | TypeScript JSX |         37 |          2 |         13 |         52 |
+| /Users/bruno1388/Desktop/trans/react-app/src/@types/other/MessageType.ts                        | TypeScript     |          5 |          0 |          1 |          6 |
+| /Users/bruno1388/Desktop/trans/react-app/src/@types/other/SetStateType.ts                       | TypeScript     |          2 |          0 |          2 |          4 |
+| /Users/bruno1388/Desktop/trans/react-app/src/@types/other/react-app-env.d.ts                    | TypeScript     |          0 |          1 |          1 |          2 |
+| /Users/bruno1388/Desktop/trans/react-app/src/@types/pong.types.tsx                              | TypeScript JSX |         67 |          0 |         13 |         80 |
+| /Users/bruno1388/Desktop/trans/react-app/src/App.tsx                                            | TypeScript JSX |         41 |         23 |          6 |         70 |
+| /Users/bruno1388/Desktop/trans/react-app/src/assets/images/index.ts                             | TypeScript     |         16 |          0 |          1 |         17 |
+| /Users/bruno1388/Desktop/trans/react-app/src/assets/styles/App.scss                             | SCSS           |         21 |          2 |          6 |         29 |
+| /Users/bruno1388/Desktop/trans/react-app/src/assets/styles/form.scss                            | SCSS           |        119 |          4 |         14 |        137 |
+| /Users/bruno1388/Desktop/trans/react-app/src/assets/styles/general.scss                         | SCSS           |         15 |          3 |          1 |         19 |
+| /Users/bruno1388/Desktop/trans/react-app/src/assets/styles/variables.scss                       | SCSS           |         31 |          2 |          7 |         40 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/chat/Chat.tsx                           | TypeScript JSX |         11 |          0 |          2 |         13 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/chat/components/AddContact.tsx          | TypeScript JSX |         74 |          0 |          6 |         80 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/chat/components/ChannelUsers.tsx        | TypeScript JSX |         81 |          1 |          4 |         86 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/chat/components/Feed.tsx                | TypeScript JSX |         82 |          0 |          8 |         90 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/chat/components/Message.tsx             | TypeScript JSX |         32 |          0 |          4 |         36 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/chat/components/User.tsx                | TypeScript JSX |         52 |          1 |          4 |         57 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/chat/components/UserMenu.tsx            | TypeScript JSX |        130 |          0 |          8 |        138 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/chat/styles/channelUsers.scss           | SCSS           |         43 |          1 |          3 |         47 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/chat/styles/chat.scss                   | SCSS           |         10 |          0 |          2 |         12 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/chat/styles/feed.scss                   | SCSS           |         67 |          1 |          4 |         72 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/chat/styles/invite.scss                 | SCSS           |         51 |          0 |          2 |         53 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/chat/styles/message.scss                | SCSS           |         53 |          0 |          7 |         60 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/chat/styles/user.scss                   | SCSS           |        105 |          1 |         10 |        116 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/home/Home.tsx                           | TypeScript JSX |         50 |          2 |          6 |         58 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/home/components/ChannelButton.tsx       | TypeScript JSX |         15 |          0 |          2 |         17 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/home/components/Friendbar.tsx           | TypeScript JSX |         50 |          0 |          6 |         56 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/home/components/Invitation.tsx          | TypeScript JSX |         83 |          1 |          8 |         92 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/home/components/Navbar.tsx              | TypeScript JSX |        122 |          0 |         10 |        132 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/home/components/NewChannel.tsx          | TypeScript JSX |         87 |          0 |          6 |         93 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/home/components/Topbar.tsx              | TypeScript JSX |         76 |          7 |          7 |         90 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/home/index.ts                           | TypeScript     |          4 |          0 |          1 |          5 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/home/styles/friendbar.scss              | SCSS           |         33 |          1 |          3 |         37 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/home/styles/home.scss                   | SCSS           |         77 |          0 |         12 |         89 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/home/styles/navbar.scss                 | SCSS           |         92 |          0 |          9 |        101 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/home/styles/settings.scss               | SCSS           |          9 |          0 |          1 |         10 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/home/styles/topbar.scss                 | SCSS           |        113 |          3 |         16 |        132 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/invitations/Invitation.tsx              | TypeScript JSX |        112 |          6 |         17 |        135 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/invitations/index.ts                    | TypeScript     |          1 |          0 |          1 |          2 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/notifications/NotificationBase.ts       | TypeScript     |         29 |          0 |          3 |         32 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/notifications/Notifications.tsx         | TypeScript JSX |         60 |          0 |          9 |         69 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/notifications/index.ts                  | TypeScript     |          2 |          0 |          1 |          3 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/notifications/notifications.module.scss | SCSS           |         57 |          0 |          9 |         66 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/pong/Ball.ts                            | TypeScript     |        120 |          0 |         20 |        140 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/pong/Pong.tsx                           | TypeScript JSX |         91 |          0 |         14 |        105 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/pong/index.ts                           | TypeScript     |          2 |          0 |          1 |          3 |
+| /Users/bruno1388/Desktop/trans/react-app/src/components/pong/pong.module.scss                   | SCSS           |         29 |         25 |          5 |         59 |
+| /Users/bruno1388/Desktop/trans/react-app/src/context/auth.context.tsx                           | TypeScript JSX |         51 |          0 |         10 |         61 |
+| /Users/bruno1388/Desktop/trans/react-app/src/context/chat.context.tsx                           | TypeScript JSX |         52 |          1 |         12 |         65 |
+| /Users/bruno1388/Desktop/trans/react-app/src/context/feature.context.tsx                        | TypeScript JSX |         32 |          0 |          9 |         41 |
+| /Users/bruno1388/Desktop/trans/react-app/src/context/index.ts                                   | TypeScript     |          5 |          0 |          1 |          6 |
+| /Users/bruno1388/Desktop/trans/react-app/src/context/notifications.context.tsx                  | TypeScript JSX |         81 |          1 |         12 |         94 |
+| /Users/bruno1388/Desktop/trans/react-app/src/context/socket.context.tsx                         | TypeScript JSX |         13 |          0 |          6 |         19 |
+| /Users/bruno1388/Desktop/trans/react-app/src/hooks/index.ts                                     | TypeScript     |          8 |          0 |          0 |          8 |
+| /Users/bruno1388/Desktop/trans/react-app/src/hooks/invitation/useInvitation.tsx                 | TypeScript JSX |        154 |          4 |         17 |        175 |
+| /Users/bruno1388/Desktop/trans/react-app/src/hooks/pong/index.ts                                | TypeScript     |          4 |          0 |          1 |          5 |
+| /Users/bruno1388/Desktop/trans/react-app/src/hooks/pong/useBall.tsx                             | TypeScript JSX |         70 |          3 |         11 |         84 |
+| /Users/bruno1388/Desktop/trans/react-app/src/hooks/pong/useGame.tsx                             | TypeScript JSX |         59 |          4 |         10 |         73 |
+| /Users/bruno1388/Desktop/trans/react-app/src/hooks/pong/useLoadGame.tsx                         | TypeScript JSX |         39 |          1 |          7 |         47 |
+| /Users/bruno1388/Desktop/trans/react-app/src/hooks/pong/usePaddle.tsx                           | TypeScript JSX |         68 |          3 |         12 |         83 |
+| /Users/bruno1388/Desktop/trans/react-app/src/hooks/useAxios.tsx                                 | TypeScript JSX |         31 |          0 |          7 |         38 |
+| /Users/bruno1388/Desktop/trans/react-app/src/hooks/useInterval.tsx                              | TypeScript JSX |         16 |          2 |          4 |         22 |
+| /Users/bruno1388/Desktop/trans/react-app/src/hooks/useKeyboard.tsx                              | TypeScript JSX |         24 |         10 |          7 |         41 |
+| /Users/bruno1388/Desktop/trans/react-app/src/hooks/useLocalStorage.ts                           | TypeScript     |         19 |          0 |          6 |         25 |
+| /Users/bruno1388/Desktop/trans/react-app/src/hooks/useQuery.tsx                                 | TypeScript JSX |         15 |          3 |          3 |         21 |
+| /Users/bruno1388/Desktop/trans/react-app/src/hooks/useSocket.tsx                                | TypeScript JSX |         16 |          0 |          5 |         21 |
+| /Users/bruno1388/Desktop/trans/react-app/src/hooks/useTimeout.tsx                               | TypeScript JSX |         16 |          0 |          4 |         20 |
+| /Users/bruno1388/Desktop/trans/react-app/src/hooks/useVisible.tsx                               | TypeScript JSX |         15 |          0 |          6 |         21 |
+| /Users/bruno1388/Desktop/trans/react-app/src/index.tsx                                          | TypeScript JSX |         24 |          0 |          3 |         27 |
+| /Users/bruno1388/Desktop/trans/react-app/src/pages/Enable2FA.tsx                                | TypeScript JSX |         82 |        110 |         16 |        208 |
+| /Users/bruno1388/Desktop/trans/react-app/src/pages/Login.tsx                                    | TypeScript JSX |         87 |          1 |         12 |        100 |
+| /Users/bruno1388/Desktop/trans/react-app/src/pages/Main.tsx                                     | TypeScript JSX |         52 |          3 |          8 |         63 |
+| /Users/bruno1388/Desktop/trans/react-app/src/pages/Play.tsx                                     | TypeScript JSX |         92 |          0 |          8 |        100 |
+| /Users/bruno1388/Desktop/trans/react-app/src/pages/Settings.tsx                                 | TypeScript JSX |        191 |          1 |         18 |        210 |
+| /Users/bruno1388/Desktop/trans/react-app/src/pages/Subscribe.tsx                                | TypeScript JSX |        101 |          0 |         12 |        113 |
+| /Users/bruno1388/Desktop/trans/react-app/src/pages/Verify2FA.tsx                                | TypeScript JSX |         54 |          0 |         10 |         64 |
+| /Users/bruno1388/Desktop/trans/react-app/src/pages/index.ts                                     | TypeScript     |          7 |          0 |          1 |          8 |
+| /Users/bruno1388/Desktop/trans/react-app/src/utils/pong.utils.tsx                               | TypeScript JSX |         24 |          0 |          3 |         27 |
+| Total                                                                                           |                |      4,074 |        262 |        568 |      4,904 |
++-------------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
