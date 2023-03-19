@@ -26,6 +26,12 @@ function Friendbar() {
         <div className="friendBar">
             <span className="title">Friends</span>
             <div className="friends">
+				<User
+                        user={usr}
+                        isPrivate={true}
+                        keyId={`d${-1000}`}
+                        key={-1000}
+                    />
                 {friends.map((friend, i) => (
                     <User
                         user={friend}

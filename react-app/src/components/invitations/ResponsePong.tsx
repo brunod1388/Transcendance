@@ -4,16 +4,17 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { joinGame } from "../../utils";
 import { useFeature } from "../../context";
 import { Feature } from "../../context";
+import {Socket} from "socket.io-client";
 
 interface Props {
     room: string;
     accepted: number;
     onDisplay: (result: boolean) => void;
+	socket: Socket
 }
 
-export function ResponsePong({ room, accepted, onDisplay }: Props) {
+export function ResponsePong({ room, accepted, onDisplay, socket }: Props) {
     const { setFeature } = useFeature();
-    const [socket] = useSocket();
     const [searchParams, setSearchParams] = useSearchParams();
 
     const activatePong = (roomName: string) => {

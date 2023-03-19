@@ -39,7 +39,7 @@ function failure(error: any) {
     console.log(error.config);
 }
 
-export function sendInvitation(type: string, from: number, to: string) {
+export function sendInvitation(type: string, from: number, to: string, socket: Socket) {
     // was being converted to string for no reason
     let invitation: InvitationType = {
         type,
@@ -47,24 +47,17 @@ export function sendInvitation(type: string, from: number, to: string) {
         to,
         room: createId(),
     };
-
-    console.log("send");
-    axios
-        .post(invitation_url, invitation)
-        .then((response) => sucess(response))
-        .catch((error) => failure(error));
+	socket.emit("invitation", invitation);
+	
 }
 
 export function sendResponse(
     statut: number,
     type: string,
     to: number,
-    room: string
+    room: string,
+	socket: Socket
 ) {
     let response: ResponseDTO = { type, to, statut: Number(statut), room };
-    console.log("send");
-    axios
-        .post(response_url, response)
-        .then((response) => sucess(response))
-        .catch((error) => failure(error));
+	socket.emit("response", response);
 }

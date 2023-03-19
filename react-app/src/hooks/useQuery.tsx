@@ -8,10 +8,7 @@ export function useQuery(name: string): string {
 
     useEffect(() => {
         let tmp = new URLSearchParams(search).get(name)?.toString();
-        if (tmp === undefined) {
-            throw new Error("Failed to get the query, from the url!");
-        } else {
-            // console.log(tmp);
+        if (tmp !== undefined) {
             setQuery(tmp);
         }
     }, [search, name]);

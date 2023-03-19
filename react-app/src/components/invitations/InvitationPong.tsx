@@ -7,16 +7,17 @@ import { joinGame, sendResponse } from "../../utils";
 import { useFeature } from "../../context";
 import { useSearchParams } from "react-router-dom";
 import { Feature } from "../../context";
+import {Socket} from "socket.io-client";
 
 interface Props {
     invitation: InvitationDTO;
     id: string;
     onDisplay: (result: boolean) => void;
+	socket: Socket
 }
 
 // This notification contains two button to respond to the invitation,
-export function InvitationPong({ id, invitation, onDisplay }: Props) {
-    const [socket] = useSocket();
+export function InvitationPong({ id, invitation, onDisplay, socket }: Props) {
     const { setFeature } = useFeature();
     const dispatch = useNotificationsDispatch();
     const [searchParams, setSearchParams] = useSearchParams();
@@ -31,7 +32,7 @@ export function InvitationPong({ id, invitation, onDisplay }: Props) {
     }, 3000);
 
     const onClose = (statut: number = NONE) => {
-        sendResponse(statut, "pong", invitation.from, invitation.room);
+        sendResponse(statut, "pong", invitation.from, invitation.room, socket);
         if (statut === ACCEPTED) {
             console.log(invitation.room);
             joinGame(socket, invitation.room, activatePong);

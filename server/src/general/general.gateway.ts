@@ -8,6 +8,8 @@ import { OnModuleInit } from "@nestjs/common";
 import { BroadcastDTO } from "src/general/dto/Broadcast.dto";
 import { GeneralService } from "./general.service";
 import { GameEndDTO } from "src/general/dto/GameEnd.dto";
+import { InvitationDto } from "./dto/invitation.dto";
+import { ResponseDto } from "./dto/response.dto";
 
 @WebSocketGateway({ cors: { origin: ["http://localhost:9000"] } })
 export class GeneralGateway implements OnModuleInit {
@@ -52,5 +54,19 @@ export class GeneralGateway implements OnModuleInit {
     @SubscribeMessage("game-end")
     handleGameEnd(client: Socket, gameEndDTO: GameEndDTO) {
         this.generalService.gameEnd();
+    }
+
+	@SubscribeMessage("invitation")
+    handleInvitation(client: Socket, invitation: InvitationDto) {
+       this.server.emit("invitation", invitation);
+    }
+
+	@SubscribeMessage("response")
+    handleResponse(client: Socket, response: ResponseDto) {
+       this.server.emit("response", response);
+    }
+	@SubscribeMessage("joinPong")
+    handleJoinPong(client: Socket, room: string) {
+       this.server.to(room).emit("joinPong");
     }
 }

@@ -4,11 +4,13 @@ import { DispatchType, ResponseDTO } from "../../@types";
 import { ResponsePong } from "./ResponsePong";
 import { useEffect, useState } from "react";
 import { removeNotification } from "../../utils";
+import {Socket} from "socket.io-client";
 
-export function CreateResponse(response: ResponseDTO, dispatch: DispatchType) {
+
+export const CreateResponse = (response: ResponseDTO, dispatch: DispatchType, socket: Socket) => {
     const id = createId();
     const content = () => (
-        <Response id={id} response={response} dispatch={dispatch} />
+        <Response id={id} response={response} dispatch={dispatch} socket={socket} />
     );
     addNotification(id, response.type, content, dispatch);
     return null;
@@ -18,9 +20,10 @@ interface Props {
     id: string;
     response: ResponseDTO;
     dispatch: DispatchType;
+	socket: Socket
 }
 
-function Response({ id, response, dispatch }: Props) {
+function Response({ id, response, dispatch, socket }: Props) {
     const [isDisplay, setIsDisplay] = useState(true);
 
     const onDisplay = (result: boolean) => {
@@ -40,6 +43,7 @@ function Response({ id, response, dispatch }: Props) {
                     room={response.room}
                     accepted={response.statut}
                     onDisplay={onDisplay}
+					socket={socket}
                 />
             )}
         </>

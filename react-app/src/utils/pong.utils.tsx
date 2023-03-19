@@ -22,7 +22,6 @@ export function leaveGame(
         new Broadcast(room, "game-player-left", socket.id)
     );
     socket.emit("leave", room);
-    navigate("/home");
 }
 
 export function joinGame(
@@ -34,6 +33,7 @@ export function joinGame(
     if (socket !== undefined) {
         socket.emit("join", room);
         socket.emit("game-join", room);
+		socket.emit("joinPong", room);
         activatePong(room);
     }
 }

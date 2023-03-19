@@ -3,14 +3,16 @@ import { useState, useEffect } from "react";
 import { removeNotification, createId, addNotification } from "../../utils";
 import { InvitationDTO, DispatchType } from "../../@types";
 import { InvitationPong } from "./InvitationPong";
+import {Socket} from "socket.io-client";
 
-export function CreateInvitation(
+export const CreateInvitation = (
     invitation: InvitationDTO,
-    dispatch: DispatchType
-) {
+    dispatch: DispatchType,
+	socket: Socket
+) => {
     const id = createId();
     const content = () => (
-        <Invitation id={id} invitation={invitation} dispatch={dispatch} />
+        <Invitation id={id} invitation={invitation} dispatch={dispatch} socket={socket}/>
     );
     addNotification(id, invitation.type, content, dispatch);
 
@@ -21,9 +23,10 @@ interface Props {
     id: string;
     dispatch: DispatchType;
     invitation: InvitationDTO;
+	socket: Socket
 }
 
-function Invitation({ id, invitation, dispatch }: Props) {
+function Invitation({ id, invitation, dispatch, socket }: Props) {
     const [isDisplay, setIsDisplay] = useState(true);
 
     const onDisplay = (result: boolean) => {
@@ -43,6 +46,7 @@ function Invitation({ id, invitation, dispatch }: Props) {
                     id={id}
                     invitation={invitation}
                     onDisplay={onDisplay}
+					socket={socket}
                 />
             )}
         </>

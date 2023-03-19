@@ -11,6 +11,7 @@ interface Props {
 
 export default function UserMenu({ user }: Props) {
     const { userAuth } = useAuth();
+	const [socket] = useSocket();
 
     return (
         <div className="userMenu">
@@ -27,7 +28,7 @@ export default function UserMenu({ user }: Props) {
                 <button
                     className="Play"
                     onClick={() =>
-                        sendInvitation("pong", userAuth.id, user.username)
+                        sendInvitation("pong", userAuth.id, user.username, socket)
                     }
                 >
                     Play

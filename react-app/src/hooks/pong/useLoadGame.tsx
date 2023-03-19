@@ -7,7 +7,8 @@ import { leaveGame } from "../../utils/pong.utils";
 
 export function useLoadGame(
     room: string,
-    navigate: NavigateFunction
+    navigate: NavigateFunction,
+	onEnd: () => void
 ): [string, boolean, boolean] {
     const [socket] = useSocket();
     const [host, setHost] = useState(false);
@@ -41,6 +42,7 @@ export function useLoadGame(
         window.addEventListener(
             "popstate",
             (e: PopStateEvent) => {
+				onEnd();
                 leaveGame(socket, room, navigate);
             },
             { once: true }

@@ -44,7 +44,7 @@ export function Pong(props: PropsMain) {
     const room = useQuery("room"); // room id
     const [socket] = useSocket();
     const navigate = useNavigate();
-    const [opponent, host, isLoading] = useLoadGame(room, navigate);
+    const [opponent, host, isLoading] = useLoadGame(room, navigate, props.onEnd);
 
     useTimeout(() => {
         if (isLoading) {
@@ -55,6 +55,9 @@ export function Pong(props: PropsMain) {
     if (isLoading) {
         return <div>Loading</div>;
     }
+	else if (room === "") {
+		return <></>;
+	}
     return (
         <Game room={room} host={host} opponent={opponent} onEnd={props.onEnd} />
     );
