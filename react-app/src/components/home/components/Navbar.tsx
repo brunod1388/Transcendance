@@ -51,12 +51,11 @@ function Navbar() {
         socket.emit(
             "joinRoom",
             { userid: userAuth.id, channelid: channel.id },
-            (res: string) => console.log(res)
         );
     }
 
     function leaveRoom() {
-        socket.emit("leaveRoom", { channelid: channel.id }, (res: string) =>
+        socket.emit("leaveRoom", { userid: userAuth.id, channelid: channel.id }, (res: string) =>
             console.log(res)
         );
         channel.room = "";

@@ -47,7 +47,7 @@ export class ChatGateway {
     ) {}
 
     @WebSocketServer()
-    server;
+    server: Server;
 
     connectedUser = new Map<number, Socket>();
 
@@ -61,17 +61,24 @@ export class ChatGateway {
             id: channelid,
             nb: 10,
         });
-        client.emit("NLastMessage", messages);
+        // this.connectedUser.set(userId, client);
+        // console.log("map:", this.connectedUser)
+        // client.emit("NLastMessage", messages);
         client.join("room-" + channelid);
         return "room-" + channelid + " joined";
     }
 
     @SubscribeMessage("leaveRoom")
     leaveRoom(
+        @MessageBody("userid") userid: number,
         @MessageBody("channelid") channelid: number,
         @ConnectedSocket() client: Socket
-    ) {
-        client.leave("room-" + channelid);
+        ) {
+            // console.log("room-" + channelid);
+            // console.log("socket.id: ", client.id)
+            // this.connectedUser.delete(userid)
+            // console.log("map:", this.connectedUser)
+            client.leave("room-" + channelid);
         return "room-" + channelid + " left";
     }
 
@@ -282,12 +289,14 @@ export class ChatGateway {
     @SubscribeMessage("connection")
     async handleConnection(@ConnectedSocket() client: Socket) {
         console.log("Connection of    ", client.id);
-        // console.log("client: ", client)
-        // console.log("server: ", this.server)
     }
 
     @SubscribeMessage("disconnect")
     async handleDisconnect(@ConnectedSocket() client: Socket) {
         console.log("Disconnection of ", client.id);
+    }
+
+    afterInit(server: Server) {
+        console.log('Socket.IO server initialized');
     }
 }
