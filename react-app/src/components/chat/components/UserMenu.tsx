@@ -68,12 +68,7 @@ export default function UserMenu(props: Props) {
     }
 
     function play(user: UserType) {
-        sendInvitation(
-            "pong",
-            userAuth.id,
-            user.username,
-            socket
-        )
+        sendInvitation("pong", userAuth.id, user.username, socket);
     }
 
     function mute(userId: number) {}
@@ -86,7 +81,9 @@ export default function UserMenu(props: Props) {
                 <div className="btnContainer">
                     <button
                         className="askFriend button-purple"
-                        onClick={() => { inviteFriend(user.id) }}
+                        onClick={() => {
+                            inviteFriend(user.id);
+                        }}
                     >
                         Friend
                     </button>
@@ -101,7 +98,9 @@ export default function UserMenu(props: Props) {
                 <div className="btnContainer">
                     <button
                         className="Play button-purple"
-                        onClick={() => { play(user) }}
+                        onClick={() => {
+                            play(user);
+                        }}
                     >
                         Play
                     </button>
