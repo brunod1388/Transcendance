@@ -52,6 +52,13 @@ export default function UserMenu(props: Props) {
 
     function quitChannel(channelUserId: number | undefined) {
         if (channelUserId !== undefined)
+            // socket.emit(
+            //     "updateChannelUser",
+            //     { id: channelUserId, accept: false },
+            //     (res: string) => {
+            //         setFeature(Feature.None);
+            //     }
+            // );
             socket.emit(
                 "deleteChannelUser",
                 { id: channelUserId },

@@ -210,7 +210,7 @@ export class ChatGateway {
                     .emit("ChannelUser", user);
             return channelUser;
         }
-        this.server.to(ROOM_PREFIX + channelUser.channel.id).emit("removeChannelUser", channelUserId);
+        this.server.to(ROOM_PREFIX + channelUser.channel.id).emit("RemoveChannelUser", channelUserId);
         const res = await this.channelUserService.deleteChannelUser(
             channelUserId
         );
@@ -219,8 +219,13 @@ export class ChatGateway {
 
     @SubscribeMessage("deleteChannelUser")
     async deleteChannelUser(@MessageBody("id") id: number): Promise<string> {
+        console.log("deleteChannelUser: ", id);
         const channelUser = await this.channelUserService.findChannelUserById(Number(id));
-        this.server.to(ROOM_PREFIX + channelUser.channel.id).emit("removeChannelUser", channelUser.id);
+        console.log("channelUser: ", channelUser);
+        console.log("ROOM_PREFIX + channelUser.channel.id: ", ROOM_PREFIX + channelUser.channel.id)
+        this.server
+            .to(ROOM_PREFIX + channelUser.channel.id)
+            .emit("RemoveChannelUser", channelUser.id);
         console.log("channelUser id: ", channelUser.id, " deleted")
         return await this.channelUserService.deleteChannelUser(Number(id));
     }
@@ -326,6 +331,7 @@ export class ChatGateway {
             modifiedAt: newMessage.modifiedAt,
         };
         this.server.to(room).emit("messageListener", message);
+        console.log("room: ", room, " message: ", message, " sent")
         return "message created";
     }
 

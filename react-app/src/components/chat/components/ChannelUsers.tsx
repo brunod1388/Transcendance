@@ -23,31 +23,29 @@ export default function ChannelUsers() {
                     (user) => user.id === userAuth.id
                 )?.rights;
                 updateChannel({ ...channel, rights: String(rights) });
-                console.log(" get channel user current users", users)
-                console.log(" get channel user current users", users)
             }
             );
         socket.on("ChannelUser", (user: UserType) => {
             setUsers((state) => {
-                const chanIndex = users.findIndex((c) => c.channelUserId === user.channelUserId);
+                const chanIndex = state.findIndex((c) => c.channelUserId === user.channelUserId);
                 const newUsers = [...state];
                 chanIndex === -1 ? newUsers.push(user) : newUsers[chanIndex] = user;
                 return newUsers
             });
-        });
-        socket.on("removeChannelUser", (channelUserId: number) => {
+        })
+        .on("RemoveChannelUser", (channelUserId: number) => {
             setUsers((state) => {
-                const chanIndex = users.findIndex((c) => c.channelUserId === channelUserId);
+                const chanIndex = state.findIndex((user) => user.channelUserId === channelUserId);
                 if (chanIndex === -1)
-                    return state
+                    return [...state]
                 const newUsers = [...state];
-                newUsers.slice(chanIndex, 1);
+                newUsers.splice(chanIndex, 1);
                 return newUsers;
             });
         });
         return () => {
             socket.off("ChannelUser");
-            socket.off("removeChannelUser");
+            socket.off("RemoveChannelUser");
         };
     }, [socket, channel.id]);
 
