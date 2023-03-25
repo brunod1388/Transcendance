@@ -11,38 +11,46 @@ export default function ChannelUsers() {
     const [socket] = useSocket();
     const { userAuth } = useAuth();
     const [searchUser, setSearchUser] = useState<UserType>();
-    const [admins, setAdmins] = useState<UserType[]>([]);
     const [users, setUsers] = useState<UserType[]>([]);
-    const [selected, setSelected] = useState(""); //use userId when emplemented
 
     useEffect(() => {
         socket.emit(
             "getChannelUsers",
             { channelId: channel.id },
             (users: UserType[]) => {
-                setAdmins(users.filter((usr) => usr.rights === "admin"));
-                setUsers(users.filter((usr) => usr.rights === "normal"));
+                setUsers(users);
                 const rights = users.find(
                     (user) => user.id === userAuth.id
                 )?.rights;
-                console.log({ ...channel, rights: String(rights) });
                 updateChannel({ ...channel, rights: String(rights) });
+                console.log(" get channel user current users", users)
+                console.log(" get channel user current users", users)
             }
-        );
-        setSelected("");
-        socket.on("ChannelUsers", (users: UserType[]) => {
-            setUsers(users);
-            console.log(users);
+            );
+        socket.on("ChannelUser", (user: UserType) => {
+            setUsers((state) => {
+                const chanIndex = users.findIndex((c) => c.channelUserId === user.channelUserId);
+                const newUsers = [...state];
+                chanIndex === -1 ? newUsers.push(user) : newUsers[chanIndex] = user;
+                return newUsers
+            });
+        });
+        socket.on("removeChannelUser", (channelUserId: number) => {
+            setUsers((state) => {
+                const chanIndex = users.findIndex((c) => c.channelUserId === channelUserId);
+                if (chanIndex === -1)
+                    return state
+                const newUsers = [...state];
+                newUsers.slice(chanIndex, 1);
+                return newUsers;
+            });
         });
         return () => {
-            socket.off("ChannelUsers");
+            socket.off("ChannelUser");
+            socket.off("removeChannelUser");
         };
-    }, [channel.id, socket]);
+    }, [socket, channel.id]);
 
-    function updateSelected(prefix: string, id: number) {
-        const key = prefix + `-${id}`;
-        setSelected(selected === key ? "" : key);
-    }
     return (
         <div className="ChannelUsers">
             <div className="search">
@@ -50,34 +58,21 @@ export default function ChannelUsers() {
                     <input type="text" placeholder="type a user" />
                 </div>
                 {searchUser !== undefined && (
-                    <User
-                        user={searchUser}
-                        onClick={() => updateSelected("search", 0)}
-                        selected={selected === "search-0"}
-                        type="channelUser"
-                    />
+                    <User user={searchUser} type="channelUser" />
                 )}
             </div>
             <div className="users">
-                {admins.length > 0 && <span className="title">Admin</span>}
-                {admins.map((user, i) => (
-                    <User
-                        user={user}
-                        key={`admin-${i}`}
-                        onClick={() => updateSelected("admin", i)}
-                        selected={selected === `admin-${i}`}
-                        type="channelUser"
-                    />
+                {users.filter((user) => user.rights === "admin").length > 0 &&
+                    <span className="title">Admin</span>
+                }
+                {users.filter((user) => user.rights === "admin").map((user, i) => (
+                    <User user={user} key={`admin-${i}`} type="channelUser" />
                 ))}
-                {users.length > 0 && <span className="title">Users</span>}
-                {users.map((user, i) => (
-                    <User
-                        user={user}
-                        key={`user-${i}`}
-                        onClick={() => updateSelected("user", i)}
-                        selected={selected === `user-${i}`}
-                        type="channelUser"
-                    />
+                {users.filter((usr) => usr.rights === "normal").length > 0 && 
+                    <span className="title">Users</span>
+                }
+                {users.filter((user) => user.rights === "normal").map((user, i) => (
+                    <User user={user} key={`user-${i}`} type="channelUser" />
                 ))}
             </div>
             {channel.type === "channel" && (

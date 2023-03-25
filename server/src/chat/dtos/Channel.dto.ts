@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber, IsString, ValidateIf } from "class-validator";
 import { ChannelType } from "../entities/Channel.entity";
-import { BlockedUser, ChannelUser, Message, MutedUser } from "../entities";
+import { ChannelUser, Message } from "../entities";
 import { User } from "src/users/entities/User.entity";
 
 export class CreateChannelDto {
@@ -47,9 +47,6 @@ export interface ChannelDto {
     type?: ChannelType;
     owner?: User;
     messages?: Message[];
-    channelUsers?: ChannelUser[];
-    blockedUsers?: BlockedUser[];
-    mutedUsers?: MutedUser[];
     creationDate?: Date;
     password?: string;
 }

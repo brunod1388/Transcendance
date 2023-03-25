@@ -7,59 +7,33 @@ import {
 } from "../../../assets/images";
 import { useSocket } from "../../../hooks";
 import { useAuth } from "../../../context";
+import { ChatInvitationType } from "../../../@types";
 
-interface InvitationType {
-    id: number;
-    type: "Friend" | "Channel";
-    name: string;
-    image: string;
-}
+type Props = {
+    invitations: ChatInvitationType[];
+    setInvitations: React.Dispatch<React.SetStateAction<ChatInvitationType[]>>;
+    setNotif: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-export default function Invitations() {
+export default function Invitations(props: Props) {
+    const { invitations, setInvitations, setNotif } = props;
     const { userAuth } = useAuth();
     const [socket] = useSocket();
-    const [invitations, setInvitations] = useState<InvitationType[]>([]);
-
-    function updateInvitations() {}
 
     function handleInvitation(type: string, accept: boolean, id: number) {
         const handleMessage =
             type === "Friend" ? "updateFriend" : "updateChannelUser";
+            console.log("handleMessage: ", handleMessage)
         socket.emit(handleMessage, { id: id, accept: accept }, (res: any) => {
             console.log(res);
+            if (invitations.length === 1) setNotif(false);
+            setInvitations((state) =>
+                state.filter((item) => !(item.type === type && item.id === id))
+            );
         });
-        setInvitations((state) =>
-            state.filter((item) => !(item.type === type && item.id === id))
-        );
     }
 
-    useEffect(() => {
-        socket.emit(
-            "getPendings",
-            { userId: userAuth.id },
-            (res: InvitationType[]) => {
-                setInvitations(
-                    res.map((i: InvitationType) => {
-                        if (i.image === "")
-                            i.image =
-                                i.type === "Friend"
-                                    ? NoUserIcon
-                                    : NoChannelIcon;
-                        return i;
-                    })
-                );
-            }
-        );
-        socket.on("pendings", (friend) =>
-            setInvitations((state) => [...state, friend])
-        );
-        return () => {
-            socket.off("friends");
-        };
-    }, []);
-
     return (
-        // <div className="invitations">
         <div>
             {invitations.length === 0 && (
                 <span className="title noInvitation">

@@ -1,4 +1,5 @@
 @import "../../../assets/styles/variables.scss";
+@import "../../../assets/styles/background/purple2.scss";
 
 .feed {
 	display: flex;
@@ -17,6 +18,10 @@
 		display: flex;
 		flex-direction: column-reverse;
 		// justify-content: flex-end;
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-image: url($bg-purple2);
 	}
 	.input {
 		background-color: white;

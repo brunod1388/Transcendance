@@ -1,7 +1,13 @@
 @import "../../../assets/styles/variables.scss";
-@import "../../../assets/styles/general.scss";
 
 $userImage-size: 22px;
+
+// *,
+// *::before,
+// *::after {
+//   box-sizing: border-box;
+// }
+
 
 .userChat {
 	color: white;
@@ -56,60 +62,6 @@ $userImage-size: 22px;
 				height: 12px;
 				border-radius: 50%;
 				background-color: rgb(116, 175, 238);
-			}
-		}
-	}
-
-	.userMenu {
-		display:flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: center;
-		gap: 7px;
-		border-radius: 8px;
-		padding: 8px;
-		button {
-			width: 65px;
-			border-radius: 5px;
-			padding: 2px;
-		}
-
-		.long {
-			width: 137px;
-		}
-
-		.red-button {
-			background-color: #d4495c;
-			&:hover {
-				background-color: #692d35;
-				color: white;
-			}
-		}
-		.btnContainer {
-
-			position: relative;
-			// z-index: 100;
-			
-			.askFriend {
-				z-index: 1;
-			}
-			.message {
-				background-color: pink;
-				padding: 5px;
-				position: absolute;
-				bottom: 5px;
-				width: 130px;
-				background-color: $purple;
-				opacity: 0.9;
-				border-radius: 5px;
-				font-style: italic;
-				font-size: 14px;
-				color: $dark-grey;
-				animation: slideUp 3s;
-				z-index: 0;
-				display: flex;
-				align-items: center;
 			}
 		}
 	}

@@ -40,4 +40,5 @@ export interface ChannelUserDTO {
     channel?: Channel;
     rights?: rightType;
     isPending?: boolean;
+    type?: "channelUser";
 }

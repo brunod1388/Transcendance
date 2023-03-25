@@ -14,3 +14,5 @@ export { default as NoUserIcon } from "./user.png";
 export { default as Bell } from "./bell.png";
 export { default as Accept } from "./accept.png";
 export { default as Decline } from "./decline.png";
+export { default as Delete } from "./delete.png";
+export { default as Edit } from "./edit.png";

@@ -36,6 +36,7 @@ export interface UserType {
     rights?: channelRightType;
     channelUserId?: number;
     friendId?: number;
+    connected?: boolean;
 }
 
 export interface MessageType {
@@ -46,4 +47,18 @@ export interface MessageType {
     modifiedAt: Date;
 }
 
+export interface CreateChannelDto {
+    ownerId: number;
+    name: string;
+    type: ChannelType;
+    password: string;
+}
+
 export type UserPlateType = "channelUser" | "friend" | "direct";
+
+export interface ChatInvitationType {
+    id: number;
+    type: "Friend" | "Channel";
+    name: string;
+    image: string;
+}

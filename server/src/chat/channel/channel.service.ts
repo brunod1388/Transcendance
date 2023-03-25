@@ -14,12 +14,15 @@ export class ChannelService {
         private channelRepository: Repository<Channel>,
         @InjectRepository(User)
         private userRepository: Repository<User>,
-        private userService: UsersService,
-        private channelUserService: ChannelUserService
+        private userService: UsersService
     ) {}
 
-    findChannelById(id: number) {
-        return this.channelRepository.findOne({
+    async getAllChannels(): Promise<Channel[]> {
+        return await this.channelRepository.find();
+    }
+
+    async findChannelById(id: number) {
+        return await this.channelRepository.findOne({
             where: { id: id },
             select: {
                 id: true,

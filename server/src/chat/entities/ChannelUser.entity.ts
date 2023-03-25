@@ -4,14 +4,22 @@ import {
     PrimaryGeneratedColumn,
     ManyToOne,
     Index,
+    OneToOne,
+    JoinTable,
 } from "typeorm";
-
 import { Channel } from "./Channel.entity";
 import { User } from "../../users/entities/User.entity";
+import { Penality } from "./Penality.entity";
 
 export enum rightType {
     NORMAL = "normal",
     ADMIN = "admin",
+}
+
+export enum MuteOrBlock {
+    None,
+    Mute,
+    Block,
 }
 
 @Entity({ name: "channelUsers" })
@@ -31,4 +39,8 @@ export class ChannelUser {
 
     @Column()
     isPending: boolean;
+
+    @OneToOne(() => Penality, (penality) => penality.channelUser)
+    @JoinTable()
+    penality: Penality;
 }

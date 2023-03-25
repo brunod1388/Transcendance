@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 
 import { User } from "../../users/entities/User.entity";
-import { BlockedUser, ChannelUser, Message, MutedUser } from "../entities";
+import { ChannelUser, Message } from "../entities";
 
 // to put in a dto
 export enum ChannelType {
@@ -42,12 +42,6 @@ export class Channel {
 
     @OneToMany(() => Message, (message) => message.channel)
     messages: Message[];
-
-    @OneToMany(() => MutedUser, (mutedUser) => mutedUser.channel)
-    mutedUsers: MutedUser[];
-
-    @OneToMany(() => BlockedUser, (blockedUser) => blockedUser.channel)
-    blockedUsers: BlockedUser[];
 
     @OneToMany(() => ChannelUser, (channelUser) => channelUser.channel)
     channelUsers: ChannelUser[];

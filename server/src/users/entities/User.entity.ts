@@ -4,8 +4,6 @@ import { Channel } from "../../chat/entities/Channel.entity";
 import { Friend } from "./Friend.entity";
 // import { Match } from "./Match.entity";
 import { Message } from "../../chat/entities/Message.entity";
-import { MutedUser } from "../../chat/entities/MutedUser.entity";
-import { BlockedUser } from "../../chat/entities/BlockedUser.entity";
 import { ChannelUser } from "../../chat/entities/ChannelUser.entity";
 
 // The name provided here will be used as the table name in the db
@@ -56,12 +54,6 @@ export class User {
 
     @OneToMany(() => Message, (message) => message.creator)
     messages: Message[];
-
-    @OneToMany(() => MutedUser, (mutedUser) => mutedUser.user)
-    mutedUsers: MutedUser[];
-
-    @OneToMany(() => BlockedUser, (blockedUser) => blockedUser.user)
-    blockedUsers: BlockedUser[];
 
     @OneToMany(() => ChannelUser, (channelUser) => channelUser.user)
     channelUsers: ChannelUser[];

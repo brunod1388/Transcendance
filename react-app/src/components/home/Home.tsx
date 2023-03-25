@@ -28,8 +28,9 @@ function Home() {
     const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
+        socket.emit("chatConnection", { userid: userAuth.id });
         socket.emit("getChannels", { userid: userAuth.id, isPendng: false });
-    }, [userAuth.id]);
+    }, [userAuth.id, socket]);
 
     useEffect(() => {
         socket.on("invitation", (invitation: InvitationDTO) => {

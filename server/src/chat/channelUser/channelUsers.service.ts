@@ -19,7 +19,7 @@ export class ChannelUserService {
         private channelService: ChannelService
     ) {}
 
-    async createChannelUser(channelUserDetails: CreateChannelUserDto) {
+    async createChannelUser(channelUserDetails: CreateChannelUserDto): Promise<ChannelUser> {
         const user = await this.userService.findUserId(
             channelUserDetails.userId
         );
@@ -35,21 +35,21 @@ export class ChannelUserService {
             const channelUser = await this.channelUserRepository.save(
                 newChannelUser
             );
-            return "User " + channelUser.user.username + " invited";
+            return channelUser;
         } catch (error) {
-            if (
-                "ExecConstraints" === error.routine ||
-                "_bt_check_unique" === error.routine
-            )
-                return "ChannelUser already exist or is pending";
-            return "something went wrong";
+            // if (
+            //     "ExecConstraints" === error.routine ||
+            //     "_bt_check_unique" === error.routine
+            // )
+            //     return "ChannelUser already exist or is pending";
+            return undefined;
         }
     }
 
     async getChannelUsers(
         channelId: number,
         isPending: boolean
-    ): Promise<ChannelUserDTO[]> {
+    ): Promise<ChannelUser[]> {
         const channelUsers = await this.channelUserRepository.find({
             relations: {
                 user: true,
@@ -69,10 +69,29 @@ export class ChannelUserService {
         return channelUsers;
     }
 
+    async findChannelUserById(channelUserId: number): Promise<ChannelUser> {
+        const channelUsers = await this.channelUserRepository.findOne({
+            relations: {
+                user: true,
+                channel: true,
+            },
+            where: {
+                id: channelUserId,
+            },
+            select: {
+                id: true,
+                user: { id: true, username: true, avatar: true },
+                channel: { id: true, name: true, image: true },
+                rights: true,
+            },
+        });
+        return channelUsers;
+    }
+
     async getChannelUsersByUserId(
         userId: number,
         isPending: boolean
-    ): Promise<ChannelUserDTO[]> {
+    ): Promise<ChannelUser[]> {
         const channelUsers = await this.channelUserRepository.find({
             relations: {
                 user: true,
@@ -94,22 +113,33 @@ export class ChannelUserService {
 
     async updateChannelUser(
         channelUserDetails: ChannelUserDTO
-    ): Promise<string> {
+    ): Promise<ChannelUser | undefined> {
         const {
             id,
             isPending = false,
             rights = rightType.NORMAL,
         } = channelUserDetails;
         const channelUser = await this.channelUserRepository.findOne({
+            relations: {
+                channel: true,
+                user: true,
+            },
             where: {
                 id: id,
             },
+            select: {
+                id: true,
+                channel: { id: true },
+                user: { id: true, username: true, avatar: true },
+                rights: true,
+                isPending: true,
+            },
         });
-        if (channelUser === undefined) return "ChannelUser does not exist";
+        if (channelUser === undefined) return undefined;
         channelUser.isPending = isPending;
         channelUser.rights = rights;
         await this.channelUserRepository.save(channelUser);
-        return "ChannelUser updated";
+        return channelUser;
     }
 
     async deleteChannelUser(id: number): Promise<string> {

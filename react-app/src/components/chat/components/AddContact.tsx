@@ -22,37 +22,18 @@ export default function AddContact(props: Props) {
 
     function inviteContact() {
         console.log(props.type);
-        if (props.type === "friend") {
-            console.log("invite friend");
-            socket.emit(
-                "inviteFriend",
-                {
-                    userid: userAuth.id,
-                    friendname: inviteName,
-                },
-                (res: any) => {
-                    setMessage(res);
-                    setTimeout(() => {
-                        setMessage("");
-                    }, 3000);
-                }
-            );
-        } else {
-            socket.emit(
-                "inviteChannelUser",
-                {
-                    username: inviteName,
-                    channelId: channel.id,
-                },
-                (res: any) => {
-                    setMessage(res);
-                    setTimeout(() => {
-                        setMessage("");
-                    }, 3000);
-                }
-            );
-        }
-        console.log(inviteName);
+        const emitMessage = props.type === "friend" ? "inviteFriend" : "inviteChannelUser";
+        const emitData = props.type === "friend" ? 
+            { userid: userAuth.id, friendname: inviteName } :
+            { username: inviteName, channelId: channel.id };
+        console.log("INVITE CONTACT");
+        console.log(emitMessage, emitData)
+
+        socket.emit(emitMessage, emitData, (res: any) => {
+            console.log("INVITE RESPONSE: ", res)
+            setMessage(res);
+            setTimeout(() => {  setMessage(""); }, 3000);
+        });
         setInviteName("");
     }
 

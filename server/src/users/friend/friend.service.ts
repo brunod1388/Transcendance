@@ -51,17 +51,18 @@ export class FriendService {
         }
     }
 
-    async updateFriend(friendDto: FriendDTO): Promise<string> {
+    async updateFriend(friendDto: FriendDTO): Promise<FriendDTO> {
         console.log(friendDto);
         const friend = await this.friendRepository.findOne({
+            relations: { user: true, friend: true },
             where: {
                 id: friendDto.id,
             },
         });
-        if (friend === undefined) return "Frienship never sent";
+        if (friend === undefined) return friend;
         friend.isPending = friendDto.isPending;
         await this.friendRepository.save(friend);
-        return "Friend accepted";
+        return friend;
     }
 
     async getFriends(userId: number): Promise<UserDTO[]> {
@@ -93,8 +94,18 @@ export class FriendService {
         return friends;
     }
 
-    async deleteFriend(friendId: number): Promise<string> {
+    async findFriend(friendId: number): Promise<Friend> {
+        const friend = await this.friendRepository.findOne({
+            relations: { user: true, friend: true },
+            where: { id: friendId },
+        });
+        return friend;
+    }
+
+    async deleteFriend(friendId: number): Promise<number> {
+        const friend = await this.friendRepository.findOne({where: {id: friendId}});
+        if (friend === undefined) return -1;
         const res = await this.friendRepository.delete({ id: friendId });
-        return `friend ${friendId} deleted`;
+        return friendId;
     }
 }

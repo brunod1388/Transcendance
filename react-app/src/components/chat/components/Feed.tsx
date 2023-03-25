@@ -6,7 +6,7 @@ import { useSocket } from "../../../hooks";
 import { MessageType } from "../../../@types";
 import "../styles/feed.scss";
 
-const NB_MESSAGE = 5;
+const NB_MESSAGE = 20;
 
 const messageTest: MessageType = {
     id: 0,
@@ -62,6 +62,7 @@ export default function Feed() {
                         }
                         message={message}
                         key={i}
+                        next={i < messages.length ? messages[i + 1] : undefined}
                     />
                 ))}
             </div>

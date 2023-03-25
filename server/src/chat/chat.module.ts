@@ -3,47 +3,37 @@ import { ChatGateway } from "../chat/chat.gateway";
 // import { ChatController } from "./chat.controller";
 import { ChannelModule } from "./channel/channel.module";
 import { MessageModule } from "./message/message.module";
-import { MutedService } from "./muted/muted.service";
-import { BlockedService } from "./blocked/blocked.service";
+import { PenalityService } from "./penality/penality.service";
 import { ChannelUserService } from "./channelUser/channelUsers.service";
 import { ChannelUsersModule } from "./channelUser/channelUsers.module";
-import { BlockedModule } from "./blocked/blocked.module";
-import { MutedModule } from "./muted/muted.module";
-import { UsersModule } from "../users/users.module";
+import { PenalityModule } from "./penality/penality.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import {
-    ChannelUser,
-    BlockedUser,
-    Channel,
-    MutedUser,
-    Message,
-} from "./entities";
+import { ChannelUser, Channel, Message } from "./entities";
 import { User } from "src/users/entities/User.entity";
 import { FriendModule } from "src/users/friend/friend.module";
+import { UsersModule } from "src/users/users.module";
+import { Penality } from "./entities/Penality.entity";
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([
-            BlockedUser,
             ChannelUser,
             Channel,
-            MutedUser,
+            Penality,
             User,
             Message,
         ]),
         ChannelModule,
         MessageModule,
         ChannelUsersModule,
-        BlockedModule,
-        MutedModule,
+        PenalityModule,
         UsersModule,
         FriendModule,
     ],
     controllers: [],
     providers: [
         ChatGateway,
-        MutedService,
-        BlockedService,
+        PenalityService,
         ChannelUserService,
         ChannelModule,
     ],

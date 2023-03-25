@@ -10,12 +10,12 @@ export class GeneralService {
     private readonly clientsService: ClientsService;
 
     connection(socket: Socket) {
-        console.log("connection");
+        // console.log("connection");
     }
 
     disconnection(socket: Socket, reason: any) {
         // this.clientsService.removeClient(socket.id);
-        console.log("disconnection");
+        // console.log("disconnection");
     }
 
     joinRoom(client: Socket, room: string) {

@@ -1,6 +1,23 @@
 @import "../../../assets/styles/variables.scss";
 
 $image-size: 25px;
+$invitation-size: 15px;
+@keyframes shadow-grow{
+	0% { 
+		filter: $filter-red drop-shadow(0px 0px 2px $purple);
+		
+
+	}
+	50% { 
+		filter: $filter-red drop-shadow(0px 0px 5px $purple);
+		transform: scale(1.1);
+	}
+	100% { 
+		filter: $filter-red drop-shadow(0px 0px 10px $purple);
+
+	}
+	 
+}
 
 .topbar {
 	display: flex;
@@ -33,6 +50,17 @@ $image-size: 25px;
 		align-items: center;
 		padding-right: 10px;
 
+		.imgInvitation {
+			position: absolute;
+			top: 13px;
+			left: 13px;
+			height: $invitation-size;
+			width: $invitation-size;
+			filter: $filter-red drop-shadow(0px 0px 3px $purple) ;
+			pointer-events: none;
+			animation: shadow-grow 1.5s infinite;
+		}
+
 		img {
 			height: $image-size;
 			width: $image-size;
@@ -44,7 +72,8 @@ $image-size: 25px;
 			&.imgButton {
 				filter: $filter-purple;
 				&:hover {
-					filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);			}
+					filter: $filter-white;
+				}
 			}
 		}
 
@@ -75,15 +104,16 @@ $image-size: 25px;
 
 		.invitations {
 			top: calc($image-size + 5px);
-			left: -130px;
+			left: -100px;
 			position: absolute;
 			// gap: 7px;
-			width: 305px;
+			width: 320px;
 			// padding: 10px 0;
 			display: flex;
 			flex-direction: column;
 			background-color: $dark-grey;
 			border-radius: 0 0 0 7px;
+			z-index: 10;
 			.invitation {
 				align-items: center;
 				display: flex;
@@ -100,6 +130,7 @@ $image-size: 25px;
 				img {
 					width: 15px;
 					height: 15px;
+					border-radius: 50%;
 
 					&.animate {
 						&:hover {

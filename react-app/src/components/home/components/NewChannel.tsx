@@ -1,7 +1,7 @@
 import { useState } from "react";
 import AddImage from "../../../assets/images/add-image.png";
 import { useSocket } from "../../../hooks";
-import { useAuth } from "../../../context";
+import { useAuth, useChat } from "../../../context";
 import { ChannelType } from "../../../@types";
 
 interface Props {
@@ -13,6 +13,7 @@ export default function NewChannel(props: Props) {
     const [socket] = useSocket();
     const [error, setErrot] = useState(false);
     const { userAuth } = useAuth();
+    const { channel, updateChannel } = useChat();
 
     function handleSubmit(e: any) {
         e.preventDefault();

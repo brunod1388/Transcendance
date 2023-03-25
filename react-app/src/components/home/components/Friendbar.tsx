@@ -19,43 +19,29 @@ function Friendbar() {
 
     useEffect(() => {
         socket.emit("getFriends", userAuth.id, (res: UserType[]) => {
-            console.log(res);
             setFriends(res);
         });
-        socket.on("friends", (friend) => {
+        socket.on("friend", (friend) => {
             setFriends((state) => [...state, friend]);
         });
-    }, []);
+        socket.on("removeFriend", (friendId: number) => {
+            setFriends((state) =>
+                state.filter((friend) => friend.id !== friendId)
+            );
+        });
+        return () => {
+            socket.off("friend");
+            socket.off("removeFriend");
+        };
+    }, [socket]);
 
     return (
         <div className="friendBar">
             <span className="title">Friends</span>
             <div className="friends">
-                <User
-                    user={usr}
-                    type="friend"
-                    key={`friend-${-100}`}
-                    selected={`friend-${-100}` === selected}
-                    onClick={() =>
-                        setSelected(
-                            selected === `friend-${-100}`
-                                ? ""
-                                : `friend-${-100}`
-                        )
-                    }
-                />
+                <User user={usr} type="friend" key={`friend-${-100}`} />
                 {friends.map((friend, i) => (
-                    <User
-                        user={friend}
-                        type="friend"
-                        key={`friend-${i}`}
-                        selected={`friend-${i}` === selected}
-                        onClick={() =>
-                            setSelected(
-                                selected === `friend-${i}` ? "" : `friend-${i}`
-                            )
-                        }
-                    />
+                    <User user={friend} type="friend" key={`friend-${i}`} />
                 ))}
             </div>
             <div className="invitation">

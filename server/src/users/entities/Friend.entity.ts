@@ -19,8 +19,6 @@ export enum rightType {
 @Entity({ name: "friends" })
 @Index(["user", "friend"], { unique: true })
 @Check(`"userId" <> "friendId"`)
-// @Unique(["user", "friend"])
-// @Unique(["friend", "user"])
 export class Friend {
     @PrimaryGeneratedColumn({ type: "bigint" })
     id: number;

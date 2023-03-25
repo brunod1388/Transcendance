@@ -39,11 +39,17 @@ function Navbar() {
                 setChannels(chans);
             }
         );
-        socket.on("Channels", (chan: ChannelType) => {
+        socket.on("Channel", (chan: ChannelType) => {
+            const chanIndex = channels.findIndex((c) => c.id === chan.id);
+            if (chanIndex !== -1) {
+                channels[chanIndex] = chan;
+                setChannels([...channels]);
+                return;
+            }
             setChannels((state) => [...state, chan]);
         });
         return () => {
-            socket.off("Channels");
+            socket.off("Channel");
         };
     }, [socket, channels, channel.id]);
 
@@ -52,11 +58,10 @@ function Navbar() {
     }
 
     function leaveRoom() {
-        socket.emit(
-            "leaveRoom",
-            { userid: userAuth.id, channelid: channel.id },
-            (res: string) => console.log(res)
-        );
+        socket.emit("leaveRoom", {
+            userid: userAuth.id,
+            channelid: channel.id,
+        });
         channel.room = "";
     }
 

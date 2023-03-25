@@ -1,60 +1,117 @@
 @import "../../../assets/styles/variables.scss";
-
-.message {
-	display: flex;
-	gap: 20px;
-	margin-bottom: 20px;
-	padding: 0px 10px;
-	.messageInfo {
+.messageContainer {
+	&.stick {
 		display: flex;
-		flex-direction: column;
-		color: grey;
-		font-weight: 300;
-		align-items: center;
-		.date, .hour {
-			font-size: 12px;
+		gap: 10px;
+		padding: 3px 8px;
+		&:hover {
+			background-color: $dark-grey;
+			.hour {
+				display: block;
+			}
 		}
-
+		.avatar, .hour, .day {
+			display: none;
+		}
+		.message {
+			display: flex;
+			flex-direction: row;
+			gap: 5px;
+			color: #d7d4d4;
+			font-weight: 300;
+			align-items: center;
+			padding: 2px;
+			.details {
+				width: 40px;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				flex-shrink: 0;
+				.username {
+					display: none;
+				}
+				.time {
+					color: grey;
+					font-size: 12px;
+				}
+			}
+		}
+		position: relative;
+	}
+	
+	&.normalMessage {
+		display: flex;
+		gap: 10px;
+		padding: 3px 8px;
+		margin-top: 10px;
+		&:hover {
+			background-color: #272637b8;
+		}
+		
 		img {
-			width: 40px;
-			height: 40px;
+			width: 35px;
+			height: 35px;
 			border-radius: 50%;
 			object-fit: cover;
+			padding-top: 4px;
 		}
-	}
-
-	.messageContent {
-		max-width: 80%;
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-		.details {
+		
+		.message {
 			display: flex;
-
+			padding: 2px;
+			flex-direction: column;
+			gap: 5px;
+			color: #d7d4d4;
+			font-weight: 300;
+			.details {
+				display: flex;
+				flex-direction: row;
+				align-items: flex-end;
+				gap: 10px;
+				.time {
+					color: grey;
+					font-size: 12px;
+					display: flex;
+					gap: 3px;
+				}
+			}
 		}
-
-		p {
-			background-color: $purple-message;
-			padding: 10px 20px;
-			border-radius: 0px 10px 10px 10px;
-			max-width: max-content;
-		}
-
-		img {
-			width: 50%;
-			border-radius: 10px;
-			box-shadow: inset 1px 1px 10px black;
-		}
+		position: relative;
 	}
-
-	&.owner {
-		flex-direction: row-reverse;
-		.messageContent {
-			align-items: flex-end;
-			p {
-				background-color:#3582e0;
-				border-radius: 10px 0px 10px 10px;
+	.messageMenu {
+		display: none;
+	}
+	&:hover {
+		.messageMenu {
+			position: absolute;
+			top: -10px;
+			right: 15px;
+			display: flex;
+			align-items: center;
+			align-content: center;
+			justify-content: center;
+			gap: 10px;
+			background: $dark-purple;
+			height: 25px;
+			width: 50px;
+			border-radius: 7px;
+			border: 1px solid $dark-grey;
+			.edit {
+				height: 13px;
+				width: 13px;
+			}
+			.delete {
+				height: 15px;
+				width: 15px;
+			}
+			img {
+				&:hover {
+					transform: scale(1.3);
+					
+				}
+		
 			}
 		}
 	}
 }
+

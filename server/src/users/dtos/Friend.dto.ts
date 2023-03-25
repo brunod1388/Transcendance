@@ -16,4 +16,5 @@ export interface FriendDTO {
     user?: User;
     friend?: User;
     isPending?: boolean;
+    type?: "friend";
 }
