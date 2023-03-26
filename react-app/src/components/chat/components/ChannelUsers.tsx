@@ -44,8 +44,9 @@ export default function ChannelUsers() {
             });
         });
         return () => {
-            socket.off("ChannelUser");
-            socket.off("RemoveChannelUser");
+            socket
+                .off("ChannelUser")
+                .off("RemoveChannelUser");
         };
     }, [socket, channel.id]);
 

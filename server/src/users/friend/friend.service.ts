@@ -16,38 +16,32 @@ export class FriendService {
         private userService: UsersService
     ) {}
 
-    async createFriend(friendDetails: CreateFriendDTO): Promise<string> {
+    async createFriend(friendDetails: CreateFriendDTO): Promise<FriendDTO | undefined> {
         const user = await this.userService.findUserId(friendDetails.userId);
-        const friend = await this.userService.findUserId(
+        const friendUser = await this.userService.findUserId(
             friendDetails.friendId
         );
-        if (friend === undefined || user === undefined) return undefined;
-        const test = this.friendRepository.find({
+        if (friendUser === undefined || user === undefined) return undefined;
+        const test = await this.friendRepository.findOne({
             relations: {
                 friend: true,
                 user: true,
             },
             where: {
-                user: { id: friend.id },
+                user: { id: friendUser.id },
                 friend: { id: user.id },
             },
         });
-        if (test !== null) return "error: friends already or is pending";
+        if (test) return undefined;
         const newFriend = await this.friendRepository.create({
             user: user,
-            friend: friend,
+            friend: friendUser,
             isPending: true,
         });
         try {
-            await this.friendRepository.save(newFriend);
-            return `Friend ${newFriend.friend.username} invited`;
+            return await this.friendRepository.save(newFriend);
         } catch (error) {
-            if (
-                "ExecConstraints" === error.routine ||
-                "_bt_check_unique" === error.routine
-            )
-                return "error: friends already or is pending";
-            return "error: something went wrong";
+            return undefined;
         }
     }
 
@@ -65,7 +59,7 @@ export class FriendService {
         return friend;
     }
 
-    async getFriends(userId: number): Promise<UserDTO[]> {
+    async getFriends(userId: number): Promise<FriendDTO[]> {
         const friends1 = await this.friendRepository.find({
             relations: { user: true, friend: true },
             where: [{ user: { id: userId }, isPending: false }],
@@ -80,8 +74,18 @@ export class FriendService {
                 user: { id: true, username: true, avatar: true },
             },
         });
-        let friends = friends1.map((friend) => friend.friend);
-        friends = friends.concat(friends2.map((friend) => friend.user));
+        let friends = friends1.map((friend) => ({
+            friendId: friend.id,
+            username: friend.friend.username,
+            avatar: friend.friend.avatar,
+            id: friend.friend.id,
+        }))
+        friends = friends.concat(friends2.map((friend) => ({
+            friendId: friend.id,
+            username: friend.user.username,
+            avatar: friend.user.avatar,
+            id: friend.user.id,
+        })));
         return friends;
     }
 

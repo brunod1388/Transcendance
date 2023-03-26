@@ -44,6 +44,7 @@ function Topbar() {
             "getPendings",
             { userId: userAuth.id },
             (res: ChatInvitationType[]) => {
+                console.log("pendings: ", res);
                 setInvitations(
                     res.map((i: ChatInvitationType) => {
                         if (i.image === "")
@@ -75,10 +76,8 @@ function Topbar() {
     }
 
     function test(e: MouseEvent<HTMLButtonElement>) {
-        console.log("test");
-        console.log(Cookies.get("JWTtoken"));
         socket.emit("test", { id: userAuth.id }, (res: any) => {
-            console.log(res);
+            console.log("test response :", res);
         });
     }
     return (

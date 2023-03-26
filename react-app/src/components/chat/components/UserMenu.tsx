@@ -52,13 +52,6 @@ export default function UserMenu(props: Props) {
 
     function quitChannel(channelUserId: number | undefined) {
         if (channelUserId !== undefined)
-            // socket.emit(
-            //     "updateChannelUser",
-            //     { id: channelUserId, accept: false },
-            //     (res: string) => {
-            //         setFeature(Feature.None);
-            //     }
-            // );
             socket.emit(
                 "deleteChannelUser",
                 { id: channelUserId },
@@ -84,14 +77,12 @@ export default function UserMenu(props: Props) {
     function makeAdmin(userId: number) {}
 
     function deleteFriend(friendId: number | undefined) {
+        console.log("should delete")
+        console.log(friendId)
         if (friendId !== undefined)
-            socket.emit(
-                "updateFriend",
-                { id: friendId, accept: false },
-                (res: string) => {
-                    console.log(res);
-                }
-            );
+        socket.emit("deleteFriend", { id: friendId }, (res: string) => {
+            console.log(res)
+        });
     }
 
     function handleMuteOrBlock(e: FormEvent<HTMLFormElement>) {

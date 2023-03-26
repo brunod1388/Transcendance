@@ -17,4 +17,6 @@ export interface FriendDTO {
     friend?: User;
     isPending?: boolean;
     type?: "friend";
+    avatar?: string;
+    username?: string;
 }

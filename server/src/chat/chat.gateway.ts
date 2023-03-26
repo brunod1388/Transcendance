@@ -63,6 +63,9 @@ export class ChatGateway {
         console.log("---------TEST--------");
 
         console.log("-------END TEST------");
+        console.log("TEST  ", this.server.sockets.sockets);
+        return this.server.sockets.sockets;
+        
     }
 
     @SubscribeMessage("chatConnection")
@@ -72,7 +75,6 @@ export class ChatGateway {
     ) {
         // console.log("connection of user : ", userId);
         // console.log("socket : ", client.id);
-        // console.log("user connected : ", userid);
         this.onlineUsers.set(userid, client);
         client.data.userid = userid;
     }
@@ -89,7 +91,6 @@ export class ChatGateway {
         });
         // this.connectedUser.set(userId, client);
         // console.log("map:", this.connectedUser)
-        console.log(userId + "joined room-" + channelid);
         client.emit("NLastMessage", messages);
         client.join(ROOM_PREFIX + channelid);
         return ROOM_PREFIX + channelid + " joined";
@@ -173,15 +174,15 @@ export class ChatGateway {
             rights: rightType.NORMAL,
             isPending: true,
         });
-        if (channelUser === undefined) return "channelUser already exist or is pending";
+        if (channelUser === undefined) return `${username} already in channel or is pending`;
         if (this.onlineUsers.has(user.id))
             this.onlineUsers[user.id].emit("pendings", {
                 id: channelUser.id,
                 type: "Channel",
                 name: channelUser.channel.name,
                 image: channelUser.channel.image,
-            });
-        return "User " + channelUser.user.username + " invited";
+            })
+        return `User ${channelUser.user.username} invited`;
     }
 
     @SubscribeMessage("updateChannelUser")
@@ -219,14 +220,10 @@ export class ChatGateway {
 
     @SubscribeMessage("deleteChannelUser")
     async deleteChannelUser(@MessageBody("id") id: number): Promise<string> {
-        console.log("deleteChannelUser: ", id);
         const channelUser = await this.channelUserService.findChannelUserById(Number(id));
-        console.log("channelUser: ", channelUser);
-        console.log("ROOM_PREFIX + channelUser.channel.id: ", ROOM_PREFIX + channelUser.channel.id)
         this.server
             .to(ROOM_PREFIX + channelUser.channel.id)
             .emit("RemoveChannelUser", channelUser.id);
-        console.log("channelUser id: ", channelUser.id, " deleted")
         return await this.channelUserService.deleteChannelUser(Number(id));
     }
 
@@ -235,7 +232,7 @@ export class ChatGateway {
     // ========================================================================
 
     @SubscribeMessage("getFriends")
-    async getFriendsPending(@MessageBody() userId: number): Promise<UserDTO[]> {
+    async getFriendsPending(@MessageBody() userId: number): Promise<FriendDTO[]> {
         const friends = await this.friendService.getFriends(userId);
         return friends;
     }
@@ -245,13 +242,23 @@ export class ChatGateway {
         @MessageBody("userid") userId: number,
         @MessageBody("friendname") friendName: string
     ): Promise<string> {
-        const friend = await this.userService.findUser(friendName);
-        if (friend === null) return "error: User" + friendName + " not Found";
-        if (friend.id === userId) return "error: can't invite yourself";
-        return await this.friendService.createFriend({
+        const friendUser = await this.userService.findUser(friendName);
+        if (friendUser === null) return "error: User" + friendName + " not Found";
+        if (friendUser.id === userId) return "error: can't invite yourself";
+        const friend = await this.friendService.createFriend({
             userId: userId,
-            friendId: friend.id,
+            friendId: friendUser.id,
         });
+
+        if ( friend === undefined) return "error: friends already or is pending";
+        // if (this.onlineUsers.has(friendUser.id))
+        //     this.onlineUsers[friendUser.id].emit("pendings", {
+        //         id: friend.id,
+        //         type: "Channel",
+        //         name: friend.user.username,
+        //         image: friend.user.avatar,
+        //     })
+        return `${friendName} invited`;
     }
 
     @SubscribeMessage("updateFriend")
@@ -260,12 +267,10 @@ export class ChatGateway {
         @MessageBody("accept") accept: boolean,
         @ConnectedSocket() client: Socket
     ): Promise<string> {
-        console.log("updateFriend: ", friendId, accept)
         const updatedFriend = await this.friendService.updateFriend({
             id: Number(friendId),
             isPending: false,
         });
-        console.log("updateFriend: ", friendId, accept)
         if (updatedFriend === undefined) return "Something went wrong";
         const friend = {
             id: updatedFriend.friend.id,
@@ -280,8 +285,10 @@ export class ChatGateway {
             friendId: updatedFriend.id,
         };
         if (accept) {
-            client.emit("friend", friend);
-            this.onlineUsers[updatedFriend.user.id]?.emit("friend", user);
+            //do not work
+            if (this.onlineUsers[updatedFriend.user.id]) {
+                this.onlineUsers[updatedFriend.user.id]?.emit("friend", friend);
+            }
             return `friendhip with ${user.username} accepted`;
         }
         const res = await this.friendService.deleteFriend(friendId);
@@ -293,7 +300,10 @@ export class ChatGateway {
     @SubscribeMessage("deleteFriend")
     async deleteFriend(@MessageBody("id") friendId: number): Promise<string> {
         const friend = await this.friendService.findFriend(Number(friendId));
-
+        const userId1 = friend.user.id;
+        const userId2 = friend.friend.id;
+        this.onlineUsers[userId1]?.emit("removeFriend", friendId);
+        this.onlineUsers[userId2]?.emit("removeFriend", friendId);
         return await this.friendService.deleteFriend(friendId) !== -1 ? "friend deleted" : "error";
     }
 
@@ -331,7 +341,6 @@ export class ChatGateway {
             modifiedAt: newMessage.modifiedAt,
         };
         this.server.to(room).emit("messageListener", message);
-        console.log("room: ", room, " message: ", message, " sent")
         return "message created";
     }
 
@@ -371,25 +380,6 @@ export class ChatGateway {
     //                               Invitations
     // ========================================================================
 
-    private makePending = (
-        friendOrChannelUser: FriendDTO | ChannelUserDTO
-    ): InvitationType | undefined => {
-        if (friendOrChannelUser.type === "friend")
-        return {
-            id: friendOrChannelUser.id,
-            type: "Friend",
-            name: friendOrChannelUser.user.username,
-            image: friendOrChannelUser.user.avatar ?? "",
-        };
-        if (friendOrChannelUser.type === "channelUser")
-        return {
-            id: friendOrChannelUser.id,
-            type: "Channel",
-            name: friendOrChannelUser.channel.name,
-            image: friendOrChannelUser.channel.image ?? "",
-        };
-    };
-
     @SubscribeMessage("getPendings")
     async getPendings(
         @MessageBody("userId") userId: number
@@ -399,24 +389,33 @@ export class ChatGateway {
             userId,
             true
         );
-        const invitations: InvitationType[] = friends.map((friend: FriendDTO) =>
-            this.makePending(friend)
-            );
+        console.log("friends: ", friends);
+        console.log("channels: ", channels);
+        const invitations: InvitationType[] = friends.map((friend: FriendDTO) => ({
+            id: friend.id,
+            type: "Friend",
+            name: friend.user.username,
+            image: friend.user.avatar ?? ""
+        }));
         const channelInvitations: InvitationType[] = channels.map(
-            (channelUser: ChannelUser) => this.makePending({...channelUser, type: "channelUser"})
+            (channelUser: ChannelUser) => ({
+                id: channelUser.id,
+                type: "Channel",
+                name: channelUser.channel.name,
+                image: channelUser.channel.image ?? ""
+            })
         );
         channelInvitations.forEach((channel) => {
             invitations.push(channel);
         });
         return invitations;
     }
-            
+
     @SubscribeMessage("createPenality")
     async createPenality(
         @MessageBody("penality") penality: CreatePenalityDTO
     ): Promise<Penality> {
         const newPenality = await this.penalityService.createPenality(penality);
-        console.log("WAZAAAAA: ", newPenality);
         return newPenality;
     }
 
