@@ -156,7 +156,7 @@ function Settings() {
     return (
         <div className="form_container">
             <div className="form_wrapper settings">
-                <h1 className="logo">Manage Profile Settings</h1>
+                <h1 className="logo">Profile Settings</h1>
                 <form className="setting_form" onSubmit={handleUsername}>
                     <div className="input_container">
                         <img className="input_icon" src={User} alt="" />
