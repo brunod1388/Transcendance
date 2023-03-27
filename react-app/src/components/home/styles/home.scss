@@ -17,7 +17,8 @@
 		animation: scaleIn 2s;
 		background-color: $dark-grey;
 		background-color: rgb(19 16 58 / 66%);
-		background-color: rgb(28 28 34 / 60%);
+		background-color: rgba(28, 28, 34, 0.668);
+		backdrop-filter: blur(3px);
 	}
 
 	.mainContainer {

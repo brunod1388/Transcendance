@@ -43,7 +43,6 @@ function Friendbar() {
         <div className="friendBar">
             <span className="title">Friends</span>
             <div className="friends">
-                <User user={usr} type="friend" key={`friend-${-100}`} />
                 {friends.map((friend, i) => (
                     <User user={friend} type="friend" key={`friend-${i}`} />
                 ))}

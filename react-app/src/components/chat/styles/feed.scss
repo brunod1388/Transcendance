@@ -17,11 +17,6 @@
 		padding-top: 5px;
 		display: flex;
 		flex-direction: column-reverse;
-		// justify-content: flex-end;
-		// background-size: contain;
-		// background-repeat: no-repeat;
-		// background-position: center center;
-		// background-image: url($bg-purple2);
 	}
 	.input {
 		background-color: white;
@@ -61,7 +56,7 @@
 				cursor: pointer;
 				filter: $filter-purple;
 			}
-			
+
 			button {
 				border: none;
 				padding: 4px 15px;

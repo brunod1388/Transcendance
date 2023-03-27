@@ -1,11 +1,10 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect, FormEvent, MouseEvent } from "react";
-import Add from "../assets/images/add-image.png";
 import { AxiosRequestConfig } from "axios";
 import Cookies from "js-cookie";
 import { useAxios } from "../hooks";
+import { AddImageIcon, Email, Lock, Logo42, User } from "../assets/images";
 import "../assets/styles/form.scss";
-import { Email, Lock, Logo42, User } from "../assets/images";
 
 interface DataType {
     username: string;
@@ -71,8 +70,8 @@ function Subscribe() {
 
     return (
         <div className="form_container">
-            <span className="logo">Transcendance</span>
             <div className="form_wrapper signup_wrapper">
+                <span className="logo">Transcendance</span>
                 <span className="title">Register</span>
                 <form onSubmit={handleSubmit}>
                     <div className="input_container">
@@ -81,17 +80,17 @@ function Subscribe() {
                         <input
                             name="username"
                             type="text"
-                            placeholder="display name"
+                            placeholder="Username"
                         />
                     </div>
                     <div className="input_container">
                         <span className="input-title">Email</span>
-                        <img className="input_icon" src={Email} alt="" />
+                        <img className="input_icon mail" src={Email} alt="" />
                         <input name="email" type="email" placeholder="email" />
                     </div>
                     <div className="input_container">
                         <span className="input-title">Password</span>
-                        <img className="input_icon" src={Lock} alt="" />
+                        <img className="input_icon locker" src={Lock} alt="" />
                         <input
                             name="password"
                             type="password"
@@ -100,7 +99,7 @@ function Subscribe() {
                     </div>
                     <div className="input_container">
                         <span className="input-title">Confirm Password</span>
-                        <img className="input_icon" src={Lock} alt="" />
+                        <img className="input_icon locker" src={Lock} alt="" />
                         <input
                             name="confirmPassword"
                             type="password"
@@ -110,7 +109,7 @@ function Subscribe() {
                     <div className="input_container">
                         <input style={{ display: "none" }} type="file" id="file" />
                         <label htmlFor="file" className="flex-row">
-                            <img src={Add} alt="" />
+                            <img src={AddImageIcon} alt="" />
                             <span>Add an Avatar</span>
                     </label>
                     </div>

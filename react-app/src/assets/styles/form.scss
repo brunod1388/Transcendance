@@ -1,6 +1,10 @@
 @import "./variables.scss";
 @import "./general.scss";
 
+@font-face {
+	font-family: NatureBeauty;
+	src: local("NatureBeauty"), url("../fonts/NatureBeauty.ttf") format("truetype");
+}
 
 .form_container {
 	$width: 240px;
@@ -9,30 +13,77 @@
 	height: 100vh;
 	display: flex;
 	animation: scaleIn 1s;
-	
-	.logo {
-		color: $purple;
-		font-size: 32px;
-		font-weight: bold;
-		padding: 20px;
-		animation: appear 2s;
-		z-index: 100;
-	}
-	
+
 	.form_wrapper {
 		@extend .flex-column;
 		padding: 35px;
 		border-radius: 5px;
 		background-color: #2f2f4c;
 		background-color: $dark-purple;
-		background-color: rgb(54 54 69 / 56%);
+		background-color: rgba(54, 54, 69, 0.342);
 		color: white;
-		box-shadow: 10px 10px 100px black,
-		-2px -2px 150px rgba(145, 145, 145, 0.466);
+		box-shadow: 10px 10px 100px black;
 		animation: scalIn 2s;
 		gap: 15px;
 		backdrop-filter: blur(5px);
+		position:relative;
 
+		.logo {
+			position: absolute;
+			top: -40px;
+			color: $purple;
+			font-size: 40px;
+			font-family: $base-font;
+			padding: 20px;
+			z-index: 100;
+			animation: appear 3s;
+			font-family: NatureBeauty;
+		}
+
+		form{
+			@extend .flex-column;
+			gap: 15px;
+			width: 100%;
+			&.setting_form {
+				@extend .flex-row;
+				.input_container {
+					align-items: flex-start
+				}
+				.button_container {
+					display: flex;
+					height: 100%;
+					flex-direction: column-reverse;
+					// justify-content: flex-end;
+					// align-items: flex-end;
+					// align-content: baseline
+					button {
+						height: 38px
+					}
+				}
+			}
+
+			input {
+				color: white;
+				padding: 12px 8px;
+				padding-left: 36px;
+				border: none;
+				width: $width - 44px;
+				outline: none;
+				background-color: $dark-purple;
+				border-radius: 3px;
+				&::placeholder {
+					color: rgb(175, 175, 175);
+				}
+			}
+
+
+			
+			.err_msg {
+				color: red;
+				padding: 10px;
+				font-style: italic;
+			}
+		}
 		a {
 			color: #aeadde;
 			text-decoration: none;
@@ -41,69 +92,55 @@
 		.title {
 			color: white;
 			font-family: $base-font;
-			font-size: 30px;
+			font-size: 25px;
 			font-weight: bolder
 		}
-		form{
+
+		.input_container {
 			@extend .flex-column;
-			gap: 15px;
-			width: 100%;
-			.input_container {
-				@extend .flex-column;
-				gap: 5px;
-				position: relative;
-				.input-title {
-					width: 100%;
-					font-family: $base-font;
-				}
-				.input_icon {
-					position: absolute;
-					height: 20px;
-					filter: $filter-purple;
-					left: 10px;
-					top: 30px
-				}
-
-				input {
-					color: white;
-					padding: 12px 8px;
-					padding-left: 36px;
-					border: none;
-					width: $width - 44px;
-					outline: none;
-					background-color: $dark-purple;
-					border-radius: 3px;
-					&::placeholder {
-						color: rgb(175, 175, 175);
-					}
-				}
+			gap: 5px;
+			position: relative;
+			align-items: flex-start;
+		}
+		.input-title {
+			// width: 100%;
+			font-family: $base-font;
+		}
+		.input_icon {
+			position: absolute;
+			height: 20px;
+			filter: $filter-purple;
+			left: 9px;
+			top: 30px
+		}
+		
+		.locker {
+			width: 22px;
+			height: 18px;
+			left: 8px;
+		}
+		.mail {
+			width: 18px;
+			height: 17px;
+			top: 32px;
+		}
+		label {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 20px;
+			color: #827fc6;
+			cursor: pointer;
+			img {
+				width: 40px;
+				opacity: 0.5;
+				filter: $filter-purple;
 			}
-
-			label {
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				gap: 20px;
-				color: #827fc6;
-				cursor: pointer;
+			&:hover {
+				color: white;
 				img {
-					width: 40px;
-					opacity: 0.5;
-					filter: $filter-purple;
+					filter: $filter-white;
 				}
-				&:hover {
-					color: white;
-					img {
-						filter: $filter-white;
-					}
-				}
-			}
-
-			
-			.err_msg {
-				color: red;
-				padding: 10px;
-				font-style: italic;
 			}
 		}
 
@@ -116,11 +153,10 @@
 			height: 30px;
 			width: $width;
 			img {
-				width: 15px;
+				width: 18px;
 				filter: $filter-white;
 			}
 			&:hover {
-				box-shadow: inset 0px 0px 3px rgba(255, 255, 255, 0.663);
 				color: $purple;
 				background-color: white;
 				img {
@@ -147,4 +183,6 @@
 		}
 	}
 }
+
+
 

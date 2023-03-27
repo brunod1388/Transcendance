@@ -64,8 +64,8 @@ function Login() {
 
     return (
         <div className="form_container">
-            <span className="logo">Transcendance</span>
             <div className="form_wrapper">
+                <span className="logo">Transcendance</span>
                 <span className="title">Login</span>
                 <form onSubmit={handleSubmit}>
                     <div className="input_container">
@@ -80,7 +80,7 @@ function Login() {
                     </div>
                     <div className="input_container">
                         <span className="input-title">Password</span>
-                        <img className="input_icon" src={Lock} alt="" />
+                        <img className="input_icon locker" src={Lock} alt="" />
                         <input
                             className="password"
                             name="password"

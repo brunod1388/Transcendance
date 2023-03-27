@@ -4,6 +4,7 @@ import { AxiosRequestConfig } from "axios";
 import { useAxios } from "../hooks";
 import { Feature, useAuth, useFeature } from "../context";
 import "../assets/styles/form.scss";
+import { AddChannelIcon, AddImageIcon, Email, User } from "../assets/images";
 
 const defaultAvatarRequest: AxiosRequestConfig = {
     method: "POST",
@@ -154,53 +155,64 @@ function Settings() {
 
     return (
         <div className="form_container">
-            <h1 className="logo">Manage Profile Settings</h1>
-            <div className="form_wrapper register">
-                <span className="title">Change your username</span>
-                <form onSubmit={handleUsername}>
-                    <input
-                        name="username"
-                        type="text"
-                        placeholder="new username"
-                    />
-                    <button type="submit">Update username</button>
-                    {errU && <p>Error: Username already taken</p>}
-                    {resU && !loadU && <p>Username successfully changed</p>}
+            <div className="form_wrapper settings">
+                <h1 className="logo">Manage Profile Settings</h1>
+                <form className="setting_form" onSubmit={handleUsername}>
+                    <div className="input_container">
+                        <img className="input_icon" src={User} alt="" />
+                        <span className="input-title">Change your username</span>
+                        <input
+                            name="username"
+                            type="text"
+                            placeholder="new username"
+                        />
+                    </div>
+                    <div className="button_container">
+                        <button className="button-purple" type="submit">Update username</button>
+                        {errU && <p>Error: Username already taken</p>}
+                        {resU && !loadU && <p>Username successfully changed</p>}
+                    </div>
                 </form>
-                <span className="title">Change your email</span>
-                <form onSubmit={handleEmail}>
-                    <input name="email" type="email" placeholder="new email" />
-                    <button type="submit">Update email</button>
-                    {errE && <p>Error: Email already taken</p>}
-                    {resE && !loadE && <p>Email successfully changed</p>}
+                <form className="setting_form" onSubmit={handleEmail}>
+                    <div className="input_container">
+                        <img className="input_icon" src={Email} alt="" />
+                        <span className="input-title">Change your email</span>
+                        <input name="email" type="email" placeholder="new email" />
+                    </div>
+                    <div className="button_container">
+                        <button className="button-purple" type="submit">Update email</button>
+                        {errE && <p>Error: Email already taken</p>}
+                        {resE && !loadE && <p>Email successfully changed</p>}
+                    </div>
                 </form>
                 <span className="title">
-                    Change your profile avatar by uploading an image
+                    Upload a new avatar
                 </span>
-                <input
-                    type="file"
-                    name="file"
-                    placeholder="upload your avatar"
-                    onChange={handleImage}
-                />
+                <div className="input_container">
+                    <input 
+                        style={{ display: "none" }}
+                        type="file"
+                        onChange={handleImage}
+                        id="file"
+                        />
+                    <label htmlFor="file" className="flex-row">
+                        <img src={AddImageIcon} alt="" />
+                        <span>Change your Avatar</span>
+                </label>
                 {errA && <p>Error: Invalid file</p>}
                 {resA && !loadA && <p>Avatar successfully changed</p>}
-                <span className="title">
-                    Two factor authentication settings
-                </span>
+                </div>
                 {userAuth.enable2FA && (
-                    <button type="button" onClick={disableTwoFactor}>
+                    <button className="button-purple" type="button" onClick={disableTwoFactor}>
                         Disable Two Factor Authentication
                     </button>
                 )}
                 {!userAuth.enable2FA && (
-                    <button type="button" onClick={enableTwoFactor}>
+                    <button className="button-purple" type="button" onClick={enableTwoFactor}>
                         Enable Two Factor Authentication
                     </button>
                 )}
-                <p className="detail">
-                    To return to the homepage click <Link to="/home">here</Link>
-                </p>
+                <Link to="/home"><button className="button-purple"> Back to Home</button></Link>
             </div>
         </div>
     );
