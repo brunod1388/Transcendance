@@ -3,6 +3,7 @@ import AddImage from "../../../assets/images/add-image.png";
 import { useSocket } from "../../../hooks";
 import { useAuth, useChat } from "../../../context";
 import { ChannelType } from "../../../@types";
+import { Lock, NoChannelIcon, User } from "../../../assets/images";
 
 interface Props {
     quitForm: () => void;
@@ -35,15 +36,17 @@ export default function NewChannel(props: Props) {
         <div className="newChannel_container">
             <div className="form_container">
                 <div className="form_wrapper">
-                    <div>
-                        <span className="title">New Channel</span>
-                    </div>
+                        <span className="logo">New Channel</span>
                     <form onSubmit={handleSubmit}>
-                        <input
-                            name="channelName"
-                            type="text"
-                            placeholder="ChannelName"
-                        />
+                        <div className="input_container">
+                            <span className="input-title">Channel name</span>
+                            <img className="input_icon channel_icon" src={NoChannelIcon} alt="" />
+                            <input
+                                name="channelName"
+                                type="text"
+                                placeholder="ChannelName"
+                            />
+                        </div>
                         {error && (
                             <p className="error">Something went wrong!</p>
                         )}
@@ -60,17 +63,26 @@ export default function NewChannel(props: Props) {
                             <option value="protected">protected</option>
                         </select>
                         {isPrivate && (
+                            <div className="input_container">
+                            <span className="input-title">Password</span>
+                            <img className="input_icon locker" src={Lock} alt="" />
                             <input
                                 name="password"
                                 type="password"
-                                placeholder="Password"
+                                placeholder="password"
                             />
+                            </div>
                         )}
                         {isPrivate && (
+                            <div className="input_container">
+                            <span className="input-title">Confirm Password</span>
+                            <img className="input_icon locker" src={Lock} alt="" />
                             <input
+                                name="confirmPassword"
                                 type="password"
-                                placeholder="re-type Password"
+                                placeholder="confirm password"
                             />
+                            </div>
                         )}
                         <input
                             type="file"
@@ -81,9 +93,9 @@ export default function NewChannel(props: Props) {
                             <img src={AddImage} alt="" />
                             <span>Add a channel image</span>
                         </label>
-                        <button>Create Channel</button>
+                        <button className="button-purple">Create Channel</button>
                     </form>
-                    <button className="cancel-button" onClick={props.quitForm}>
+                    <button className="cancel-button button-purple" onClick={props.quitForm}>
                         cancel
                     </button>
                 </div>

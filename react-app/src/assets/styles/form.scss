@@ -53,9 +53,6 @@
 					display: flex;
 					height: 100%;
 					flex-direction: column-reverse;
-					// justify-content: flex-end;
-					// align-items: flex-end;
-					// align-content: baseline
 					button {
 						height: 38px
 					}
@@ -76,8 +73,6 @@
 				}
 			}
 
-
-			
 			.err_msg {
 				color: red;
 				padding: 10px;
@@ -113,7 +108,7 @@
 			left: 9px;
 			top: 30px
 		}
-		
+
 		.locker {
 			width: 22px;
 			height: 18px;
@@ -123,6 +118,9 @@
 			width: 18px;
 			height: 17px;
 			top: 32px;
+		}
+		.channel_icon {
+			filter: none;
 		}
 		label {
 			display: flex;
