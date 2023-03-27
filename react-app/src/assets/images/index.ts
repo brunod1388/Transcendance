@@ -16,3 +16,7 @@ export { default as Accept } from "./accept.png";
 export { default as Decline } from "./decline.png";
 export { default as Delete } from "./delete.png";
 export { default as Edit } from "./edit.png";
+export { default as Lock } from "./lock.png";
+export { default as User } from "./profile-user.png";
+export { default as Email } from "./email.png";
+export { default as Logo42 } from "./42.png";

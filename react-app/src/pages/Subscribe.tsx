@@ -5,6 +5,7 @@ import { AxiosRequestConfig } from "axios";
 import Cookies from "js-cookie";
 import { useAxios } from "../hooks";
 import "../assets/styles/form.scss";
+import { Email, Lock, Logo42, User } from "../assets/images";
 
 interface DataType {
     username: string;
@@ -71,39 +72,60 @@ function Subscribe() {
     return (
         <div className="form_container">
             <span className="logo">Transcendance</span>
-            <div className="form_wrapper register">
+            <div className="form_wrapper signup_wrapper">
                 <span className="title">Register</span>
                 <form onSubmit={handleSubmit}>
-                    <input
-                        name="username"
-                        type="text"
-                        placeholder="display name"
+                    <div className="input_container">
+                        <span className="input-title">Username</span>
+                        <img className="input_icon" src={User} alt="" />
+                        <input
+                            name="username"
+                            type="text"
+                            placeholder="display name"
+                        />
+                    </div>
+                    <div className="input_container">
+                        <span className="input-title">Email</span>
+                        <img className="input_icon" src={Email} alt="" />
+                        <input name="email" type="email" placeholder="email" />
+                    </div>
+                    <div className="input_container">
+                        <span className="input-title">Password</span>
+                        <img className="input_icon" src={Lock} alt="" />
+                        <input
+                            name="password"
+                            type="password"
+                            placeholder="password"
                     />
-                    <input name="email" type="email" placeholder="email" />
-                    <input
-                        name="password"
-                        type="password"
-                        placeholder="password"
+                    </div>
+                    <div className="input_container">
+                        <span className="input-title">Confirm Password</span>
+                        <img className="input_icon" src={Lock} alt="" />
+                        <input
+                            name="confirmPassword"
+                            type="password"
+                            placeholder="confirm password"
                     />
-                    <input
-                        name="confirmPassword"
-                        type="password"
-                        placeholder="confirm password"
-                    />
-                    <input style={{ display: "none" }} type="file" id="file" />
-                    <label htmlFor="file">
-                        <img src={Add} alt="" />
-                        <span>Add an Avatar</span>
+                    </div>
+                    <div className="input_container">
+                        <input style={{ display: "none" }} type="file" id="file" />
+                        <label htmlFor="file" className="flex-row">
+                            <img src={Add} alt="" />
+                            <span>Add an Avatar</span>
                     </label>
-                    <button type="submit">Sign up</button>
+                    </div>
+                    <button className="button-purple" type="submit">Sign up</button>
                     {error && <p>Invalid Input</p>}
                 </form>
-                <button type="button" onClick={signup42}>
-                    Sign up with 42
-                </button>
-                <p className="detail">
-                    You do have an account? <Link to="/login">Login</Link>
-                </p>
+                <div className="flex-row signup_buttons_container">
+                    <button className="button-purple" type="button" onClick={signup42}>
+                        <img src={Logo42} alt="" />
+                        Login
+                    </button>
+                    <Link to="/login">
+                        <button className="button-purple">Login</button>
+                    </Link>
+                </div>
             </div>
         </div>
     );

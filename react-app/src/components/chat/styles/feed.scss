@@ -18,10 +18,10 @@
 		display: flex;
 		flex-direction: column-reverse;
 		// justify-content: flex-end;
-		background-size: contain;
-		background-repeat: no-repeat;
-		background-position: center center;
-		background-image: url($bg-purple2);
+		// background-size: contain;
+		// background-repeat: no-repeat;
+		// background-position: center center;
+		// background-image: url($bg-purple2);
 	}
 	.input {
 		background-color: white;
@@ -44,7 +44,7 @@
 			color:white;
 			border-radius: 5px;
 			padding: 0 10px;
-			background-color: $dark-purple;
+			background-color: transparent;
 			resize: vertical;
 			&::placeholder {
 				color: rgb(216, 216, 216);

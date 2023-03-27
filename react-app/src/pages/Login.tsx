@@ -4,7 +4,7 @@ import { AxiosRequestConfig } from "axios";
 import "../assets/styles/form.scss";
 import { useAxios } from "../hooks";
 import Cookies from "js-cookie";
-
+import { Lock, Logo42, User } from "../assets/images";
 interface DataType {
     username: string;
     password: string;
@@ -68,29 +68,40 @@ function Login() {
             <div className="form_wrapper">
                 <span className="title">Login</span>
                 <form onSubmit={handleSubmit}>
-                    <input
-                        name="username"
-                        type="text"
-                        placeholder="username"
-                        onChange={() => setNotFound(false)}
-                    />
-                    <input
-                        name="password"
-                        type="password"
-                        placeholder="password"
-                    />
-                    <button>Login</button>
+                    <div className="input_container">
+                        <span className="input-title">Username</span>
+                        <img className="input_icon" src={User} alt="" />
+                        <input
+                            name="username"
+                            type="text"
+                            placeholder="Username"
+                            onChange={() => setNotFound(false)}
+                        />
+                    </div>
+                    <div className="input_container">
+                        <span className="input-title">Password</span>
+                        <img className="input_icon" src={Lock} alt="" />
+                        <input
+                            className="password"
+                            name="password"
+                            type="password"
+                            placeholder="Password"
+                        />
+                    </div>
+                    <button className="button-purple login">Login</button>
                     {error && <p>Credentials Incorrect</p>}
                     {/* {err && <span>Something went wrong</span>} */}
                     {notFound && <span>User does not exist</span>}
                 </form>
-                <button type="button" onClick={login42}>
-                    Login with 42
-                </button>
-                <p>
-                    You don't have an account?{" "}
-                    <Link to="/subscribe">Sign up</Link>
-                </p>
+                <div className="flex-row signup_buttons_container">
+                    <button className="button-purple" type="button" onClick={login42}>
+                        <img src={Logo42} alt="" />
+                        Login
+                    </button>
+                    <Link to="/subscribe">
+                        <button className="button-purple">Sign Up</button>
+                    </Link>
+                </div>
             </div>
         </div>
     );

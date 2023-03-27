@@ -11,34 +11,34 @@
 		min-width: 600px;
 		min-height: 400px;
 		display: flex;
-		display: flex;
 		overflow: hidden;
 		box-shadow: 10px 10px 100px black,
 		-2px -2px 150px rgba(145, 145, 145, 0.4);
 		animation: scaleIn 2s;
 		background-color: $dark-grey;
+		background-color: rgb(19 16 58 / 66%);
+		background-color: rgb(28 28 34 / 60%);
 	}
 
 	.mainContainer {
+		width: 100%;
+		height: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		width: 100%;
-		height: 100%;
 	}
 	
 	.featureContainer {
+		width: 100%;
+		height: 100%;
+		overflow: scroll;
 		display: flex;
 		flex-direction: row;
 		flex-shrink: 1;
-		width: 100%;
-		height: 100%;
 		border-radius: 10px 0 0 0;
-		background-color: $dark-purple;
 		background-size: cover;
 		background-position: center center;
-		background-image: url($bg-purple2);
-		overflow: scroll;
+		// background-image: url($bg-purple2);
 	}
 
 	.button_container {

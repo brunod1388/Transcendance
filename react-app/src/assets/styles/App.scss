@@ -1,4 +1,5 @@
 @import "./background/purple.scss";
+@import "./background/purple3.scss";
 
 * {
   margin: 0;
@@ -16,7 +17,8 @@ body {
 	background-size: cover;
 	background-position: center center;
 	background-repeat: repeat;
-	background-image: url($bg-purple)
+	background-image: url($bg-purple);
+	background-image: url($bg-purple3);
 	// background-image: url($hexabg-purple-url)
 
 }
