@@ -14,16 +14,14 @@ const HOUR_TIME = 1000 * 60 * 60;
 function getDateMsg(date: Date): string {
     const now = new Date();
 
-    if (date.getFullYear() === now.getFullYear() ||
-        date.getMonth() === now.getMonth()) {
-        if (date.getDate() === now.getDate())
-            return "Today at";
-        if (date.getDate() === now.getDate() - 1)
-            return "Yesterday at";
+    if (
+        date.getFullYear() === now.getFullYear() ||
+        date.getMonth() === now.getMonth()
+    ) {
+        if (date.getDate() === now.getDate()) return "Today at";
+        if (date.getDate() === now.getDate() - 1) return "Yesterday at";
     }
-    return `${date.getDate()}/${date.getMonth()}/${
-        date.getFullYear() - 2000
-    }`;
+    return `${date.getDate()}/${date.getMonth()}/${date.getFullYear() - 2000}`;
 }
 
 function getTimeStr(date: Date, withSeconds: boolean): string {

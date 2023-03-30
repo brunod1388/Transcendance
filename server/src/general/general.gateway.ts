@@ -10,6 +10,7 @@ import { GeneralService } from "./general.service";
 import { GameEndDTO } from "src/general/dto/GameEnd.dto";
 import { InvitationDto } from "./dto/invitation.dto";
 import { ResponseDto } from "./dto/response.dto";
+import * as jwt from "jsonwebtoken";
 
 @WebSocketGateway({ cors: { origin: ["http://localhost:9000"] } })
 export class GeneralGateway implements OnModuleInit {
@@ -20,6 +21,27 @@ export class GeneralGateway implements OnModuleInit {
 
     // handle connection and disconnection of sockets
     onModuleInit() {
+        this.server.use(async function (socket: Socket, next) {
+            if (socket.handshake && socket.handshake.auth.token) {
+                //console.log("Handshake: ", socket.handshake.auth.token);
+                const token = socket.handshake.auth.token;
+                //console.log("Jwt secret: ", process.env.JWT_SECRET);
+                jwt.verify(token, process.env.JWT_SECRET, (error, payload) => {
+                    if (error) {
+                        console.log("Socket connection NOT AUTHORIZED");
+                        return next(
+                            new Error("Unauthorized socket connection attempt")
+                        );
+                    }
+                    console.log("JWT payload: ", payload);
+                    console.log("Socket connection AUTHORIZED");
+                    next();
+                });
+            } else {
+                console.log("Socket connection NOT AUTHORIZED");
+                next(new Error("Unauthorized socket connection attempt"));
+            }
+        });
         this.server.on("connection", (socket: Socket) => {
             this.generalService.connection(socket);
             socket.on("disconnect", (reason) => {

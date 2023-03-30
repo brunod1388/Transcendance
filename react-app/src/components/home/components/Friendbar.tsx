@@ -20,7 +20,7 @@ function Friendbar() {
     useEffect(() => {
         socket.emit("getFriends", userAuth.id, (res: UserType[]) => {
             setFriends(res);
-            console.log("friends: ", res)
+            console.log("friends: ", res);
         });
         socket
             .on("friend", (friend) => {
@@ -30,12 +30,10 @@ function Friendbar() {
             .on("removeFriend", (friendId: number) => {
                 setFriends((state) =>
                     state.filter((friend) => friend.id !== friendId)
-                )
+                );
             });
         return () => {
-            socket
-                .off("friend")
-                .off("removeFriend")
+            socket.off("friend").off("removeFriend");
         };
     }, [socket]);
 

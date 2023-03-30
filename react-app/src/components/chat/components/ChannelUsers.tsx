@@ -24,29 +24,33 @@ export default function ChannelUsers() {
                 )?.rights;
                 updateChannel({ ...channel, rights: String(rights) });
             }
-            );
-        socket.on("ChannelUser", (user: UserType) => {
-            setUsers((state) => {
-                const chanIndex = state.findIndex((c) => c.channelUserId === user.channelUserId);
-                const newUsers = [...state];
-                chanIndex === -1 ? newUsers.push(user) : newUsers[chanIndex] = user;
-                return newUsers
+        );
+        socket
+            .on("ChannelUser", (user: UserType) => {
+                setUsers((state) => {
+                    const chanIndex = state.findIndex(
+                        (c) => c.channelUserId === user.channelUserId
+                    );
+                    const newUsers = [...state];
+                    chanIndex === -1
+                        ? newUsers.push(user)
+                        : (newUsers[chanIndex] = user);
+                    return newUsers;
+                });
+            })
+            .on("RemoveChannelUser", (channelUserId: number) => {
+                setUsers((state) => {
+                    const chanIndex = state.findIndex(
+                        (user) => user.channelUserId === channelUserId
+                    );
+                    if (chanIndex === -1) return [...state];
+                    const newUsers = [...state];
+                    newUsers.splice(chanIndex, 1);
+                    return newUsers;
+                });
             });
-        })
-        .on("RemoveChannelUser", (channelUserId: number) => {
-            setUsers((state) => {
-                const chanIndex = state.findIndex((user) => user.channelUserId === channelUserId);
-                if (chanIndex === -1)
-                    return [...state]
-                const newUsers = [...state];
-                newUsers.splice(chanIndex, 1);
-                return newUsers;
-            });
-        });
         return () => {
-            socket
-                .off("ChannelUser")
-                .off("RemoveChannelUser");
+            socket.off("ChannelUser").off("RemoveChannelUser");
         };
     }, [socket, channel.id]);
 
@@ -61,18 +65,30 @@ export default function ChannelUsers() {
                 )}
             </div>
             <div className="users">
-                {users.filter((user) => user.rights === "admin").length > 0 &&
+                {users.filter((user) => user.rights === "admin").length > 0 && (
                     <span className="title">Admin</span>
-                }
-                {users.filter((user) => user.rights === "admin").map((user, i) => (
-                    <User user={user} key={`admin-${i}`} type="channelUser" />
-                ))}
-                {users.filter((usr) => usr.rights === "normal").length > 0 && 
+                )}
+                {users
+                    .filter((user) => user.rights === "admin")
+                    .map((user, i) => (
+                        <User
+                            user={user}
+                            key={`admin-${i}`}
+                            type="channelUser"
+                        />
+                    ))}
+                {users.filter((usr) => usr.rights === "normal").length > 0 && (
                     <span className="title">Users</span>
-                }
-                {users.filter((user) => user.rights === "normal").map((user, i) => (
-                    <User user={user} key={`user-${i}`} type="channelUser" />
-                ))}
+                )}
+                {users
+                    .filter((user) => user.rights === "normal")
+                    .map((user, i) => (
+                        <User
+                            user={user}
+                            key={`user-${i}`}
+                            type="channelUser"
+                        />
+                    ))}
             </div>
             {channel.type === "channel" && (
                 <div className="invitation">

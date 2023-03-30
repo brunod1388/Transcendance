@@ -16,7 +16,9 @@ export class FriendService {
         private userService: UsersService
     ) {}
 
-    async createFriend(friendDetails: CreateFriendDTO): Promise<FriendDTO | undefined> {
+    async createFriend(
+        friendDetails: CreateFriendDTO
+    ): Promise<FriendDTO | undefined> {
         const user = await this.userService.findUserId(friendDetails.userId);
         const friendUser = await this.userService.findUserId(
             friendDetails.friendId
@@ -79,13 +81,15 @@ export class FriendService {
             username: friend.friend.username,
             avatar: friend.friend.avatar,
             id: friend.friend.id,
-        }))
-        friends = friends.concat(friends2.map((friend) => ({
-            friendId: friend.id,
-            username: friend.user.username,
-            avatar: friend.user.avatar,
-            id: friend.user.id,
-        })));
+        }));
+        friends = friends.concat(
+            friends2.map((friend) => ({
+                friendId: friend.id,
+                username: friend.user.username,
+                avatar: friend.user.avatar,
+                id: friend.user.id,
+            }))
+        );
         return friends;
     }
 
@@ -107,7 +111,9 @@ export class FriendService {
     }
 
     async deleteFriend(friendId: number): Promise<number> {
-        const friend = await this.friendRepository.findOne({where: {id: friendId}});
+        const friend = await this.friendRepository.findOne({
+            where: { id: friendId },
+        });
         if (friend === undefined) return -1;
         const res = await this.friendRepository.delete({ id: friendId });
         return friendId;

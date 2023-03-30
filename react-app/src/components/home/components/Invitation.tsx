@@ -23,7 +23,7 @@ export default function Invitations(props: Props) {
     function handleInvitation(type: string, accept: boolean, id: number) {
         const handleMessage =
             type === "Friend" ? "updateFriend" : "updateChannelUser";
-            console.log("handleMessage: ", handleMessage)
+        console.log("handleMessage: ", handleMessage);
         socket.emit(handleMessage, { id: id, accept: accept }, (res: any) => {
             console.log(res);
             if (invitations.length === 1) setNotif(false);

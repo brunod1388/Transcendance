@@ -36,11 +36,15 @@ export default function NewChannel(props: Props) {
         <div className="newChannel_container">
             <div className="form_container">
                 <div className="form_wrapper">
-                        <span className="logo">New Channel</span>
+                    <span className="logo">New Channel</span>
                     <form onSubmit={handleSubmit}>
                         <div className="input_container">
                             <span className="input-title">Channel name</span>
-                            <img className="input_icon channel_icon" src={NoChannelIcon} alt="" />
+                            <img
+                                className="input_icon channel_icon"
+                                src={NoChannelIcon}
+                                alt=""
+                            />
                             <input
                                 name="channelName"
                                 type="text"
@@ -64,24 +68,34 @@ export default function NewChannel(props: Props) {
                         </select>
                         {isPrivate && (
                             <div className="input_container">
-                            <span className="input-title">Password</span>
-                            <img className="input_icon locker" src={Lock} alt="" />
-                            <input
-                                name="password"
-                                type="password"
-                                placeholder="password"
-                            />
+                                <span className="input-title">Password</span>
+                                <img
+                                    className="input_icon locker"
+                                    src={Lock}
+                                    alt=""
+                                />
+                                <input
+                                    name="password"
+                                    type="password"
+                                    placeholder="password"
+                                />
                             </div>
                         )}
                         {isPrivate && (
                             <div className="input_container">
-                            <span className="input-title">Confirm Password</span>
-                            <img className="input_icon locker" src={Lock} alt="" />
-                            <input
-                                name="confirmPassword"
-                                type="password"
-                                placeholder="confirm password"
-                            />
+                                <span className="input-title">
+                                    Confirm Password
+                                </span>
+                                <img
+                                    className="input_icon locker"
+                                    src={Lock}
+                                    alt=""
+                                />
+                                <input
+                                    name="confirmPassword"
+                                    type="password"
+                                    placeholder="confirm password"
+                                />
                             </div>
                         )}
                         <input
@@ -93,9 +107,14 @@ export default function NewChannel(props: Props) {
                             <img src={AddImage} alt="" />
                             <span>Add a channel image</span>
                         </label>
-                        <button className="button-purple">Create Channel</button>
+                        <button className="button-purple">
+                            Create Channel
+                        </button>
                     </form>
-                    <button className="cancel-button button-purple" onClick={props.quitForm}>
+                    <button
+                        className="cancel-button button-purple"
+                        onClick={props.quitForm}
+                    >
                         cancel
                     </button>
                 </div>

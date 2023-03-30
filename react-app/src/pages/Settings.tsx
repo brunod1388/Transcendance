@@ -160,7 +160,9 @@ function Settings() {
                 <form className="setting_form" onSubmit={handleUsername}>
                     <div className="input_container">
                         <img className="input_icon" src={User} alt="" />
-                        <span className="input-title">Change your username</span>
+                        <span className="input-title">
+                            Change your username
+                        </span>
                         <input
                             name="username"
                             type="text"
@@ -168,7 +170,9 @@ function Settings() {
                         />
                     </div>
                     <div className="button_container">
-                        <button className="button-purple" type="submit">Update username</button>
+                        <button className="button-purple" type="submit">
+                            Update username
+                        </button>
                         {errU && <p>Error: Username already taken</p>}
                         {resU && !loadU && <p>Username successfully changed</p>}
                     </div>
@@ -177,42 +181,56 @@ function Settings() {
                     <div className="input_container">
                         <img className="input_icon" src={Email} alt="" />
                         <span className="input-title">Change your email</span>
-                        <input name="email" type="email" placeholder="new email" />
+                        <input
+                            name="email"
+                            type="email"
+                            placeholder="new email"
+                        />
                     </div>
                     <div className="button_container">
-                        <button className="button-purple" type="submit">Update email</button>
+                        <button className="button-purple" type="submit">
+                            Update email
+                        </button>
                         {errE && <p>Error: Email already taken</p>}
                         {resE && !loadE && <p>Email successfully changed</p>}
                     </div>
                 </form>
-                <span className="title">
-                    Upload a new avatar
-                </span>
+                <span className="title">Upload a new avatar</span>
                 <div className="input_container">
-                    <input 
+                    <input
                         style={{ display: "none" }}
                         type="file"
                         onChange={handleImage}
                         id="file"
-                        />
+                    />
                     <label htmlFor="file" className="flex-row">
                         <img src={AddImageIcon} alt="" />
                         <span>Change your Avatar</span>
-                </label>
-                {errA && <p>Error: Invalid file</p>}
-                {resA && !loadA && <p>Avatar successfully changed</p>}
+                    </label>
+                    {errA && <p>Error: Invalid file</p>}
+                    {resA && !loadA && <p>Avatar successfully changed</p>}
                 </div>
                 {userAuth.enable2FA && (
-                    <button className="button-purple" type="button" onClick={disableTwoFactor}>
+                    <button
+                        className="button-purple"
+                        type="button"
+                        onClick={disableTwoFactor}
+                    >
                         Disable Two Factor Authentication
                     </button>
                 )}
                 {!userAuth.enable2FA && (
-                    <button className="button-purple" type="button" onClick={enableTwoFactor}>
+                    <button
+                        className="button-purple"
+                        type="button"
+                        onClick={enableTwoFactor}
+                    >
                         Enable Two Factor Authentication
                     </button>
                 )}
-                <Link to="/home"><button className="button-purple"> Back to Home</button></Link>
+                <Link to="/home">
+                    <button className="button-purple"> Back to Home</button>
+                </Link>
             </div>
         </div>
     );

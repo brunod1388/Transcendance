@@ -62,8 +62,7 @@ export default function UserMenu(props: Props) {
     }
 
     function deleteUser(user: UserType, type: string) {
-        if (type ==="self")
-            setFeature(Feature.None);
+        if (type === "self") setFeature(Feature.None);
         if (type === "channelUser" || type === "self") {
             socket.emit("deleteChannelUser", { id: user.channelUserId });
         } else if (type === "friend")
@@ -77,12 +76,12 @@ export default function UserMenu(props: Props) {
     function makeAdmin(userId: number) {}
 
     function deleteFriend(friendId: number | undefined) {
-        console.log("should delete")
-        console.log(friendId)
+        console.log("should delete");
+        console.log(friendId);
         if (friendId !== undefined)
-        socket.emit("deleteFriend", { id: friendId }, (res: string) => {
-            console.log(res)
-        });
+            socket.emit("deleteFriend", { id: friendId }, (res: string) => {
+                console.log(res);
+            });
     }
 
     function handleMuteOrBlock(e: FormEvent<HTMLFormElement>) {
@@ -130,11 +129,11 @@ export default function UserMenu(props: Props) {
                     >
                         Friend
                     </button>
-                    {inviteResponse !== "" && 
+                    {inviteResponse !== "" && (
                         <div className="message">
                             <p>{inviteResponse}</p>
                         </div>
-                    }
+                    )}
                 </div>
             )}
             {userAuth.id !== user.id && (

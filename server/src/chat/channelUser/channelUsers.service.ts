@@ -19,7 +19,9 @@ export class ChannelUserService {
         private channelService: ChannelService
     ) {}
 
-    async createChannelUser(channelUserDetails: CreateChannelUserDto): Promise<ChannelUser> {
+    async createChannelUser(
+        channelUserDetails: CreateChannelUserDto
+    ): Promise<ChannelUser> {
         const user = await this.userService.findUserId(
             channelUserDetails.userId
         );

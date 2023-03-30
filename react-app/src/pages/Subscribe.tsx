@@ -95,7 +95,7 @@ function Subscribe() {
                             name="password"
                             type="password"
                             placeholder="password"
-                    />
+                        />
                     </div>
                     <div className="input_container">
                         <span className="input-title">Confirm Password</span>
@@ -104,20 +104,30 @@ function Subscribe() {
                             name="confirmPassword"
                             type="password"
                             placeholder="confirm password"
-                    />
+                        />
                     </div>
                     <div className="input_container">
-                        <input style={{ display: "none" }} type="file" id="file" />
+                        <input
+                            style={{ display: "none" }}
+                            type="file"
+                            id="file"
+                        />
                         <label htmlFor="file" className="flex-row">
                             <img src={AddImageIcon} alt="" />
                             <span>Add an Avatar</span>
-                    </label>
+                        </label>
                     </div>
-                    <button className="button-purple" type="submit">Sign up</button>
+                    <button className="button-purple" type="submit">
+                        Sign up
+                    </button>
                     {error && <p>Invalid Input</p>}
                 </form>
                 <div className="flex-row signup_buttons_container">
-                    <button className="button-purple" type="button" onClick={signup42}>
+                    <button
+                        className="button-purple"
+                        type="button"
+                        onClick={signup42}
+                    >
                         <img src={Logo42} alt="" />
                         Login
                     </button>

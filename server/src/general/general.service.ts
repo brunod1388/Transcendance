@@ -3,6 +3,7 @@ import { Socket, Server } from "socket.io";
 import { ClientsService } from "src/clients/clients.service";
 import { InvitationDto } from "./dto/invitation.dto";
 import { BroadcastDTO } from "src/general/dto/Broadcast.dto";
+import { AuthService } from "src/auth/auth.service";
 
 @Injectable()
 export class GeneralService {

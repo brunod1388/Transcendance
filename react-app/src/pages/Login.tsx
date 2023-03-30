@@ -94,7 +94,11 @@ function Login() {
                     {notFound && <span>User does not exist</span>}
                 </form>
                 <div className="flex-row signup_buttons_container">
-                    <button className="button-purple" type="button" onClick={login42}>
+                    <button
+                        className="button-purple"
+                        type="button"
+                        onClick={login42}
+                    >
                         <img src={Logo42} alt="" />
                         Login
                     </button>
