@@ -33,7 +33,9 @@ export class GeneralGateway implements OnModuleInit {
                             new Error("Unauthorized socket connection attempt")
                         );
                     }
-                    console.log("JWT payload: ", payload);
+                    //console.log("JWT payload: ", payload);
+                    socket.data.user = { id: payload.sub }
+                    //console.log("Socket user data: ", socket.data.user);
                     console.log("Socket connection AUTHORIZED");
                     next();
                 });
