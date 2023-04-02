@@ -37,16 +37,6 @@ export interface Score {
     player2: number;
 }
 
-export class Score implements Score {
-    player1: number;
-    player2: number;
-
-    constructor(player1: number, player2: number) {
-        this.player1 = player1;
-        this.player2 = player2;
-    }
-}
-
 export interface Broadcast {
     room: string;
     event: string;

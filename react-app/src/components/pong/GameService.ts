@@ -1,4 +1,11 @@
-import { CLASSIC, GameMode, PlayerInfo, READY, classicConfig, pingpongConfig } from "./Game";
+import {
+    CLASSIC,
+    GameMode,
+    PlayerInfo,
+    READY,
+    classicConfig,
+    pingpongConfig,
+} from "../../@types";
 
 export const playersAreReady = (
     player1: PlayerInfo,

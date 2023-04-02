@@ -1,17 +1,7 @@
 import { Score, Broadcast } from "../@types/pong.types";
 import { NavigateFunction } from "react-router-dom";
 import { Socket } from "socket.io-client";
-import { GameMode } from "../components/pong/Game";
-
-export function changeScore(side: string, prev: Score): Score {
-    let newScore = new Score(prev.player1, prev.player2);
-    if (side === "left") {
-        newScore.player2 += 1;
-    } else if (side === "right") {
-        newScore.player1 += 1;
-    }
-    return newScore;
-}
+import { GameMode } from "../@types";
 
 export function leaveGame(
     socket: Socket,

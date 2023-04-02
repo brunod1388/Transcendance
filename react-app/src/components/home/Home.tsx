@@ -5,11 +5,10 @@ import { useAuth } from "../../context";
 import { useState, useEffect } from "react";
 import { useNotificationsDispatch, useSocket, useVisible } from "../../hooks";
 import { CreateInvitation, CreateResponse } from "../invitations";
-import { InvitationDTO, ResponseDTO } from "../../@types";
+import { InvitationDTO, ResponseDTO, CLASSIC, GameMode } from "../../@types";
 // import { Pong } from "../pong";
 import Chat from "../chat/Chat";
 import "./styles/home.scss";
-import { CLASSIC, GameMode } from "../pong/Game";
 import { Game } from "../pong/Game";
 import { gameConfig } from "../pong/GameService";
 
@@ -28,6 +27,7 @@ interface JoinPongDto {
 interface PongData {
     isPong: boolean;
     data: JoinPongDto;
+    host: boolean;
 }
 
 function Home() {
@@ -42,15 +42,17 @@ function Home() {
             room: "",
             mode: CLASSIC,
         },
+        host: false,
     });
 
-    const onPong = (room: string, mode: GameMode) => {
+    const onPong = (room: string, mode: GameMode, host: boolean) => {
         setPongSwitch({
             isPong: true,
             data: {
                 room: room,
                 mode: mode,
             },
+            host: host,
         });
     };
 
@@ -73,19 +75,9 @@ function Home() {
                 CreateResponse(response, dispatch, socket, onPong);
             }
         });
-        socket.on("joinPong", (data: JoinPongDto) => {
-            setPongSwitch({
-                isPong: true,
-                data: {
-                    mode: data.mode,
-                    room: data.room,
-                },
-            });
-        });
         return () => {
             socket.off("invitation");
             socket.off("response");
-            socket.off("joinPong");
         };
     }, []);
 
@@ -98,6 +90,8 @@ function Home() {
                     <div className="featureContainer">
                         {PongSwitch.isPong && (
                             <Game
+                                username={userAuth.username}
+                                host={PongSwitch.host}
                                 onEnd={() => {
                                     setPongSwitch({
                                         isPong: false,
@@ -105,6 +99,7 @@ function Home() {
                                             room: "",
                                             mode: CLASSIC,
                                         },
+                                        host: false,
                                     });
                                 }}
                                 mode={PongSwitch.data.mode}

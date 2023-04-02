@@ -1,17 +1,15 @@
 import { createId, addNotification } from "../../utils";
-import { useNotifications } from "../../hooks";
-import { DispatchType, ResponseDTO } from "../../@types";
+import { DispatchType, ResponseDTO, GameMode } from "../../@types";
 import { ResponsePong } from "./ResponsePong";
 import { useEffect, useState } from "react";
 import { removeNotification } from "../../utils";
 import { Socket } from "socket.io-client";
-import { GameMode } from "../pong/Game";
 
 export const CreateResponse = (
     response: ResponseDTO,
     dispatch: DispatchType,
     socket: Socket,
-    onPong: (room: string, gameMode: GameMode) => void
+    onPong: (room: string, gameMode: GameMode, host: boolean) => void
 ) => {
     const id = createId();
     const content = () => (
@@ -32,7 +30,7 @@ interface Props {
     response: ResponseDTO;
     dispatch: DispatchType;
     socket: Socket;
-    onPong: (room: string, gameMode: GameMode) => void;
+    onPong: (room: string, gameMode: GameMode, host: boolean) => void;
 }
 
 function Response({ id, response, dispatch, socket, onPong }: Props) {

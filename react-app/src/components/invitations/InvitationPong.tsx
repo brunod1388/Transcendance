@@ -1,22 +1,24 @@
-import { NONE, ACCEPTED, DECLINED, InvitationDTO } from "../../@types";
-import { useNavigate } from "react-router-dom";
-import { useNotificationsDispatch, useSocket } from "../../hooks";
+import {
+    NONE,
+    ACCEPTED,
+    DECLINED,
+    InvitationDTO,
+    CLASSIC,
+    GameMode,
+} from "../../@types";
+import { useNotificationsDispatch } from "../../hooks";
 import { useTimeout } from "../../hooks";
 import { removeNotification } from "../../utils";
 import { joinGame, sendResponse } from "../../utils";
 import { useFeature } from "../../context";
-import { useSearchParams } from "react-router-dom";
-import { Feature } from "../../context";
 import { Socket } from "socket.io-client";
-import { CLASSIC } from "../pong/Game";
-import { GameMode } from "../pong/Game";
 
 interface Props {
     invitation: InvitationDTO;
     id: string;
     onDisplay: (result: boolean) => void;
     socket: Socket;
-    onPong: (room: string, gameMode: GameMode) => void;
+    onPong: (room: string, gameMode: GameMode, host: boolean) => void;
 }
 
 // This notification contains two button to respond to the invitation,
@@ -27,7 +29,6 @@ export function InvitationPong({
     socket,
     onPong,
 }: Props) {
-    const { setFeature } = useFeature();
     const dispatch = useNotificationsDispatch();
 
     useTimeout(() => {
@@ -39,7 +40,7 @@ export function InvitationPong({
         if (statut === ACCEPTED) {
             console.log(invitation.room);
             joinGame(socket, invitation.room, CLASSIC);
-            onPong(invitation.room, CLASSIC);
+            onPong(invitation.room, CLASSIC, false);
         }
         removeNotification(id, dispatch);
         onDisplay(false);

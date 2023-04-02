@@ -1,10 +1,4 @@
-import {
-    CONNECTED,
-    GameConfig,
-    PlayerInfo,
-    PlayerStatus,
-    READY,
-} from "./Game";
+import { CONNECTED, GameConfig, PlayerInfo, READY } from "../../@types";
 import { PropsWithChildren } from "react";
 import { playersAreReady } from "./GameService";
 

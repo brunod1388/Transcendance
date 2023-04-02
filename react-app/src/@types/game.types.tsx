@@ -9,7 +9,7 @@ import {
     PADDLE_WIDTH,
     RAYON,
     RIGHT_PADDLE,
-	Position
+    Position,
 } from "./index";
 
 export interface Game {
@@ -48,8 +48,6 @@ export interface GameConfig {
     room: string;
 }
 
-
-
 export type Players = {
     player1: PlayerInfo;
     player2: PlayerInfo;
@@ -58,7 +56,7 @@ export type Players = {
 export interface PlayerInfo {
     host: boolean;
     status: PlayerStatus;
-    username: string | null;
+    username: string;
 }
 
 export enum PlayerStatus {
@@ -95,8 +93,8 @@ export enum PlayerStatus {
 
 export enum GameStatus {
     PLAYING,
-    WIN,
-    LOST,
+    END_GAME,
+    START_GAME,
 }
 
 export enum GameMode {
@@ -104,6 +102,8 @@ export enum GameMode {
     PINGPONG = "pingpong",
 }
 
+export const START_GAME = GameStatus.START_GAME;
+export const END_GAME = GameStatus.END_GAME;
 export const CLASSIC = GameMode.CLASSIC;
 export const PINGPONG = GameMode.PINGPONG;
 export const LOADING = PlayerStatus.LOADING;
@@ -115,9 +115,8 @@ export const PLAYING = PlayerStatus.PLAYING;
 export const initialPlayer: PlayerInfo = {
     host: false,
     status: LOADING,
-    username: null,
+    username: "",
 };
-
 
 export const classicConfig: GameConfig = {
     status: GameStatus.PLAYING,
