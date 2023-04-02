@@ -33,6 +33,20 @@ export class AuthService {
                 "Password does not match confirm password"
             );
         }
+
+        console.log("REMINDER: Uncomment password strength rules");
+        // password strength rules: min. 8 characters long (32 characters max),
+        //  contains at least one digit, one uppercase and one lowercase letter,
+        //  one special character
+
+        //const pwdRules = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,32}$/);
+
+        // if (!pwdRules.test(dto.password)) {
+        //     throw new BadRequestException(
+        //         "Password: min. 8 characters long, contains at least one digit, one uppercase and one lowercase letter"
+        //     );
+        // }
+
         // generate the password hash using argon
         // await is required as argon.hash is an asynchornous function
         //  const hash = await argon.hash(dto.password);
