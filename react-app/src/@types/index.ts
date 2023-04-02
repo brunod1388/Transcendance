@@ -5,3 +5,4 @@ export * from "./other/MessageType";
 export * from "./other/SetStateType";
 export * from "./auth.types";
 export * from "./chat.types";
+export * from "./game.types";

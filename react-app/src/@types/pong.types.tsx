@@ -1,6 +1,8 @@
 export const RAYON = 5;
+
 export const WIDTH = 650;
 export const HEIGHT = 480;
+export const MIDDLEY = HEIGHT / 2;
 export const TOP_WALL = HEIGHT;
 export const BOTTOM_WALL = 0;
 export const LEFT_WALL = 0;
@@ -12,7 +14,6 @@ export const BALL_RADIUS = 10;
 export const LEFT_PADDLE = 20;
 export const RIGHT_PADDLE = WIDTH - LEFT_PADDLE;
 
-export const PLAYING = 0;
 export const WIN1 = 1;
 export const WIN2 = 3;
 export const LEFT = 2;

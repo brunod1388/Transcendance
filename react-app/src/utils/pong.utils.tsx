@@ -1,6 +1,7 @@
 import { Score, Broadcast } from "../@types/pong.types";
 import { NavigateFunction } from "react-router-dom";
 import { Socket } from "socket.io-client";
+import { GameMode } from "../components/pong/Game";
 
 export function changeScore(side: string, prev: Score): Score {
     let newScore = new Score(prev.player1, prev.player2);
@@ -24,16 +25,11 @@ export function leaveGame(
     socket.emit("leave", room);
 }
 
-export function joinGame(
-    socket: Socket,
-    room: string,
-    activatePong: (room: string) => void
-) {
+export function joinGame(socket: Socket, room: string, mode: GameMode) {
     console.log("jaingame");
     if (socket !== undefined) {
         socket.emit("join", room);
         socket.emit("game-join", room);
-        socket.emit("joinPong", room);
-        activatePong(room);
+        socket.emit("joinPong", { room, mode });
     }
 }

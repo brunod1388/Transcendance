@@ -1,15 +1,17 @@
 import { Navbar, Topbar, Friendbar } from ".";
-import { useSearchParams } from "react-router-dom";
 import { useFeature, Feature } from "../../context/feature.context";
 import { ContactIcon } from "../../assets/images";
-import { useAuth, useChat } from "../../context";
+import { useAuth } from "../../context";
 import { useState, useEffect } from "react";
 import { useNotificationsDispatch, useSocket, useVisible } from "../../hooks";
 import { CreateInvitation, CreateResponse } from "../invitations";
 import { InvitationDTO, ResponseDTO } from "../../@types";
-import { Pong } from "../pong";
+// import { Pong } from "../pong";
 import Chat from "../chat/Chat";
 import "./styles/home.scss";
+import { CLASSIC, GameMode } from "../pong/Game";
+import { Game } from "../pong/Game";
+import { gameConfig } from "../pong/GameService";
 
 const featureComponent = new Map<number, JSX.Element>([
     [Feature.None, <></>],
@@ -18,14 +20,39 @@ const featureComponent = new Map<number, JSX.Element>([
     // [Feature.Ranking, <Ranking />],
 ]);
 
+interface JoinPongDto {
+    room: string;
+    mode: GameMode;
+}
+
+interface PongData {
+    isPong: boolean;
+    data: JoinPongDto;
+}
+
 function Home() {
     const { feature } = useFeature();
     const { ref, isVisible, setIsVisible } = useVisible(false);
     const [socket] = useSocket();
     const dispatch = useNotificationsDispatch();
     const { userAuth } = useAuth();
-    const [isPong, setIsPong] = useState<Boolean>(false);
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [PongSwitch, setPongSwitch] = useState<PongData>({
+        isPong: false,
+        data: {
+            room: "",
+            mode: CLASSIC,
+        },
+    });
+
+    const onPong = (room: string, mode: GameMode) => {
+        setPongSwitch({
+            isPong: true,
+            data: {
+                room: room,
+                mode: mode,
+            },
+        });
+    };
 
     useEffect(() => {
         socket.emit("chatConnection", { userid: userAuth.id });
@@ -35,7 +62,7 @@ function Home() {
     useEffect(() => {
         socket.on("invitation", (invitation: InvitationDTO) => {
             if (userAuth.username === invitation.to) {
-                CreateInvitation(invitation, dispatch, socket);
+                CreateInvitation(invitation, dispatch, socket, onPong);
             }
         });
         socket.on("response", (response: ResponseDTO) => {
@@ -43,11 +70,17 @@ function Home() {
             console.log(response.to);
             console.log(userAuth.id);
             if (Number(userAuth.id) === Number(response.to)) {
-                CreateResponse(response, dispatch, socket);
+                CreateResponse(response, dispatch, socket, onPong);
             }
         });
-        socket.on("joinPong", () => {
-            setIsPong(true);
+        socket.on("joinPong", (data: JoinPongDto) => {
+            setPongSwitch({
+                isPong: true,
+                data: {
+                    mode: data.mode,
+                    room: data.room,
+                },
+            });
         });
         return () => {
             socket.off("invitation");
@@ -63,16 +96,27 @@ function Home() {
                 <div className="mainContainer">
                     <Topbar />
                     <div className="featureContainer">
-                        {isPong && (
-                            <Pong
+                        {PongSwitch.isPong && (
+                            <Game
                                 onEnd={() => {
-                                    setIsPong(false);
-                                    searchParams.delete("room");
-                                    setSearchParams(searchParams);
+                                    setPongSwitch({
+                                        isPong: false,
+                                        data: {
+                                            room: "",
+                                            mode: CLASSIC,
+                                        },
+                                    });
                                 }}
+                                mode={PongSwitch.data.mode}
+                                room={PongSwitch.data.room}
+                                config={gameConfig(
+                                    PongSwitch.data.mode,
+                                    PongSwitch.data.room
+                                )}
                             />
                         )}
-                        {isPong === false && featureComponent.get(feature)}
+                        {PongSwitch.isPong === false &&
+                            featureComponent.get(feature)}
                     </div>
                 </div>
                 <div className="button_container">

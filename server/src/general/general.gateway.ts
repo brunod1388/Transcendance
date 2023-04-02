@@ -12,6 +12,14 @@ import { InvitationDto } from "./dto/invitation.dto";
 import { ResponseDto } from "./dto/response.dto";
 import * as jwt from "jsonwebtoken";
 
+interface pongDTO {
+    room: string;
+    player: {
+        host: false;
+        status: string;
+        username: null;
+    };
+}
 @WebSocketGateway({ cors: { origin: ["http://localhost:9000"] } })
 export class GeneralGateway implements OnModuleInit {
     @WebSocketServer()
@@ -34,7 +42,7 @@ export class GeneralGateway implements OnModuleInit {
                         );
                     }
                     //console.log("JWT payload: ", payload);
-                    socket.data.user = { id: payload.sub }
+                    socket.data.user = { id: payload.sub };
                     //console.log("Socket user data: ", socket.data.user);
                     console.log("Socket connection AUTHORIZED");
                     next();
@@ -92,5 +100,16 @@ export class GeneralGateway implements OnModuleInit {
     @SubscribeMessage("joinPong")
     handleJoinPong(client: Socket, room: string) {
         this.server.to(room).emit("joinPong");
+    }
+
+    @SubscribeMessage("player")
+    handlePlayer(client: Socket, data: pongDTO) {
+        console.log("recieved player");
+        client.broadcast.to(data.room).emit("player", data.player);
+    }
+    @SubscribeMessage("game-player-left")
+    handlePlayerLeft(client: Socket, room: string) {
+        client.broadcast.to(room).emit("game-player-left");
+        client.leave(room);
     }
 }

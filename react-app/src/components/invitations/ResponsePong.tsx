@@ -5,22 +5,24 @@ import { joinGame } from "../../utils";
 import { useFeature } from "../../context";
 import { Feature } from "../../context";
 import { Socket } from "socket.io-client";
+import { CLASSIC, GameMode } from "../pong/Game";
 
 interface Props {
     room: string;
     accepted: number;
     onDisplay: (result: boolean) => void;
     socket: Socket;
+    onPong: (room: string, gameMode: GameMode) => void;
 }
 
-export function ResponsePong({ room, accepted, onDisplay, socket }: Props) {
+export function ResponsePong({
+    room,
+    accepted,
+    onDisplay,
+    socket,
+    onPong,
+}: Props) {
     const { setFeature } = useFeature();
-    const [searchParams, setSearchParams] = useSearchParams();
-
-    const activatePong = (roomName: string) => {
-        setFeature(Feature.Pong);
-        setSearchParams({ ["room"]: roomName });
-    };
 
     useTimeout(() => {
         onDisplay(false);
@@ -35,7 +37,8 @@ export function ResponsePong({ room, accepted, onDisplay, socket }: Props) {
             <button
                 onClick={() => {
                     onDisplay(false);
-                    joinGame(socket, room, activatePong);
+                    joinGame(socket, room, CLASSIC);
+                    onPong(room, CLASSIC);
                 }}
             >
                 JOIN
