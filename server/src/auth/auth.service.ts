@@ -43,7 +43,7 @@ export class AuthService {
 
         // if (!pwdRules.test(dto.password)) {
         //     throw new BadRequestException(
-        //         "Password: min. 8 characters long, contains at least one digit, one uppercase and one lowercase letter"
+        //         "Password: min. 8 characters long, contains at least one digit, one uppercase and one lowercase letter, one special character"
         //     );
         // }
 
