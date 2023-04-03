@@ -11,6 +11,7 @@ import {
     CreateUserDto,
     UpdateUserDto,
     Create42UserDto,
+    UpdateUserPasswordDto,
 } from "../users/dtos/UserValidation.dto";
 import * as argon from "argon2";
 import { JwtService } from "@nestjs/jwt";
@@ -35,11 +36,11 @@ export class AuthService {
         }
 
         console.log("REMINDER: Uncomment password strength rules");
-        // password strength rules: min. 8 characters long (32 characters max),
+        // password strength rules: min. 8 characters long (64 characters max),
         //  contains at least one digit, one uppercase and one lowercase letter,
         //  one special character
 
-        //const pwdRules = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,32}$/);
+        //const pwdRules = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,64}$/);
 
         // if (!pwdRules.test(dto.password)) {
         //     throw new BadRequestException(
@@ -244,6 +245,41 @@ export class AuthService {
         } else {
             return this.signToken(updatedUser.id, updatedUser.username, false);
         }
+    }
+
+    async updateUserPassword(id: number, dto: UpdateUserPasswordDto) {
+        const user = await this.usersService.findUserId(id);
+        if (user === null || user === undefined) {
+            throw new NotFoundException(
+                "The specified id does not match an existing user"
+            );
+        }
+
+        const pwMatches = await argon.verify(user.password, dto.password);
+        if (!pwMatches) throw new ForbiddenException("Credentials incorrect");
+
+        if (dto.newPassword !== dto.confirmNewPassword) {
+            throw new BadRequestException(
+                "Password does not match confirm password"
+            );
+        }
+
+        const pwdRules = new RegExp(
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,64}$/
+        );
+
+        if (!pwdRules.test(dto.newPassword)) {
+            throw new BadRequestException(
+                "Password: min. 8 characters long, contains at least one digit, one uppercase and one lowercase letter, one special character"
+            );
+        }
+
+        dto.newPassword = await argon.hash(dto.newPassword);
+
+        const updated = await this.usersService.updateUser(user.id, {
+            password: dto.newPassword,
+        });
+        console.log("Updated user: ", updated);
     }
 
     async generateQRcode(path: string, response: Response) {

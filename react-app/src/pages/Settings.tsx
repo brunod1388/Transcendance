@@ -4,7 +4,13 @@ import { AxiosRequestConfig } from "axios";
 import { useAxios } from "../hooks";
 import { Feature, useAuth, useFeature } from "../context";
 import "../assets/styles/form.scss";
-import { AddChannelIcon, AddImageIcon, Email, User } from "../assets/images";
+import {
+    AddChannelIcon,
+    AddImageIcon,
+    Email,
+    User,
+    Lock,
+} from "../assets/images";
 
 const defaultAvatarRequest: AxiosRequestConfig = {
     method: "POST",
@@ -31,6 +37,16 @@ const defaultEmailRequest: AxiosRequestConfig = {
     },
 };
 
+const defaultPasswordRequest: AxiosRequestConfig = {
+    method: "POST",
+    url: "/auth/updatePassword",
+    data: {
+        password: "",
+        newPassword: "",
+        confirmNewPassword: "",
+    },
+};
+
 const default2faRequest: AxiosRequestConfig = {
     method: "POST",
     url: "/auth/deactivate2FA",
@@ -47,6 +63,9 @@ function Settings() {
     );
     const [emailReq, setEmailReq] =
         useState<AxiosRequestConfig>(defaultEmailRequest);
+    const [passwordReq, setPasswordReq] = useState<AxiosRequestConfig>(
+        defaultPasswordRequest
+    );
     const [twofaReq, setTwofaReq] = useState<boolean>(false);
     // const { setFeature } = useFeature();
     const {
@@ -67,6 +86,12 @@ function Settings() {
         error: errE,
         sendData: sendDataE,
     } = useAxios(emailReq);
+    const {
+        response: resP,
+        loading: loadP,
+        error: errP,
+        sendData: sendDataP,
+    } = useAxios(passwordReq);
     const {
         response: res2,
         loading: load2,
@@ -96,6 +121,12 @@ function Settings() {
             sendDataE();
         }
     }, [emailReq]);
+
+    useEffect(() => {
+        if (passwordReq !== defaultPasswordRequest) {
+            sendDataP();
+        }
+    }, [passwordReq]);
 
     useEffect(() => {
         if (twofaReq) {
@@ -139,6 +170,27 @@ function Settings() {
                 email: String(target.email.value),
             };
             setEmailReq((prev: AxiosRequestConfig) => ({
+                ...prev,
+                data: data,
+            }));
+        }
+    }
+
+    function handlePassword(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const target = e.currentTarget;
+        if (
+            target.pwd.value &&
+            target.newPwd.value &&
+            target.confNewPwd.value
+        ) {
+            const data = {
+                password: String(target.pwd.value),
+                newPassword: String(target.newPwd.value),
+                confirmNewPassword: String(target.confNewPwd.value),
+            };
+            console.log("Password user entry: ", data);
+            setPasswordReq((prev: AxiosRequestConfig) => ({
                 ...prev,
                 data: data,
             }));
@@ -195,6 +247,50 @@ function Settings() {
                         {resE && !loadE && <p>Email successfully changed</p>}
                     </div>
                 </form>
+                {userAuth.authStrategy === "password" && (
+                    <form className="setting_form" onSubmit={handlePassword}>
+                        <div className="input_container">
+                            <img className="input_icon" src={Lock} alt="" />
+                            <span className="input-title">
+                                Change your password (8 character min. length
+                                including lowercase, uppercase, number, special
+                                character)
+                            </span>
+                            <input
+                                name="pwd"
+                                type="password"
+                                placeholder="current password"
+                            />
+                        </div>
+                        <div className="input_container">
+                            <img className="input_icon" src={Lock} alt="" />
+                            <input
+                                name="newPwd"
+                                type="password"
+                                placeholder="new password"
+                            />
+                        </div>
+                        <div className="input_container">
+                            <img className="input_icon" src={Lock} alt="" />
+                            <input
+                                name="confNewPwd"
+                                type="password"
+                                placeholder="confirm new password"
+                            />
+                        </div>
+                        <div className="button_container">
+                            <button className="button-purple" type="submit">
+                                Update password
+                            </button>
+                            {errP && (
+                                <p>Error: Password incorrect or too weak</p>
+                            )}
+                            {resP && !loadP && (
+                                <p>Password successfully changed</p>
+                            )}
+                        </div>
+                    </form>
+                )}
                 <span className="title">Upload a new avatar</span>
                 <div className="input_container">
                     <input

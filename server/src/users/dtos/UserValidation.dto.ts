@@ -61,6 +61,20 @@ export class UpdateUserDto {
     avatar?: string;
 }
 
+export class UpdateUserPasswordDto {
+    @IsString()
+    @IsNotEmpty()
+    password: string;
+
+    @IsString()
+    @IsNotEmpty()
+    newPassword: string;
+
+    @IsString()
+    @IsNotEmpty()
+    confirmNewPassword: string;
+}
+
 export class Create42UserDto {
     @IsNumber()
     @IsNotEmpty()
