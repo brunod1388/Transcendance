@@ -72,6 +72,8 @@ $invitation-size: 15px;
 				filter: $filter-purple;
 				&:hover {
 					filter: $filter-white;
+					animation: button-scale 0.5s;
+					animation-fill-mode: forwards;
 				}
 			}
 		}

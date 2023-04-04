@@ -10,11 +10,10 @@
 	.search {
 
 		// border-bottom: 2px solid $dark-grey;
-		padding: 8px;
-		padding-right: 8px;
+		padding: 10px;
+		padding-right: 10px;
 		.searchForm {
-			padding: 10px;
-			padding-top: 5px;
+			padding: 8px;
 			background-color: $purple-gray;
 			border-radius: 5px;
 			input {
@@ -26,19 +25,21 @@
 					color: lightgray;
 				}
 			}
+			box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.753);
 		}
 	}
 	.users {
 		display: flex;
 		flex-direction: column;
 		overflow: scroll;
-		padding: 0 8px;
-		padding-right: 8px;
-		gap: 5px;
+		padding: 0 10px;
+		padding-right: 10px;
+		gap: 10px;
 		flex-grow: 1;
 		.title {
 			color: white;
 			padding: 5px;
+			filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.882));
 		}
 	}
 	.invitation {

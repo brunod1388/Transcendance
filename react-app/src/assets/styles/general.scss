@@ -9,6 +9,8 @@
 		color: $purple;
 		background-color: white;
 		font-weight: 400;
+		animation: button-scale 0.5s;
+		animation-fill-mode: forwards;
 	}
 	&:active {
 		background-color: #363556;

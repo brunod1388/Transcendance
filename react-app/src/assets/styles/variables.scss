@@ -34,3 +34,15 @@ $base-font: 'Source Sans Pro', sans-serif;
 	50% { transform: rotate(359deg) scale(1.4); }
 	100% { transform: rotate(0deg) scale(1); }
 }
+
+@keyframes button-scale {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1.05);
+	}
+}

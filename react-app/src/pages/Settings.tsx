@@ -248,47 +248,53 @@ function Settings() {
                     </div>
                 </form>
                 {userAuth.authStrategy === "password" && (
-                    <form className="setting_form" onSubmit={handlePassword}>
-                        <div className="input_container">
-                            <img className="input_icon" src={Lock} alt="" />
-                            <span className="input-title">
-                                Change your password (8 character min. length
-                                including lowercase, uppercase, number, special
-                                character)
-                            </span>
-                            <input
-                                name="pwd"
-                                type="password"
-                                placeholder="current password"
-                            />
+                    <form className="setting_form password" onSubmit={handlePassword}>
+                        <div className="password-row">
+
+                            <div className="input_container">
+                                <span className="input-title">
+                                    Change your password
+                                </span>
+                                <img className="input_icon" src={Lock} alt="" />
+                                <input
+                                    name="pwd"
+                                    type="password"
+                                    placeholder="current password"
+                                    />
+                            </div>
+                            <div className="button_container">
+                                <button className="button-purple" type="submit">
+                                    Update password
+                                </button>
+                                {errP && (
+                                    <p>Error: Password incorrect or too weak</p>
+                                )}
+                                {resP && !loadP && (
+                                    <p>Password successfully changed</p>
+                                    )}
+                            </div>
                         </div>
-                        <div className="input_container">
-                            <img className="input_icon" src={Lock} alt="" />
-                            <input
-                                name="newPwd"
-                                type="password"
-                                placeholder="new password"
-                            />
+                        <div className="password-row">
+                            <div className="input_container">
+                                <img className="input_icon" src={Lock} alt="" />
+                                <input
+                                    name="newPwd"
+                                    type="password"
+                                    placeholder="new password"
+                                    />
+                            </div>
+                            <div className="input_container">
+                                <img className="input_icon" src={Lock} alt="" />
+                                <input
+                                    name="confNewPwd"
+                                    type="password"
+                                    placeholder="confirm new password"
+                                    />
+                            </div>
                         </div>
-                        <div className="input_container">
-                            <img className="input_icon" src={Lock} alt="" />
-                            <input
-                                name="confNewPwd"
-                                type="password"
-                                placeholder="confirm new password"
-                            />
-                        </div>
-                        <div className="button_container">
-                            <button className="button-purple" type="submit">
-                                Update password
-                            </button>
-                            {errP && (
-                                <p>Error: Password incorrect or too weak</p>
-                            )}
-                            {resP && !loadP && (
-                                <p>Password successfully changed</p>
-                            )}
-                        </div>
+                        <span className="info">
+                            (8 character min. length including lowercase, uppercase, number, special character)
+                        </span>
                     </form>
                 )}
                 <span className="title">Upload a new avatar</span>

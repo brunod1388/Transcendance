@@ -34,7 +34,10 @@
 			}
 			&:hover {
 				filter: $filter-white;
+				animation: button-scale 0.5s;
+				animation-fill-mode: forwards;
 			}
+			filter: drop-shadow(3px 3px 5px rgb(10, 10, 10));
 		}
 
 		&.tooltip {

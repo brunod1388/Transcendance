@@ -12,11 +12,8 @@
 		min-height: 400px;
 		display: flex;
 		overflow: hidden;
-		box-shadow: 10px 10px 100px black,
-		-2px -2px 150px rgba(145, 145, 145, 0.4);
+		box-shadow: 2px 2px 20px 5px black;
 		animation: scaleIn 2s;
-		background-color: $dark-grey;
-		background-color: rgb(19 16 58 / 66%);
 		background-color: rgba(28, 28, 34, 0.668);
 		backdrop-filter: blur(3px);
 	}
@@ -37,9 +34,7 @@
 		flex-direction: row;
 		flex-shrink: 1;
 		border-radius: 10px 0 0 0;
-		background-size: cover;
-		background-position: center center;
-		// background-image: url($bg-purple2);
+		box-shadow: inset 3px 3px 5px black;
 	}
 
 	.button_container {
