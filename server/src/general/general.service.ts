@@ -3,20 +3,40 @@ import { Socket, Server } from "socket.io";
 import { ClientsService } from "src/clients/clients.service";
 import { InvitationDto } from "./dto/invitation.dto";
 import { BroadcastDTO } from "src/general/dto/Broadcast.dto";
-import { AuthService } from "src/auth/auth.service";
 
 @Injectable()
 export class GeneralService {
     @Inject(ClientsService)
     private readonly clientsService: ClientsService;
 
+    // map used to store the user id (key) and the corresponding socket id (value)
+    static usersOnline = new Map<number, string>();
+
     connection(socket: Socket) {
         // console.log("connection");
+
+        // check to avoid same user id connecting with multiple sockets
+        // has method returns true if the key is present otherwise returns false
+        // if (GeneralService.usersOnline.has(socket.data.user.id)) {
+        //     console.log("User already has active socket connection");
+        //     socket.disconnect();
+        //     return;
+        // }
+        GeneralService.usersOnline.set(socket.data.user.id, socket.id);
+        GeneralService.usersOnline.forEach((value: string, key: number) => {
+            console.log("Online users [on connect]: ", key, value);
+        });
     }
 
     disconnection(socket: Socket, reason: any) {
         // this.clientsService.removeClient(socket.id);
         // console.log("disconnection");
+        console.log("User with id: ", socket.data.user.id, "will be disconnected");
+        GeneralService.usersOnline.delete(socket.data.user.id);
+        GeneralService.usersOnline.forEach((value: string, key: number) => {
+            console.log("Online users [on disconnect]: ", key, value);
+        });
+        socket.disconnect();
     }
 
     joinRoom(client: Socket, room: string) {

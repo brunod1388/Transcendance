@@ -2,6 +2,7 @@ import {
     WebSocketGateway,
     SubscribeMessage,
     WebSocketServer,
+    ConnectedSocket,
 } from "@nestjs/websockets";
 import { Socket, Server } from "socket.io";
 import { OnModuleInit } from "@nestjs/common";
@@ -51,6 +52,12 @@ export class GeneralGateway implements OnModuleInit {
             });
         });
     }
+
+    // @SubscribeMessage("userLogout")
+    // async handleLogout(@ConnectedSocket() client: Socket) {
+    //     console.log("Logout event handled");
+    //     this.generalService.disconnection(client, "logout");
+    // }
 
     // client's socket join room
     @SubscribeMessage("join")

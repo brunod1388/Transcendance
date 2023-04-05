@@ -189,7 +189,6 @@ function Settings() {
                 newPassword: String(target.newPwd.value),
                 confirmNewPassword: String(target.confNewPwd.value),
             };
-            console.log("Password user entry: ", data);
             setPasswordReq((prev: AxiosRequestConfig) => ({
                 ...prev,
                 data: data,
@@ -248,9 +247,11 @@ function Settings() {
                     </div>
                 </form>
                 {userAuth.authStrategy === "password" && (
-                    <form className="setting_form password" onSubmit={handlePassword}>
+                    <form
+                        className="setting_form password"
+                        onSubmit={handlePassword}
+                    >
                         <div className="password-row">
-
                             <div className="input_container">
                                 <span className="input-title">
                                     Change your password
@@ -260,7 +261,7 @@ function Settings() {
                                     name="pwd"
                                     type="password"
                                     placeholder="current password"
-                                    />
+                                />
                             </div>
                             <div className="button_container">
                                 <button className="button-purple" type="submit">
@@ -271,7 +272,7 @@ function Settings() {
                                 )}
                                 {resP && !loadP && (
                                     <p>Password successfully changed</p>
-                                    )}
+                                )}
                             </div>
                         </div>
                         <div className="password-row">
@@ -281,7 +282,7 @@ function Settings() {
                                     name="newPwd"
                                     type="password"
                                     placeholder="new password"
-                                    />
+                                />
                             </div>
                             <div className="input_container">
                                 <img className="input_icon" src={Lock} alt="" />
@@ -289,11 +290,12 @@ function Settings() {
                                     name="confNewPwd"
                                     type="password"
                                     placeholder="confirm new password"
-                                    />
+                                />
                             </div>
                         </div>
                         <span className="info">
-                            (8 character min. length including lowercase, uppercase, number, special character)
+                            (8 character min. length including lowercase,
+                            uppercase, number, special character)
                         </span>
                     </form>
                 )}

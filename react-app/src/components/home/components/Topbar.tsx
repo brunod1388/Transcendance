@@ -68,6 +68,12 @@ function Topbar() {
     }, [socket, setInvitations]);
 
     function logout(e: MouseEvent<HTMLButtonElement>) {
+        if (socket !== undefined) {
+            console.log("Logout event triggered");
+            socket.disconnect();
+            //socket.close();
+            //socket.emit("userLogout");
+        }
         removeItem("user");
         Cookies.remove("JWTtoken", { sameSite: "none", secure: true });
         updateUser();
