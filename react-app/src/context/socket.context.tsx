@@ -22,6 +22,10 @@ export function SocketProvider(props: PropsWithChildren<Props>) {
     );
     const { userAuth } = useAuth();
 
+    socket.current.on("users_online", (data: number[]) => {
+        console.log("User ids currently online: ", data);
+    });
+
     // useEffect(() => {
     //     socket.current.connect();
     //     socket.current.on("connect", () => {

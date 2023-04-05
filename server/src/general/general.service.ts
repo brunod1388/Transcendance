@@ -10,7 +10,7 @@ export class GeneralService {
     private readonly clientsService: ClientsService;
 
     // map used to store the user id (key) and the corresponding socket id (value)
-    static usersOnline = new Map<number, string>();
+    static usersOnline = new Map<number, Socket>();
 
     connection(socket: Socket) {
         // console.log("connection");
@@ -22,20 +22,38 @@ export class GeneralService {
         //     socket.disconnect();
         //     return;
         // }
-        GeneralService.usersOnline.set(socket.data.user.id, socket.id);
-        GeneralService.usersOnline.forEach((value: string, key: number) => {
-            console.log("Online users [on connect]: ", key, value);
+        GeneralService.usersOnline.set(socket.data.user.id, socket);
+
+        const data: number[] = [];
+
+        GeneralService.usersOnline.forEach((value: Socket, key: number) => {
+            console.log("Online users [on connect]: ", key, value.id);
+            data.push(key);
         });
+
+        socket.broadcast.emit("users_online", data);
     }
 
     disconnection(socket: Socket, reason: any) {
         // this.clientsService.removeClient(socket.id);
         // console.log("disconnection");
-        console.log("User with id: ", socket.data.user.id, "will be disconnected");
+        console.log(
+            "User with id: ",
+            socket.data.user.id,
+            "will be disconnected"
+        );
         GeneralService.usersOnline.delete(socket.data.user.id);
-        GeneralService.usersOnline.forEach((value: string, key: number) => {
-            console.log("Online users [on disconnect]: ", key, value);
+
+        const data: number[] = [];
+
+        GeneralService.usersOnline.forEach((value: Socket, key: number) => {
+            console.log("Online users [on disconnect]: ", key, value.id);
+            data.push(key);
         });
+
+        socket.broadcast.emit("users_online", data);
+
+        console.log("Number of users online following disconnect: ", GeneralService.usersOnline.size);
         socket.disconnect();
     }
 
