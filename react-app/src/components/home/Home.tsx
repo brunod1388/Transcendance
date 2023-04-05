@@ -8,13 +8,14 @@ import { useNotificationsDispatch, useSocket, useVisible } from "../../hooks";
 import { CreateInvitation, CreateResponse } from "../invitations";
 import { InvitationDTO, ResponseDTO } from "../../@types";
 import { Pong } from "../pong";
+import { Game } from "../game";
 import Chat from "../chat/Chat";
 import "./styles/home.scss";
 
 const featureComponent = new Map<number, JSX.Element>([
     [Feature.None, <></>],
     [Feature.Chat, <Chat />],
-    // [Feature.Pong, <Pong />],
+    [Feature.Game, <Game />],
     // [Feature.Ranking, <Ranking />],
 ]);
 

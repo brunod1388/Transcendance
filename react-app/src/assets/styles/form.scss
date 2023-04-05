@@ -1,11 +1,6 @@
 @import "./variables.scss";
 @import "./general.scss";
 
-@font-face {
-	font-family: NatureBeauty;
-	src: local("NatureBeauty"), url("../fonts/NatureBeauty.ttf") format("truetype");
-}
-
 .form_container {
 	$width: 240px;
 

@@ -17,6 +17,11 @@ $filter-red: invert(57%) sepia(100%) saturate(3422%) hue-rotate(323deg) brightne
 $topbar-height: 35px;
 $base-font: 'Source Sans Pro', sans-serif;
 
+@font-face {
+	font-family: NatureBeauty;
+	src: local("NatureBeauty"), url("../fonts/NatureBeauty.ttf") format("truetype");
+}
+
 @keyframes appear{
 	0% { opacity: 0%; }
 	50% { opacity: 0; }

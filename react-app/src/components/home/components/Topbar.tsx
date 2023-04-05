@@ -115,7 +115,7 @@ function Topbar() {
                     className="imgButton"
                     src={PlayIcon}
                     alt=""
-                    onClick={() => setFeature(Feature.Pong)}
+                    onClick={() => setFeature(Feature.Game)}
                 />
                 <Link to="/settings">
                     <img className="imgButton" src={SettingIcon} alt="" />
