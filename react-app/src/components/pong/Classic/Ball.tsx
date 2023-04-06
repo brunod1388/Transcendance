@@ -1,44 +1,45 @@
-import { CSSProperties, PropsWithChildren, useEffect } from "react";
-import { Position } from "../../../@types";
+import { CSSProperties, PropsWithChildren, useEffect, useState } from "react";
+import { GameConfig, Position } from "../../../@types";
+import { useInterval, useSocket } from "../../../hooks";
+import { Score } from "../../../@types";
+import style from "../PingPong/pong.module.scss";
+import { Ball as BallType } from "../../../@types";
 
-interface Props {
-    host: boolean;
-    ball: Position;
-    rayon: number;
-    skin: CSSProperties;
-}
+// interface Props {
+//     host: boolean;
+//     ball: BallType;
+//     rayon: number;
+//     paddle1: Position;
+//     paddle2: Position;
+//     onBall: (pos: Position) => void;
+//     skin: CSSProperties;
+//     score: Score;
+//     config: GameConfig;
+// }
 
-interface PropsPhysics {
-    host: boolean;
-}
+// interface PropsPhysics {
+//     score: Score;
+//     config: GameConfig;
+//     host: boolean;
+//     paddle1: Position;
+//     paddle2: Position;
+//     skin: CSSProperties;
+// }
 
 interface PropsComponent {
-    ball: Position;
-    rayon: number;
+    ball: BallType;
+    config: GameConfig,
     skin: CSSProperties;
 }
 
-export function Ball(props: Props) {
-    return (
-        <BallPhysics host={props.host}>
-            <BallComponent
-                ball={props.ball}
-                rayon={props.rayon}
-                skin={props.skin}
-            />
-        </BallPhysics>
-    );
-}
-
-function BallPhysics(props: PropsWithChildren<PropsPhysics>) {
-    return <>{props.children}</>;
-}
-
-function BallComponent({ ball, rayon, skin }: PropsComponent) {
+export function BallComponent({ ball, config, skin }: PropsComponent) {
     const position: CSSProperties = {
-        left: ball.x - rayon,
-        bottom: ball.y - rayon,
+        left: ball.pos.x - config.ballRayon,
+        bottom: ball.pos.y - config.ballRayon,
+		width: config.ballRayon * 2,
+		height: config.ballRayon * 2
+
     };
 
-    return <div style={{ ...position, ...skin }} />;
+    return <div className={style.ball} style={{ ...position, ...skin }} />;
 }

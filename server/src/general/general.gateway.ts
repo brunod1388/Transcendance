@@ -29,6 +29,19 @@ interface scoreDto {
     room: string;
 }
 
+interface recordGameDto {
+    player1: {
+        username: string;
+        score: number;
+        status: string;
+    };
+    player2: {
+        username: string;
+        score: number;
+        status: string;
+    };
+}
+
 @WebSocketGateway({ cors: { origin: ["http://localhost:9000"] } })
 export class GeneralGateway implements OnModuleInit {
     @WebSocketServer()
@@ -100,7 +113,7 @@ export class GeneralGateway implements OnModuleInit {
     @SubscribeMessage("invitation")
     handleInvitation(client: Socket, invitation: InvitationDto) {
         this.server.emit("invitation", invitation);
-    }
+    } 
 
     @SubscribeMessage("response")
     handleResponse(client: Socket, response: ResponseDto) {
@@ -123,9 +136,14 @@ export class GeneralGateway implements OnModuleInit {
     }
     @SubscribeMessage("game-score")
     handleScore(client: Socket, score: scoreDto) {
-        this.server.to(score.room).emit("game-score", {
-            player1: score.score.player1,
-            player2: score.score.player2,
-        });
+        // this.server.to(score.room).emit("game-score", {
+        //     player1: score.score.player1,
+        //     player2: score.score.player2,
+        // });
+    }
+
+    @SubscribeMessage("record-game")
+    handleRecordGame(client: Socket, record: recordGameDto) {
+        //
     }
 }

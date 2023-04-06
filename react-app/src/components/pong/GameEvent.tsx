@@ -1,20 +1,25 @@
 import { useSocket } from "../../hooks";
-import { CONNECTED, DISCONECTED, GameConfig, PlayerInfo } from "../../@types";
+import {
+    CONNECTED,
+    DISCONECTED,
+    GameConfig,
+    LOST,
+    PlayerInfo,
+    WON,
+} from "../../@types";
 
 import { useEffect, PropsWithChildren } from "react";
 import { LoadGame } from "./LoadGame";
-import { Position, Score } from "../../@types";
+import {  Score } from "../../@types";
 
 interface Props {
     user: PlayerInfo;
     config: GameConfig;
     opponent: PlayerInfo;
+    score: Score;
     onEnd: () => void;
     onUser: (player: PlayerInfo) => void;
     onOpponent: (player: PlayerInfo) => void;
-    onScore: (newScore: Score) => void;
-    onBall: (newPos: Position) => void;
-    onOpponentPaddle: (newPos: Position) => void;
 }
 
 export function GameEvent(props: PropsWithChildren<Props>) {
@@ -25,6 +30,20 @@ export function GameEvent(props: PropsWithChildren<Props>) {
         window.addEventListener(
             "popstate",
             (e: PopStateEvent) => {
+                if (props.user.host === true) {
+                    socket.emit("record-game", {
+                        player1: {
+                            username: props.user.username,
+                            score: props.score.player1,
+                            status: LOST,
+                        },
+                        player2: {
+                            username: props.opponent.username,
+                            score: props.score.player2,
+                            status: WON,
+                        },
+                    });
+                }
                 socket.emit("game-player-left", props.config.room);
                 props.onEnd();
             },
@@ -39,27 +58,26 @@ export function GameEvent(props: PropsWithChildren<Props>) {
     useEffect(() => {
         socket.on("player", (player: PlayerInfo) => props.onOpponent(player));
 
-        socket.on("game-player-left", () =>
-            props.onOpponent({ ...props.opponent, status: DISCONECTED })
-        );
-
-        socket.on("game-score", (newScore: Score) => {
-            console.log("newScore", newScore);
-            props.onScore(newScore);
-        });
-
-        socket.on("game-ball", (position: Position) => {
-            props.onBall(position);
-        });
-
-        socket.on("game-paddle", (position: Position) => {
-            props.onOpponentPaddle(position);
+        socket.on("game-player-left", () => {
+            props.onOpponent({ ...props.opponent, status: DISCONECTED });
+            if (props.user.host === true) {
+                socket.emit("record-game", {
+                    player1: {
+                        username: props.user.username,
+                        score: props.score.player1,
+                        status: WON,
+                    },
+                    player2: {
+                        username: props.opponent.username,
+                        score: props.score.player2,
+                        status: LOST,
+                    },
+                });
+            }
+            props.onEnd();
         });
 
         return () => {
-            socket.off("game-score");
-            socket.off("game-paddle");
-            socket.off("game-ball");
             socket.off("game-player-left");
             socket.off("player");
         };

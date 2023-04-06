@@ -1,47 +1,70 @@
-import { CSSProperties, PropsWithChildren } from "react";
-import { Position } from "../../../@types";
-
+import { CSSProperties, useState } from "react";
+import { Broadcast, GameConfig, Position } from "../../../@types";
+import { useCallback } from "react";
+import { useKeyboard, useSocket } from "../../../hooks";
+import { useInterval } from "../../../hooks";
+import style from "../PingPong/pong.module.scss";
 interface Props {
     host: boolean;
     paddle: Position;
-    width: number;
-    height: number;
+    onPaddle: (pos: Position) => void;
+    config: GameConfig;
     skin: CSSProperties;
-}
-
-interface PropsComponent {
-    paddle: Position;
-    width: number;
-    height: number;
-    skin: CSSProperties;
+    room: string;
 }
 
 export function MyPaddle(props: Props) {
-    return (
-        <Paddle
-            paddle={props.paddle}
-            width={props.width}
-            height={props.height}
-            skin={props.skin}
-        />
+    const [socket] = useSocket();
+
+    const moveUp = () => {
+        if (
+            props.paddle.y + 10  <
+            props.config.boardHeight
+        ) {
+            props.onPaddle({ ...props.paddle, y: props.paddle.y + 10 });
+        }
+    };
+
+    const moveDown = () => {
+        if (props.paddle.y - 10 - props.config.paddleHeight > 0) {
+            props.onPaddle({ ...props.paddle, y: props.paddle.y - 10 });
+        }
+    };
+
+    const handler = useCallback(
+        (event: KeyboardEvent) => {
+            if (event.key === "ArrowUp") moveUp();
+            else if (event.key == "ArrowDown") moveDown();
+        },
+        [props.paddle]
     );
+    useKeyboard(handler, document);
+
+    useInterval(() => {
+        socket.emit(
+            "game-broadcast",
+            new Broadcast(props.room, "game-paddle", {
+                x: props.paddle.x,
+                y: props.paddle.y,
+            })
+        );
+    }, 50);
+
+    const position: CSSProperties = {
+        left: props.paddle.x,
+        bottom: props.paddle.y - props.config.paddleHeight,
+		width: props.config.paddleWidth,
+		height: props.config.paddleHeight
+    };
+    return <div className={style.paddle} style={{ ...position, ...props.skin }} />;
 }
 
 export function YourPaddle(props: Props) {
-    return (
-        <Paddle
-            paddle={props.paddle}
-            width={props.width}
-            height={props.height}
-            skin={props.skin}
-        />
-    );
-}
-
-function Paddle({ paddle, width, height, skin }: PropsComponent) {
     const position: CSSProperties = {
-        left: paddle.x - width,
-        bottom: paddle.y - height,
+        left: props.paddle.x - props.config.paddleWidth,
+        bottom: props.paddle.y - props.config.paddleHeight,
+		width: props.config.paddleWidth,
+		height: props.config.paddleHeight
     };
-    return <div style={{ ...position, ...skin }} />;
+    return <div className={style.paddle} style={{ ...position, ...props.skin }} />;
 }

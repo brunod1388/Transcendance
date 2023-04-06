@@ -4,63 +4,64 @@ import {
     GameConfig,
     GameMode,
     PlayerInfo,
-    initialPlayer,
+  	Ball,
     CLASSIC,
     PINGPONG,
     LOADING,
+	initialUser,
+	initialOpponent,
 } from "../../@types";
 import { GameEvent } from "./GameEvent";
 import { useState } from "react";
 import { PingPong } from "./PingPong/PingPong";
-import { PongClassic } from "./Classic/PongClassic";
+import { PongClassic } from "./Classic/Classic";
+import { gameConfig } from "./GameService";
 interface GameProps {
     onEnd: () => void;
     mode: GameMode;
-    config: GameConfig;
     room: string;
     host: boolean;
     username: string;
 }
 
-export function Game({ config, mode, room, onEnd, host, username }: GameProps) {
-    const [user, setUser] = useState<PlayerInfo>({
-        host,
-        username: username,
-        status: LOADING,
-    });
-    const [userPaddle, setUserPaddle] = useState<Position>(new Position(0, 0));
-    const [opponent, setOpponent] = useState<PlayerInfo>({
-        host: !host,
-        username: "",
-        status: LOADING,
-    });
-    const [opponentPaddle, setOpponentPaddle] = useState<Position>(
-        new Position(0, 0)
-    );
-    const [ball, setBall] = useState<Position>(new Position(0, 0));
+export function Game({mode, room, onEnd, host, username }: GameProps) {
+	const config = gameConfig(mode, room);
+    const [user, setUser] = useState<PlayerInfo>(initialUser(host, username));
+	const [opponent, setOpponent] = useState<PlayerInfo>(initialOpponent(host, ""));
+    const [userPaddle, setUserPaddle] = useState<Position>((host)? config.initialPaddle1 : config.initialPaddle2);
+	const [opponentPaddle, setOpponentPaddle] = useState<Position>((host)? config.initialPaddle2 : config.initialPaddle1);
+    const [ball, setBall] = useState<Ball>({...config.initialBall});
     const [score, setScore] = useState<Score>({ player1: 0, player2: 0 });
     return (
         <GameEvent
+            score={score}
             user={user}
             config={config}
             opponent={opponent}
             onEnd={onEnd}
             onUser={(player: PlayerInfo) => setUser(player)}
             onOpponent={(player: PlayerInfo) => setOpponent(player)}
-            onScore={(newScore: Score) => setScore(newScore)}
-            onBall={(newPos: Position) => setBall(newPos)}
-            onOpponentPaddle={(newPos: Position) => setOpponentPaddle(newPos)}
         >
             {mode === CLASSIC && (
                 <PongClassic
+                    host={host}
                     room={room}
                     config={config}
                     user={user}
                     opponent={opponent}
                     ball={ball}
                     score={score}
-                    userPaddle={userPaddle}
-                    opponnentPaddle={opponentPaddle}
+                    paddle1={host ? userPaddle : opponentPaddle}
+                    paddle2={host ? opponentPaddle : userPaddle}
+					onPaddle1={(newPos: Position) =>
+						host ? setUserPaddle(newPos) : setOpponentPaddle(newPos)
+					}
+					onPaddle2={(newPos: Position) =>
+						host ? setOpponentPaddle(newPos) : setUserPaddle(newPos)
+					}
+					onOpponentPaddle={(newPos: Position) => setOpponentPaddle(newPos)}
+					onScore={(newScore: Score) => setScore(newScore)}
+					onBall={(ball: Ball) => setBall(ball)}
                     onEnd={onEnd}
                 />
             )}

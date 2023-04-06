@@ -70,7 +70,7 @@
 //     const [socket] = useSocket();
 
 //     useEffect(() => {
-//         setBall(new Position(WIDTH / 2, HEIGHT / 2));
+//         setBall({x: WIDTH / 2, y: HEIGHT / 2});
 //     }, [score]);
 
 //     useEffect(() => {
@@ -85,4 +85,4 @@
 //     return ball;
 // }
 
-export {};
+export {}

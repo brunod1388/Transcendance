@@ -104,10 +104,6 @@ function Home() {
                                 }}
                                 mode={PongSwitch.data.mode}
                                 room={PongSwitch.data.room}
-                                config={gameConfig(
-                                    PongSwitch.data.mode,
-                                    PongSwitch.data.room
-                                )}
                             />
                         )}
                         {PongSwitch.isPong === false &&

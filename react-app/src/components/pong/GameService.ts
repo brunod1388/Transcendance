@@ -15,7 +15,7 @@ export const playersAreReady = (
 };
 
 export function gameConfig(mode: GameMode, room: string) {
-    let config = mode === CLASSIC ? classicConfig : pingpongConfig;
+    const config = mode === CLASSIC ? classicConfig : pingpongConfig;
     config.room = room;
     return config;
 }

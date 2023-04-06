@@ -9,15 +9,13 @@ $ballRadius: 20px; 		  // must be equal to BALL_RADIUS * 2
 
 @font-face {
 	font-family: BebasNeue-Regular;
-	src: url(../../assets/fonts/BebasNeue-Regular.ttf);
+	src: url(../../../assets/fonts/BebasNeue-Regular.ttf);
 }
 
 .container {
 	outline: none;
 	position: relative;
 	background-color: rgb(30, 23, 59);
-	width: $width;
-	height: $height;
 	margin-left: 100px;
 }
 .score {
@@ -47,8 +45,6 @@ $ballRadius: 20px; 		  // must be equal to BALL_RADIUS * 2
 
 .paddle {
 	position: absolute;
-	width: $paddleWidth;
-	height: $paddleHeight;
 	background-color: rgb(216, 88, 136);
 }
 
@@ -69,8 +65,6 @@ stroke-dasharray: 19;
 
 .ball {
 	overflow: hidden;
-	width: $ballRadius;
-	height: $ballRadius;
 	background: #c9f364;
 	border-radius: 50%;
 	position: absolute;

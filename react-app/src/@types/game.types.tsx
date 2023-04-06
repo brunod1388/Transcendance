@@ -10,6 +10,7 @@ import {
     RAYON,
     RIGHT_PADDLE,
     Position,
+	WALL_TO_PADDLE
 } from "./index";
 
 export interface Game {
@@ -35,6 +36,20 @@ export interface GamePaddle {
     pos: Position;
 }
 
+export const initialUser =  (host: boolean, username: string): PlayerInfo => {
+	return ({
+	host,
+	username,
+	status: LOADING});
+};
+
+export const initialOpponent =  (host: boolean, username: string): PlayerInfo => {
+	return ({
+	host,
+	username,
+	status: LOADING});
+};
+
 export interface GameConfig {
     status: GameStatus;
     boardWidth: number;
@@ -46,7 +61,11 @@ export interface GameConfig {
     paddleWidth: number;
     paddleHeight: number;
     room: string;
+	initialBall: Ball;
+	initialPaddle1: Paddle;
+	initialPaddle2: Paddle;
 }
+
 
 export type Players = {
     player1: PlayerInfo;
@@ -66,6 +85,14 @@ export enum PlayerStatus {
     PLAYING = "playing",
     DISCONECTED = "disconnected",
 }
+
+enum ScoreStatus {
+    LOST = "lost",
+    WON = "won",
+}
+
+export const LOST = ScoreStatus.LOST;
+export const WON = ScoreStatus.WON;
 
 // enum ballSkins {
 // 	CLASSIC,
@@ -92,9 +119,13 @@ export enum PlayerStatus {
 // }
 
 export enum GameStatus {
-    PLAYING,
-    END_GAME,
-    START_GAME,
+	LOADING,
+	BEGIN,
+	LAUNCH_BALL,
+	MOVE_BALL,
+	PAUSE_AFTER_SCORE,
+	RESET,
+	END_GAME
 }
 
 export enum GameMode {
@@ -102,7 +133,13 @@ export enum GameMode {
     PINGPONG = "pingpong",
 }
 
-export const START_GAME = GameStatus.START_GAME;
+export interface Ball {
+    pos: Position;
+    delta: Position;
+    speed: number;
+}
+
+export type Paddle = Position;
 export const END_GAME = GameStatus.END_GAME;
 export const CLASSIC = GameMode.CLASSIC;
 export const PINGPONG = GameMode.PINGPONG;
@@ -119,7 +156,7 @@ export const initialPlayer: PlayerInfo = {
 };
 
 export const classicConfig: GameConfig = {
-    status: GameStatus.PLAYING,
+    status: GameStatus.LOADING,
     boardWidth: WIDTH,
     boardHeight: HEIGHT,
     ballRayon: RAYON,
@@ -132,10 +169,17 @@ export const classicConfig: GameConfig = {
     paddleWidth: PADDLE_WIDTH,
     paddleHeight: PADDLE_HEIGHT,
     room: "",
+	initialBall: {
+        pos: { x: WIDTH/2, y: HEIGHT/2 },
+        delta: { x: 0, y: 0 },
+        speed: 0,
+    },
+	initialPaddle1: { x: WALL_TO_PADDLE, y: WIDTH - WALL_TO_PADDLE },
+	initialPaddle2: { x: WIDTH - WALL_TO_PADDLE, y: WALL_TO_PADDLE }
 };
 
 export const pingpongConfig: GameConfig = {
-    status: GameStatus.PLAYING,
+    status: GameStatus.LOADING,
     boardWidth: WIDTH,
     boardHeight: HEIGHT,
     ballRayon: RAYON,
@@ -148,4 +192,11 @@ export const pingpongConfig: GameConfig = {
     paddleWidth: PADDLE_WIDTH,
     paddleHeight: PADDLE_HEIGHT,
     room: "",
+	initialBall: {
+        pos: { x: WIDTH/2, y: HEIGHT/2 },
+        delta: { x: 0, y: 0 },
+        speed: 0,
+    },
+	initialPaddle1: { x: WALL_TO_PADDLE, y: WIDTH - WALL_TO_PADDLE },
+	initialPaddle2: { x: WIDTH - WALL_TO_PADDLE, y: WALL_TO_PADDLE }
 };
