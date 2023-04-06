@@ -9,12 +9,14 @@ import { ChannelModule } from "./chat/channel/channel.module";
 import { GameModule } from "./game/game.module";
 import { ClientsModule } from "./clients/clients.module";
 import { GeneralModule } from "./general/general.module";
+import { MatchModule } from "./match/match.module";
 
 @Module({
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),
         DatabaseModule,
         AuthModule,
+        MatchModule,
         UsersModule,
         ChatModule,
         GameModule,
