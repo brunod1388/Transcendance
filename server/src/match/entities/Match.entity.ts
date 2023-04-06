@@ -28,7 +28,6 @@ export class Match {
     @CreateDateColumn()
     playDate: Date;
 
-	@Column()
-	type: MatchType;
-
+    @Column()
+    type: MatchType;
 }

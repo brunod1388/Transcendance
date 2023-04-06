@@ -6,16 +6,8 @@ import { MatchGateway } from "./match.gateway";
 import { UsersModule } from "src/users/users.module";
 
 @Module({
-	imports: [
-		TypeOrmModule.forFeature([Match]),
-		forwardRef(() => UsersModule),
-
-	],
-	providers: [
-		MatchGateway,
-		MatchService
-	],
-	exports: [MatchService],
+    imports: [TypeOrmModule.forFeature([Match]), forwardRef(() => UsersModule)],
+    providers: [MatchGateway, MatchService],
+    exports: [MatchService],
 })
-
 export class MatchModule {}

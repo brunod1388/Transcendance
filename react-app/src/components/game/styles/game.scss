@@ -1,15 +1,6 @@
 @import '../../../assets/styles/variables';
 @import '../../../assets/styles/general';
 
-@keyframes rotate {
-	0% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(360deg);
-	}
-}
-
 .game-container {
 	@extend .flex-row;
 	padding: 10px;
@@ -17,221 +8,68 @@
 	span {
 		color: white
 	}
-}
-
-.gamer-board {
-	@extend .flex-column;
-	height: 100%;
-	width: 180px;
-	$img-size: 130px;
-	$border-size: 7px;
-	.gamer-container {
-		@extend .flex-column;
-		height: 100%;
-		padding: 30px 0 0 0;
-		justify-content: space-between;
-		gap: 30px;
-	}
-
-	.avatar-border::before {
-		content: ' ';
-		width: calc($img-size + $border-size);
-		height: calc($img-size + $border-size);
-		background: conic-gradient(
-			from 90deg,
-			rgb( 0 0 0 / 0%) 70%, rgb(11 78 230 / 9%) 80%, rgb( 0 220 255) 100%);
-			animation: rotate 3s linear infinite;
-	}
-	.avatar-container {
-		@extend .flex-column;
-		position: relative;
-		min-height: 130px;
-		height: 20vh;
-	}
-	.avatar-border {
+	
+	.board-container {
 		@extend .flex-row;
-		position: absolute;
-		background-color: rgba(75, 78, 128, 0.588);
-		backdrop-filter: blur(15px);
-		border-radius: 50%;
-		overflow: hidden;
-		filter: drop-shadow(2px 5px 2px rgba(0,0,0,0.75));
-	}
-
-	img {
-		width: $img-size;
-		height: $img-size;
-		border-radius: 50%;
-		z-index: 2;
-	}
-
-	.username {
-		text-align: center;
-		font-family: NatureBeauty;
-		font-weight: 300;
-		font-size: 1.7rem;
-		text-size-adjust: auto;
-		color: $purple;
-		filter: drop-shadow(2px 5px 2px rgba(0,0,0,0.75));
-		max-width:130px;
-    	word-wrap:break-word;
-		font-family: Alkatra;
-	}
-	.user-info {
-		@extend .flex-column;
-		justify-content: space-between;
-		gap: 10px;
-		filter: drop-shadow(2px 5px 2px rgba(0,0,0,0.75));
-		div {
-			@extend .flex-row;
-			width: 120px;
-			justify-content: space-between;
-		}
-	}
-	.button-container {
-		@extend .flex-column;
-		gap: 20px;
 		flex-grow: 1;
-		justify-content: flex-end;
-		button {
-			border-radius: 5px; 
-			height: 25px;
-			width: 150px;
-			box-shadow: 2px 5px 5px rgba(0,0,0,0.75);
-		}
+		flex-shrink: 1;
+		align-self: stretch;
+		height: 100%;
+		border-radius: 10px;
+		background-color: $chat-bg-color;
+		box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.75);
+
 	}
-}
 
-.ranking-container {
-	@extend .flex-column;
-	flex-grow: 1;
-	flex-shrink: 1;
-	align-self: stretch;
-	height: 100%;
-}
+	.board-tabs {
+		@extend .flex-column;
+		width: 50px;
+		align-self: stretch;
 
-.ranking-board {
-	@extend .flex-column;
-	align-self: stretch;
-	justify-content: space-between;
-	border-radius: 10px;
-	background-color: $chat-bg-color;
-	box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.75);
-	height: 100%;
-	.title-container {
-		@extend .flex-row;
-		gap: 10px;
+		.tab {
+			@extend .flex-column;
+			align-items: center;
+			justify-content: center;
+			flex-grow: 1;
+			width: 100%;
+			border-radius: 10px;
+			cursor: pointer;
+			&:hover {
+				img {
+					animation: button-scale 0.5s;
+				}
+			}
+
+			&:first-child{
+				border-radius: 10px 0 0 10px;
+				&:not(.selected) {
+					border-radius: 10px 0 10px 0;
+					box-shadow: inset -2px 0px 5px rgba(0, 0, 0, 0.75);
+				}
+			}
+			&:last-child{
+				border-radius: 0 0 0 10px;
+				&:not(.selected) {
+					border-radius: 0 10px 0 10px;
+					box-shadow: inset -2px 0px 5px rgba(0, 0, 0, 0.75);
+				}
+			}
+		}
+
 		img {
-			$img-size: 50px;
+			$img-size: 35px;
 			height: $img-size;
 			width: $img-size;
 			filter: drop-shadow(2px 5px 5px rgba(0, 0, 0, 0.75));
 		}
 	}
-	.title {
-		text-align: center;
-		font-family: NatureBeauty;
-		font-weight: 300;
-		font-size: 2.2rem;
-		color: $purple;
-		padding: 20px 0 15px 0;
-		filter: drop-shadow(2px 5px 5px rgba(0, 0, 0, 0.75));
-	}
-	.players-container {
+
+	.board {
 		@extend .flex-column;
-		align-self: stretch;
-		flex-grow: 1;
-		max-height: fit-content;
-		padding: 10px;
-		overflow: hidden;
-		.players-header {
-			@extend .flex-row;
-			justify-content: space-between;
-			align-self: stretch;
-			border-radius: 8px 8px 0 0;
-			box-shadow: inset 5px 5px 10px 0px rgba(0, 0, 0, 0.55);
-			padding: 10px;
-			background-color: rgba(0, 0, 0, 0.352);
-			span {
-				@extend .flex-row;
-				gap: 20px;
-				width: 120px;
-				&:first-child {
-					width: 300px;
-					justify-content: flex-start;
-					flex: 1 1 300px;
-				}
-				font-size: 20px;
-				filter: drop-shadow(2px 5px 2px rgba(0,0,0,0.75));
-			}
-		}
-		.players {
-			@extend .flex-column;
-			justify-content: flex-start;
-			align-self: stretch;
-			overflow: scroll;
-			background-color: $chat-bg-color;
-			border-radius: 0 0 8px 8px;
-			box-shadow: inset 5px 0px 10px 0px rgba(0, 0, 0, 0.55);
-			background-color: rgba(0, 0, 0, 0.352);
-		}
-		.player {
-			@extend .flex-column;
-			align-self: stretch;
-			cursor: pointer;
-			&:hover {
-				background-color: rgba(0, 0, 0, 0.352);
-			}
-		}
-
-		.player-plate {
-			@extend .flex-row;
-			justify-content: space-between;
-			padding: 5px 10px;
-			align-self: stretch;
-			span {
-				@extend .flex-row;
-				gap: 20px;
-				filter: drop-shadow(2px 5px 2px rgba(0,0,0,0.75));
-				width: 120px;
-				font-size: 16px;
-				&:first-child {
-					font-size: 13px;
-					flex: 1 1 300px;
-					justify-content: flex-start;
-				}
-			}
-			img {
-				$img-size: 30px;
-				width: $img-size;
-				height: $img-size;
-				border-radius: 100%;
-			}
-		}
-
-		.player-details {
-			@extend .flex-row;
-			padding: 0 20px 10px 50px;
-			justify-content: space-between;
-			align-self: stretch;
-			.details {
-				@extend .flex-row;
-				justify-content: space-between;
-				
-				gap: 20px;
-				padding: 5px 10px;
-				
-			}
-			.buttons-container {
-				@extend .flex-row;
-				gap: 20px;
-
-				button {
-					width: 100px;
-					height: 25px;
-					border-radius: 5px;
-				}
-			}
-		}
+		width: 100%;
+		height: 100%;
+		justify-content: space-between;
+		gap: 10px;
 	}
+
 }

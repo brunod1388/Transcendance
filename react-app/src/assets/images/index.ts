@@ -21,3 +21,4 @@ export { default as User } from "./profile-user.png";
 export { default as Email } from "./email.png";
 export { default as Logo42 } from "./42.png";
 export { default as Ranking } from "./reward.png";
+export { default as History } from "./livre.png";

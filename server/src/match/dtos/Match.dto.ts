@@ -6,7 +6,7 @@ export class CreateMatchDto {
     @IsNotEmpty()
     user1id: number;
 
-	@IsNumber()
+    @IsNumber()
     @IsNotEmpty()
     user2id: number;
 
@@ -16,6 +16,6 @@ export class CreateMatchDto {
     @IsNotEmpty()
     score2: number;
 
-	@IsNotEmpty()
-	type: MatchType;
+    @IsNotEmpty()
+    type: MatchType;
 }
