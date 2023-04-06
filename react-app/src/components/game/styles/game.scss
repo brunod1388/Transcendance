@@ -12,11 +12,8 @@
 
 .game-container {
 	@extend .flex-row;
+	padding: 10px;
 	width: 100%;
-	height: calc(100% - $topbar-height + 10px);
-	overflow: hidden;
-	padding: 10px 10px 20px 10px;
-
 	span {
 		color: white
 	}
@@ -24,13 +21,18 @@
 
 .gamer-board {
 	@extend .flex-column;
-	justify-content: flex-start;
-	width: 220px;
 	height: 100%;
-	gap: 30px;
-
+	width: 180px;
 	$img-size: 130px;
 	$border-size: 7px;
+	.gamer-container {
+		@extend .flex-column;
+		height: 100%;
+		padding: 30px 0 0 0;
+		justify-content: space-between;
+		gap: 30px;
+	}
+
 	.avatar-border::before {
 		content: ' ';
 		width: calc($img-size + $border-size);
@@ -40,7 +42,12 @@
 			rgb( 0 0 0 / 0%) 70%, rgb(11 78 230 / 9%) 80%, rgb( 0 220 255) 100%);
 			animation: rotate 3s linear infinite;
 	}
-
+	.avatar-container {
+		@extend .flex-column;
+		position: relative;
+		min-height: 130px;
+		height: 20vh;
+	}
 	.avatar-border {
 		@extend .flex-row;
 		position: absolute;
@@ -48,10 +55,8 @@
 		backdrop-filter: blur(15px);
 		border-radius: 50%;
 		overflow: hidden;
-		top: calc($topbar-height + $border-size);
 		filter: drop-shadow(2px 5px 2px rgba(0,0,0,0.75));
 	}
-
 
 	img {
 		width: $img-size;
@@ -61,13 +66,17 @@
 	}
 
 	.username {
+		text-align: center;
 		font-family: NatureBeauty;
 		font-weight: 300;
-		font-size: 2.5rem;
+		font-size: 1.7rem;
+		text-size-adjust: auto;
 		color: $purple;
 		filter: drop-shadow(2px 5px 2px rgba(0,0,0,0.75));
+		max-width:130px;
+    	word-wrap:break-word;
+		font-family: Alkatra;
 	}
-	
 	.user-info {
 		@extend .flex-column;
 		justify-content: space-between;
@@ -77,10 +86,8 @@
 			@extend .flex-row;
 			width: 120px;
 			justify-content: space-between;
-			
 		}
 	}
-
 	.button-container {
 		@extend .flex-column;
 		gap: 20px;
@@ -95,48 +102,102 @@
 	}
 }
 
+.ranking-container {
+	@extend .flex-column;
+	flex-grow: 1;
+	flex-shrink: 1;
+	align-self: stretch;
+	height: 100%;
+}
 
 .ranking-board {
 	@extend .flex-column;
-	flex-grow: 1;
-	width: 100%;
+	align-self: stretch;
 	justify-content: space-between;
 	border-radius: 10px;
 	background-color: $chat-bg-color;
-	box-shadow: 2px 5px 5px rgba(0,0,0,0.75);
+	box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.75);
 	height: 100%;
-	padding: 0 10px;
+	.title-container {
+		@extend .flex-row;
+		gap: 10px;
+		img {
+			$img-size: 50px;
+			height: $img-size;
+			width: $img-size;
+			filter: drop-shadow(2px 5px 5px rgba(0, 0, 0, 0.75));
+		}
+	}
 	.title {
+		text-align: center;
 		font-family: NatureBeauty;
 		font-weight: 300;
-		font-size: 2.5rem;
+		font-size: 2.2rem;
 		color: $purple;
-		padding: 25px;
-		filter: drop-shadow(2px 5px 2px rgba(0,0,0,0.75));
+		padding: 20px 0 15px 0;
+		filter: drop-shadow(2px 5px 5px rgba(0, 0, 0, 0.75));
 	}
-	overflow: hidden;
 	.players-container {
 		@extend .flex-column;
-		width: 100%;
-		height: 100%;
-		.players {
-			@extend .flex-column;
-			gap: 10px;
-			width: 100%;
-			overflow: scroll;
-		}
-		.player {
+		align-self: stretch;
+		flex-grow: 1;
+		max-height: fit-content;
+		padding: 10px;
+		overflow: hidden;
+		.players-header {
 			@extend .flex-row;
 			justify-content: space-between;
-			width: 100%;
-			// padding: 10px;
+			align-self: stretch;
+			border-radius: 8px 8px 0 0;
+			box-shadow: inset 5px 5px 10px 0px rgba(0, 0, 0, 0.55);
+			padding: 10px;
+			background-color: rgba(0, 0, 0, 0.352);
+			span {
+				@extend .flex-row;
+				gap: 20px;
+				width: 120px;
+				&:first-child {
+					width: 300px;
+					justify-content: flex-start;
+					flex: 1 1 300px;
+				}
+				font-size: 20px;
+				filter: drop-shadow(2px 5px 2px rgba(0,0,0,0.75));
+			}
+		}
+		.players {
+			@extend .flex-column;
+			justify-content: flex-start;
+			align-self: stretch;
+			overflow: scroll;
+			background-color: $chat-bg-color;
+			border-radius: 0 0 8px 8px;
+			box-shadow: inset 5px 0px 10px 0px rgba(0, 0, 0, 0.55);
+			background-color: rgba(0, 0, 0, 0.352);
+		}
+		.player {
+			@extend .flex-column;
+			align-self: stretch;
+			cursor: pointer;
+			&:hover {
+				background-color: rgba(0, 0, 0, 0.352);
+			}
+		}
+
+		.player-plate {
+			@extend .flex-row;
+			justify-content: space-between;
+			padding: 5px 10px;
+			align-self: stretch;
 			span {
 				@extend .flex-row;
 				gap: 20px;
 				filter: drop-shadow(2px 5px 2px rgba(0,0,0,0.75));
 				width: 120px;
+				font-size: 16px;
 				&:first-child {
-					width: 300px;
+					font-size: 13px;
+					flex: 1 1 300px;
 					justify-content: flex-start;
 				}
 			}
@@ -145,6 +206,31 @@
 				width: $img-size;
 				height: $img-size;
 				border-radius: 100%;
+			}
+		}
+
+		.player-details {
+			@extend .flex-row;
+			padding: 0 20px 10px 50px;
+			justify-content: space-between;
+			align-self: stretch;
+			.details {
+				@extend .flex-row;
+				justify-content: space-between;
+				
+				gap: 20px;
+				padding: 5px 10px;
+				
+			}
+			.buttons-container {
+				@extend .flex-row;
+				gap: 20px;
+
+				button {
+					width: 100px;
+					height: 25px;
+					border-radius: 5px;
+				}
 			}
 		}
 	}
