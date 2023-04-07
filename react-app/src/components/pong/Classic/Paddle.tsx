@@ -3,7 +3,7 @@ import { Broadcast, GameConfig, Position } from "../../../@types";
 import { useCallback } from "react";
 import { useKeyboard, useSocket } from "../../../hooks";
 import { useInterval } from "../../../hooks";
-import style from "../PingPong/pong.module.scss";
+import style from "./pong.module.scss";
 interface Props {
     host: boolean;
     paddle: Position;
@@ -31,7 +31,7 @@ export function MyPaddle(props: Props) {
     const handler = useCallback(
         (event: KeyboardEvent) => {
             if (event.key === "ArrowUp") moveUp();
-            else if (event.key == "ArrowDown") moveDown();
+            else if (event.key === "ArrowDown") moveDown();
         },
         [props.paddle]
     );
@@ -48,7 +48,7 @@ export function MyPaddle(props: Props) {
     }, 50);
 
     const position: CSSProperties = {
-        left: props.paddle.x,
+        left: props.paddle.x + (props.host? 0: -props.config.paddleWidth),
         bottom: props.paddle.y - props.config.paddleHeight,
         width: props.config.paddleWidth,
         height: props.config.paddleHeight,
@@ -60,7 +60,7 @@ export function MyPaddle(props: Props) {
 
 export function YourPaddle(props: Props) {
     const position: CSSProperties = {
-        left: props.paddle.x - props.config.paddleWidth,
+        left: props.paddle.x + (props.host? 0 : -props.config.paddleWidth),
         bottom: props.paddle.y - props.config.paddleHeight,
         width: props.config.paddleWidth,
         height: props.config.paddleHeight,

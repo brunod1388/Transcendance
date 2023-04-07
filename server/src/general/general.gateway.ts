@@ -42,6 +42,21 @@ interface recordGameDto {
     };
 }
 
+interface Ball {
+	pos: {
+		x: number,
+		y: number
+	},
+	delta: {
+		x: number,
+		y: number
+	},
+	speed: number
+}
+interface BallDto {
+	room: string;
+	data: Ball;
+}
 @WebSocketGateway({ cors: { origin: ["http://localhost:9000"] } })
 export class GeneralGateway implements OnModuleInit {
     @WebSocketServer()
@@ -105,6 +120,8 @@ export class GeneralGateway implements OnModuleInit {
         this.generalService.gameBroadcast(client, broadcast);
     }
 
+	
+
     @SubscribeMessage("game-end")
     handleGameEnd(client: Socket, gameEndDTO: GameEndDTO) {
         this.generalService.gameEnd();
@@ -134,16 +151,22 @@ export class GeneralGateway implements OnModuleInit {
         client.broadcast.to(room).emit("game-player-left");
         client.leave(room);
     }
+
     @SubscribeMessage("game-score")
     handleScore(client: Socket, score: scoreDto) {
-        // this.server.to(score.room).emit("game-score", {
-        //     player1: score.score.player1,
-        //     player2: score.score.player2,
-        // });
+        this.server.to(score.room).emit("game-score", {
+            player1: score.score.player1,
+            player2: score.score.player2,
+        });
     }
 
     @SubscribeMessage("record-game")
     handleRecordGame(client: Socket, record: recordGameDto) {
         //
+    }
+
+	@SubscribeMessage("game-ball")
+    handleUpdatedBall(client: Socket, ball: BallDto) {
+		client.broadcast.to(ball.room).emit("game-ball", ball.data);
     }
 }

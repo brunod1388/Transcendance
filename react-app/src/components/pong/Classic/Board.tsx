@@ -1,5 +1,5 @@
 import { CSSProperties, PropsWithChildren } from "react";
-import style from "../PingPong/pong.module.scss";
+import style from "./pong.module.scss";
 import { GameConfig, Score } from "../../../@types";
 
 interface Props {
@@ -22,12 +22,13 @@ export function Board(props: PropsWithChildren<Props>) {
                         position: "absolute",
                     }}
                 >
+					<div className={style.score} id={style["left"]}>
+                        {props.score.player1}
+                    </div>
                     <div className={style.score} id={style["right"]}>
                         {props.score.player2}
                     </div>
-                    <div className={style.score} id={style["left"]}>
-                        {props.score.player1}
-                    </div>
+                    
 
                     {props.children}
                 </div>

@@ -1,4 +1,4 @@
-import { useSocket } from "../../hooks";
+import { useSocket, useTimeout } from "../../hooks";
 import {
     CONNECTED,
     DISCONECTED,
@@ -8,9 +8,10 @@ import {
     WON,
 } from "../../@types";
 
-import { useEffect, PropsWithChildren } from "react";
+import { useEffect, PropsWithChildren, useState } from "react";
 import { LoadGame } from "./LoadGame";
 import { Score } from "../../@types";
+import { EndScreen } from "./Classic/Rules";
 
 interface Props {
     user: PlayerInfo;
@@ -24,13 +25,14 @@ interface Props {
 
 export function GameEvent(props: PropsWithChildren<Props>) {
     const [socket] = useSocket();
+	const [gameStarted, setGameStarted] = useState<boolean>(false);
 
     useEffect(() => {
         props.onUser({ ...props.user, status: CONNECTED });
         window.addEventListener(
             "popstate",
             (e: PopStateEvent) => {
-                if (props.user.host === true) {
+                if (props.user.host === true && gameStarted === true) {
                     socket.emit("record-game", {
                         player1: {
                             username: props.user.username,
@@ -56,11 +58,13 @@ export function GameEvent(props: PropsWithChildren<Props>) {
     }, [props.user]);
 
     useEffect(() => {
+		let timer: NodeJS.Timeout;
+
         socket.on("player", (player: PlayerInfo) => props.onOpponent(player));
 
         socket.on("game-player-left", () => {
             props.onOpponent({ ...props.opponent, status: DISCONECTED });
-            if (props.user.host === true) {
+            if (props.user.host === true && gameStarted === true) {
                 socket.emit("record-game", {
                     player1: {
                         username: props.user.username,
@@ -74,10 +78,11 @@ export function GameEvent(props: PropsWithChildren<Props>) {
                     },
                 });
             }
-            props.onEnd();
+			timer = setTimeout(props.onEnd, 5000);
         });
 
         return () => {
+			clearTimeout(timer);
             socket.off("game-player-left");
             socket.off("player");
         };
@@ -85,6 +90,9 @@ export function GameEvent(props: PropsWithChildren<Props>) {
 
     return (
         <LoadGame
+			gameStarted={gameStarted}
+			onGameStarted={(status: boolean) => setGameStarted(status)}
+		score={props.score}
             user={props.user}
             config={props.config}
             opponent={props.opponent}

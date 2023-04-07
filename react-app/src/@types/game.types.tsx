@@ -130,6 +130,7 @@ export enum GameStatus {
     PAUSE_AFTER_SCORE,
     RESET,
     END_GAME,
+	OPPONENT_LEFT
 }
 
 export enum GameMode {
@@ -178,8 +179,8 @@ export const classicConfig: GameConfig = {
         delta: { x: 0, y: 0 },
         speed: 0,
     },
-    initialPaddle1: { x: WALL_TO_PADDLE, y: WIDTH - WALL_TO_PADDLE },
-    initialPaddle2: { x: WIDTH - WALL_TO_PADDLE, y: WALL_TO_PADDLE },
+    initialPaddle1: { x: WALL_TO_PADDLE, y: HEIGHT/2 + PADDLE_HEIGHT/2 },
+    initialPaddle2: { x: WIDTH - WALL_TO_PADDLE, y: HEIGHT/2  + PADDLE_HEIGHT/2 },
 };
 
 export const pingpongConfig: GameConfig = {

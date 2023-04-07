@@ -27,11 +27,12 @@ $ballRadius: 20px; 		  // must be equal to BALL_RADIUS * 2
 }
 
 #left {
-	left: (calc($width/2) - 9) + 40px;
+	right: (calc($width/2) - 9) + 40px;
+	
 }
 
 #right {
-	right: (calc($width/2) - 9) + 40px;
+	left: (calc($width/2) - 9) + 40px;
 }
 
 .input {
