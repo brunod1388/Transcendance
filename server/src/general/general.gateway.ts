@@ -113,7 +113,7 @@ export class GeneralGateway implements OnModuleInit {
     @SubscribeMessage("invitation")
     handleInvitation(client: Socket, invitation: InvitationDto) {
         this.server.emit("invitation", invitation);
-    } 
+    }
 
     @SubscribeMessage("response")
     handleResponse(client: Socket, response: ResponseDto) {

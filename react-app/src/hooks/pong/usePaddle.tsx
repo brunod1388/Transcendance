@@ -83,4 +83,4 @@
 //     useKeyboard(handler, document);
 //     return [paddle, setPaddle];
 // }
-export {}
+export {};

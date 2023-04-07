@@ -16,9 +16,9 @@ interface Props {
     paddle2: Position;
     onPaddle1: (pos: Position) => void;
     onPaddle2: (pos: Position) => void;
-	onOpponentPaddle: (newPos: Position) => void;
-	onScore: (newScore: Score) => void;
-	onBall: (ball: Ball) => void;
+    onOpponentPaddle: (newPos: Position) => void;
+    onScore: (newScore: Score) => void;
+    onBall: (ball: Ball) => void;
     onEnd: () => void;
 }
 
@@ -27,24 +27,24 @@ export function PongClassic(props: Props) {
 
     return (
         <Rules
-			paddle1={props.paddle1}
-			paddle2={props.paddle2}
-			config={props.config}
-			ball={props.ball}
+            paddle1={props.paddle1}
+            paddle2={props.paddle2}
+            config={props.config}
+            ball={props.ball}
             room={props.room}
             onEnd={props.onEnd}
             score={props.score}
             opponnent={props.opponent}
             user={props.user}
-			onPaddle1={props.onPaddle1}
-			onPaddle2={props.onPaddle2}
-			onOpponentPaddle={props.onOpponentPaddle}
-			onScore={props.onScore}
-			onBall={props.onBall}
+            onPaddle1={props.onPaddle1}
+            onPaddle2={props.onPaddle2}
+            onOpponentPaddle={props.onOpponentPaddle}
+            onScore={props.onScore}
+            onBall={props.onBall}
         >
             <Board score={props.score} config={props.config}>
                 <BallComponent
-					ball={props.ball}
+                    ball={props.ball}
                     config={props.config}
                     skin={empty}
                 />

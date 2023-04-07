@@ -17,10 +17,7 @@ export function MyPaddle(props: Props) {
     const [socket] = useSocket();
 
     const moveUp = () => {
-        if (
-            props.paddle.y + 10  <
-            props.config.boardHeight
-        ) {
+        if (props.paddle.y + 10 < props.config.boardHeight) {
             props.onPaddle({ ...props.paddle, y: props.paddle.y + 10 });
         }
     };
@@ -53,18 +50,22 @@ export function MyPaddle(props: Props) {
     const position: CSSProperties = {
         left: props.paddle.x,
         bottom: props.paddle.y - props.config.paddleHeight,
-		width: props.config.paddleWidth,
-		height: props.config.paddleHeight
+        width: props.config.paddleWidth,
+        height: props.config.paddleHeight,
     };
-    return <div className={style.paddle} style={{ ...position, ...props.skin }} />;
+    return (
+        <div className={style.paddle} style={{ ...position, ...props.skin }} />
+    );
 }
 
 export function YourPaddle(props: Props) {
     const position: CSSProperties = {
         left: props.paddle.x - props.config.paddleWidth,
         bottom: props.paddle.y - props.config.paddleHeight,
-		width: props.config.paddleWidth,
-		height: props.config.paddleHeight
+        width: props.config.paddleWidth,
+        height: props.config.paddleHeight,
     };
-    return <div className={style.paddle} style={{ ...position, ...props.skin }} />;
+    return (
+        <div className={style.paddle} style={{ ...position, ...props.skin }} />
+    );
 }

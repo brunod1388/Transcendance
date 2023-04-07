@@ -10,7 +10,7 @@ import {
 
 import { useEffect, PropsWithChildren } from "react";
 import { LoadGame } from "./LoadGame";
-import {  Score } from "../../@types";
+import { Score } from "../../@types";
 
 interface Props {
     user: PlayerInfo;

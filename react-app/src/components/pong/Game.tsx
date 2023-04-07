@@ -4,12 +4,12 @@ import {
     GameConfig,
     GameMode,
     PlayerInfo,
-  	Ball,
+    Ball,
     CLASSIC,
     PINGPONG,
     LOADING,
-	initialUser,
-	initialOpponent,
+    initialUser,
+    initialOpponent,
 } from "../../@types";
 import { GameEvent } from "./GameEvent";
 import { useState } from "react";
@@ -24,13 +24,19 @@ interface GameProps {
     username: string;
 }
 
-export function Game({mode, room, onEnd, host, username }: GameProps) {
-	const config = gameConfig(mode, room);
+export function Game({ mode, room, onEnd, host, username }: GameProps) {
+    const config = gameConfig(mode, room);
     const [user, setUser] = useState<PlayerInfo>(initialUser(host, username));
-	const [opponent, setOpponent] = useState<PlayerInfo>(initialOpponent(host, ""));
-    const [userPaddle, setUserPaddle] = useState<Position>((host)? config.initialPaddle1 : config.initialPaddle2);
-	const [opponentPaddle, setOpponentPaddle] = useState<Position>((host)? config.initialPaddle2 : config.initialPaddle1);
-    const [ball, setBall] = useState<Ball>({...config.initialBall});
+    const [opponent, setOpponent] = useState<PlayerInfo>(
+        initialOpponent(host, "")
+    );
+    const [userPaddle, setUserPaddle] = useState<Position>(
+        host ? config.initialPaddle1 : config.initialPaddle2
+    );
+    const [opponentPaddle, setOpponentPaddle] = useState<Position>(
+        host ? config.initialPaddle2 : config.initialPaddle1
+    );
+    const [ball, setBall] = useState<Ball>({ ...config.initialBall });
     const [score, setScore] = useState<Score>({ player1: 0, player2: 0 });
     return (
         <GameEvent
@@ -53,15 +59,17 @@ export function Game({mode, room, onEnd, host, username }: GameProps) {
                     score={score}
                     paddle1={host ? userPaddle : opponentPaddle}
                     paddle2={host ? opponentPaddle : userPaddle}
-					onPaddle1={(newPos: Position) =>
-						host ? setUserPaddle(newPos) : setOpponentPaddle(newPos)
-					}
-					onPaddle2={(newPos: Position) =>
-						host ? setOpponentPaddle(newPos) : setUserPaddle(newPos)
-					}
-					onOpponentPaddle={(newPos: Position) => setOpponentPaddle(newPos)}
-					onScore={(newScore: Score) => setScore(newScore)}
-					onBall={(ball: Ball) => setBall(ball)}
+                    onPaddle1={(newPos: Position) =>
+                        host ? setUserPaddle(newPos) : setOpponentPaddle(newPos)
+                    }
+                    onPaddle2={(newPos: Position) =>
+                        host ? setOpponentPaddle(newPos) : setUserPaddle(newPos)
+                    }
+                    onOpponentPaddle={(newPos: Position) =>
+                        setOpponentPaddle(newPos)
+                    }
+                    onScore={(newScore: Score) => setScore(newScore)}
+                    onBall={(ball: Ball) => setBall(ball)}
                     onEnd={onEnd}
                 />
             )}
