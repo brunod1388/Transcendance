@@ -80,13 +80,10 @@ export function Game({ mode, room, onEnd, host, username }: GameProps) {
                     opponent={opponent}
                     ball={ball}
                     score={score}
-                    paddle1={host ? userPaddle : opponentPaddle}
-                    paddle2={host ? opponentPaddle : userPaddle}
-                    onPaddle1={(newPos: Position) =>
-                        host ? setUserPaddle(newPos) : setOpponentPaddle(newPos)
-                    }
-                    onPaddle2={(newPos: Position) =>
-                        host ? setOpponentPaddle(newPos) : setUserPaddle(newPos)
+                    userPaddle={userPaddle}
+                    opponentPaddle={opponentPaddle}
+                    onUserPaddle={(newPos: Position) =>
+                        setUserPaddle(newPos)
                     }
                     onOpponentPaddle={(newPos: Position) =>
                         setOpponentPaddle(newPos)

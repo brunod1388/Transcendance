@@ -5,29 +5,17 @@ import { useKeyboard, useSocket } from "../../../hooks";
 import { useInterval } from "../../../hooks";
 import style from "./pong.module.scss";
 import { useMouse } from "../../../hooks/useMouse";
-interface Props {
+interface MyProps {
     host: boolean;
-    paddle: Position;
-    onPaddle: (pos: Position) => void;
+    myPaddle: Position;
+    onMyPaddle: (pos: Position) => void;
     config: GameConfig;
     skin: CSSProperties;
     room: string;
 }
 
-export function MyPaddle(props: Props) {
+export function MyPaddle(props: MyProps) {
     const [socket] = useSocket();
-
-    // const moveUp = () => {
-    //     if (props.paddle.y + 10 < props.config.boardHeight) {
-    //         props.onPaddle({ ...props.paddle, y: props.paddle.y + 10 });
-    //     }
-    // };
-
-    // const moveDown = () => {
-    //     if (props.paddle.y - 10 - props.config.paddleHeight > 0) {
-    //         props.onPaddle({ ...props.paddle, y: props.paddle.y - 10 });
-    //     }
-    // };
 
     const handler = useCallback(
         (event: MouseEvent) => {
@@ -35,9 +23,15 @@ export function MyPaddle(props: Props) {
 			const rect = container.getBoundingClientRect();
 			const offsetX = event.clientX - rect.left;
 			const offsetY = event.clientY - rect.top;
-			props.onPaddle({x:  offsetX - props.config.paddleWidth/2, y: props.config.boardHeight - offsetY + props.config.paddleHeight/2});
+			let posX = offsetX - props.config.paddleWidth/2;
+			let posY = props.config.boardHeight - offsetY + props.config.paddleHeight/2;
+			if ((posX > 0 && posX + props.config.paddleWidth < props.config.boardWidth) 
+			&& (offsetY > 0 && offsetY + props.config.paddleHeight < props.config.boardHeight && offsetY + props.config.paddleHeight / 2 > props.config.boardHeight/2)) {
+				props.onMyPaddle({x:  posX, y: posY });
+			}
+			
         },
-        [props.paddle]
+        [props.myPaddle]
     );
     useMouse(handler, document.getElementById("pongBoard") as HTMLDivElement);
 
@@ -45,15 +39,15 @@ export function MyPaddle(props: Props) {
         socket.emit(
             "game-broadcast",
             new Broadcast(props.room, "game-paddle", {
-                x: props.paddle.x,
-                y: props.paddle.y,
+                x: props.myPaddle.x,
+                y: props.myPaddle.y,
             })
         );
     }, 50);
 
     const position: CSSProperties = {
-        left: props.paddle.x + (props.host? 0: -props.config.paddleWidth),
-        bottom: props.paddle.y - props.config.paddleHeight,
+        left: props.myPaddle.x,
+        bottom: props.myPaddle.y - props.config.paddleHeight,
         width: props.config.paddleWidth,
         height: props.config.paddleHeight,
     };
@@ -62,10 +56,20 @@ export function MyPaddle(props: Props) {
     );
 }
 
-export function YourPaddle(props: Props) {
+
+interface YourProps {
+    host: boolean;
+    yourPaddle: Position;
+    onYourPaddle: (pos: Position) => void;
+    config: GameConfig;
+    skin: CSSProperties;
+    room: string;
+}
+
+export function YourPaddle(props: YourProps) {
     const position: CSSProperties = {
-        left: props.paddle.x + (props.host? 0 : -props.config.paddleWidth),
-        bottom: props.paddle.y - props.config.paddleHeight,
+        left: props.yourPaddle.x + (props.host? 0 : -props.config.paddleWidth),
+        bottom: props.yourPaddle.y - props.config.paddleHeight,
         width: props.config.paddleWidth,
         height: props.config.paddleHeight,
     };

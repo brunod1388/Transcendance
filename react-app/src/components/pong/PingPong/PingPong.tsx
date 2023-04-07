@@ -12,10 +12,9 @@ interface Props {
     opponent: PlayerInfo;
     ball: Ball;
     score: Score;
-    paddle1: Position;
-    paddle2: Position;
-    onPaddle1: (pos: Position) => void;
-    onPaddle2: (pos: Position) => void;
+    userPaddle: Position;
+    opponentPaddle: Position;
+    onUserPaddle: (pos: Position) => void;
     onOpponentPaddle: (newPos: Position) => void;
     onScore: (newScore: Score) => void;
     onBall: (ball: Ball) => void;
@@ -27,8 +26,10 @@ export function PingPong(props: Props) {
 
     return (
         <Rules
-            paddle1={props.paddle1}
-            paddle2={props.paddle2}
+            userPaddle={props.userPaddle}
+			opponentPaddle={props.opponentPaddle}
+			onUserPaddle={props.onUserPaddle}
+			onOpponentPaddle={props.onOpponentPaddle}
             config={props.config}
             ball={props.ball}
             room={props.room}
@@ -36,33 +37,28 @@ export function PingPong(props: Props) {
             score={props.score}
             opponnent={props.opponent}
             user={props.user}
-            onPaddle1={props.onPaddle1}
-            onPaddle2={props.onPaddle2}
-            onOpponentPaddle={props.onOpponentPaddle}
             onScore={props.onScore}
             onBall={props.onBall}
         >
-            <Board score={props.score} config={props.config}>
+            <Board user={props.user} score={props.score} config={props.config}>
                 <BallComponent
                     ball={props.ball}
                     config={props.config}
                     skin={empty}
                 />
                 <MyPaddle
-                    onPaddle={props.host ? props.onPaddle1 : props.onPaddle2}
+                    onMyPaddle={props.onUserPaddle}
                     room={props.room}
                     host={props.user.host}
-                    paddle={props.user.host ? props.paddle1 : props.paddle2}
+                    myPaddle={props.userPaddle}
                     skin={empty}
                     config={props.config}
                 />
                 <YourPaddle
-                    onPaddle={() =>
-                        props.host ? props.paddle2 : props.paddle1
-                    }
+                    onYourPaddle={props.onOpponentPaddle}
                     room={props.room}
                     host={props.opponent.host}
-                    paddle={props.user.host ? props.paddle2 : props.paddle1}
+                    yourPaddle={props.opponentPaddle}
                     skin={empty}
                     config={props.config}
                 />

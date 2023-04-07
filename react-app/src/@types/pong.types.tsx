@@ -61,3 +61,10 @@ export interface GameInfo {
     player1: string;
     player2: string;
 }
+
+
+
+export interface Range {
+    min: number;
+    max: number;
+}

@@ -10,7 +10,7 @@ import {
     Paddle,
     GameConfig,
     Position,
-	DISCONECTED,
+    DISCONECTED,
 } from "../../../@types";
 import { useSocket, useTimeout } from "../../../hooks";
 import { useInterval } from "../../../hooks";
@@ -18,14 +18,13 @@ import { move, detectScore, launchBall } from "./Physics";
 import style from "./pong.module.scss";
 interface Props {
     ball: Ball;
-    paddle1: Paddle;
-    paddle2: Paddle;
+    userPaddle: Paddle;
+    opponentPaddle: Paddle;
     config: GameConfig;
     room: string;
     onEnd: () => void;
-    onPaddle1: (pos: Position) => void;
-    onPaddle2: (pos: Position) => void;
-    onOpponentPaddle: (newPos: Position) => void;
+    onUserPaddle: (pos: Position) => void;
+    onOpponentPaddle: (pos: Position) => void;
     onScore: (newScore: Score) => void;
     onBall: (ball: Ball) => void;
     score: Score;
@@ -63,15 +62,18 @@ export function Rules(props: PropsWithChildren<Props>) {
                     delta: { x: 0, y: 0 },
                     speed: 0,
                 });
-				socket.emit("game-score", {room: props.room, score: newScore});
+                socket.emit("game-score", {
+                    room: props.room,
+                    score: newScore,
+                });
                 props.onScore(newScore);
                 onGameStatus(GameStatus.LAUNCH_BALL);
             } else {
                 move(
                     props.ball,
                     props.onBall,
-                    props.paddle1,
-                    props.paddle2,
+                    props.userPaddle,
+                    props.opponentPaddle,
                     props.config
                 );
             }
@@ -87,7 +89,7 @@ export function Rules(props: PropsWithChildren<Props>) {
     useEffect(() => {
         if (props.user.host) {
             startGame();
-			socket.emit("game-ball", {data: props.ball, room: props.room});
+            socket.emit("game-ball", { data: props.ball, room: props.room });
         }
         setUpdate(false);
     }, [update]);
@@ -95,18 +97,32 @@ export function Rules(props: PropsWithChildren<Props>) {
     useEffect(() => {
         socket.on("game-score", (newScore: Score) => {
             props.onScore(newScore);
-			props.onPaddle1(props.config.initialPaddle1);
-			props.onPaddle2(props.config.initialPaddle2);
+            props.onUserPaddle(props.config.initialPaddle1);
+            props.onOpponentPaddle(props.config.initialPaddle2);
         });
 
         socket.on("game-ball", (ball: Ball) => {
             if (props.user.host === false) {
-                props.onBall(ball);
+                props.onBall({
+                    ...ball,
+                    pos: {
+                        x: props.config.boardWidth - ball.pos.x,
+                        y: props.config.boardHeight - ball.pos.y,
+                    },
+                });
             }
         });
 
         socket.on("game-paddle", (position: Position) => {
-            props.onOpponentPaddle(position);
+            props.onOpponentPaddle({
+                x:
+                    props.config.boardWidth -
+                    position.x + (props.user.host ? 0 : -props.config.paddleWidth),
+                y:
+                    props.config.boardHeight -
+                    position.y +
+                    props.config.paddleHeight,
+            });
         });
         return () => {
             socket.off("game-score");
@@ -146,7 +162,13 @@ export function Rules(props: PropsWithChildren<Props>) {
     }, [props.score]);
 
     if (gameStatus === END_GAME || props.opponnent.status === DISCONECTED) {
-        return <EndScreen opponent={props.opponnent} user={props.user} score={props.score} />;
+        return (
+            <EndScreen
+                opponent={props.opponnent}
+                user={props.user}
+                score={props.score}
+            />
+        );
     }
 
     return (
@@ -158,36 +180,47 @@ export function Rules(props: PropsWithChildren<Props>) {
 
 interface PropsEnd {
     score: Score;
-	opponent: PlayerInfo;
-	user: PlayerInfo
+    opponent: PlayerInfo;
+    user: PlayerInfo;
 }
 
-
 export function EndScreen(props: PropsEnd) {
-	    if (props.opponent.status === DISCONECTED || (props.user.host === true && props.score.player1 >= 10) || (props.user.host === false && props.score.player2 >= 10)) {
-	        return (
-	            <div className={style.endScreen}>
-	                <div className={style.wrapper}>
-	                    <div className={style.win}>You Win!</div>
-	                    <p className={style.finalScore}>
-	                        {(props.user.host)? props.score.player1 : props.score.player2}
-							-
-							{(props.user.host)? props.score.player2 : props.score.player1}
-	                    </p>
-	                </div>
-	            </div>
-	        );
-	    }
-	    return (
-	        <div className={style.endScreen}>
-	            <div className={style.wrapper}>
-	                <div className={style.lost}>You Lost...</div>
-	                <p className={style.finalScore}>
-						{(props.user.host)? props.score.player1 : props.score.player2}
-							-
-						{(props.user.host)? props.score.player2 : props.score.player1}
-	                </p>
-	            </div>
-	        </div>
-	    );
-	}
+    if (
+        props.opponent.status === DISCONECTED ||
+        (props.user.host === true && props.score.player1 >= 10) ||
+        (props.user.host === false && props.score.player2 >= 10)
+    ) {
+        return (
+            <div className={style.endScreen}>
+                <div className={style.wrapper}>
+                    <div className={style.win}>You Win!</div>
+                    <p className={style.finalScore}>
+                        {props.user.host
+                            ? props.score.player1
+                            : props.score.player2}
+                        -
+                        {props.user.host
+                            ? props.score.player2
+                            : props.score.player1}
+                    </p>
+                </div>
+            </div>
+        );
+    }
+    return (
+        <div className={style.endScreen}>
+            <div className={style.wrapper}>
+                <div className={style.lost}>You Lost...</div>
+                <p className={style.finalScore}>
+                    {props.user.host
+                        ? props.score.player1
+                        : props.score.player2}
+                    -
+                    {props.user.host
+                        ? props.score.player2
+                        : props.score.player1}
+                </p>
+            </div>
+        </div>
+    );
+}
