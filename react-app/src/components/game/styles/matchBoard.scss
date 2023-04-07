@@ -1,0 +1,83 @@
+@import '../../../assets/styles/variables';
+@import '../../../assets/styles/general';
+
+.match-board {
+	@extend .flex-column;
+	align-self: stretch;
+	justify-content: space-between;
+	border-radius: 0 10px 10px 0;
+	height: 100%;
+	.title-container {
+		@extend .flex-row;
+		gap: 10px;
+		height: 100px;
+		img {
+			$img-size: 50px;
+			height: $img-size;
+			width: $img-size;
+			filter: drop-shadow(2px 5px 5px rgba(0, 0, 0, 0.75));
+		}
+	}
+	.title {
+		text-align: center;
+		font-family: NatureBeauty;
+		font-weight: 300;
+		font-size: 2.2rem;
+		color: $purple;
+		padding: 20px 0 15px 0;
+		filter: drop-shadow(2px 5px 5px rgba(0, 0, 0, 0.75));
+	}
+	.match-container {
+		flex-grow: 1;
+		@extend .flex-column;
+		$play-button-size: 150px;
+		$border-size: 30px;
+		.button-container {
+			@extend .flex-row;
+			position: relative;
+		}
+		.button-border:before {
+			content: '';
+			position: absolute;
+			background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%); 			width: calc($play-button-size + 10px);
+			height: calc($play-button-size + $border-size);
+			width: calc($play-button-size + $border-size);
+			border-radius: 50%;
+			z-index: 1;
+			animation: rotate 0.5s infinite linear;
+		}
+		.button-border {
+			position: absolute;
+			background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%); 			width: calc($play-button-size + 10px);
+			top: calc( 0px - $border-size * 0.5);
+			left: calc( 0px - $border-size * 0.5);
+			filter: blur(10px);
+		}
+		.button-border:after {
+			content: '';
+			position: absolute;
+			background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%); 			width: calc($play-button-size + 10px);
+			height: calc($play-button-size + $border-size);
+			width: calc($play-button-size + $border-size);
+			border-radius: 50%;
+			z-index: 1;
+			filter: blur(50px);
+		}
+		.play-button {
+			@extend .button-purple;
+			animation: none;
+			height: $play-button-size;
+			width: $play-button-size;
+			border-radius: 50%;
+			color: white;
+			background-color: $purple;
+			font-size: 32px;
+			font-weight: 600;
+			font-family: NatureBeauty;
+			box-shadow:inset 0 0 10px 0 rgba(0, 0, 0, 0.75);
+			border: none;
+			z-index: 2;
+		}
+	}
+
+}

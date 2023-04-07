@@ -4,7 +4,7 @@ import { AxiosRequestConfig } from "axios";
 import "../assets/styles/form.scss";
 import { useAxios } from "../hooks";
 import Cookies from "js-cookie";
-import { Lock, Logo42, User } from "../assets/images";
+import { LockIcon, Logo42Icon, UserIcon } from "../assets/images";
 interface DataType {
     username: string;
     password: string;
@@ -70,7 +70,7 @@ function Login() {
                 <form onSubmit={handleSubmit}>
                     <div className="input_container">
                         <span className="input-title">Username</span>
-                        <img className="input_icon" src={User} alt="" />
+                        <img className="input_icon" src={UserIcon} alt="" />
                         <input
                             name="username"
                             type="text"
@@ -80,7 +80,7 @@ function Login() {
                     </div>
                     <div className="input_container">
                         <span className="input-title">Password</span>
-                        <img className="input_icon locker" src={Lock} alt="" />
+                        <img className="input_icon locker" src={LockIcon} alt="" />
                         <input
                             className="password"
                             name="password"
@@ -99,7 +99,7 @@ function Login() {
                         type="button"
                         onClick={login42}
                     >
-                        <img src={Logo42} alt="" />
+                        <img src={Logo42Icon} alt="" />
                         Login
                     </button>
                     <Link to="/subscribe">

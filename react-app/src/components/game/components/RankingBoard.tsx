@@ -1,5 +1,5 @@
 import PlayerPlate from "./PlayerPlate";
-import { Ranking } from "../../../assets/images";
+import { RankingIcon } from "../../../assets/images";
 import { useState } from "react";
 import { players } from "../players.dataset"; // test purposes
 import { player } from "../../../@types/match.types";
@@ -12,9 +12,9 @@ export default function RankingBoard({}: Props) {
     return (
         <div className="ranking-board">
             <div className="title-container">
-                <img src={Ranking} alt="" />
+                <img src={RankingIcon} alt="" />
                 <h1 className="title">Ranking Board</h1>
-                <img src={Ranking} alt="" />
+                <img src={RankingIcon} alt="" />
             </div>
             <div className="players-container">
                 <div className="players-header">
@@ -24,7 +24,7 @@ export default function RankingBoard({}: Props) {
                     <span>Points</span>
                 </div>
                 <div className="players">
-                    {players.map((player: player, index: number) => 
+                    {players.filter((_, i) => i < 4).map((player: player, index: number) => 
                         <PlayerPlate
 							player={player}
 							isVisible={isVisible}

@@ -1,6 +1,7 @@
-import { Delete, Edit, NoUserIcon } from "../../../assets/images";
+import { DeleteIcon, EditIcon, NoUserIcon } from "../../../assets/images";
 import { MessageType } from "../../../@types";
 import "../styles/message.scss";
+import { getDateMsg, getTimeStr } from "../../../utils";
 
 interface Props {
     owner?: boolean;
@@ -10,32 +11,6 @@ interface Props {
 
 const DAY_TIME = 1000 * 60 * 60 * 24;
 const HOUR_TIME = 1000 * 60 * 60;
-
-function getDateMsg(date: Date): string {
-    const now = new Date();
-
-    if (
-        date.getFullYear() === now.getFullYear() ||
-        date.getMonth() === now.getMonth()
-    ) {
-        if (date.getDate() === now.getDate()) return "Today at";
-        if (date.getDate() === now.getDate() - 1) return "Yesterday at";
-    }
-    return `${date.getDate()}/${date.getMonth()}/${date.getFullYear() - 2000}`;
-}
-
-function getTimeStr(date: Date, withSeconds: boolean): string {
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds();
-    const hoursStr = hours < 10 ? `0${hours}` : `${hours}`;
-    const minutesStr = minutes < 10 ? `0${minutes}` : `${minutes}`;
-    const secondsStr = seconds < 10 ? `0${seconds}` : `${seconds}`;
-
-    let time = `${hoursStr}:${minutesStr}`;
-    if (withSeconds) time += `:${secondsStr}`;
-    return time;
-}
 
 function stickToPrev(msg: MessageType, next: MessageType): boolean {
     if (msg.creator.id !== next.creator.id) return false;
@@ -77,10 +52,10 @@ export default function Message(props: Props) {
             {owner && (
                 <div className="messageMenu">
                     <div>
-                        <img className="edit" src={Edit} alt="" />
+                        <img className="edit" src={EditIcon} alt="" />
                     </div>
                     <div>
-                        <img className="delete" src={Delete} alt="" />
+                        <img className="delete" src={DeleteIcon} alt="" />
                     </div>
                 </div>
             )}

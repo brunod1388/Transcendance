@@ -6,13 +6,32 @@
 	justify-content: space-between;
 	align-self: stretch;
 	padding: 10px;
-	span {
+	font-size: 20px;
+	color: white;
+
+	.user {
+		@extend .flex-row;
+		gap: 20px;
+	}
+
+	.score {
+		@extend .flex-row;
+		gap: 20px;
+	}
+	.user {
 		@extend .flex-row;
 		gap: 20px;
 		width: 120px;
 		filter: drop-shadow(2px 5px 2px rgba(0,0,0,0.75));
 	}
-
+	.col:first-child {
+		justify-content: flex-start;
+		padding-left: 20px;
+	}
+	.col:last-child {
+		justify-content: flex-end;
+		padding-right: 20px;
+	}
 	img {
 		$img-size: 30px;
 		height: $img-size;

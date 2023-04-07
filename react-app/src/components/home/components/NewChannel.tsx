@@ -3,7 +3,7 @@ import AddImage from "../../../assets/images/add-image.png";
 import { useSocket } from "../../../hooks";
 import { useAuth, useChat } from "../../../context";
 import { ChannelType } from "../../../@types";
-import { Lock, NoChannelIcon, User } from "../../../assets/images";
+import { LockIcon, NoChannelIcon, UserIcon } from "../../../assets/images";
 
 interface Props {
     quitForm: () => void;
@@ -71,7 +71,7 @@ export default function NewChannel(props: Props) {
                                 <span className="input-title">Password</span>
                                 <img
                                     className="input_icon locker"
-                                    src={Lock}
+                                    src={LockIcon}
                                     alt=""
                                 />
                                 <input
@@ -88,7 +88,7 @@ export default function NewChannel(props: Props) {
                                 </span>
                                 <img
                                     className="input_icon locker"
-                                    src={Lock}
+                                    src={LockIcon}
                                     alt=""
                                 />
                                 <input

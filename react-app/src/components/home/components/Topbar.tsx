@@ -2,7 +2,7 @@ import {
     PlayIcon,
     SettingIcon,
     NoUserIcon,
-    Bell,
+    BellIcon,
     NoChannelIcon,
 } from "../../../assets/images";
 import { useNavigate, Link } from "react-router-dom";
@@ -99,7 +99,7 @@ function Topbar() {
                         alt=""
                         onClick={() => setIsVisible(!isVisible)}
                     />
-                    {notif && <img className="imgInvitation" src={Bell} />}
+                    {notif && <img className="imgInvitation" src={BellIcon} />}
                     <div className="invitations" ref={ref}>
                         {isVisible && (
                             <Invitations

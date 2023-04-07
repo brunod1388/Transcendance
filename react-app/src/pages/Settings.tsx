@@ -7,9 +7,9 @@ import "../assets/styles/form.scss";
 import {
     AddChannelIcon,
     AddImageIcon,
-    Email,
-    User,
-    Lock,
+    EmailIcon,
+    UserIcon,
+    LockIcon,
 } from "../assets/images";
 
 const defaultAvatarRequest: AxiosRequestConfig = {
@@ -211,7 +211,7 @@ function Settings() {
                 <h1 className="logo">Profile Settings</h1>
                 <form className="setting_form" onSubmit={handleUsername}>
                     <div className="input_container">
-                        <img className="input_icon" src={User} alt="" />
+                        <img className="input_icon" src={UserIcon} alt="" />
                         <span className="input-title">
                             Change your username
                         </span>
@@ -231,7 +231,7 @@ function Settings() {
                 </form>
                 <form className="setting_form" onSubmit={handleEmail}>
                     <div className="input_container">
-                        <img className="input_icon" src={Email} alt="" />
+                        <img className="input_icon" src={EmailIcon} alt="" />
                         <span className="input-title">Change your email</span>
                         <input
                             name="email"
@@ -257,7 +257,7 @@ function Settings() {
                                 <span className="input-title">
                                     Change your password
                                 </span>
-                                <img className="input_icon" src={Lock} alt="" />
+                                <img className="input_icon" src={LockIcon} alt="" />
                                 <input
                                     name="pwd"
                                     type="password"
@@ -278,7 +278,7 @@ function Settings() {
                         </div>
                         <div className="password-row">
                             <div className="input_container">
-                                <img className="input_icon" src={Lock} alt="" />
+                                <img className="input_icon" src={LockIcon} alt="" />
                                 <input
                                     name="newPwd"
                                     type="password"
@@ -286,7 +286,7 @@ function Settings() {
                                 />
                             </div>
                             <div className="input_container">
-                                <img className="input_icon" src={Lock} alt="" />
+                                <img className="input_icon" src={LockIcon} alt="" />
                                 <input
                                     name="confNewPwd"
                                     type="password"

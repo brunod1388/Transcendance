@@ -1,29 +1,20 @@
 import PlayerPlate from "./PlayerPlate";
-import { History, NoUserIcon, Ranking } from "../../../assets/images";
+import { HistoryIcon, NoUserIcon, RankingIcon } from "../../../assets/images";
 import { useState } from "react";
 import "../styles/historyBoard.scss";
 import MatchPlate from "./MatchPlate";
 
 type Props = {};
 
-export interface Match {
-    username1: string;
-    username2: string;
-    avatar1: string;
-    avatar2: string;
-    score1: number;
-    score2: number;
-    playDate: Date;
-}
-
 const matches = [
-	{username1: "user1", username2: "user1", score1: 0, score2: 0, avatar1: NoUserIcon, avatar2: NoUserIcon, playerDate: Date()},
-	{username1: "user1", username2: "user1", score1: 0, score2: 0, avatar1: NoUserIcon, avatar2: NoUserIcon, playerDate: Date()},
-	{username1: "user1", username2: "user1", score1: 0, score2: 0, avatar1: NoUserIcon, avatar2: NoUserIcon, playerDate: Date()},
-	{username1: "user1", username2: "user1", score1: 0, score2: 0, avatar1: NoUserIcon, avatar2: NoUserIcon, playerDate: Date()},
-	{username1: "user1", username2: "user1", score1: 0, score2: 0, avatar1: NoUserIcon, avatar2: NoUserIcon, playerDate: Date()},
-	{username1: "user1", username2: "user1", score1: 0, score2: 0, avatar1: NoUserIcon, avatar2: NoUserIcon, playerDate: Date()},
-	{username1: "user1", username2: "user1", score1: 0, score2: 0, avatar1: NoUserIcon, avatar2: NoUserIcon, playerDate: Date()},
+	{username1: "user1", username2: "user1", score1: 0, score2: 0, avatar1: NoUserIcon, avatar2: NoUserIcon, type: "ranked", playDate: new Date()},
+	{username1: "user1", username2: "user1", score1: 0, score2: 0, avatar1: NoUserIcon, avatar2: NoUserIcon, type: "ranked", playDate: new Date()},
+	{username1: "user1", username2: "user1", score1: 0, score2: 0, avatar1: NoUserIcon, avatar2: NoUserIcon, type: "ranked", playDate: new Date()},
+	{username1: "user11212", username2: "user1", score1: 0, score2: 0, avatar1: NoUserIcon, avatar2: NoUserIcon, type: "ranked", playDate: new Date()},
+	{username1: "user1", username2: "user1", score1: 0, score2: 0, avatar1: NoUserIcon, avatar2: NoUserIcon, type: "ranked", playDate: new Date()},
+	{username1: "user1", username2: "user12121", score1: 0, score2: 0, avatar1: NoUserIcon, avatar2: NoUserIcon, type: "ranked", playDate: new Date()},
+	{username1: "user1", username2: "user1", score1: 0, score2: 0, avatar1: NoUserIcon, avatar2: NoUserIcon, type: "ranked", playDate: new Date()},
+	{username1: "user1", username2: "user1", score1: 0, score2: 0, avatar1: NoUserIcon, avatar2: NoUserIcon, type: "ranked", playDate: new Date()},
 ]
 export default function HistoryBoard({}: Props) {
     const [isVisible, setIsVisible] = useState(-1);
@@ -31,27 +22,20 @@ export default function HistoryBoard({}: Props) {
     return (
         <div className="history-board">
             <div className="title-container">
-                <img src={History} alt="" />
+                <img src={HistoryIcon} alt="" />
                 <h1 className="title">Match History</h1>
-                <img src={History} alt="" />
+                <img src={HistoryIcon} alt="" />
             </div>
             <div className="matches-container">
                 <div className="matches-header">
-                    <span>date</span>
-                    <span>Username</span>
-                    <span>score</span>
-                    <span>Username</span>
+                    <span>Date</span>
+                    <span className="score-header">Score</span>
+                    <span>Type</span>
                 </div>
-                <div className="players">
+                <div className="matches">
                     {matches.map((match: any, index: number) => 
                         <MatchPlate 
-                            username1={match.username1}
-                            username2={match.username2}
-                            avatar1={match.avatar1}
-                            avatar2={match.avatar2}
-                            score1={match.score1}
-                            score2={match.score2}
-                            playDate={match.playDate}
+                            match={match}
                             key={index}
 						/>
                     )}
