@@ -25,7 +25,7 @@ interface GameProps {
 }
 
 export function Game({ mode, room, onEnd, host, username }: GameProps) {
-    const config = gameConfig(mode, room);
+    const config = gameConfig(PINGPONG, room);
     const [user, setUser] = useState<PlayerInfo>(initialUser(host, username));
     const [opponent, setOpponent] = useState<PlayerInfo>(
         initialOpponent(host, "")
@@ -48,7 +48,7 @@ export function Game({ mode, room, onEnd, host, username }: GameProps) {
             onUser={(player: PlayerInfo) => setUser(player)}
             onOpponent={(player: PlayerInfo) => setOpponent(player)}
         >
-            {mode === CLASSIC && (
+            {mode === PINGPONG && (
                 <PongClassic
                     host={host}
                     room={room}
@@ -73,7 +73,28 @@ export function Game({ mode, room, onEnd, host, username }: GameProps) {
                     onEnd={onEnd}
                 />
             )}
-            {mode === PINGPONG && <PingPong />}
+            {mode === CLASSIC && <PingPong host={host}
+                    room={room}
+                    config={config}
+                    user={user}
+                    opponent={opponent}
+                    ball={ball}
+                    score={score}
+                    paddle1={host ? userPaddle : opponentPaddle}
+                    paddle2={host ? opponentPaddle : userPaddle}
+                    onPaddle1={(newPos: Position) =>
+                        host ? setUserPaddle(newPos) : setOpponentPaddle(newPos)
+                    }
+                    onPaddle2={(newPos: Position) =>
+                        host ? setOpponentPaddle(newPos) : setUserPaddle(newPos)
+                    }
+                    onOpponentPaddle={(newPos: Position) =>
+                        setOpponentPaddle(newPos)
+                    }
+                    onScore={(newScore: Score) => setScore(newScore)}
+                    onBall={(ball: Ball) => setBall(ball)}
+                    onEnd={onEnd}
+                />}
         </GameEvent>
     );
 }

@@ -6,3 +6,5 @@ export * from "./other/SetStateType";
 export * from "./auth.types";
 export * from "./chat.types";
 export * from "./game.types";
+export * from "./pong/classic.types";
+export * from "./pong/pingpong.types";
