@@ -48,7 +48,7 @@ export function MyPaddle(props: Props) {
     }, 50);
 
     const position: CSSProperties = {
-        left: props.paddle.x + (props.host? 0: -props.config.paddleWidth),
+        left: props.paddle.x + (props.host ? 0 : -props.config.paddleWidth),
         bottom: props.paddle.y - props.config.paddleHeight,
         width: props.config.paddleWidth,
         height: props.config.paddleHeight,
@@ -60,7 +60,7 @@ export function MyPaddle(props: Props) {
 
 export function YourPaddle(props: Props) {
     const position: CSSProperties = {
-        left: props.paddle.x + (props.host? 0 : -props.config.paddleWidth),
+        left: props.paddle.x + (props.host ? 0 : -props.config.paddleWidth),
         bottom: props.paddle.y - props.config.paddleHeight,
         width: props.config.paddleWidth,
         height: props.config.paddleHeight,

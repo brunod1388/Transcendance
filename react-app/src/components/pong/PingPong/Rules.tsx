@@ -11,12 +11,15 @@ import {
     GameConfig,
     Position,
     DISCONECTED,
+    PositionPingPongPaddle,
 } from "../../../@types";
 import { useSocket, useTimeout } from "../../../hooks";
 import { useInterval } from "../../../hooks";
 import { move, detectScore, launchBall } from "./Physics";
 import style from "./pong.module.scss";
 interface Props {
+    yourMovement: Position;
+    myMovement: Position;
     ball: Ball;
     userPaddle: Paddle;
     opponentPaddle: Paddle;
@@ -30,6 +33,7 @@ interface Props {
     score: Score;
     user: PlayerInfo;
     opponnent: PlayerInfo;
+    onYourMovement: (newMove: Position) => void;
 }
 
 export function Rules(props: PropsWithChildren<Props>) {
@@ -39,6 +43,11 @@ export function Rules(props: PropsWithChildren<Props>) {
     );
     const [update, setUpdate] = useState<boolean>(false);
     const onGameStatus = (status: GameStatus) => setGameStatus(status);
+    const [lastHit, setLastHit] = useState<number>(0);
+
+    const onLastHit = (posY: number) => {
+        setLastHit(posY);
+    };
 
     function startGame() {
         if (gameStatus === GameStatus.LAUNCH_BALL) {
@@ -62,6 +71,7 @@ export function Rules(props: PropsWithChildren<Props>) {
                     delta: { x: 0, y: 0 },
                     speed: 0,
                 });
+                onLastHit(0);
                 socket.emit("game-score", {
                     room: props.room,
                     score: newScore,
@@ -74,7 +84,11 @@ export function Rules(props: PropsWithChildren<Props>) {
                     props.onBall,
                     props.userPaddle,
                     props.opponentPaddle,
-                    props.config
+                    props.config,
+                    props.myMovement,
+                    props.yourMovement,
+                    lastHit,
+                    onLastHit
                 );
             }
         }
@@ -113,14 +127,18 @@ export function Rules(props: PropsWithChildren<Props>) {
             }
         });
 
-        socket.on("game-paddle", (position: Position) => {
+        socket.on("game-paddle", (data: PositionPingPongPaddle) => {
+            if (data.movement !== undefined) {
+                props.onYourMovement(data.movement);
+            }
             props.onOpponentPaddle({
                 x:
                     props.config.boardWidth -
-                    position.x + (props.user.host ? 0 : -props.config.paddleWidth),
+                    data.pos.x +
+                    (props.user.host ? 0 : -props.config.paddleWidth),
                 y:
                     props.config.boardHeight -
-                    position.y +
+                    data.pos.y +
                     props.config.paddleHeight,
             });
         });

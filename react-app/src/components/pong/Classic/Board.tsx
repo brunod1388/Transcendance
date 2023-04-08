@@ -22,13 +22,12 @@ export function Board(props: PropsWithChildren<Props>) {
                         position: "absolute",
                     }}
                 >
-					<div className={style.score} id={style["left"]}>
+                    <div className={style.score} id={style["left"]}>
                         {props.score.player1}
                     </div>
                     <div className={style.score} id={style["right"]}>
                         {props.score.player2}
                     </div>
-                    
 
                     {props.children}
                 </div>

@@ -6,7 +6,7 @@ export function useMouse(
 ) {
     // Create a ref that stores handler
     const savedHandler = useRef<(e: MouseEvent) => void>(() => {});
-	const lastMousePosition = useRef<{ x: number; y: number }>({
+    const lastMousePosition = useRef<{ x: number; y: number }>({
         x: 0,
         y: 0,
     });
@@ -28,14 +28,16 @@ export function useMouse(
 
             // Create event listener that calls handler function stored in ref
             const eventListener = (e: MouseEvent) => {
-				const { x, y } = e;
-				if (x !== lastMousePosition.current.x || y !== lastMousePosition.current.y) {
-					lastMousePosition.current.x = x;
-					lastMousePosition.current.y = y;
-					savedHandler.current(e);
-				}
+                const { x, y } = e;
+                if (
+                    x !== lastMousePosition.current.x ||
+                    y !== lastMousePosition.current.y
+                ) {
+                    lastMousePosition.current.x = x;
+                    lastMousePosition.current.y = y;
+                    savedHandler.current(e);
+                }
             };
-			
 
             // Add event listener
             element.addEventListener("mousemove", eventListener);

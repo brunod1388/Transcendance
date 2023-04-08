@@ -25,7 +25,7 @@ interface Props {
 
 export function GameEvent(props: PropsWithChildren<Props>) {
     const [socket] = useSocket();
-	const [gameStarted, setGameStarted] = useState<boolean>(false);
+    const [gameStarted, setGameStarted] = useState<boolean>(false);
 
     useEffect(() => {
         props.onUser({ ...props.user, status: CONNECTED });
@@ -58,7 +58,7 @@ export function GameEvent(props: PropsWithChildren<Props>) {
     }, [props.user]);
 
     useEffect(() => {
-		let timer: NodeJS.Timeout;
+        let timer: NodeJS.Timeout;
 
         socket.on("player", (player: PlayerInfo) => props.onOpponent(player));
 
@@ -78,11 +78,11 @@ export function GameEvent(props: PropsWithChildren<Props>) {
                     },
                 });
             }
-			timer = setTimeout(props.onEnd, 5000);
+            timer = setTimeout(props.onEnd, 5000);
         });
 
         return () => {
-			clearTimeout(timer);
+            clearTimeout(timer);
             socket.off("game-player-left");
             socket.off("player");
         };
@@ -90,9 +90,9 @@ export function GameEvent(props: PropsWithChildren<Props>) {
 
     return (
         <LoadGame
-			gameStarted={gameStarted}
-			onGameStarted={(status: boolean) => setGameStarted(status)}
-		score={props.score}
+            gameStarted={gameStarted}
+            onGameStarted={(status: boolean) => setGameStarted(status)}
+            score={props.score}
             user={props.user}
             config={props.config}
             opponent={props.opponent}

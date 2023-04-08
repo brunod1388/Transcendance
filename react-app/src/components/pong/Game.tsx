@@ -38,6 +38,7 @@ export function Game({ mode, room, onEnd, host, username }: GameProps) {
     );
     const [ball, setBall] = useState<Ball>({ ...config.initialBall });
     const [score, setScore] = useState<Score>({ player1: 0, player2: 0 });
+
     return (
         <GameEvent
             score={score}
@@ -73,7 +74,9 @@ export function Game({ mode, room, onEnd, host, username }: GameProps) {
                     onEnd={onEnd}
                 />
             )}
-            {mode === CLASSIC && <PingPong host={host}
+            {mode === CLASSIC && (
+                <PingPong
+                    host={host}
                     room={room}
                     config={config}
                     user={user}
@@ -82,16 +85,15 @@ export function Game({ mode, room, onEnd, host, username }: GameProps) {
                     score={score}
                     userPaddle={userPaddle}
                     opponentPaddle={opponentPaddle}
-                    onUserPaddle={(newPos: Position) =>
-                        setUserPaddle(newPos)
-                    }
+                    onUserPaddle={(newPos: Position) => setUserPaddle(newPos)}
                     onOpponentPaddle={(newPos: Position) =>
                         setOpponentPaddle(newPos)
                     }
                     onScore={(newScore: Score) => setScore(newScore)}
                     onBall={(ball: Ball) => setBall(ball)}
                     onEnd={onEnd}
-                />}
+                />
+            )}
         </GameEvent>
     );
 }

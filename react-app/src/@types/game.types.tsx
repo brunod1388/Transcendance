@@ -27,7 +27,10 @@ export const initialUser = (host: boolean, username: string): PlayerInfo => {
     };
 };
 
-export const initialOpponent = (host: boolean, username: string): PlayerInfo => {
+export const initialOpponent = (
+    host: boolean,
+    username: string
+): PlayerInfo => {
     return {
         host,
         username,
@@ -43,7 +46,7 @@ export const CLASSIC = GameMode.CLASSIC;
 export const PINGPONG = GameMode.PINGPONG;
 
 export interface GameConfig {
-	room: string;
+    room: string;
     status: GameStatus;
     boardWidth: number;
     boardHeight: number;
@@ -64,7 +67,7 @@ export enum GameStatus {
     PAUSE_AFTER_SCORE,
     RESET,
     END_GAME,
-	OPPONENT_LEFT
+    OPPONENT_LEFT,
 }
 export interface Ball {
     pos: Position;
@@ -81,13 +84,4 @@ enum ScoreStatus {
 export const WON = ScoreStatus.WON;
 export const LOST = ScoreStatus.LOST;
 
-
-
-
-
-
-
-
-
 export const END_GAME = GameStatus.END_GAME;
-

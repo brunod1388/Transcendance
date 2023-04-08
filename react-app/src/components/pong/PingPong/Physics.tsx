@@ -3,7 +3,8 @@ import {
     Ball,
     GameStatus,
     Paddle,
-	Range
+    Range,
+    Position,
 } from "../../../@types";
 
 // Function to move the ball
@@ -13,12 +14,19 @@ export const move = (
     paddle1: Paddle,
     paddle2: Paddle,
     config: GameConfig,
+    myMovement: Position,
+    yourMovement: Position,
+    lastHit: number,
+    onLastHit: (nb: number) => void
 ) => {
     // Detect collision with a paddle
     let ballTmp = detectCollision(
         ball,
+        lastHit,
+        onLastHit,
         ball.pos.y < config.boardHeight / 2 ? paddle1 : paddle2,
-        config
+        config,
+        ball.pos.y < config.boardHeight / 2 ? myMovement : yourMovement
     );
     // Update ball position based on its delta
     ballTmp.pos.x += ballTmp.delta.x;
@@ -69,28 +77,43 @@ export const detectScore = (ball: Ball, config: GameConfig) => {
     return false;
 };
 
-function detectCollision(ball: Ball, paddle: Paddle, config: GameConfig) {
+function detectCollision(
+    ball: Ball,
+    lastHit: number,
+    onLastHit: (nb: number) => void,
+    paddle: Paddle,
+    config: GameConfig,
+    movement: Position
+) {
     // Calculate the positions of the ball and paddle based on their deltas and radius/width
-    let posX =
-        ball.pos.x;
-    let posY =
-        ball.pos.y;
-		let paddleX: Range = ( ball.pos.y < config.boardHeight / 2)? {min: paddle.x , max: paddle.x + config.paddleWidth} : {min: paddle.x - config.paddleWidth, max: paddle.x};
-		let paddleY: Range = {min: paddle.y - config.paddleHeight, max: paddle.y};
-		
+    let posX = ball.pos.x;
+    let posY = ball.pos.y;
+    let paddleX: Range =
+        ball.pos.y < config.boardHeight / 2
+            ? { min: paddle.x, max: paddle.x + config.paddleWidth }
+            : { min: paddle.x - config.paddleWidth, max: paddle.x };
+    let paddleY: Range = { min: paddle.y - config.paddleHeight, max: paddle.y };
+
     // Create a copy of the ball object to update
     let ballTmp = ball;
 
-	if (paddleX.min < posX && paddleX.max > posX && paddleY.min < posY && paddleY.max > posY)
-	{
-		console.log('bounce');
-		console.log("paddleY", paddleY);
-		console.log("paddleX", paddleX);
-		console.log("ballY", posY);
-		console.log("ballX", posX);
-		ballTmp.delta.y = -ball.delta.y;
-	}
-	
+    if (
+        paddleX.min < posX &&
+        paddleX.max > posX &&
+        paddleY.min < posY &&
+        paddleY.max > posY
+    ) {
+        if (
+            lastHit === 0 ||
+            (lastHit > config.boardHeight / 2 &&
+                ball.pos.y < config.boardHeight / 2) ||
+            (lastHit < config.boardHeight / 2 &&
+                ball.pos.y > config.boardHeight / 2)
+        ) {
+            onLastHit(ballTmp.pos.y);
+            ballTmp = bouncePaddle(ball, paddle, config, movement);
+        }
+    }
 
     // Check for collision with the top or bottom of the board and update the ball object accordingly
     if (posX >= config.boardWidth || posX <= 0) {
@@ -100,50 +123,47 @@ function detectCollision(ball: Ball, paddle: Paddle, config: GameConfig) {
     // Return the updated ball object
     return ballTmp;
 }
-
 function bouncePaddle(
     ball: Ball,
     paddle: Paddle,
-    side: string,
-    config: GameConfig
+    config: GameConfig,
+    movement: Position
 ) {
-	console.log('bounce');
-    // Calculate the distance between the paddle's center and the ball's center
-    // const collisionX = paddle.x - ball.pos.x;
-
-    // // Normalize the collision distance by dividing it by half the paddle's height
-    // const normalizedCollisionX = collisionX / (config.paddleWidth / 2);
-
-    // // Create a temporary ball object to update its velocity
     let ballTmp = ball;
 
-    // // Update the y-velocity based on where the ball hit the paddle
-    // ballTmp.delta.x = -ballTmp.speed * Math.abs(normalizedCollisionX);
+    if (ball.pos.y < config.boardHeight / 2) {
+        movement.y *= -1;
+    }
 
-    // // Update the x-velocity based on where the ball hit the paddle
-    // const relativeIntersectX =
-    //     ball.pos.x - (paddle.x - config.paddleWidth / 2);
-    // const normalizedRelativeIntersectionX =
-    //     relativeIntersectX / (config.paddleWidth / 2);
-    // const bounceAngle =
-    //     normalizedRelativeIntersectionX * config.ballMaxBounceAngle;
-    // ballTmp.delta.y = ballTmp.speed * Math.cos(bounceAngle);
+    // Calculate the angle between the vectors
+    const dotProduct = ball.delta.x * movement.x + ball.delta.y * movement.y;
+    const ballMagnitude = Math.sqrt(ball.delta.x ** 2 + ball.delta.y ** 2);
+    const paddleMagnitude = Math.sqrt(movement.x ** 2 + movement.y ** 2);
+    let angle = Math.acos(dotProduct / (ballMagnitude * paddleMagnitude));
 
-    // // If the ball hit the left side of the left paddle, or the right side of the right paddle, reverse the x-velocity
-    // if (side === "left" && ballTmp.delta.y < 0) {
-    //     ballTmp.delta.y *= -1;
-    // } else if (side === "right" && ballTmp.delta.y > 0) {
-    //     ballTmp.delta.y *= -1;
-    // }
+    // Check for NaN and negative denominator
+    if (isNaN(angle) || dotProduct / (ballMagnitude * paddleMagnitude) < -1) {
+        angle = Math.PI;
+    }
 
-    // // Ensure the ball's speed is at least the minimum speed limit
-    // const minSpeedLimit = 3;
-    // const speed = Math.sqrt(ballTmp.delta.y ** 2 + ballTmp.delta.y ** 2);
-    // if (speed < minSpeedLimit) {
-    //     const angle = Math.atan2(ballTmp.delta.x, ballTmp.delta.y);
-    //     ballTmp.delta.y = minSpeedLimit * Math.cos(angle);
-    //     ballTmp.delta.x = minSpeedLimit * Math.sin(angle);
-    // }
+    // Adjust the ball's velocity vector based on the angle
+    const velocityMagnitude = Math.sqrt(
+        ballMagnitude ** 2 + paddleMagnitude ** 2
+    );
+    const velocityAngle = Math.atan2(ball.delta.y, ball.delta.x) + angle;
+    const velocity: Position = {
+        x: velocityMagnitude * Math.cos(velocityAngle),
+        y: velocityMagnitude * Math.sin(velocityAngle),
+    };
+    ballTmp.delta.x = velocity.x;
+    ballTmp.delta.y = velocity.y;
+
+    if (ballTmp.delta.y === 0) {
+        ballTmp.delta.y = ball.pos.y * -1;
+    }
+
+    // Increase the speed of the ball slightly
+    // ballTmp.speed += config.speedIncrement;
 
     return ballTmp;
 }

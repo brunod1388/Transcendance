@@ -46,11 +46,21 @@ export class Broadcast implements Broadcast {
     }
 }
 
-type BroadcastData = PositionBall | PositionPaddle | string | Score;
+type BroadcastData =
+    | PositionBall
+    | PositionPaddle
+    | PositionPingPongPaddle
+    | string
+    | Score;
 
 interface PositionBall {
     x: number;
     y: number;
+}
+
+export interface PositionPingPongPaddle {
+    pos: Position;
+    movement: Position;
 }
 
 interface PositionPaddle {
@@ -61,8 +71,6 @@ export interface GameInfo {
     player1: string;
     player2: string;
 }
-
-
 
 export interface Range {
     min: number;

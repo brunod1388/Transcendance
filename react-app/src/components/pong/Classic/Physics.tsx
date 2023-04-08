@@ -1,9 +1,4 @@
-import {
-    GameConfig,
-    Ball,
-    GameStatus,
-    Paddle,
-} from "../../../@types";
+import { GameConfig, Ball, GameStatus, Paddle } from "../../../@types";
 
 // Function to move the ball
 export const move = (
@@ -74,7 +69,9 @@ function detectCollision(ball: Ball, paddle: Paddle, config: GameConfig) {
         ball.pos.x + (ball.delta.x > 0 ? config.ballRayon : -config.ballRayon);
     let posY =
         ball.pos.y + (ball.delta.y > 0 ? config.ballRayon : -config.ballRayon);
-    let paddleX = paddle.x + (ball.delta.x < 0 ? config.paddleWidth : -config.paddleWidth);
+    let paddleX =
+        paddle.x +
+        (ball.delta.x < 0 ? config.paddleWidth : -config.paddleWidth);
 
     // Create a copy of the ball object to update
     let ballTmp = ball;

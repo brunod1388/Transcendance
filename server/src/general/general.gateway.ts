@@ -43,19 +43,19 @@ interface recordGameDto {
 }
 
 interface Ball {
-	pos: {
-		x: number,
-		y: number
-	},
-	delta: {
-		x: number,
-		y: number
-	},
-	speed: number
+    pos: {
+        x: number;
+        y: number;
+    };
+    delta: {
+        x: number;
+        y: number;
+    };
+    speed: number;
 }
 interface BallDto {
-	room: string;
-	data: Ball;
+    room: string;
+    data: Ball;
 }
 @WebSocketGateway({ cors: { origin: ["http://localhost:9000"] } })
 export class GeneralGateway implements OnModuleInit {
@@ -120,8 +120,6 @@ export class GeneralGateway implements OnModuleInit {
         this.generalService.gameBroadcast(client, broadcast);
     }
 
-	
-
     @SubscribeMessage("game-end")
     handleGameEnd(client: Socket, gameEndDTO: GameEndDTO) {
         this.generalService.gameEnd();
@@ -165,8 +163,8 @@ export class GeneralGateway implements OnModuleInit {
         //
     }
 
-	@SubscribeMessage("game-ball")
+    @SubscribeMessage("game-ball")
     handleUpdatedBall(client: Socket, ball: BallDto) {
-		client.broadcast.to(ball.room).emit("game-ball", ball.data);
+        client.broadcast.to(ball.room).emit("game-ball", ball.data);
     }
 }

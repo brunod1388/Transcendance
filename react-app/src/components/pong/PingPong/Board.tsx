@@ -38,12 +38,20 @@ export function Board(props: PropsWithChildren<Props>) {
                             </div>
                         </>
                     )}
-					{props.user.host === false && (
+                    {props.user.host === false && (
                         <>
-                            <div style={{top: "580px"}} className={style.score} id={style["right"]}>
+                            <div
+                                style={{ top: "580px" }}
+                                className={style.score}
+                                id={style["right"]}
+                            >
                                 {props.score.player1}
                             </div>
-                            <div style={{top: "580px"}} className={style.score} id={style["left"]}>
+                            <div
+                                style={{ top: "580px" }}
+                                className={style.score}
+                                id={style["left"]}
+                            >
                                 {props.score.player2}
                             </div>
                         </>
