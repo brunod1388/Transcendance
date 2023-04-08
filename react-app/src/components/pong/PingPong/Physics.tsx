@@ -117,6 +117,7 @@ function detectCollision(
 
     // Check for collision with the top or bottom of the board and update the ball object accordingly
     if (posX >= config.boardWidth || posX <= 0) {
+		console.log(ballTmp.delta);
         ballTmp.delta.x = -ball.delta.x;
     }
 
@@ -141,9 +142,16 @@ function bouncePaddle(
     const paddleMagnitude = Math.sqrt(movement.x ** 2 + movement.y ** 2);
     let angle = Math.acos(dotProduct / (ballMagnitude * paddleMagnitude));
 
+
+
     // Check for NaN and negative denominator
     if (isNaN(angle) || dotProduct / (ballMagnitude * paddleMagnitude) < -1) {
         angle = Math.PI;
+    }
+
+	// Check if angle is greater than maxAngle
+    if (angle > config.ballMaxBounceAngle) {
+        angle = config.ballMaxBounceAngle;
     }
 
     // Adjust the ball's velocity vector based on the angle
@@ -158,12 +166,27 @@ function bouncePaddle(
     ballTmp.delta.x = velocity.x;
     ballTmp.delta.y = velocity.y;
 
-    if (ballTmp.delta.y === 0) {
-        ballTmp.delta.y = ball.pos.y * -1;
+    if (Math.abs(ballTmp.delta.y) < 0.1) {
+        ballTmp.delta.y = (ball.pos.y < config.boardHeight / 2)? 1 : -1;
     }
 
-    // Increase the speed of the ball slightly
-    // ballTmp.speed += config.speedIncrement;
+	if (ballTmp.pos.y < config.boardHeight/2 && ballTmp.delta.y < 0) {
+		ballTmp.delta.y *= -1;
+	} else if (ballTmp.pos.y > config.boardHeight/2 && ballTmp.delta.y > 0) {
+		ballTmp.delta.y *= -1;
+	}
 
+	ballTmp.delta = clampVector(ballTmp.delta, 2, 5);
     return ballTmp;
 }
+
+
+function clampVector(vector: Position, minSpeed: number, maxSpeed: number) {
+	const speed = Math.sqrt(vector.x * vector.x + vector.y * vector.y);
+	const clampedSpeed = Math.max(minSpeed, Math.min(maxSpeed, speed));
+	const clampedVector = {
+	  x: vector.x / speed * clampedSpeed,
+	  y: vector.y / speed * clampedSpeed
+	};
+	return clampedVector;
+  }

@@ -175,7 +175,7 @@ export function Rules(props: PropsWithChildren<Props>) {
                     },
                 });
             }
-            // setGameStatus(END_GAME);
+            setGameStatus(END_GAME);
         }
     }, [props.score]);
 

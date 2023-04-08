@@ -33,13 +33,9 @@ export function MyPaddle(props: MyProps) {
                 offsetY +
                 props.config.paddleHeight / 2;
             if (
-                posX > 0 &&
-                posX + props.config.paddleWidth < props.config.boardWidth &&
-                offsetY > 0 &&
-                offsetY + props.config.paddleHeight <
-                    props.config.boardHeight &&
-                offsetY + props.config.paddleHeight / 2 >
-                    props.config.boardHeight / 2
+                posX > 0 && posX + props.config.paddleWidth < props.config.boardWidth &&
+                offsetY > 0 && offsetY - props.config.paddleHeight < props.config.boardHeight &&
+                offsetY - props.config.paddleHeight / 2 > props.config.boardHeight / 2
             ) {
                 props.onMyPaddle({ x: posX, y: posY });
                 props.onMyMovement({ x: event.movementX, y: event.movementY });
