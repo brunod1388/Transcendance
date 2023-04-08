@@ -15,7 +15,7 @@ import { gameConfig } from "../pong/GameService";
 const featureComponent = new Map<number, JSX.Element>([
     [Feature.None, <></>],
     [Feature.Chat, <Chat />],
-    // [Feature.Pong, <Pong />],
+    [Feature.Game, <Game />],
     // [Feature.Ranking, <Ranking />],
 ]);
 

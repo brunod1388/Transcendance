@@ -1,4 +1,3 @@
-import { useState } from "react";
 import UserMenu from "./UserMenu";
 import { NoUserIcon } from "../../../assets/images";
 import { UserPlateType, UserType } from "../../../@types";
@@ -18,7 +17,10 @@ export default function User(props: Props) {
     return (
         <div className={"userChat "}>
             <div className={"userPlate "} onClick={() => setIsVisible(true)}>
-                <img src={user.avatar === "" ? NoUserIcon : user.avatar} />
+                <img
+                    className={isVisible ? "bigAvatar" : ""}
+                    src={user.avatar === "" ? NoUserIcon : user.avatar}
+                />
                 <div className="userChatInfo">
                     <span>{user.username}</span>
                     {type === "direct" && hasNewMsg && <p>last message</p>}

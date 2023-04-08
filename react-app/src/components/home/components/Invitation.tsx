@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import {
     NoChannelIcon,
     NoUserIcon,
-    Accept,
-    Decline,
+    AcceptIcon,
+    DeclineIcon,
 } from "../../../assets/images";
 import { useSocket } from "../../../hooks";
 import { useAuth } from "../../../context";
@@ -52,7 +52,7 @@ export default function Invitations(props: Props) {
                         </span>
                         <img
                             className="accept animate"
-                            src={Accept}
+                            src={AcceptIcon}
                             alt=""
                             onClick={() =>
                                 handleInvitation(invite.type, true, invite.id)
@@ -60,7 +60,7 @@ export default function Invitations(props: Props) {
                         />
                         <img
                             className="decline animate"
-                            src={Decline}
+                            src={DeclineIcon}
                             alt=""
                             onClick={() =>
                                 handleInvitation(invite.type, false, invite.id)

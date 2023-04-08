@@ -8,14 +8,20 @@
 }
 
 body {
+	@extend .magicpattern;
 	line-height: 1;
-  min-width: 800px;
+  	min-width: 800px;
 	width: 100%;
 	height: 100%;
-	background-size: cover;
+	z-index: 0;
+}
+#root {
+	z-index: 1;
+	// background-color: aqua;
+	background-size: contain;
 	background-position: center center;
-	background-repeat: repeat;
-	background-image: url($bg-purple3);
+	background-repeat: no-repeat;
+	background-image: url('../images/blob.svg');
 }
 
 ul {

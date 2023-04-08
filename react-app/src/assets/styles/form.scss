@@ -1,11 +1,6 @@
 @import "./variables.scss";
 @import "./general.scss";
 
-@font-face {
-	font-family: NatureBeauty;
-	src: local("NatureBeauty"), url("../fonts/NatureBeauty.ttf") format("truetype");
-}
-
 .form_container {
 	$width: 240px;
 
@@ -13,16 +8,16 @@
 	height: 100vh;
 	display: flex;
 	animation: scaleIn 1s;
+	font-family: $base-font;
 
 	.form_wrapper {
 		@extend .flex-column;
 		padding: 35px;
 		border-radius: 5px;
-		background-color: #2f2f4c;
-		background-color: $dark-purple;
 		background-color: rgba(54, 54, 69, 0.342);
 		color: white;
-		box-shadow: 10px 10px 100px black;
+		box-shadow: 2px 2px 20px 5px rgba(0, 0, 0, 0.582);
+
 		animation: scalIn 2s;
 		gap: 15px;
 		backdrop-filter: blur(5px);
@@ -33,11 +28,11 @@
 			top: -40px;
 			color: $purple;
 			font-size: 40px;
-			font-family: $base-font;
 			padding: 20px;
 			z-index: 100;
 			animation: appear 3s;
 			font-family: NatureBeauty;
+			filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.882));
 		}
 
 		form{
@@ -55,6 +50,31 @@
 					flex-direction: column-reverse;
 					button {
 						height: 38px
+					}
+				}
+
+				&.password {
+					@extend .flex-column;
+					width: calc($width * 2 + 15px);
+					flex-wrap: wrap;
+					gap: 15px;
+					align-items: flex-start;
+					.password-row {
+						@extend .flex-row;
+						gap: 15px;
+						width: 100%;
+						align-items: end;
+
+						
+					}
+					.password-row:nth-last-child(2) {
+						.input_icon {
+							top: 8px
+						}
+					}
+					.info {
+						font-style: italic;
+						color: aliceblue;
 					}
 				}
 			}
@@ -86,7 +106,6 @@
 
 		.title {
 			color: white;
-			font-family: $base-font;
 			font-size: 25px;
 			font-weight: bolder
 		}
@@ -97,10 +116,7 @@
 			position: relative;
 			align-items: flex-start;
 		}
-		.input-title {
-			// width: 100%;
-			font-family: $base-font;
-		}
+
 		.input_icon {
 			position: absolute;
 			height: 20px;
@@ -131,7 +147,6 @@
 			cursor: pointer;
 			img {
 				width: 40px;
-				opacity: 0.5;
 				filter: $filter-purple;
 			}
 			&:hover {
@@ -150,16 +165,20 @@
 			font-weight: bold;
 			height: 30px;
 			width: $width;
+			filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.582));
 			img {
 				width: 18px;
 				filter: $filter-white;
 			}
+
 			&:hover {
 				color: $purple;
 				background-color: white;
 				img {
 					filter: $filter-purple;
 				}
+				animation: button-scale 0.5s;
+				animation-fill-mode: forwards;
 			}
 			&:active {
 				background-color: #363556;
@@ -177,7 +196,6 @@
 				width: $width * 0.5 - 5px;
 				text-decoration: none;
 			}
-			
 		}
 	}
 }

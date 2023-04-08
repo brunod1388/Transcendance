@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { UserPlateType, UserType, defaultChatContext } from "../../../@types";
+import { UserPlateType, UserType } from "../../../@types";
 import { Feature, useAuth, useChat, useFeature } from "../../../context";
 import { useSocket, useVisible } from "../../../hooks";
 import { sendInvitation } from "../../../utils";

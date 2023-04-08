@@ -17,6 +17,7 @@ import {
     CreateUserDto,
     Create42UserDto,
     UpdateUserDto,
+    UpdateUserPasswordDto,
 } from "../users/dtos/UserValidation.dto";
 import { FortyTwoGuard } from "./guard/FortyTwo.guard";
 import { GetUser } from "./decorator";
@@ -166,6 +167,12 @@ export class AuthController {
         } catch (error) {
             throw error;
         }
+    }
+
+    @UseGuards(JwtGuard)
+    @Post("updatePassword")
+    updateUserPassword(@Request() req, @Body() dto: UpdateUserPasswordDto) {
+        return this.authService.updateUserPassword(req.user.id, dto);
     }
 
     @UseGuards(FortyTwoGuard)

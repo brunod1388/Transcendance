@@ -7,6 +7,7 @@ export enum Feature {
     Chat,
     Setting,
     Pong,
+    Game,
 }
 
 export interface FeatureContextType {

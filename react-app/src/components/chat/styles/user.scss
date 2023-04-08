@@ -13,26 +13,28 @@ $userImage-size: 22px;
 	color: white;
 	background: linear-gradient(90deg, $purple-gray, $chat-bg-color);
 	border-radius: 10px;
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.753);
 	&.selected {
 		border-radius: 20px 10px 10px 10px;
 	}
 	&:hover:not(.selected) {
 		background: none;
 		background-color: $dark-grey;
-		border-radius: 5px;
+		animation: button-scale 1s;
+		animation-fill-mode: forwards;
 	}
 	.userPlate {
 		display: flex;
 		align-items: center;
 		gap: 10px;
-
+		
 		img {
 			width: $userImage-size;
 			height: $userImage-size;
 			border-radius: 50%;
 			object-fit: cover;
-			&.selected {
-				border-radius: 50% 0 50% 0;
+			&.bigAvatar {
+				border-radius: 10px 0 50% 0;
 				height: calc($userImage-size * 2);
 				width: calc($userImage-size * 2);
 			}
