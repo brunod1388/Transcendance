@@ -22,7 +22,7 @@
 		@extend .flex-row;
 		gap: 20px;
 		width: 120px;
-		filter: drop-shadow(2px 5px 2px rgba(0,0,0,0.75));
+		filter: $drop-shadow;
 	}
 	.col:first-child {
 		justify-content: flex-start;
@@ -36,6 +36,6 @@
 		$img-size: 30px;
 		height: $img-size;
 		width: $img-size;
-		filter: drop-shadow(2px 5px 5px rgba(0, 0, 0, 0.75));
+		filter: $drop-shadow;
 	}
 }

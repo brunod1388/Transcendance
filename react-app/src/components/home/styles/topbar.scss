@@ -1,44 +1,46 @@
 @import "../../../assets/styles/variables.scss";
+@import "../../../assets/styles/general.scss";
 
 $image-size: 25px;
 $invitation-size: 15px;
 @keyframes shadow-grow{
-	0% { 
+	0% {
 		filter: $filter-red drop-shadow(0px 0px 2px $purple);
-		
-
 	}
-	50% { 
+	50% {
 		filter: $filter-red drop-shadow(0px 0px 5px $purple);
 		transform: scale(1.1);
 	}
-	100% { 
+	100% {
 		filter: $filter-red drop-shadow(0px 0px 10px $purple);
-
 	}
-	 
 }
 
 .topbar {
-	display: flex;
-	align-items: center;
+	@extend .flex-row;
 	min-height: $topbar-height;
 	justify-content: space-between;
 	color: aliceblue;
+	color: $purple;
 	width: 100%;
 
 	.channel {
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		// @extend .flex-row;
 		.channelImg {
 			height: 24px;
 		}
-	
+
 		.channelName {
-			font-weight: bold;
-			font-size:x-large;
+			font-size:30px;
 			padding: 0px 10px;
+			font-family: NatureBeauty;
+			font-family: Alkatra;
+			&:first-letter {
+				text-transform: uppercase;
+			}
 		}
 	}
 	.user {

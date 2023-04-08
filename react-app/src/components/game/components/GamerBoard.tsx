@@ -13,8 +13,8 @@ export default function GamerBoard({}: Props) {
                     <div className="avatar-border"></div>
                     <img src={userAuth.avatar} alt="" className="avatar" />
                 </div>
-                <h1 className="username">{userAuth.username}</h1>
                 <div className="user-info">
+                    <h1 className="username">{userAuth.username}</h1>
                     <div>
                         <span>Total wins</span> <span>{0}</span>
                     </div>
@@ -30,17 +30,6 @@ export default function GamerBoard({}: Props) {
                     <div>
                         <span>League</span> <span>{"Noob"}</span>
                     </div>
-                </div>
-                <div className="button-container">
-                    <button className="button-purple" onClick={() => {}}>
-                        Match
-                    </button>
-                    <button className="button-purple" onClick={() => {}}>
-                        Button 2
-                    </button>
-                    <button className="button-purple" onClick={() => {}}>
-                        Button 3
-                    </button>
                 </div>
             </div>
         </div>

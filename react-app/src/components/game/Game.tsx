@@ -1,19 +1,21 @@
 import { useState } from "react";
 import { player } from "../../@types/match.types";
 import { HistoryIcon, MatchIcon, RankingIcon } from "../../assets/images";
-import { useAuth } from "../../context";
 import GamerBoard from "./components/GamerBoard";
 import RankingBoard from "./components/RankingBoard";
 import "./styles/game.scss";
 import HistoryBoard from "./components/HistoryBoard";
 import MatchBoard from "./components/MatchBoard";
+import BoardLayout from "./components/BoardLayout";
 type Props = {};
 
 enum BoardType {
     ranking = "ranking",
     history = "history",
     match = "match",
+    layout = "layout",
 }
+
 function Game({}: Props) {
     const [panel, setPanel] = useState<BoardType>(BoardType.ranking);
 
@@ -42,12 +44,22 @@ function Game({}: Props) {
                     </div>
                 </div>
                 <div className="board">
-                    {panel === "history" && <HistoryBoard />}
-                    {panel === "ranking" && <RankingBoard />}
-                    {panel === "match" && <MatchBoard />}
-
+                    {panel == "ranking" &&
+                        <BoardLayout title="Ranking Board" titleIcon={RankingIcon}>
+                            <RankingBoard/>
+                        </BoardLayout>
+                    }
+                    {panel == "history" &&
+                        <BoardLayout title="Match History" titleIcon={HistoryIcon}>
+                            <HistoryBoard/>
+                        </BoardLayout>
+                    }
+                    {panel == "match" &&
+                        <BoardLayout title="Match Board" titleIcon={MatchIcon}>
+                            <MatchBoard/>
+                        </BoardLayout>
+                    }
                 </div>
-
             </div>
         </div>
     );

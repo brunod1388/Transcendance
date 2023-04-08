@@ -20,26 +20,19 @@ export default function HistoryBoard({}: Props) {
     const [isVisible, setIsVisible] = useState(-1);
 
     return (
-        <div className="history-board">
-            <div className="title-container">
-                <img src={HistoryIcon} alt="" />
-                <h1 className="title">Match History</h1>
-                <img src={HistoryIcon} alt="" />
+        <div className="matches-container">
+            <div className="matches-header">
+                <span>Date</span>
+                <span className="score-header">Score</span>
+                <span>Type</span>
             </div>
-            <div className="matches-container">
-                <div className="matches-header">
-                    <span>Date</span>
-                    <span className="score-header">Score</span>
-                    <span>Type</span>
-                </div>
-                <div className="matches">
-                    {matches.map((match: any, index: number) => 
-                        <MatchPlate 
-                            match={match}
-                            key={index}
-						/>
-                    )}
-                </div>
+            <div className="matches">
+                {matches.map((match: any, index: number) => 
+                    <MatchPlate 
+                        match={match}
+                        key={index}
+                    />
+                )}
             </div>
         </div>
     );

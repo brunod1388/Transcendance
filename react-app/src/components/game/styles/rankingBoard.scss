@@ -1,69 +1,36 @@
 @import '../../../assets/styles/variables';
 @import '../../../assets/styles/general';
 
-.ranking-board {
+.players-container {
 	@extend .flex-column;
 	align-self: stretch;
-	justify-content: space-between;
-	height: 100%;
-	.title-container {
+	flex-grow: 1;
+	overflow: hidden;
+	.players-header {
 		@extend .flex-row;
-		gap: 10px;
-		img {
-			$img-size: 50px;
-			height: $img-size;
-			width: $img-size;
-			filter: drop-shadow(2px 5px 5px rgba(0, 0, 0, 0.75));
-		}
-	}
-	.title {
-		text-align: center;
-		font-family: NatureBeauty;
-		font-weight: 300;
-		font-size: 2.2rem;
-		color: $purple;
-		padding: 20px 0 15px 0;
-		filter: drop-shadow(2px 5px 5px rgba(0, 0, 0, 0.75));
-	}
-	.players-container {
-		@extend .flex-column;
+		justify-content: space-between;
 		align-self: stretch;
-		flex-grow: 1;
-		max-height: fit-content;
+		border-radius: 10px 10px 0 0;
 		padding: 10px;
-		overflow: hidden;
-		.players-header {
+		background-color: rgba(0, 0, 0, 0.352);
+		span {
 			@extend .flex-row;
-			justify-content: space-between;
-			align-self: stretch;
-			border-radius: 8px 8px 0 0;
-			box-shadow: inset 5px 5px 10px 0px rgba(0, 0, 0, 0.55);
-			padding: 10px;
-			background-color: rgba(0, 0, 0, 0.352);
-			span {
-				@extend .flex-row;
-				gap: 20px;
-				width: 120px;
-				&:first-child {
-					width: 300px;
-					justify-content: flex-start;
-					flex: 1 1 300px;
-				}
-				font-size: 20px;
-				filter: drop-shadow(2px 5px 2px rgba(0,0,0,0.75));
+			gap: 20px;
+			width: 100px;
+			&:first-child {
+				justify-content: flex-start;
+				flex: 1 1 250px;
 			}
+			font-size: 20px;
+			filter: drop-shadow(2px 5px 2px rgba(0,0,0,0.75));
 		}
-		.players {
-			@extend .flex-column;
-			justify-content: flex-start;
-			flex-grow: 1;
-			align-self: stretch;
-			overflow: scroll;
-			background-color: $chat-bg-color;
-			border-radius: 0 0 8px 8px;
-			box-shadow: inset 5px 0px 10px 0px rgba(0, 0, 0, 0.55);
-			background-color: rgba(0, 0, 0, 0.352);
-		}
-		
+	}
+	.players {
+		@extend .flex-column;
+		justify-content: flex-start;
+		flex-grow: 1;
+		align-self: stretch;
+		overflow: scroll;
+		border-radius: 0 0 8px 8px;
 	}
 }
