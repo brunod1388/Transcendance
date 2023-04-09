@@ -3,6 +3,7 @@ import {
     CONNECTED,
     DISCONECTED,
     GameConfig,
+    GameMode,
     LOST,
     PlayerInfo,
     WON,
@@ -24,6 +25,8 @@ interface Props {
     onEnd: () => void;
     onUser: (player: PlayerInfo) => void;
     onOpponent: (player: PlayerInfo) => void;
+	onMode: (newMode: GameMode) => void;
+	mode: GameMode
 }
 
 interface PlayersInfoDTO {
@@ -81,6 +84,12 @@ export function GameEvent(props: PropsWithChildren<Props>) {
 
     useEffect(() => {
         let timer: NodeJS.Timeout;
+		socket.on("game-mode", (gameMode: GameMode) => {
+			console.log('received mode');
+			if (props.user.host === false) {
+				props.onMode(gameMode);
+			}
+		})
 
         socket.on("player", (player: PlayerInfo) => props.onOpponent(player));
 
@@ -109,6 +118,8 @@ export function GameEvent(props: PropsWithChildren<Props>) {
 
     return (
         <LoadGame
+			room={props.room}
+			onMode={props.onMode}
             gameStarted={gameStarted}
             onGameStarted={(status: boolean) => setGameStarted(status)}
             score={props.score}
@@ -116,6 +127,7 @@ export function GameEvent(props: PropsWithChildren<Props>) {
             config={props.config}
             opponent={props.opponent}
             onUser={props.onUser}
+			mode={props.mode}
         >
             {props.children}
         </LoadGame>

@@ -4,15 +4,95 @@ import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CreateMatchDto } from "./dtos/Match.dto";
 import { UsersService } from "src/users/users.service";
+import { User } from "src/users/entities/User.entity";
+import { Server, Socket } from "socket.io";
+
+export enum GameMode {
+    CLASSIC = "classic",
+    PINGPONG = "pingpong",
+}
+
+interface JoinPongDto {
+    room: string;
+    mode: GameMode;
+}
+
+interface PongData {
+    isPong: boolean;
+    data: JoinPongDto;
+    host: boolean;
+}
+
 
 @Injectable()
 export class MatchService {
+	private matchmaking: number[];
     constructor(
         @InjectRepository(Match)
         private matchRepository: Repository<Match>,
         @Inject(forwardRef(() => UsersService))
-        private userService: UsersService
-    ) {}
+        private userService: UsersService,
+
+    ) {
+		this.matchmaking = [];
+	}
+
+	isInMatchmaking(userId: number): boolean {
+		return this.matchmaking.includes(userId);
+	  }
+
+
+	async addUserToMatchmaking(server: Server, client: Socket, userId: number) {
+		console.log(this.matchmaking);
+		if (await this.getMatchmakingOpponent(server, client, userId) === false) {
+			this.matchmaking.push(userId);
+		}
+		console.log(this.matchmaking);
+	  }
+
+	createId(): string {
+		return Date.now().toString(36) + Math.random().toString(36).substring(2);
+	}
+
+	 async getMatchmakingOpponent( server: Server, client: Socket, userId: number) {
+		if (this.matchmaking.length !== 0) {
+			const all_sockets = await server.fetchSockets();
+			const opponentId = this.getUsersFromMatchmaking().find((s) => s !== userId);
+			const opponentSocket = all_sockets.find((s) => (s.data.user.id === opponentId));
+			const room = this.createId();
+				client.join(room);
+				opponentSocket.join(room);
+				opponentSocket.emit("joinPongByMatchmaking", {
+					isPong: true,
+					host: true,
+					data: {
+						room: room,
+						mode: GameMode.CLASSIC
+					}
+				});
+				client.emit("joinPongByMatchmaking", {
+					isPong: true,
+					host: false,
+					data: {
+						room: room,
+						mode: GameMode.CLASSIC
+					}
+				});
+				this.removeUserFromMatchmaking(opponentId);
+				return true;
+	  }
+	  return false;
+	}
+
+	  removeUserFromMatchmaking(userId: number)  {
+		console.log(this.matchmaking);
+		this.matchmaking = this.matchmaking.filter(user => user !== userId);
+		console.log(this.matchmaking);
+	  }
+	
+		getUsersFromMatchmaking() {
+		return this.matchmaking;
+	  }
 
     async findMatchByUserId(userid: number): Promise<Match[]> {
         return this.matchRepository.find({

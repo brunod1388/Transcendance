@@ -51,7 +51,9 @@ export function Rules(props: PropsWithChildren<Props>) {
 
     function startGame() {
         if (gameStatus === GameStatus.LAUNCH_BALL) {
-            launchBall(props.ball, props.onBall, onGameStatus);
+			onLastHit(0);
+			onGameStatus(GameStatus.MOVE_BALL);
+            // launchBall(props.ball, props.onBall, onGameStatus);
         } else if (gameStatus === GameStatus.MOVE_BALL) {
             if (detectScore(props.ball, props.config)) {
                 let newScore: Score = {
@@ -66,7 +68,7 @@ export function Rules(props: PropsWithChildren<Props>) {
                 props.onBall({
                     pos: {
                         x: props.config.boardWidth / 2,
-                        y: props.config.boardHeight / 2,
+						y: (props.ball.pos.x < props.config.boardWidth / 2)? 50 : props.config.boardHeight - 50 ,
                     },
                     delta: { x: 0, y: 0 },
                     speed: 0,

@@ -58,6 +58,15 @@ interface BallDto {
     room: string;
     data: Ball;
 }
+
+enum GameMode {
+    CLASSIC = "classic",
+    PINGPONG = "pingpong",
+}
+interface GameModeDTO {
+	room: string;
+	mode: GameMode;
+}
 @WebSocketGateway({ cors: { origin: ["http://localhost:9000"] } })
 export class GeneralGateway implements OnModuleInit {
     @WebSocketServer()
@@ -110,10 +119,10 @@ export class GeneralGateway implements OnModuleInit {
         this.generalService.leaveRoom(client, room);
     }
 
-    @SubscribeMessage("game-join")
-    handleJoinGame(client: Socket, room: string) {
-        this.generalService.gameJoin(this.server, room);
-    }
+    // @SubscribeMessage("game-join")
+    // handleJoinGame(client: Socket, room: string) {
+    //     this.generalService.gameJoin(this.server, room);
+    // }
 
     // Event to broadcast different event inside a specific room.
     @SubscribeMessage("game-broadcast")
@@ -171,7 +180,11 @@ export class GeneralGateway implements OnModuleInit {
 
 	@SubscribeMessage("obtain-opponent-info")
     async handleOpponentInfo(client: Socket, room: string) {
-      this.generalService.obtainOpponentInfo(client, this.server, room);
+      await this.generalService.obtainOpponentInfo(client, this.server, room);
+    }
 
+	@SubscribeMessage("game-mode")
+    async handleGameMode(client: Socket, data: GameModeDTO) {
+		client.broadcast.to(data.room).emit("game-mode", data.mode);
     }
 }

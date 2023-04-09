@@ -66,4 +66,21 @@ export class MatchGateway {
         if (match === undefined) return "Something went wrong. Match not saved";
         return "Match Saved";
     }
+
+	@SubscribeMessage("joinMatchmaking")
+    async HandleJoinMatchmaking(client: Socket,  userId: number) {
+        await this.matchService.addUserToMatchmaking(this.server, client, userId);
+		client.emit("matchmakingStatus", this.matchService.isInMatchmaking(userId));
+    }
+
+	@SubscribeMessage("leaveMatchmaking")
+    async HandleLeaveMatchmaking(@MessageBody() userId: number){
+        this.matchService.removeUserFromMatchmaking(userId);
+    }
+
+	@SubscribeMessage("getStatusMatchmaking")
+    async HandleMatchmakingStatus(client: Socket, userId: number){
+        const isWaiting = this.matchService.isInMatchmaking(userId);
+		client.emit("matchmakingStatus", isWaiting);
+    }
 }

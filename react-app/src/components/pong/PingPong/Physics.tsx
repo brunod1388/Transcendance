@@ -37,7 +37,7 @@ export const move = (
 };
 
 // Function to launch the ball
-export const launchBall = (
+export const launchBall = async(
     ball: Ball,
     onBall: (ball: Ball) => void,
     onGameStatus: (status: GameStatus) => void
@@ -53,11 +53,10 @@ export const launchBall = (
     ballTmp.delta.x = ballTmp.delta.x * (dirX >= 1 ? -1 : 1);
     ballTmp.delta.y = ballTmp.delta.y * (dirY >= 1 ? -1 : 1);
     ballTmp.speed = 1.5;
-
-    // Call the onBall function with the updated ball
-    onBall(ballTmp);
-    // Call the onGameStatus function with MOVE_BALL status
-    onGameStatus(GameStatus.MOVE_BALL);
+	// Call the onBall function with the updated ball
+	onBall(ballTmp);
+	// Call the onGameStatus function with MOVE_BALL status
+	onGameStatus(GameStatus.MOVE_BALL);
 };
 
 // Function to generate a random number between min and max

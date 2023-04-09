@@ -16,6 +16,7 @@ import { useSocket, useTimeout } from "../../../hooks";
 import { useInterval } from "../../../hooks";
 import { move, detectScore, launchBall } from "./Physics";
 import style from "./pong.module.scss";
+import { clear } from "console";
 export type MatchType = "Training" | "Ranked";
 interface CreateMatchDTO {
 	user1id: number;
@@ -49,11 +50,28 @@ export function Rules(props: PropsWithChildren<Props>) {
         GameStatus.LAUNCH_BALL
     );
     const [update, setUpdate] = useState<boolean>(false);
+	const [launch, setLaunch] = useState<boolean>(false);
+
+
+	useEffect(() => {
+		let timer: NodeJS.Timeout;
+		if (launch === true) {
+			timer = setTimeout(() => {
+				if (gameStatus !== END_GAME) {
+					launchBall(props.ball, props.onBall, onGameStatus);
+				}
+				setLaunch(false);
+			}, 2000);
+		}
+		return () => clearTimeout(timer);
+	}, [launch]);
+
+
     const onGameStatus = (status: GameStatus) => setGameStatus(status);
 
     function startGame() {
         if (gameStatus === GameStatus.LAUNCH_BALL) {
-            launchBall(props.ball, props.onBall, onGameStatus);
+			setLaunch(true);
         } else if (gameStatus === GameStatus.MOVE_BALL) {
             if (detectScore(props.ball, props.config)) {
                 let newScore: Score = {

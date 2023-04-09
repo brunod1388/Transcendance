@@ -12,7 +12,7 @@ import {
     initialOpponent,
 } from "../../@types";
 import { GameEvent } from "./GameEvent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PingPong } from "./PingPong/PingPong";
 import { PongClassic } from "./Classic/Classic";
 import { gameConfig } from "./GameService";
@@ -24,8 +24,9 @@ interface GameProps {
     username: string;
 }
 
-export function Game({ mode, room, onEnd, host, username }: GameProps) {
-    const config = gameConfig(CLASSIC, room);
+export function Game({room, onEnd, host, username }: GameProps) {
+	const [mode, setMode] = useState<GameMode>(CLASSIC);
+    const [config, setConfig] = useState<GameConfig>(gameConfig(mode, room));
     const [user, setUser] = useState<PlayerInfo>(initialUser(host, username));
     const [opponent, setOpponent] = useState<PlayerInfo>(
         initialOpponent(host, "")
@@ -39,8 +40,13 @@ export function Game({ mode, room, onEnd, host, username }: GameProps) {
     const [ball, setBall] = useState<Ball>({ ...config.initialBall });
     const [score, setScore] = useState<Score>({ player1: 0, player2: 0 });
 
+	useEffect(() => {
+		setConfig(gameConfig(mode, room));
+	}, [mode]);
+	
     return (
         <GameEvent
+		mode={mode}
 			host={host}
 			room = {room}
             score={score}
@@ -50,6 +56,7 @@ export function Game({ mode, room, onEnd, host, username }: GameProps) {
             onEnd={onEnd}
             onUser={(player: PlayerInfo) => setUser(player)}
             onOpponent={(player: PlayerInfo) => setOpponent(player)}
+			onMode={(newMode: GameMode) => setMode(newMode)}
         >
             {mode === CLASSIC && (
                 <PongClassic

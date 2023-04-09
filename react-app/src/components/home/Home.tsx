@@ -63,6 +63,10 @@ function Home() {
     }, [userAuth.id, socket]);
 
     useEffect(() => {
+		socket.on("joinPongByMatchmaking", (data: PongData) => {
+			console.log("recieved is pong");
+			setPongSwitch(data);
+		});
         socket.on("invitation", (invitation: InvitationDTO) => {
             if (userAuth.username === invitation.to) {
                 CreateInvitation(invitation, dispatch, socket, onPong);
@@ -79,6 +83,7 @@ function Home() {
         return () => {
             socket.off("invitation");
             socket.off("response");
+			socket.off("joinPongByMatchmaking");
         };
     }, []);
 
