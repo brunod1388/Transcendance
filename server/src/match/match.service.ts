@@ -23,6 +23,14 @@ interface PongData {
     host: boolean;
 }
 
+interface MatchSummary {
+	totalWins: number;
+	totalLoses: number;
+	totalGames: number;
+	points: number;
+	league: string;
+}
+
 
 @Injectable()
 export class MatchService {
@@ -151,4 +159,27 @@ export class MatchService {
 
         return this.matchRepository.save(match);
     }
+
+
+	async getUsers(): Promise<User[]> {
+        return this.userService.findAllUsers();
+    }
+
+	async getMatchSummaryById(userId: number) {
+		const matches: Match[]  = await this.findMatchByUserId(userId);
+		const summary: MatchSummary = {
+			totalWins: 0,
+			totalLoses: 0,
+			totalGames: 0,
+			points: 0,
+			league: "Noob"
+		}
+
+		matches.forEach((match: Match) => {
+			summary.totalGames += 1;
+			(match.winner.id === userId)? summary.totalWins += 1 : summary.totalLoses += 1;
+			summary.points += (match.winner.id === userId)? 3 : 1;
+		});
+		return summary;
+	}
 }

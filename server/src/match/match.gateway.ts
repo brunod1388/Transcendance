@@ -8,6 +8,7 @@ import { Server, Socket } from "socket.io";
 import { MatchService } from "./match.service";
 import { Match, MatchType } from "./entities/Match.entity";
 import { CreateMatchDto } from "./dtos/Match.dto";
+import { User } from "src/users/entities/User.entity";
 
 interface MatchElement {
 	username1: string,
@@ -26,6 +27,15 @@ interface MatchSummary {
 	totalGames: number;
 	points: number;
 	league: string;
+}
+
+interface Player  {
+	username: string,
+	avatar: string,
+	wins: number,
+	losses: number, 
+	points: number,
+	league: string
 }
 
 @WebSocketGateway({
@@ -94,22 +104,38 @@ export class MatchGateway {
 
 	@SubscribeMessage("getMatchSummary")
     async HandleGetMatchSummary(client: Socket, userId: number){
-        const matches: Match[]  = await this.matchService.findMatchByUserId(userId);
-		const summary: MatchSummary = {
-			totalWins: 0,
-			totalLoses: 0,
-			totalGames: 0,
-			points: 0,
-			league: "Noob"
-		}
-
-		matches.forEach((match: Match) => {
-			summary.totalGames += 1;
-			(match.winner.id === userId)? summary.totalWins += 1 : summary.totalLoses += 1;
-			summary.points += (match.winner.id === userId)? 3 : 1;
-		})
-
+		const summary = await this.matchService.getMatchSummaryById(userId);
 		client.emit("matchSummary", summary);
+    }
+
+
+	@SubscribeMessage("getPlayersRanking")
+    async GetPlayersRanking(client: Socket) {
+		
+        const allUsers: User[]  = await this.matchService.getUsers();
+		const playerRanking: Array<Player> = [];
+
+		for (let user of allUsers) {
+			const summary = await this.matchService.getMatchSummaryById(user.id);
+			playerRanking.push({username: user.username,
+				avatar: user.avatar,
+				wins: summary.totalWins,
+				losses: summary.totalLoses, 
+				points: summary.points,
+				league: summary.league});
+		}
+		
+
+		playerRanking.sort((n1, n2) => {
+				if (n1.points < n2.points) {
+					return 1;
+				}
+				if (n1.points > n2.points) {
+					return -1;
+				}
+				return 0;
+			});
+		client.emit("playersRanking", playerRanking);
     }
 
 // 	<div>

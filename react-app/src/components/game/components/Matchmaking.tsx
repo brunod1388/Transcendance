@@ -11,7 +11,7 @@ export function Matchmaking() {
 	useEffect(() => {
 		socket.emit("getStatusMatchmaking", userAuth.id);
 	}, []);
-
+ 
 	useEffect(() => {
 		socket.on("matchmakingStatus", (isWaiting: boolean) => setIsWaiting(isWaiting));
 		return () => {
