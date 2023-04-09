@@ -33,7 +33,7 @@ export default function NewChannel(props: Props) {
     }
 
     return (
-        <div className="newChannel_container">
+        <div className="newChannel-container">
             <div className="form_container">
                 <div className="form_wrapper">
                     <span className="logo">New Channel</span>

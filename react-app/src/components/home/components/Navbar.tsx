@@ -6,6 +6,7 @@ import {
     ChatIcon,
     AddChannelIcon,
     NoChannelIcon,
+    PlayIcon,
 } from "../../../assets/images";
 import {
     useAuth,
@@ -107,27 +108,37 @@ function Navbar() {
         <div className="navbar">
             <ChannelButton
                 filter={true}
-                name="PrivateMessage"
+                name="Play Pong"
+                image={PlayIcon}
+                isChannel={false}
+                onClick={() => setFeature(Feature.Game)}
+            />
+            <ChannelButton
+                filter={true}
+                name="Private Message"
                 image={ChatIcon}
+                isChannel={false}
                 onClick={privateClick}
             />
-            <span className="separator" />
-            <div className="channel_wrapper">
-                {channels?.map((chan, i) => (
-                    <ChannelButton
-                        name={chan.name}
-                        image={chan.image === null ? NoChannelIcon : chan.image}
-                        onClick={() => {
-                            channelClick(chan.id);
-                        }}
-                        key={i}
-                    />
-                ))}
+            <div className="channels-container">
+                <div className="channel-wrapper">
+                    {channels?.map((chan, i) => (
+                        <ChannelButton
+                            name={chan.name}
+                            image={chan.image === null ? NoChannelIcon : chan.image}
+                            onClick={() => {
+                                channelClick(chan.id);
+                            }}
+                            key={i}
+                        />
+                    ))}
+                    <h1 className="channel-title">Channels</h1>
+                    </div>
             </div>
-            <span className="separator" />
             <ChannelButton
                 filter={true}
                 name="Add Channel"
+                isChannel={false}
                 image={AddChannelIcon}
                 onClick={addClick}
             />

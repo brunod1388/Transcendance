@@ -4,6 +4,7 @@ import {
     NoUserIcon,
     BellIcon,
     NoChannelIcon,
+    LogoutIcon,
 } from "../../../assets/images";
 import { useNavigate, Link } from "react-router-dom";
 import { MouseEvent, useEffect, useState } from "react";
@@ -25,7 +26,7 @@ function Topbar() {
     const { removeItem } = useLocalStorage();
     const avatar = userAuth.avatar;
     const { channel, updateChannel } = useChat();
-    const { setFeature } = useFeature();
+    const { feature } = useFeature();
     const [notif, setNotif] = useState(false);
     const { ref, isVisible, setIsVisible } = useVisible(false);
     const [socket] = useSocket();
@@ -80,11 +81,24 @@ function Topbar() {
             console.log("test response :", res);
         });
     }
+    function defineTitle() {
+        console.log("salut")
+        console.log(feature)
+        if (feature === Feature.Chat) {
+            return channel.name;
+        } else if (feature === Feature.Game) {
+            return "Ultimate Pong";
+        } else {
+            return "Transcendance";
+        }
+    }
     return (
         <div className="topbar">
             <div className="channel">
                 <img className="channelImg" src={channel.image} alt="" />
-                <span className="channelName">{channel.name}</span>
+                <span className="channelName">
+                    {defineTitle()}
+                </span>
                 <span style={{ color: "red" }}>{channel.id}</span>
             </div>
             <div className="user">
@@ -110,19 +124,14 @@ function Topbar() {
                         )}
                     </div>
                 </div>
-                <span>{userAuth.username}</span>
-                <img
-                    className="imgButton"
-                    src={PlayIcon}
-                    alt=""
-                    onClick={() => setFeature(Feature.Game)}
-                />
+                <span className="username">{userAuth.username}</span>
+                <button className="button-purple" onClick={logout}>
+                    <img src={LogoutIcon} alt="" />
+                    Logout
+                </button>
                 <Link to="/settings">
                     <img className="imgButton" src={SettingIcon} alt="" />
                 </Link>
-                <button className="button-purple" onClick={logout}>
-                    logout
-                </button>
             </div>
         </div>
     );
