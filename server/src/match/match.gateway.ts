@@ -20,6 +20,14 @@ interface MatchElement {
 	playDate: string,
 }
 
+interface MatchSummary {
+	totalWins: number;
+	totalLoses: number;
+	totalGames: number;
+	points: number;
+	league: string;
+}
+
 @WebSocketGateway({
     cors: {
         origin: ["http://localhost:9000"],
@@ -83,4 +91,40 @@ export class MatchGateway {
         const isWaiting = this.matchService.isInMatchmaking(userId);
 		client.emit("matchmakingStatus", isWaiting);
     }
+
+	@SubscribeMessage("getMatchSummary")
+    async HandleGetMatchSummary(client: Socket, userId: number){
+        const matches: Match[]  = await this.matchService.findMatchByUserId(userId);
+		const summary: MatchSummary = {
+			totalWins: 0,
+			totalLoses: 0,
+			totalGames: 0,
+			points: 0,
+			league: "Noob"
+		}
+
+		matches.forEach((match: Match) => {
+			summary.totalGames += 1;
+			(match.winner.id === userId)? summary.totalWins += 1 : summary.totalLoses += 1;
+			summary.points += (match.winner.id === userId)? 3 : 1;
+		})
+
+		client.emit("matchSummary", summary);
+    }
+
+// 	<div>
+// 	<span>Total wins</span> <span>{0}</span>
+// </div>
+// <div>
+// 	<span>Total losses</span> <span>{0}</span>
+// </div>
+// <div>
+// 	<span>Total games</span> <span>{0}</span>
+// </div>
+// <div>
+// 	<span>Points</span> <span>{0}</span>
+// </div>
+// <div>
+// 	<span>League</span> <span>{"Noob"}</span>
+// </div>
 }
