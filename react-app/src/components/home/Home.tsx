@@ -9,7 +9,8 @@ import { InvitationDTO, ResponseDTO, CLASSIC, GameMode } from "../../@types";
 // import { Pong } from "../pong";
 import Chat from "../chat/Chat";
 import "./styles/home.scss";
-import { Game } from "../pong/Game";
+import { Game } from "../game";
+import { Game as Pong} from "../pong/Game";
 import { gameConfig } from "../pong/GameService";
 
 const featureComponent = new Map<number, JSX.Element>([
@@ -89,7 +90,7 @@ function Home() {
                     <Topbar />
                     <div className="featureContainer">
                         {PongSwitch.isPong && (
-                            <Game
+                            <Pong
                                 username={userAuth.username}
                                 host={PongSwitch.host}
                                 onEnd={() => {

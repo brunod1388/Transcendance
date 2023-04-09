@@ -24,4 +24,4 @@ function getTimeStr(date: Date, withSeconds: boolean): string {
     return time;
 }
 
-export { getDateMsg, getTimeStr};
+export { getDateMsg, getTimeStr };

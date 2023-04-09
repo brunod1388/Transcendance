@@ -32,7 +32,7 @@ interface Props {
     onBall: (ball: Ball) => void;
     score: Score;
     user: PlayerInfo;
-    opponnent: PlayerInfo;
+    opponent: PlayerInfo;
     onYourMovement: (newMove: Position) => void;
 }
 
@@ -162,27 +162,23 @@ export function Rules(props: PropsWithChildren<Props>) {
     useEffect(() => {
         if (props.score.player1 >= 10 || props.score.player2 >= 10) {
             if (props.user.host === true) {
-                socket.emit("record-game", {
-                    player1: {
-                        username: props.user.username,
-                        score: props.score.player1,
-                        status: props.score.player1 >= 10 ? WON : LOST,
-                    },
-                    player2: {
-                        username: props.opponnent.username,
-                        score: props.score.player2,
-                        status: props.score.player2 >= 10 ? WON : LOST,
-                    },
-                });
+				socket.emit("newMatch", {
+					user1id: props.user.id,
+					user2id: props.opponent.id,
+					winner: (props.score.player1 >= 10) ?  props.user.id : props.opponent.id,
+					score1: props.score.player1,
+					score2: props.score.player2,
+					type: "Training"
+				});
             }
             setGameStatus(END_GAME);
         }
     }, [props.score]);
 
-    if (gameStatus === END_GAME || props.opponnent.status === DISCONECTED) {
+    if (gameStatus === END_GAME || props.opponent.status === DISCONECTED) {
         return (
             <EndScreen
-                opponent={props.opponnent}
+                opponent={props.opponent}
                 user={props.user}
                 score={props.score}
             />

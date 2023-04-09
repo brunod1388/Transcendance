@@ -16,6 +16,16 @@ import { useSocket, useTimeout } from "../../../hooks";
 import { useInterval } from "../../../hooks";
 import { move, detectScore, launchBall } from "./Physics";
 import style from "./pong.module.scss";
+export type MatchType = "Training" | "Ranked";
+interface CreateMatchDTO {
+	user1id: number;
+	user2id: number;
+	score1: number;
+	score2: number;
+	winner: number;
+	type: MatchType;
+}
+
 interface Props {
     ball: Ball;
     paddle1: Paddle;
@@ -30,7 +40,7 @@ interface Props {
     onBall: (ball: Ball) => void;
     score: Score;
     user: PlayerInfo;
-    opponnent: PlayerInfo;
+    opponent: PlayerInfo;
 }
 
 export function Rules(props: PropsWithChildren<Props>) {
@@ -130,28 +140,26 @@ export function Rules(props: PropsWithChildren<Props>) {
 
     useEffect(() => {
         if (props.score.player1 >= 10 || props.score.player2 >= 10) {
-            if (props.user.host === true) {
-                socket.emit("record-game", {
-                    player1: {
-                        username: props.user.username,
-                        score: props.score.player1,
-                        status: props.score.player1 >= 10 ? WON : LOST,
-                    },
-                    player2: {
-                        username: props.opponnent.username,
-                        score: props.score.player2,
-                        status: props.score.player2 >= 10 ? WON : LOST,
-                    },
-                });
-            }
+            if (props.user.host === true && gameStatus !== END_GAME) {
+				console.log("record on score");
+				const dto: CreateMatchDTO = {
+					user1id: props.user.id,
+					user2id: props.opponent.id,
+					winner: (props.score.player1 >= 10) ?  props.user.id : props.opponent.id,
+					score1: props.score.player1,
+					score2: props.score.player2,
+					type: "Training"
+				}
+                    socket.emit("newMatch", dto );
+                }
             setGameStatus(END_GAME);
         }
     }, [props.score]);
 
-    if (gameStatus === END_GAME || props.opponnent.status === DISCONECTED) {
+    if (gameStatus === END_GAME || props.opponent.status === DISCONECTED) {
         return (
             <EndScreen
-                opponent={props.opponnent}
+                opponent={props.opponent}
                 user={props.user}
                 score={props.score}
             />

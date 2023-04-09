@@ -19,6 +19,7 @@ export class MatchService {
             relations: {
                 user1: true,
                 user2: true,
+				winner: true
             },
             where: [{ user1: { id: userid } }, { user2: { id: userid } }],
             select: {
@@ -27,6 +28,7 @@ export class MatchService {
                 score1: true,
                 score2: true,
                 playDate: true,
+				winner: {id: true}
             },
         });
     }
@@ -54,15 +56,16 @@ export class MatchService {
         });
     }
 
-    async createMatch(matchDetail: CreateMatchDto): Promise<Match> {
+    async createMatch(matchDetail: CreateMatchDto) {
         const user1 = await this.userService.findUserId(matchDetail.user1id);
         const user2 = await this.userService.findUserId(matchDetail.user2id);
-
+		console.log(matchDetail.score1, matchDetail.score2, matchDetail.type, matchDetail.user1id, matchDetail.user2id, matchDetail.winner );
         const match = this.matchRepository.create({
             user1: user1,
             user2: user2,
             score1: matchDetail.score1,
             score2: matchDetail.score2,
+			winner: (matchDetail.winner === user1.id) ? user1 : user2,
             type: matchDetail.type,
         });
 

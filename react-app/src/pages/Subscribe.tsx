@@ -3,7 +3,13 @@ import { useState, useEffect, FormEvent, MouseEvent } from "react";
 import { AxiosRequestConfig } from "axios";
 import Cookies from "js-cookie";
 import { useAxios } from "../hooks";
-import { AddImageIcon, EmailIcon, LockIcon, Logo42Icon, UserIcon } from "../assets/images";
+import {
+    AddImageIcon,
+    EmailIcon,
+    LockIcon,
+    Logo42Icon,
+    UserIcon,
+} from "../assets/images";
 import "../assets/styles/form.scss";
 
 interface DataType {
@@ -85,12 +91,20 @@ function Subscribe() {
                     </div>
                     <div className="input_container">
                         <span className="input-title">Email</span>
-                        <img className="input_icon mail" src={EmailIcon} alt="" />
+                        <img
+                            className="input_icon mail"
+                            src={EmailIcon}
+                            alt=""
+                        />
                         <input name="email" type="email" placeholder="email" />
                     </div>
                     <div className="input_container">
                         <span className="input-title">Password</span>
-                        <img className="input_icon locker" src={LockIcon} alt="" />
+                        <img
+                            className="input_icon locker"
+                            src={LockIcon}
+                            alt=""
+                        />
                         <input
                             name="password"
                             type="password"
@@ -99,7 +113,11 @@ function Subscribe() {
                     </div>
                     <div className="input_container">
                         <span className="input-title">Confirm Password</span>
-                        <img className="input_icon locker" src={LockIcon} alt="" />
+                        <img
+                            className="input_icon locker"
+                            src={LockIcon}
+                            alt=""
+                        />
                         <input
                             name="confirmPassword"
                             type="password"

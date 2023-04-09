@@ -33,9 +33,13 @@ export function MyPaddle(props: MyProps) {
                 offsetY +
                 props.config.paddleHeight / 2;
             if (
-                posX > 0 && posX + props.config.paddleWidth < props.config.boardWidth &&
-                offsetY > 0 && offsetY - props.config.paddleHeight < props.config.boardHeight &&
-                offsetY - props.config.paddleHeight / 2 > props.config.boardHeight / 2
+                posX > 0 &&
+                posX + props.config.paddleWidth < props.config.boardWidth &&
+                offsetY > 0 &&
+                offsetY - props.config.paddleHeight <
+                    props.config.boardHeight &&
+                offsetY - props.config.paddleHeight / 2 >
+                    props.config.boardHeight / 2
             ) {
                 props.onMyPaddle({ x: posX, y: posY });
                 props.onMyMovement({ x: event.movementX, y: event.movementY });
@@ -68,14 +72,22 @@ export function MyPaddle(props: MyProps) {
         height: props.config.paddleHeight,
     };
     return (
-
-  <div className={style.myPaddle} style={{ ...position, ...props.skin }} >
-    <div className={style.solid}>
-      <div style={{ width: props.config.paddleWidth, height: props.config.paddleHeight }} className={style.surface}>
-	  <div  style={{ top: props.config.paddleHeight, left: 15 }} className={ style.handle}/>
-	  </div>
-    </div>
-  </div>
+        <div className={style.myPaddle} style={{ ...position, ...props.skin }}>
+            <div className={style.solid}>
+                <div
+                    style={{
+                        width: props.config.paddleWidth,
+                        height: props.config.paddleHeight,
+                    }}
+                    className={style.surface}
+                >
+                    <div
+                        style={{ top: props.config.paddleHeight, left: 15 }}
+                        className={style.handle}
+                    />
+                </div>
+            </div>
+        </div>
     );
 }
 
@@ -96,12 +108,24 @@ export function YourPaddle(props: YourProps) {
         height: props.config.paddleHeight,
     };
     return (
-		<div className={style.yourPaddle} style={{ ...position, ...props.skin }} >
-		<div className={style.solid}>
-		  <div style={{ width: props.config.paddleWidth, height: props.config.paddleHeight }} className={style.surface}>
-		  <div  style={{ top: props.config.paddleHeight, left: 15 }} className={ style.handle}/>
-		  </div>
-		</div>
-	  </div>
+        <div
+            className={style.yourPaddle}
+            style={{ ...position, ...props.skin }}
+        >
+            <div className={style.solid}>
+                <div
+                    style={{
+                        width: props.config.paddleWidth,
+                        height: props.config.paddleHeight,
+                    }}
+                    className={style.surface}
+                >
+                    <div
+                        style={{ top: props.config.paddleHeight, left: 15 }}
+                        className={style.handle}
+                    />
+                </div>
+            </div>
+        </div>
     );
 }

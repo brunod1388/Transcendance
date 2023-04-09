@@ -34,7 +34,7 @@ export function PongClassic(props: Props) {
             room={props.room}
             onEnd={props.onEnd}
             score={props.score}
-            opponnent={props.opponent}
+            opponent={props.opponent}
             user={props.user}
             onPaddle1={props.onPaddle1}
             onPaddle2={props.onPaddle2}

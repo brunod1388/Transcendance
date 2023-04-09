@@ -4,10 +4,21 @@ import {
     WebSocketGateway,
     WebSocketServer,
 } from "@nestjs/websockets";
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 import { MatchService } from "./match.service";
-import { Match } from "./entities/Match.entity";
+import { Match, MatchType } from "./entities/Match.entity";
 import { CreateMatchDto } from "./dtos/Match.dto";
+
+interface MatchElement {
+	username1: string,
+	username2: string,
+	score1: number,
+	score2: number,
+	avatar1: string,
+	avatar2: string,
+	type: MatchType,
+	playDate: string,
+}
 
 @WebSocketGateway({
     cors: {
@@ -28,16 +39,28 @@ export class MatchGateway {
         return await this.matchService.findMatchByUsersId(user1id, user2id);
     }
 
-    @SubscribeMessage("getMatchesByUsers")
-    async getMatchesByUserId(
-        @MessageBody("user1id") userid: number
-    ): Promise<Match[]> {
-        return await this.matchService.findMatchByUserId(userid);
+    @SubscribeMessage("getMatchesByUser")
+    async getMatchesByUserId(client: Socket, userid: number) {
+        const matches: Match[]  = await this.matchService.findMatchByUserId(userid);
+		let matchesList: Array<MatchElement> = [];
+
+		matches.forEach((match: Match) => {
+			matchesList.push({
+				username1: match.user1.username, 
+				username2: match.user2.username,
+				score1: match.score1,
+				score2: match.score2,
+				avatar1: match.user1.avatar,
+				avatar2: match.user2.avatar,
+				type: match.type,
+				playDate: match.playDate.toJSON()})
+		});
+		client.emit("receiveMatchesByUser", JSON.stringify(matchesList));
     }
 
     @SubscribeMessage("newMatch")
     async createNewMatch(
-        @MessageBody("matchDetail") matchDetail: CreateMatchDto
+        @MessageBody() matchDetail: CreateMatchDto
     ): Promise<string> {
         const match = await this.matchService.createMatch(matchDetail);
         if (match === undefined) return "Something went wrong. Match not saved";

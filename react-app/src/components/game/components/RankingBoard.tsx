@@ -18,17 +18,18 @@ export default function RankingBoard({}: Props) {
                 <span>Points</span>
             </div>
             <div className="players">
-                {players.filter((_, i) => i < 4).map((player: player, index: number) => 
-                    <PlayerPlate
-                        player={player}
-                        isVisible={isVisible}
-                        setIsVisible={setIsVisible}
-                        index={index}
-                        key={index}
-                    />
-                )}
+                {players
+                    .filter((_, i) => i < 4)
+                    .map((player: player, index: number) => (
+                        <PlayerPlate
+                            player={player}
+                            isVisible={isVisible}
+                            setIsVisible={setIsVisible}
+                            index={index}
+                            key={index}
+                        />
+                    ))}
             </div>
         </div>
     );
 }
-

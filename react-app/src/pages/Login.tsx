@@ -80,7 +80,11 @@ function Login() {
                     </div>
                     <div className="input_container">
                         <span className="input-title">Password</span>
-                        <img className="input_icon locker" src={LockIcon} alt="" />
+                        <img
+                            className="input_icon locker"
+                            src={LockIcon}
+                            alt=""
+                        />
                         <input
                             className="password"
                             name="password"

@@ -15,5 +15,5 @@ export interface Match {
     score1: number;
     score2: number;
     type: string;
-    playDate: Date;
+    playDate: string;
 }

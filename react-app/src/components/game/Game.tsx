@@ -25,40 +25,52 @@ function Game({}: Props) {
             <div className="board-container">
                 <div className="board-tabs">
                     <div
-                        className={`tab ${panel === BoardType.ranking ? "selected" : ""}`}
+                        className={`tab ${
+                            panel === BoardType.ranking ? "selected" : ""
+                        }`}
                         onClick={() => setPanel(BoardType.ranking)}
                     >
-                        <img src={RankingIcon} alt=""/>
+                        <img src={RankingIcon} alt="" />
                     </div>
                     <div
-                        className={`tab ${panel === BoardType.match ? "selected" : ""}`}
+                        className={`tab ${
+                            panel === BoardType.match ? "selected" : ""
+                        }`}
                         onClick={() => setPanel(BoardType.match)}
                     >
-                        <img src={MatchIcon} alt=""/>
+                        <img src={MatchIcon} alt="" />
                     </div>
                     <div
-                        className={`tab ${panel === BoardType.history ? "selected" : ""}`}
+                        className={`tab ${
+                            panel === BoardType.history ? "selected" : ""
+                        }`}
                         onClick={() => setPanel(BoardType.history)}
                     >
-                        <img src={HistoryIcon} alt=""/>
+                        <img src={HistoryIcon} alt="" />
                     </div>
                 </div>
                 <div className="board">
-                    {panel == "ranking" &&
-                        <BoardLayout title="Ranking Board" titleIcon={RankingIcon}>
-                            <RankingBoard/>
+                    {panel == "ranking" && (
+                        <BoardLayout
+                            title="Ranking Board"
+                            titleIcon={RankingIcon}
+                        >
+                            <RankingBoard />
                         </BoardLayout>
-                    }
-                    {panel == "history" &&
-                        <BoardLayout title="Match History" titleIcon={HistoryIcon}>
-                            <HistoryBoard/>
+                    )}
+                    {panel == "history" && (
+                        <BoardLayout
+                            title="Match History"
+                            titleIcon={HistoryIcon}
+                        >
+                            <HistoryBoard />
                         </BoardLayout>
-                    }
-                    {panel == "match" &&
+                    )}
+                    {panel == "match" && (
                         <BoardLayout title="Match Board" titleIcon={MatchIcon}>
-                            <MatchBoard/>
+                            <MatchBoard />
                         </BoardLayout>
-                    }
+                    )}
                 </div>
             </div>
         </div>

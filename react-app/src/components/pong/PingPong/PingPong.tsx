@@ -40,7 +40,7 @@ export function PingPong(props: Props) {
             room={props.room}
             onEnd={props.onEnd}
             score={props.score}
-            opponnent={props.opponent}
+            opponent={props.opponent}
             user={props.user}
             onScore={props.onScore}
             onBall={props.onBall}

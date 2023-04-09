@@ -257,7 +257,11 @@ function Settings() {
                                 <span className="input-title">
                                     Change your password
                                 </span>
-                                <img className="input_icon" src={LockIcon} alt="" />
+                                <img
+                                    className="input_icon"
+                                    src={LockIcon}
+                                    alt=""
+                                />
                                 <input
                                     name="pwd"
                                     type="password"
@@ -278,7 +282,11 @@ function Settings() {
                         </div>
                         <div className="password-row">
                             <div className="input_container">
-                                <img className="input_icon" src={LockIcon} alt="" />
+                                <img
+                                    className="input_icon"
+                                    src={LockIcon}
+                                    alt=""
+                                />
                                 <input
                                     name="newPwd"
                                     type="password"
@@ -286,7 +294,11 @@ function Settings() {
                                 />
                             </div>
                             <div className="input_container">
-                                <img className="input_icon" src={LockIcon} alt="" />
+                                <img
+                                    className="input_icon"
+                                    src={LockIcon}
+                                    alt=""
+                                />
                                 <input
                                     name="confNewPwd"
                                     type="password"

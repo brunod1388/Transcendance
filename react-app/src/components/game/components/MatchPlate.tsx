@@ -4,12 +4,22 @@ import "../styles/matchPlate.scss";
 
 type Props = {
     match: Match;
-}
-
+};
 
 export default function MatchPlate(props: Props) {
-	const {username1, username2, score1, score2, avatar1, avatar2, playDate, type} = props.match;
-    const dateStr = `${playDate.getDate()}/${playDate.getMonth()}/${playDate.getFullYear()}`
+    const {
+        username1,
+        username2,
+        score1,
+        score2,
+        avatar1,
+        avatar2,
+        playDate,
+        type,
+    } = props.match;
+	
+	const newDate = new Date(playDate);
+    const dateStr = `${newDate.getDate()}/${newDate.getMonth()}/${newDate.getFullYear()}`;
 
     return (
         <div className="match-plate">

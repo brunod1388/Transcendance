@@ -25,7 +25,7 @@ interface GameProps {
 }
 
 export function Game({ mode, room, onEnd, host, username }: GameProps) {
-    const config = gameConfig(PINGPONG, room);
+    const config = gameConfig(CLASSIC, room);
     const [user, setUser] = useState<PlayerInfo>(initialUser(host, username));
     const [opponent, setOpponent] = useState<PlayerInfo>(
         initialOpponent(host, "")
@@ -41,6 +41,8 @@ export function Game({ mode, room, onEnd, host, username }: GameProps) {
 
     return (
         <GameEvent
+			host={host}
+			room = {room}
             score={score}
             user={user}
             config={config}
@@ -49,7 +51,7 @@ export function Game({ mode, room, onEnd, host, username }: GameProps) {
             onUser={(player: PlayerInfo) => setUser(player)}
             onOpponent={(player: PlayerInfo) => setOpponent(player)}
         >
-            {mode === PINGPONG && (
+            {mode === CLASSIC && (
                 <PongClassic
                     host={host}
                     room={room}
@@ -74,7 +76,7 @@ export function Game({ mode, room, onEnd, host, username }: GameProps) {
                     onEnd={onEnd}
                 />
             )}
-            {mode === CLASSIC && (
+            {mode === PINGPONG && (
                 <PingPong
                     host={host}
                     room={room}

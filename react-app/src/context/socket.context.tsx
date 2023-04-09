@@ -14,13 +14,18 @@ export function SocketProvider(props: PropsWithChildren<Props>) {
     //const token = Cookies.get("JWTtoken");
     //console.log("SOCKET CONTEXT jwt: ", token);
     const socket = useRef<Socket>(
-        io(SERVER_URL, {
+        io(SERVER_URL, { autoConnect: false,
             auth: {
                 token: String(Cookies.get("JWTtoken")),
             },
         })
     );
-    const { userAuth } = useAuth();
+
+    useEffect(() => {
+		const actualSocket = socket.current;
+		actualSocket.connect();
+		return () => { actualSocket.disconnect() };
+	}, [socket]);
 
     // useEffect(() => {
     //     socket.current.connect();

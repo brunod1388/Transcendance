@@ -11,6 +11,7 @@ import { GameEndDTO } from "src/general/dto/GameEnd.dto";
 import { InvitationDto } from "./dto/invitation.dto";
 import { ResponseDto } from "./dto/response.dto";
 import * as jwt from "jsonwebtoken";
+import { CreateMatchDto } from "src/match/dtos/Match.dto";
 
 interface pongDTO {
     room: string;
@@ -79,7 +80,7 @@ export class GeneralGateway implements OnModuleInit {
                         );
                     }
                     //console.log("JWT payload: ", payload);
-                    socket.data.user = { id: payload.sub };
+                    socket.data.user = { id: payload.sub};
                     //console.log("Socket user data: ", socket.data.user);
                     console.log("Socket connection AUTHORIZED");
                     next();
@@ -166,5 +167,11 @@ export class GeneralGateway implements OnModuleInit {
     @SubscribeMessage("game-ball")
     handleUpdatedBall(client: Socket, ball: BallDto) {
         client.broadcast.to(ball.room).emit("game-ball", ball.data);
+    }
+
+	@SubscribeMessage("obtain-opponent-info")
+    async handleOpponentInfo(client: Socket, room: string) {
+      this.generalService.obtainOpponentInfo(client, this.server, room);
+
     }
 }

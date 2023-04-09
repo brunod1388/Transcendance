@@ -16,6 +16,10 @@ export class CreateMatchDto {
     @IsNotEmpty()
     score2: number;
 
+	@IsNumber()
+	@IsNotEmpty()
+    winner: number;
+
     @IsNotEmpty()
     type: MatchType;
 }

@@ -12,8 +12,11 @@ import { useEffect, PropsWithChildren, useState } from "react";
 import { LoadGame } from "./LoadGame";
 import { Score } from "../../@types";
 import { EndScreen } from "./Classic/Rules";
+import { useAuth } from "../../context";
 
 interface Props {
+	host: boolean;
+	room: string;
     user: PlayerInfo;
     config: GameConfig;
     opponent: PlayerInfo;
@@ -23,27 +26,46 @@ interface Props {
     onOpponent: (player: PlayerInfo) => void;
 }
 
+interface PlayersInfoDTO {
+	id: number;
+	username: string;
+}
+
+
+
+
 export function GameEvent(props: PropsWithChildren<Props>) {
     const [socket] = useSocket();
     const [gameStarted, setGameStarted] = useState<boolean>(false);
+	const {userAuth} = useAuth();
+
+	const obtainPlayersInfo = () => {
+		socket.emit('obtain-opponent-info', props.room);
+		props.onUser({status: CONNECTED, username: userAuth.username, id: userAuth.id,  host: props.host});
+	}
+
+	useEffect(() => {
+		socket.on("set-opponent-info", (playersInfoDto: PlayersInfoDTO) =>  {
+			console.log(`user-info:\n\tid: ${playersInfoDto.id}\n\tusername: ${playersInfoDto.username}`);
+			props.onOpponent({status: CONNECTED, username: playersInfoDto.username, id: playersInfoDto.id,  host: !props.host});
+		});
+		return () => {socket.off("set-opponent-info")};
+	});
 
     useEffect(() => {
-        props.onUser({ ...props.user, status: CONNECTED });
+		obtainPlayersInfo();
         window.addEventListener(
             "popstate",
             (e: PopStateEvent) => {
                 if (props.user.host === true && gameStarted === true) {
-                    socket.emit("record-game", {
-                        player1: {
-                            username: props.user.username,
-                            score: props.score.player1,
-                            status: LOST,
-                        },
-                        player2: {
-                            username: props.opponent.username,
-                            score: props.score.player2,
-                            status: WON,
-                        },
+					console.log("record on leave");
+                    socket.emit("newMatch", {
+						user1id: props.user.id,
+						user2id: props.opponent.id,
+						winner: props.opponent.id,
+						score1: props.score.player1,
+						score2: props.score.player2,
+						type: "Training"
                     });
                 }
                 socket.emit("game-player-left", props.config.room);
@@ -65,19 +87,16 @@ export function GameEvent(props: PropsWithChildren<Props>) {
         socket.on("game-player-left", () => {
             props.onOpponent({ ...props.opponent, status: DISCONECTED });
             if (props.user.host === true && gameStarted === true) {
-                socket.emit("record-game", {
-                    player1: {
-                        username: props.user.username,
-                        score: props.score.player1,
-                        status: WON,
-                    },
-                    player2: {
-                        username: props.opponent.username,
-                        score: props.score.player2,
-                        status: LOST,
-                    },
-                });
-            }
+				console.log("record on opponent leave");
+                    socket.emit("newMatch", {
+						user1id: props.user.id,
+						user2id: props.opponent.id,
+						winner: props.user.id,
+						score1: props.score.player1,
+						score2: props.score.player2,
+						type: "Training"
+                    });
+                }
             timer = setTimeout(props.onEnd, 5000);
         });
 

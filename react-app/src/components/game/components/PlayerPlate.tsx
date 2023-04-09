@@ -3,11 +3,11 @@ import { player } from "../../../@types/match.types";
 import "../styles/playerPlate.scss";
 
 type Props = {
-	player: player;
-	isVisible: number;
-	index: number;
-	setIsVisible: React.Dispatch<React.SetStateAction<number>>;
-}
+    player: player;
+    isVisible: number;
+    index: number;
+    setIsVisible: React.Dispatch<React.SetStateAction<number>>;
+};
 
 function ratio(player: player) {
     if (player.losses === 0) return 1;
@@ -16,7 +16,7 @@ function ratio(player: player) {
 }
 
 export default function PlayerPlate(props: Props) {
-	const { player, isVisible, index, setIsVisible } = props;
+    const { player, isVisible, index, setIsVisible } = props;
     return (
         <div
             className="player"

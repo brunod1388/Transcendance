@@ -1,16 +1,16 @@
-import React from 'react'
-import { MatchIcon } from '../../../assets/images'
-import "../styles/matchBoard.scss"
+import React from "react";
+import { MatchIcon } from "../../../assets/images";
+import "../styles/matchBoard.scss";
 
-type Props = {}
+type Props = {};
 
 export default function MatchBoard({}: Props) {
-  return (
-	<div className="match-container">
-		<div className='button-container'>
-			<div className="button-border"/>
-			<button className='play-button'>Play</button>
-		</div>
-	</div>
-  )
+    return (
+        <div className="match-container">
+            <div className="button-container">
+                <div className="button-border" />
+                <button className="play-button">Play</button>
+            </div>
+        </div>
+    );
 }
