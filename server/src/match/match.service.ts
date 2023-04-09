@@ -24,90 +24,100 @@ interface PongData {
 }
 
 interface MatchSummary {
-	totalWins: number;
-	totalLoses: number;
-	totalGames: number;
-	points: number;
-	league: string;
+    totalWins: number;
+    totalLoses: number;
+    totalGames: number;
+    points: number;
+    league: string;
 }
-
 
 @Injectable()
 export class MatchService {
-	private matchmaking: number[];
+    private matchmaking: number[];
     constructor(
         @InjectRepository(Match)
         private matchRepository: Repository<Match>,
         @Inject(forwardRef(() => UsersService))
-        private userService: UsersService,
-
+        private userService: UsersService
     ) {
-		this.matchmaking = [];
-	}
+        this.matchmaking = [];
+    }
 
-	isInMatchmaking(userId: number): boolean {
-		return this.matchmaking.includes(userId);
-	  }
+    isInMatchmaking(userId: number): boolean {
+        return this.matchmaking.includes(userId);
+    }
 
+    async addUserToMatchmaking(server: Server, client: Socket, userId: number) {
+        console.log(this.matchmaking);
+        if (
+            (await this.getMatchmakingOpponent(server, client, userId)) ===
+            false
+        ) {
+            this.matchmaking.push(userId);
+        }
+        console.log(this.matchmaking);
+    }
 
-	async addUserToMatchmaking(server: Server, client: Socket, userId: number) {
-		console.log(this.matchmaking);
-		if (await this.getMatchmakingOpponent(server, client, userId) === false) {
-			this.matchmaking.push(userId);
-		}
-		console.log(this.matchmaking);
-	  }
+    createId(): string {
+        return (
+            Date.now().toString(36) + Math.random().toString(36).substring(2)
+        );
+    }
 
-	createId(): string {
-		return Date.now().toString(36) + Math.random().toString(36).substring(2);
-	}
+    async getMatchmakingOpponent(
+        server: Server,
+        client: Socket,
+        userId: number
+    ) {
+        if (this.matchmaking.length !== 0) {
+            const all_sockets = await server.fetchSockets();
+            const opponentId = this.getUsersFromMatchmaking().find(
+                (s) => s !== userId
+            );
+            const opponentSocket = all_sockets.find(
+                (s) => s.data.user.id === opponentId
+            );
+            const room = this.createId();
+            client.join(room);
+            opponentSocket.join(room);
+            opponentSocket.emit("joinPongByMatchmaking", {
+                isPong: true,
+                host: true,
+                data: {
+                    room: room,
+                    mode: GameMode.CLASSIC,
+                },
+            });
+            client.emit("joinPongByMatchmaking", {
+                isPong: true,
+                host: false,
+                data: {
+                    room: room,
+                    mode: GameMode.CLASSIC,
+                },
+            });
+            this.removeUserFromMatchmaking(opponentId);
+            return true;
+        }
+        return false;
+    }
 
-	 async getMatchmakingOpponent( server: Server, client: Socket, userId: number) {
-		if (this.matchmaking.length !== 0) {
-			const all_sockets = await server.fetchSockets();
-			const opponentId = this.getUsersFromMatchmaking().find((s) => s !== userId);
-			const opponentSocket = all_sockets.find((s) => (s.data.user.id === opponentId));
-			const room = this.createId();
-				client.join(room);
-				opponentSocket.join(room);
-				opponentSocket.emit("joinPongByMatchmaking", {
-					isPong: true,
-					host: true,
-					data: {
-						room: room,
-						mode: GameMode.CLASSIC
-					}
-				});
-				client.emit("joinPongByMatchmaking", {
-					isPong: true,
-					host: false,
-					data: {
-						room: room,
-						mode: GameMode.CLASSIC
-					}
-				});
-				this.removeUserFromMatchmaking(opponentId);
-				return true;
-	  }
-	  return false;
-	}
+    removeUserFromMatchmaking(userId: number) {
+        console.log(this.matchmaking);
+        this.matchmaking = this.matchmaking.filter((user) => user !== userId);
+        console.log(this.matchmaking);
+    }
 
-	  removeUserFromMatchmaking(userId: number)  {
-		console.log(this.matchmaking);
-		this.matchmaking = this.matchmaking.filter(user => user !== userId);
-		console.log(this.matchmaking);
-	  }
-	
-		getUsersFromMatchmaking() {
-		return this.matchmaking;
-	  }
+    getUsersFromMatchmaking() {
+        return this.matchmaking;
+    }
 
     async findMatchByUserId(userid: number): Promise<Match[]> {
         return this.matchRepository.find({
             relations: {
                 user1: true,
                 user2: true,
-				winner: true
+                winner: true,
             },
             where: [{ user1: { id: userid } }, { user2: { id: userid } }],
             select: {
@@ -116,7 +126,7 @@ export class MatchService {
                 score1: true,
                 score2: true,
                 playDate: true,
-				winner: {id: true}
+                winner: { id: true },
             },
         });
     }
@@ -147,39 +157,47 @@ export class MatchService {
     async createMatch(matchDetail: CreateMatchDto) {
         const user1 = await this.userService.findUserId(matchDetail.user1id);
         const user2 = await this.userService.findUserId(matchDetail.user2id);
-		console.log(matchDetail.score1, matchDetail.score2, matchDetail.type, matchDetail.user1id, matchDetail.user2id, matchDetail.winner );
+        console.log(
+            matchDetail.score1,
+            matchDetail.score2,
+            matchDetail.type,
+            matchDetail.user1id,
+            matchDetail.user2id,
+            matchDetail.winner
+        );
         const match = this.matchRepository.create({
             user1: user1,
             user2: user2,
             score1: matchDetail.score1,
             score2: matchDetail.score2,
-			winner: (matchDetail.winner === user1.id) ? user1 : user2,
+            winner: matchDetail.winner === user1.id ? user1 : user2,
             type: matchDetail.type,
         });
 
         return this.matchRepository.save(match);
     }
 
-
-	async getUsers(): Promise<User[]> {
+    async getUsers(): Promise<User[]> {
         return this.userService.findAllUsers();
     }
 
-	async getMatchSummaryById(userId: number) {
-		const matches: Match[]  = await this.findMatchByUserId(userId);
-		const summary: MatchSummary = {
-			totalWins: 0,
-			totalLoses: 0,
-			totalGames: 0,
-			points: 0,
-			league: "Noob"
-		}
+    async getMatchSummaryById(userId: number) {
+        const matches: Match[] = await this.findMatchByUserId(userId);
+        const summary: MatchSummary = {
+            totalWins: 0,
+            totalLoses: 0,
+            totalGames: 0,
+            points: 0,
+            league: "Noob",
+        };
 
-		matches.forEach((match: Match) => {
-			summary.totalGames += 1;
-			(match.winner.id === userId)? summary.totalWins += 1 : summary.totalLoses += 1;
-			summary.points += (match.winner.id === userId)? 3 : 1;
-		});
-		return summary;
-	}
+        matches.forEach((match: Match) => {
+            summary.totalGames += 1;
+            match.winner.id === userId
+                ? (summary.totalWins += 1)
+                : (summary.totalLoses += 1);
+            summary.points += match.winner.id === userId ? 3 : 1;
+        });
+        return summary;
+    }
 }

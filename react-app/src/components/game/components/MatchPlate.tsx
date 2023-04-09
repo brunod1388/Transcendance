@@ -17,8 +17,8 @@ export default function MatchPlate(props: Props) {
         playDate,
         type,
     } = props.match;
-	
-	const newDate = new Date(playDate);
+
+    const newDate = new Date(playDate);
     const dateStr = `${newDate.getDate()}/${newDate.getMonth()}/${newDate.getFullYear()}`;
 
     return (

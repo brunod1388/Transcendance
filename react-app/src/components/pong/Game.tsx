@@ -24,8 +24,8 @@ interface GameProps {
     username: string;
 }
 
-export function Game({room, onEnd, host, username }: GameProps) {
-	const [mode, setMode] = useState<GameMode>(CLASSIC);
+export function Game({ room, onEnd, host, username }: GameProps) {
+    const [mode, setMode] = useState<GameMode>(CLASSIC);
     const [config, setConfig] = useState<GameConfig>(gameConfig(mode, room));
     const [user, setUser] = useState<PlayerInfo>(initialUser(host, username));
     const [opponent, setOpponent] = useState<PlayerInfo>(
@@ -37,18 +37,18 @@ export function Game({room, onEnd, host, username }: GameProps) {
     const [opponentPaddle, setOpponentPaddle] = useState<Position>(
         host ? config.initialPaddle2 : config.initialPaddle1
     );
-    const [ball, setBall] = useState<Ball>({ ...config.initialBall });
+    const [ball, setBall] = useState<Ball>({pos: { x: config.boardWidth/2, y: config.boardHeight/2}, delta: { x: 0, y: 0}, speed: 0});
     const [score, setScore] = useState<Score>({ player1: 0, player2: 0 });
 
-	useEffect(() => {
-		setConfig(gameConfig(mode, room));
-	}, [mode]);
-	
+    useEffect(() => {
+        setConfig(gameConfig(mode, room));
+    }, [mode]);
+
     return (
         <GameEvent
-		mode={mode}
-			host={host}
-			room = {room}
+            mode={mode}
+            host={host}
+            room={room}
             score={score}
             user={user}
             config={config}
@@ -56,7 +56,7 @@ export function Game({room, onEnd, host, username }: GameProps) {
             onEnd={onEnd}
             onUser={(player: PlayerInfo) => setUser(player)}
             onOpponent={(player: PlayerInfo) => setOpponent(player)}
-			onMode={(newMode: GameMode) => setMode(newMode)}
+            onMode={(newMode: GameMode) => setMode(newMode)}
         >
             {mode === CLASSIC && (
                 <PongClassic

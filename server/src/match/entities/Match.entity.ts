@@ -4,7 +4,7 @@ import {
     CreateDateColumn,
     Entity,
     ManyToOne,
-    PrimaryGeneratedColumn
+    PrimaryGeneratedColumn,
 } from "typeorm";
 
 export type MatchType = "Training" | "Ranked";
@@ -28,7 +28,7 @@ export class Match {
     @CreateDateColumn()
     playDate: Date;
 
-	@ManyToOne(() => User, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id)
     winner: User;
 
     @Column()

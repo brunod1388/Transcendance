@@ -64,8 +64,8 @@ enum GameMode {
     PINGPONG = "pingpong",
 }
 interface GameModeDTO {
-	room: string;
-	mode: GameMode;
+    room: string;
+    mode: GameMode;
 }
 @WebSocketGateway({ cors: { origin: ["http://localhost:9000"] } })
 export class GeneralGateway implements OnModuleInit {
@@ -89,7 +89,7 @@ export class GeneralGateway implements OnModuleInit {
                         );
                     }
                     //console.log("JWT payload: ", payload);
-                    socket.data.user = { id: payload.sub};
+                    socket.data.user = { id: payload.sub };
                     //console.log("Socket user data: ", socket.data.user);
                     console.log("Socket connection AUTHORIZED");
                     next();
@@ -178,13 +178,13 @@ export class GeneralGateway implements OnModuleInit {
         client.broadcast.to(ball.room).emit("game-ball", ball.data);
     }
 
-	@SubscribeMessage("obtain-opponent-info")
+    @SubscribeMessage("obtain-opponent-info")
     async handleOpponentInfo(client: Socket, room: string) {
-      await this.generalService.obtainOpponentInfo(client, this.server, room);
+        await this.generalService.obtainOpponentInfo(client, this.server, room);
     }
 
-	@SubscribeMessage("game-mode")
+    @SubscribeMessage("game-mode")
     async handleGameMode(client: Socket, data: GameModeDTO) {
-		client.broadcast.to(data.room).emit("game-mode", data.mode);
+        client.broadcast.to(data.room).emit("game-mode", data.mode);
     }
 }

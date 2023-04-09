@@ -9,7 +9,7 @@ type Props = {};
 export default function MatchBoard({}: Props) {
     return (
         <div className="match-container">
-			<Matchmaking/>
+            <Matchmaking />
         </div>
     );
 }

@@ -4,7 +4,7 @@ export interface PlayerInfo {
     host: boolean;
     status: PlayerStatus;
     username: string;
-	id: number;
+    id: number;
 }
 
 export enum PlayerStatus {
@@ -25,7 +25,7 @@ export const initialUser = (host: boolean, username: string): PlayerInfo => {
         host,
         username,
         status: LOADING,
-		id: 0
+        id: 0,
     };
 };
 
@@ -37,7 +37,7 @@ export const initialOpponent = (
         host,
         username,
         status: LOADING,
-		id: 0
+        id: 0,
     };
 };
 

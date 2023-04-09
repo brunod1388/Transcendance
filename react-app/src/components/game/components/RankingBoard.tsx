@@ -7,30 +7,31 @@ import "../styles/rankingBoard.scss";
 import { useSocket } from "../../../hooks";
 type Props = {};
 interface Player {
-	username: string,
-	avatar: string,
-	wins: number,
-	losses: number, 
-	points: number,
-	league: string
+    username: string;
+    avatar: string;
+    wins: number;
+    losses: number;
+    points: number;
+    league: string;
 }
 
 export default function RankingBoard({}: Props) {
     const [isVisible, setIsVisible] = useState(-1);
-	const [socket] = useSocket();
-	const [players, setPlayers] = useState<Player[]>([]);
+    const [socket] = useSocket();
+    const [players, setPlayers] = useState<Player[]>([]);
 
-	useEffect(() => {
-		socket.emit("getPlayersRanking");
-	}, [])
+    useEffect(() => {
+        socket.emit("getPlayersRanking");
+    }, []);
 
-	useEffect(() => {
-		socket.on("playersRanking", (data: Player[]) => {
-			setPlayers(data);
-		});
-		return () => {socket.off("playersRanking")};
-	}, []);
-
+    useEffect(() => {
+        socket.on("playersRanking", (data: Player[]) => {
+            setPlayers(data);
+        });
+        return () => {
+            socket.off("playersRanking");
+        };
+    }, []);
 
     return (
         <div className="players-container">

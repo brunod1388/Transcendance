@@ -3,7 +3,7 @@ import { Board } from "./Board";
 import { BallComponent } from "./Ball";
 import { MyPaddle, YourPaddle } from "./Paddle";
 import { Ball, GameConfig, PlayerInfo, Position, Score } from "../../../@types";
-import { CSSProperties } from "react";
+import { CSSProperties, useEffect } from "react";
 interface Props {
     host: boolean;
     room: string;

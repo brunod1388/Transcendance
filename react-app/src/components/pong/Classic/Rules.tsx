@@ -19,12 +19,12 @@ import style from "./pong.module.scss";
 import { clear } from "console";
 export type MatchType = "Training" | "Ranked";
 interface CreateMatchDTO {
-	user1id: number;
-	user2id: number;
-	score1: number;
-	score2: number;
-	winner: number;
-	type: MatchType;
+    user1id: number;
+    user2id: number;
+    score1: number;
+    score2: number;
+    winner: number;
+    type: MatchType;
 }
 
 interface Props {
@@ -47,31 +47,39 @@ interface Props {
 export function Rules(props: PropsWithChildren<Props>) {
     const [socket] = useSocket();
     const [gameStatus, setGameStatus] = useState<GameStatus>(
-        GameStatus.LAUNCH_BALL
+        GameStatus.BEGIN
     );
     const [update, setUpdate] = useState<boolean>(false);
-	const [launch, setLaunch] = useState<boolean>(false);
-
+    const [launch, setLaunch] = useState<boolean>(false);
 
 	useEffect(() => {
-		let timer: NodeJS.Timeout;
-		if (launch === true) {
-			timer = setTimeout(() => {
-				if (gameStatus !== END_GAME) {
-					launchBall(props.ball, props.onBall, onGameStatus);
-				}
-				setLaunch(false);
-			}, 2000);
-		}
-		return () => clearTimeout(timer);
-	}, [launch]);
+        let timer: NodeJS.Timeout;
+        if (gameStatus === GameStatus.BEGIN) {
+            timer = setTimeout(() => {
+        	launchBall(props.ball, props.onBall, onGameStatus, props.config);
+            }, 2000);
+        }
+        return () => clearTimeout(timer);
+    }, []);
 
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+        if (launch === true) {
+            timer = setTimeout(() => {
+                if (gameStatus !== END_GAME) {
+                    launchBall(props.ball, props.onBall, onGameStatus, props.config);
+                }
+                setLaunch(false);
+            }, 2000);
+        }
+        return () => clearTimeout(timer);
+    }, [launch]);
 
     const onGameStatus = (status: GameStatus) => setGameStatus(status);
 
     function startGame() {
         if (gameStatus === GameStatus.LAUNCH_BALL) {
-			setLaunch(true);
+            setLaunch(true);
         } else if (gameStatus === GameStatus.MOVE_BALL) {
             if (detectScore(props.ball, props.config)) {
                 let newScore: Score = {
@@ -159,17 +167,20 @@ export function Rules(props: PropsWithChildren<Props>) {
     useEffect(() => {
         if (props.score.player1 >= 10 || props.score.player2 >= 10) {
             if (props.user.host === true && gameStatus !== END_GAME) {
-				console.log("record on score");
-				const dto: CreateMatchDTO = {
-					user1id: props.user.id,
-					user2id: props.opponent.id,
-					winner: (props.score.player1 >= 10) ?  props.user.id : props.opponent.id,
-					score1: props.score.player1,
-					score2: props.score.player2,
-					type: "Training"
-				}
-                    socket.emit("newMatch", dto );
-                }
+                console.log("record on score");
+                const dto: CreateMatchDTO = {
+                    user1id: props.user.id,
+                    user2id: props.opponent.id,
+                    winner:
+                        props.score.player1 >= 10
+                            ? props.user.id
+                            : props.opponent.id,
+                    score1: props.score.player1,
+                    score2: props.score.player2,
+                    type: "Training",
+                };
+                socket.emit("newMatch", dto);
+            }
             setGameStatus(END_GAME);
         }
     }, [props.score]);

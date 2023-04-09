@@ -51,8 +51,8 @@ export function Rules(props: PropsWithChildren<Props>) {
 
     function startGame() {
         if (gameStatus === GameStatus.LAUNCH_BALL) {
-			onLastHit(0);
-			onGameStatus(GameStatus.MOVE_BALL);
+            onLastHit(0);
+            onGameStatus(GameStatus.MOVE_BALL);
             // launchBall(props.ball, props.onBall, onGameStatus);
         } else if (gameStatus === GameStatus.MOVE_BALL) {
             if (detectScore(props.ball, props.config)) {
@@ -68,7 +68,10 @@ export function Rules(props: PropsWithChildren<Props>) {
                 props.onBall({
                     pos: {
                         x: props.config.boardWidth / 2,
-						y: (props.ball.pos.x < props.config.boardWidth / 2)? 50 : props.config.boardHeight - 50 ,
+                        y:
+                            props.ball.pos.x < props.config.boardWidth / 2
+                                ? 50
+                                : props.config.boardHeight - 50,
                     },
                     delta: { x: 0, y: 0 },
                     speed: 0,
@@ -164,14 +167,17 @@ export function Rules(props: PropsWithChildren<Props>) {
     useEffect(() => {
         if (props.score.player1 >= 10 || props.score.player2 >= 10) {
             if (props.user.host === true) {
-				socket.emit("newMatch", {
-					user1id: props.user.id,
-					user2id: props.opponent.id,
-					winner: (props.score.player1 >= 10) ?  props.user.id : props.opponent.id,
-					score1: props.score.player1,
-					score2: props.score.player2,
-					type: "Training"
-				});
+                socket.emit("newMatch", {
+                    user1id: props.user.id,
+                    user2id: props.opponent.id,
+                    winner:
+                        props.score.player1 >= 10
+                            ? props.user.id
+                            : props.opponent.id,
+                    score1: props.score.player1,
+                    score2: props.score.player2,
+                    type: "Training",
+                });
             }
             setGameStatus(END_GAME);
         }

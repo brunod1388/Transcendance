@@ -5,35 +5,38 @@ import { useSocket } from "../../../hooks";
 
 type Props = {};
 interface MatchSummary {
-	totalWins: number;
-	totalLoses: number;
-	totalGames: number;
-	points: number;
-	league: string;
+    totalWins: number;
+    totalLoses: number;
+    totalGames: number;
+    points: number;
+    league: string;
 }
 
 const initialSummary: MatchSummary = {
-	totalWins: 0,
-	totalLoses: 0,
-	totalGames: 0,
-	points: 0,
-	league: "Noob"
-}
+    totalWins: 0,
+    totalLoses: 0,
+    totalGames: 0,
+    points: 0,
+    league: "Noob",
+};
 
 export default function GamerBoard({}: Props) {
     const { userAuth } = useAuth();
-	const [matchSummary, setMatchSummary] = useState(initialSummary);
-	const [socket] = useSocket();
+    const [matchSummary, setMatchSummary] = useState(initialSummary);
+    const [socket] = useSocket();
 
-	useEffect(() => {
-		socket.emit("getMatchSummary", userAuth.id);
-	}, []);
+    useEffect(() => {
+        socket.emit("getMatchSummary", userAuth.id);
+    }, []);
 
-
-	useEffect(() => {
-		socket.on("matchSummary", (data: MatchSummary) => setMatchSummary(data));
-		return () => {socket.off("matchSummary")}
-	}, []);
+    useEffect(() => {
+        socket.on("matchSummary", (data: MatchSummary) =>
+            setMatchSummary(data)
+        );
+        return () => {
+            socket.off("matchSummary");
+        };
+    }, []);
 
     return (
         <div className="gamer-board">
@@ -45,13 +48,16 @@ export default function GamerBoard({}: Props) {
                 <div className="user-info">
                     <h1 className="username">{userAuth.username}</h1>
                     <div>
-                        <span>Total wins</span> <span>{matchSummary.totalWins}</span>
+                        <span>Total wins</span>{" "}
+                        <span>{matchSummary.totalWins}</span>
                     </div>
                     <div>
-                        <span>Total losses</span> <span>{matchSummary.totalLoses}</span>
+                        <span>Total losses</span>{" "}
+                        <span>{matchSummary.totalLoses}</span>
                     </div>
                     <div>
-                        <span>Total games</span> <span>{matchSummary.totalGames}</span>
+                        <span>Total games</span>{" "}
+                        <span>{matchSummary.totalGames}</span>
                     </div>
                     <div>
                         <span>Points</span> <span>{matchSummary.points}</span>

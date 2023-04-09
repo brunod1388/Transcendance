@@ -26,10 +26,10 @@ export const move = (
 export const launchBall = (
     ball: Ball,
     onBall: (ball: Ball) => void,
-    onGameStatus: (status: GameStatus) => void
+    onGameStatus: (status: GameStatus) => void,
+	config: GameConfig
 ) => {
-
-    let ballTmp = ball;
+    let ballTmp = {pos: { x: config.boardWidth/2, y: config.boardHeight/2}, delta: { x: 0, y: 0}, speed: 0};
     // Randomly set the initial direction of the ball
     let dirX = randomNumber(0, 2);
     let dirY = randomNumber(0, 2);
@@ -40,10 +40,10 @@ export const launchBall = (
     ballTmp.delta.x = ballTmp.delta.x * (dirX >= 1 ? -1 : 1);
     ballTmp.delta.y = ballTmp.delta.y * (dirY >= 1 ? -1 : 1);
     ballTmp.speed = 1.5;
-	// Call the onBall function with the updated ball
-	onBall(ballTmp);
-	// Call the onGameStatus function with MOVE_BALL status
-	onGameStatus(GameStatus.MOVE_BALL);
+    // Call the onBall function with the updated ball
+    onBall(ballTmp);
+    // Call the onGameStatus function with MOVE_BALL status
+    onGameStatus(GameStatus.MOVE_BALL);
 };
 
 // Function to generate a random number between min and max

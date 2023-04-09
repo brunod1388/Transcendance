@@ -95,20 +95,20 @@ type Props = {};
 
 export default function HistoryBoard({}: Props) {
     const [isVisible, setIsVisible] = useState(-1);
-	const [socket] = useSocket();
-	const {userAuth} = useAuth();
-	const [matches, setMatches] = useState<Array<Match>>([]);
-	
-	useEffect(() => {
-		socket.emit("getMatchesByUser", userAuth.id);
-	}, []);
-	
-	useEffect(() => {
-		socket.on("receiveMatchesByUser", (data: string) => setMatches(JSON.parse(data)));
-	}, []);
-	
-	
-	
+    const [socket] = useSocket();
+    const { userAuth } = useAuth();
+    const [matches, setMatches] = useState<Array<Match>>([]);
+
+    useEffect(() => {
+        socket.emit("getMatchesByUser", userAuth.id);
+    }, []);
+
+    useEffect(() => {
+        socket.on("receiveMatchesByUser", (data: string) =>
+            setMatches(JSON.parse(data))
+        );
+    }, []);
+
     return (
         <div className="matches-container">
             <div className="matches-header">

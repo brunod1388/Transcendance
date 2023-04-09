@@ -12,33 +12,49 @@ import { CreateMatchDto } from "src/match/dtos/Match.dto";
 export class GeneralService {
     @Inject(ClientsService)
     private readonly clientsService: ClientsService;
-	@Inject(forwardRef(() => UsersService))
-	private userService: UsersService
+    @Inject(forwardRef(() => UsersService))
+    private userService: UsersService;
 
-	async obtainOpponentSocket(client: Socket, server: Server, room: string) {
-		const socketsInRoom = server.sockets.adapter.rooms.get(room);
-		const all_sockets = await server.fetchSockets();
+    async obtainOpponentSocket(client: Socket, server: Server, room: string) {
+        const socketsInRoom = server.sockets.adapter.rooms.get(room);
+        const all_sockets = await server.fetchSockets();
 
-		for (let socketId of socketsInRoom) {
-			if (socketId !== client.id) {
-				const opponentSocket = all_sockets.find((s) => s.id === socketId);
-				if (opponentSocket !== undefined) {
-					return opponentSocket;
-				}
-			}
-		}
-		return  undefined;
-	}
+        for (const socketId of socketsInRoom) {
+            if (socketId !== client.id) {
+                const opponentSocket = all_sockets.find(
+                    (s) => s.id === socketId
+                );
+                if (opponentSocket !== undefined) {
+                    return opponentSocket;
+                }
+            }
+        }
+        return undefined;
+    }
 
-	async obtainOpponentInfo(client: Socket, server: Server, room: string) {
-		const opponentSocket = await this.obtainOpponentSocket(client, server, room);
-		if (opponentSocket !== undefined) {
-			const me: User = await this.userService.findUserId(client.data.user.id);
-			const opponent: User = await this.userService.findUserId(opponentSocket.data.user.id);
-			opponentSocket.emit("set-opponent-info", {id: me.id, username: me.username});
-			client.emit("set-opponent-info", {id: opponent.id, username: opponent.username});
-		}
-	}
+    async obtainOpponentInfo(client: Socket, server: Server, room: string) {
+        const opponentSocket = await this.obtainOpponentSocket(
+            client,
+            server,
+            room
+        );
+        if (opponentSocket !== undefined) {
+            const me: User = await this.userService.findUserId(
+                client.data.user.id
+            );
+            const opponent: User = await this.userService.findUserId(
+                opponentSocket.data.user.id
+            );
+            opponentSocket.emit("set-opponent-info", {
+                id: me.id,
+                username: me.username,
+            });
+            client.emit("set-opponent-info", {
+                id: opponent.id,
+                username: opponent.username,
+            });
+        }
+    }
 
     connection(socket: Socket) {
         // console.log("connection");
@@ -119,16 +135,23 @@ export class GeneralService {
         // TO DO write result game in DB;
         console.log(`endGame`);
     }
-	async createMatch(matchDetail: CreateMatchDto) {
+    async createMatch(matchDetail: CreateMatchDto) {
         // const user1 = await this.userService.findUserId(matchDetail.user1id);
         // const user2 = await this.userService.findUserId(matchDetail.user2id);
-		console.log(matchDetail.score1, matchDetail.score2, matchDetail.type, matchDetail.user1id, matchDetail.user2id, matchDetail.winner );
+        console.log(
+            matchDetail.score1,
+            matchDetail.score2,
+            matchDetail.type,
+            matchDetail.user1id,
+            matchDetail.user2id,
+            matchDetail.winner
+        );
         // const match = this.matchRepository.create({
         //     user1: user1,
         //     user2: user2,
         //     score1: matchDetail.score1,
         //     score2: matchDetail.score2,
-		// 	winner: (matchDetail.winner === user1.id) ? user1 : user2,
+        // 	winner: (matchDetail.winner === user1.id) ? user1 : user2,
         //     type: matchDetail.type,
         // });
 

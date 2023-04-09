@@ -10,7 +10,7 @@ import { InvitationDTO, ResponseDTO, CLASSIC, GameMode } from "../../@types";
 import Chat from "../chat/Chat";
 import "./styles/home.scss";
 import { Game } from "../game";
-import { Game as Pong} from "../pong/Game";
+import { Game as Pong } from "../pong/Game";
 import { gameConfig } from "../pong/GameService";
 
 const featureComponent = new Map<number, JSX.Element>([
@@ -63,10 +63,10 @@ function Home() {
     }, [userAuth.id, socket]);
 
     useEffect(() => {
-		socket.on("joinPongByMatchmaking", (data: PongData) => {
-			console.log("recieved is pong");
-			setPongSwitch(data);
-		});
+        socket.on("joinPongByMatchmaking", (data: PongData) => {
+            console.log("recieved is pong");
+            setPongSwitch(data);
+        });
         socket.on("invitation", (invitation: InvitationDTO) => {
             if (userAuth.username === invitation.to) {
                 CreateInvitation(invitation, dispatch, socket, onPong);
@@ -83,7 +83,7 @@ function Home() {
         return () => {
             socket.off("invitation");
             socket.off("response");
-			socket.off("joinPongByMatchmaking");
+            socket.off("joinPongByMatchmaking");
         };
     }, []);
 

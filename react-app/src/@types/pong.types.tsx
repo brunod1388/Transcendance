@@ -1,24 +1,3 @@
-export const RAYON = 5;
-
-export const WIDTH = 640;
-export const HEIGHT = 480;
-export const MIDDLEY = HEIGHT / 2;
-export const TOP_WALL = HEIGHT;
-export const BOTTOM_WALL = 0;
-export const LEFT_WALL = 0;
-export const RIGHT_WALL = WIDTH;
-export const MAXBOUNCEANGLE = 1.0472; //5*Pi/12 radians
-export const PADDLE_WIDTH = 10;
-export const PADDLE_HEIGHT = 80;
-export const BALL_RADIUS = 10;
-export const LEFT_PADDLE = 20;
-export const RIGHT_PADDLE = WIDTH - LEFT_PADDLE;
-export const WALL_TO_PADDLE = 10;
-
-export const WIN1 = 1;
-export const WIN2 = 3;
-export const LEFT = 2;
-
 export interface Position {
     x: number;
     y: number;
