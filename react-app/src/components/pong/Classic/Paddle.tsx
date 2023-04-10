@@ -22,6 +22,7 @@ enum Move {
 export function MyPaddle(props: Props) {
     const [socket] = useSocket();
     const [move, setMove] = useState(Move.NONE);
+	const paddleSpeed = 10; // adjust as needed
 
     useEffect(() => {
         function handleMoveStart(event: KeyboardEvent) {
@@ -32,26 +33,24 @@ export function MyPaddle(props: Props) {
             }
         }
 
-        function handleMoveEnd(event: KeyboardEvent) {
-            if (event.code === "ArrowUp") {
-                setMove(Move.NONE);
-            } else if (event.code === "ArrowDown") {
-                setMove(Move.NONE);
-            }
-        }
+        // function handleMoveEnd(event: KeyboardEvent) {
+        //     if (event.code === "ArrowUp") {
+        //         setMove(Move.NONE);
+        //     } else if (event.code === "ArrowDown") {
+        //         setMove(Move.NONE);
+        //     }
+        // }
 
         document.addEventListener("keydown", handleMoveStart);
-        document.addEventListener("keyup", handleMoveEnd);
+        // document.addEventListener("keyup", handleMoveEnd);
 
         return () => {
             document.removeEventListener("keydown", handleMoveStart);
-            document.removeEventListener("keyup", handleMoveEnd);
+            // document.removeEventListener("keyup", handleMoveEnd);
         };
     }, []);
 
     useEffect(() => {
-        const paddleSpeed = 0.03; // adjust as needed
-
         if (
             move === Move.UP &&
             props.paddle.y + paddleSpeed < props.config.boardHeight
@@ -69,7 +68,8 @@ export function MyPaddle(props: Props) {
                 y: props.paddle.y - paddleSpeed,
             });
         }
-    });
+		setMove(Move.NONE);
+    }, [move]);
     // useKeyboard(handler, document);
 
     useInterval(() => {

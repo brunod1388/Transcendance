@@ -122,7 +122,6 @@ export function Rules(props: PropsWithChildren<Props>) {
                     props.paddle2,
                     props.config
                 );
-                console.log(props.ball.delta);
             }
         }
     }
