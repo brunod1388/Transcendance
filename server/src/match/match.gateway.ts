@@ -62,6 +62,16 @@ export class MatchGateway {
         const matches: Match[] = await this.matchService.findMatchByUserId(
             userid
         );
+
+        matches.sort((n1, n2) => {
+            if (n1.playDate < n2.playDate) {
+                return 1;
+            }
+            if (n1.playDate > n2.playDate) {
+                return -1;
+            }
+            return 0;
+        });
         const matchesList: Array<MatchElement> = [];
 
         matches.forEach((match: Match) => {
