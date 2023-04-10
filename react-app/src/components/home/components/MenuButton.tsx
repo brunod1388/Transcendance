@@ -1,3 +1,5 @@
+import "../styles/menuButton.scss"
+
 interface Props {
     image?: any;
     name: string;
@@ -6,13 +8,12 @@ interface Props {
     isChannel?: boolean;
 }
 
-export default function ChannelButton(props: Props) {
+export default function MenuButton(props: Props) {
     const { image, name, filter = false, onClick, isChannel = true } = props;
     return (
-        <div className={"channel-button" + (isChannel ? "" : " notChannel")} onClick={onClick}>
+        <div className={"menu-button" + (isChannel ? "" : " notChannel")} onClick={onClick}>
             <img src={image} alt="channel" className={(filter ? "filter" : "") + (isChannel ? "" : " notChannel")} />
             <span className="icon-name">{name}</span>
-            {/* <span className="tooltiptext">{name}</span> */}
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import NewChannel from "./NewChannel";
-import ChannelButton from "./ChannelButton";
+import MenuButton from "./MenuButton";
 import { useState } from "react";
 import {
     ChatIcon,
@@ -106,14 +106,14 @@ function Navbar() {
 
     return (
         <div className="navbar">
-            <ChannelButton
+            <MenuButton
                 filter={true}
                 name="Play Pong"
                 image={PlayIcon}
                 isChannel={false}
                 onClick={() => setFeature(Feature.Game)}
             />
-            <ChannelButton
+            <MenuButton
                 filter={true}
                 name="Private Message"
                 image={ChatIcon}
@@ -123,7 +123,7 @@ function Navbar() {
             <div className="channels-container">
                 <div className="channel-wrapper">
                     {channels?.map((chan, i) => (
-                        <ChannelButton
+                        <MenuButton
                             name={chan.name}
                             image={chan.image === null ? NoChannelIcon : chan.image}
                             onClick={() => {
@@ -135,7 +135,7 @@ function Navbar() {
                     <h1 className="channel-title">Channels</h1>
                     </div>
             </div>
-            <ChannelButton
+            <MenuButton
                 filter={true}
                 name="Add Channel"
                 isChannel={false}

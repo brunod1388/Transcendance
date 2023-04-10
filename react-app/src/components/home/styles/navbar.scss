@@ -2,7 +2,6 @@
 @import "../../../assets/styles/general.scss";
 
 .navbar {
-	$icon-size: 25px;
 	@extend .flex-column;
 	width: calc(icon-size + 10px);
 	width: 35px;
@@ -12,8 +11,6 @@
 	align-items: flex-start;
 	align-self: stretch;
 	transition: width 0.5s, padding 0.5s;
-	// background-color: aliceblue;
-	// overflow: hidden;
 	gap: 1px;
 	&:hover {
 		width: 155px;
@@ -59,6 +56,7 @@
 			background-color: $dark-grey;
 			box-shadow: $shadow-outset-border;
 			padding-top: 15px;
+			padding-bottom: 5px;
 			.channel-title {
 				opacity: 1;
 			}
@@ -70,76 +68,5 @@
 			border-radius: 0px;
 		}
 	}
-	filter: $drop-shadow;
-	.channel-button {
-		@extend .flex-row;
-		flex-shrink: 0;
-		justify-content: flex-start;
-		align-self: stretch;
-		padding: 5px;
-		gap: 11px;
-		color: white;
-		overflow: hidden;
-		transform: scale(1);
-		transition: transform 0.5s;
-		cursor: pointer;
-		&:hover {
-			transform: scale(1.06);
-		}
-		img {
-			height: $icon-size;
-			width: $icon-size;
-			cursor: pointer;
-			&.filter {
-				filter: $filter-purple;
-			}
-		}
-		max-width: 140px;
-		.icon-name {
-			flex-shrink: 1;
-			opacity: 1;
-			transition: visibility 0.5s;
-			white-space: nowrap;
-			word-wrap: break-word;
-			&::first-letter {
-				text-transform: uppercase;
-			}
-		}
-	}
-}
 
-.newChannel-container {
-	@extend .flex-row;
-	@extend .flex-column;
-	position: absolute;
-	top: -50px;
-	left: 0px;
-	width: 90vw;
-	background-color: rgba(0, 0, 0, 0.246);
-	backdrop-filter: blur(10px);
-	z-index: 200;
-	.title {
-		background-color: none;
-	}
-
-	.error {
-		color: red;
-		font-style: italic;
-	}
-	select {
-		background-color: $purple;
-		color: white;
-		font-weight: 300;
-		outline: none;
-		border: none;
-		padding: 5px 10px;
-		border-radius: 7px;
-	}
-	.select-selected {
-		color: yellow;
-	}
-
-	.cancel-button {
-		margin-top: 10px;
-	}
 }
