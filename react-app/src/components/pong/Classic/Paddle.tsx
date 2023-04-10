@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import { Broadcast, GameConfig, Position } from "../../../@types";
 import { useCallback } from "react";
 import { useKeyboard, useSocket } from "../../../hooks";
@@ -13,29 +13,64 @@ interface Props {
     room: string;
 }
 
+enum Move {
+    NONE,
+    UP,
+    DOWN,
+}
+
 export function MyPaddle(props: Props) {
     const [socket] = useSocket();
+    const [move, setMove] = useState(Move.NONE);
 
-    const moveUp = () => {
-        if (props.paddle.y + 10 < props.config.boardHeight) {
-            props.onPaddle({ ...props.paddle, y: props.paddle.y + 10 });
+    useEffect(() => {
+        function handleMoveStart(event: KeyboardEvent) {
+            if (event.code === "ArrowUp") {
+                setMove(Move.UP);
+            } else if (event.code === "ArrowDown") {
+                setMove(Move.DOWN);
+            }
         }
-    };
 
-    const moveDown = () => {
-        if (props.paddle.y - 10 - props.config.paddleHeight > 0) {
-            props.onPaddle({ ...props.paddle, y: props.paddle.y - 10 });
+        function handleMoveEnd(event: KeyboardEvent) {
+            if (event.code === "ArrowUp") {
+                setMove(Move.NONE);
+            } else if (event.code === "ArrowDown") {
+                setMove(Move.NONE);
+            }
         }
-    };
 
-    const handler = useCallback(
-        (event: KeyboardEvent) => {
-            if (event.key === "ArrowUp") moveUp();
-            else if (event.key === "ArrowDown") moveDown();
-        },
-        [props.paddle]
-    );
-    useKeyboard(handler, document);
+        document.addEventListener("keydown", handleMoveStart);
+        document.addEventListener("keyup", handleMoveEnd);
+
+        return () => {
+            document.removeEventListener("keydown", handleMoveStart);
+            document.removeEventListener("keyup", handleMoveEnd);
+        };
+    }, []);
+
+    useEffect(() => {
+        const paddleSpeed = 0.03; // adjust as needed
+
+        if (
+            move === Move.UP &&
+            props.paddle.y + paddleSpeed < props.config.boardHeight
+        ) {
+            props.onPaddle({
+                ...props.paddle,
+                y: props.paddle.y + paddleSpeed,
+            });
+        } else if (
+            move === Move.DOWN &&
+            props.paddle.y - paddleSpeed - props.config.paddleHeight > 0
+        ) {
+            props.onPaddle({
+                ...props.paddle,
+                y: props.paddle.y - paddleSpeed,
+            });
+        }
+    });
+    // useKeyboard(handler, document);
 
     useInterval(() => {
         socket.emit(
@@ -45,7 +80,7 @@ export function MyPaddle(props: Props) {
                 y: props.paddle.y,
             })
         );
-    }, 50);
+    }, 20);
 
     const position: CSSProperties = {
         left: props.paddle.x + (props.host ? 0 : -props.config.paddleWidth),

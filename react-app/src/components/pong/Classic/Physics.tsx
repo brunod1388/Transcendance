@@ -1,4 +1,10 @@
-import { GameConfig, Ball, GameStatus, Paddle } from "../../../@types";
+import {
+    GameConfig,
+    Ball,
+    GameStatus,
+    Paddle,
+    Position,
+} from "../../../@types";
 
 // Function to move the ball
 export const move = (
@@ -17,7 +23,7 @@ export const move = (
     // Update ball position based on its delta
     ballTmp.pos.x += ballTmp.delta.x;
     ballTmp.pos.y += ballTmp.delta.y;
-
+    ballTmp.delta = clampVector(ballTmp.delta, ball.speed, ball.speed);
     // Call the onBall function with the updated ball
     onBall(ballTmp);
 };
@@ -27,9 +33,13 @@ export const launchBall = (
     ball: Ball,
     onBall: (ball: Ball) => void,
     onGameStatus: (status: GameStatus) => void,
-	config: GameConfig
+    config: GameConfig
 ) => {
-    let ballTmp = {pos: { x: config.boardWidth/2, y: config.boardHeight/2}, delta: { x: 0, y: 0}, speed: 0};
+    let ballTmp = {
+        pos: { x: config.boardWidth / 2, y: config.boardHeight / 2 },
+        delta: { x: 0, y: 0 },
+        speed: 0,
+    };
     // Randomly set the initial direction of the ball
     let dirX = randomNumber(0, 2);
     let dirY = randomNumber(0, 2);
@@ -39,7 +49,7 @@ export const launchBall = (
     // Invert the direction of the velocity if dirX or dirY is 1
     ballTmp.delta.x = ballTmp.delta.x * (dirX >= 1 ? -1 : 1);
     ballTmp.delta.y = ballTmp.delta.y * (dirY >= 1 ? -1 : 1);
-    ballTmp.speed = 1.5;
+    ballTmp.speed = 0.7;
     // Call the onBall function with the updated ball
     onBall(ballTmp);
     // Call the onGameStatus function with MOVE_BALL status
@@ -125,7 +135,7 @@ function bouncePaddle(
     let ballTmp = ball;
 
     // Update the y-velocity based on where the ball hit the paddle
-    ballTmp.delta.y = -ballTmp.speed * Math.abs(normalizedCollisionY);
+    ballTmp.delta.y = -ball.speed * Math.abs(normalizedCollisionY);
 
     // Update the x-velocity based on where the ball hit the paddle
     const relativeIntersectY =
@@ -142,15 +152,25 @@ function bouncePaddle(
     } else if (side === "right" && ballTmp.delta.x > 0) {
         ballTmp.delta.x *= -1;
     }
+    ballTmp.speed += 0.2;
 
     // Ensure the ball's speed is at least the minimum speed limit
-    const minSpeedLimit = 3;
-    const speed = Math.sqrt(ballTmp.delta.x ** 2 + ballTmp.delta.y ** 2);
-    if (speed < minSpeedLimit) {
-        const angle = Math.atan2(ballTmp.delta.y, ballTmp.delta.x);
-        ballTmp.delta.x = minSpeedLimit * Math.cos(angle);
-        ballTmp.delta.y = minSpeedLimit * Math.sin(angle);
-    }
-
+    // const minSpeedLimit = 3;
+    // const speed = Math.sqrt(ballTmp.delta.x ** 2 + ballTmp.delta.y ** 2);
+    // if (speed < minSpeedLimit) {
+    //     const angle = Math.atan2(ballTmp.delta.y, ballTmp.delta.x);
+    //     ballTmp.delta.x = minSpeedLimit * Math.cos(angle);
+    //     ballTmp.delta.y = minSpeedLimit * Math.sin(angle);
+    // }
     return ballTmp;
+}
+
+function clampVector(vector: Position, minSpeed: number, maxSpeed: number) {
+    const speed = Math.sqrt(vector.x * vector.x + vector.y * vector.y);
+    const clampedSpeed = Math.max(minSpeed, Math.min(maxSpeed, speed));
+    const clampedVector = {
+        x: (vector.x / speed) * clampedSpeed,
+        y: (vector.y / speed) * clampedSpeed,
+    };
+    return clampedVector;
 }

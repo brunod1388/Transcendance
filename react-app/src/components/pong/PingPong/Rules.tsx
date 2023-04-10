@@ -60,7 +60,7 @@ export function Rules(props: PropsWithChildren<Props>) {
                     player1: props.score.player1,
                     player2: props.score.player2,
                 };
-                if (props.ball.pos.x < props.config.boardWidth / 2) {
+                if (props.ball.pos.y < props.config.boardHeight / 2) {
                     newScore.player2 += 1;
                 } else {
                     newScore.player1 += 1;
@@ -74,7 +74,7 @@ export function Rules(props: PropsWithChildren<Props>) {
                                 : props.config.boardHeight - 50,
                     },
                     delta: { x: 0, y: 0 },
-                    speed: 0,
+                    speed: 0.7,
                 });
                 onLastHit(0);
                 socket.emit("game-score", {
@@ -103,7 +103,7 @@ export function Rules(props: PropsWithChildren<Props>) {
         if (gameStatus !== END_GAME) {
             setUpdate(true);
         }
-    }, 20);
+    }, 10);
 
     useEffect(() => {
         if (props.user.host) {
@@ -116,8 +116,8 @@ export function Rules(props: PropsWithChildren<Props>) {
     useEffect(() => {
         socket.on("game-score", (newScore: Score) => {
             props.onScore(newScore);
-            props.onUserPaddle(props.config.initialPaddle1);
-            props.onOpponentPaddle(props.config.initialPaddle2);
+            // props.onUserPaddle(props.config.initialPaddle1);
+            // props.onOpponentPaddle(props.config.initialPaddle2);
         });
 
         socket.on("game-ball", (ball: Ball) => {

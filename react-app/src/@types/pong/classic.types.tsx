@@ -19,7 +19,7 @@ const PADDLE_WIDTH = 10;
 const PADDLE_HEIGHT = 80;
 
 // Distance between the border of the board and the paddles
-const WALL_TO_PADDLE = 10;
+export const WALL_TO_PADDLE = 10;
 
 export const classicConfig: GameConfig = {
     room: "",

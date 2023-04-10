@@ -37,7 +37,11 @@ export function Game({ room, onEnd, host, username }: GameProps) {
     const [opponentPaddle, setOpponentPaddle] = useState<Position>(
         host ? config.initialPaddle2 : config.initialPaddle1
     );
-    const [ball, setBall] = useState<Ball>({pos: { x: config.boardWidth/2, y: config.boardHeight/2}, delta: { x: 0, y: 0}, speed: 0});
+    const [ball, setBall] = useState<Ball>({
+        pos: { x: config.boardWidth / 2, y: config.boardHeight / 2 },
+        delta: { x: 0, y: 0 },
+        speed: 0.7,
+    });
     const [score, setScore] = useState<Score>({ player1: 0, player2: 0 });
 
     useEffect(() => {

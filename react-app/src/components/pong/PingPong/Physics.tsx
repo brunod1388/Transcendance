@@ -31,6 +31,9 @@ export const move = (
     // Update ball position based on its delta
     ballTmp.pos.x += ballTmp.delta.x;
     ballTmp.pos.y += ballTmp.delta.y;
+    if (!(ballTmp.delta.x === 0 && ballTmp.delta.y === 0)) {
+        ballTmp.delta = clampVector(ballTmp.delta, ball.speed, ball.speed);
+    }
 
     // Call the onBall function with the updated ball
     onBall(ballTmp);
@@ -52,7 +55,7 @@ export const launchBall = async (
     // Invert the direction of the velocity if dirX or dirY is 1
     ballTmp.delta.x = ballTmp.delta.x * (dirX >= 1 ? -1 : 1);
     ballTmp.delta.y = ballTmp.delta.y * (dirY >= 1 ? -1 : 1);
-    ballTmp.speed = 1.5;
+    ballTmp.speed = 0.7;
     // Call the onBall function with the updated ball
     onBall(ballTmp);
     // Call the onGameStatus function with MOVE_BALL status
@@ -172,8 +175,7 @@ function bouncePaddle(
     } else if (ballTmp.pos.y > config.boardHeight / 2 && ballTmp.delta.y > 0) {
         ballTmp.delta.y *= -1;
     }
-
-    ballTmp.delta = clampVector(ballTmp.delta, 2, 5);
+    ballTmp.speed += 0.2;
     return ballTmp;
 }
 

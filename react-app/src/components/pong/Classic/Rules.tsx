@@ -46,17 +46,21 @@ interface Props {
 
 export function Rules(props: PropsWithChildren<Props>) {
     const [socket] = useSocket();
-    const [gameStatus, setGameStatus] = useState<GameStatus>(
-        GameStatus.BEGIN
-    );
+    const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.BEGIN);
     const [update, setUpdate] = useState<boolean>(false);
     const [launch, setLaunch] = useState<boolean>(false);
+    let requestId: number;
 
-	useEffect(() => {
+    useEffect(() => {
         let timer: NodeJS.Timeout;
         if (gameStatus === GameStatus.BEGIN) {
             timer = setTimeout(() => {
-        	launchBall(props.ball, props.onBall, onGameStatus, props.config);
+                launchBall(
+                    props.ball,
+                    props.onBall,
+                    onGameStatus,
+                    props.config
+                );
             }, 2000);
         }
         return () => clearTimeout(timer);
@@ -67,7 +71,12 @@ export function Rules(props: PropsWithChildren<Props>) {
         if (launch === true) {
             timer = setTimeout(() => {
                 if (gameStatus !== END_GAME) {
-                    launchBall(props.ball, props.onBall, onGameStatus, props.config);
+                    launchBall(
+                        props.ball,
+                        props.onBall,
+                        onGameStatus,
+                        props.config
+                    );
                 }
                 setLaunch(false);
             }, 2000);
@@ -113,6 +122,7 @@ export function Rules(props: PropsWithChildren<Props>) {
                     props.paddle2,
                     props.config
                 );
+                console.log(props.ball.delta);
             }
         }
     }
@@ -121,7 +131,7 @@ export function Rules(props: PropsWithChildren<Props>) {
         if (gameStatus !== END_GAME) {
             setUpdate(true);
         }
-    }, 20);
+    }, 10);
 
     useEffect(() => {
         if (props.user.host) {

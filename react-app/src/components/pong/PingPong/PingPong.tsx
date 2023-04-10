@@ -3,7 +3,7 @@ import { Board } from "./Board";
 import { BallComponent } from "./Ball";
 import { MyPaddle, YourPaddle } from "./Paddle";
 import { Ball, GameConfig, PlayerInfo, Position, Score } from "../../../@types";
-import { CSSProperties, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 interface Props {
     host: boolean;
     room: string;
@@ -25,6 +25,12 @@ export function PingPong(props: Props) {
     const empty: CSSProperties = {};
     const [myMovement, setMyMovement] = useState<Position>({ x: 0, y: 0 });
     const [yourMovement, setYourMovement] = useState<Position>({ x: 0, y: 0 });
+    useEffect(() => {
+        props.onBall({
+            ...props.ball,
+            pos: { x: props.config.boardWidth / 2, y: 50 },
+        });
+    }, []);
 
     return (
         <Rules
