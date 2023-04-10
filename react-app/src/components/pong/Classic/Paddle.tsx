@@ -22,7 +22,7 @@ enum Move {
 export function MyPaddle(props: Props) {
     const [socket] = useSocket();
     const [move, setMove] = useState(Move.NONE);
-	const paddleSpeed = 10; // adjust as needed
+    const paddleSpeed = 10; // adjust as needed
 
     useEffect(() => {
         function handleMoveStart(event: KeyboardEvent) {
@@ -68,7 +68,7 @@ export function MyPaddle(props: Props) {
                 y: props.paddle.y - paddleSpeed,
             });
         }
-		setMove(Move.NONE);
+        setMove(Move.NONE);
     }, [move]);
     // useKeyboard(handler, document);
 
