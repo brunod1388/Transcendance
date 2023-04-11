@@ -90,9 +90,9 @@ function Home() {
     return (
         <div className="home">
             <div className="homeContainer">
-                <Navbar />
+                <Topbar />
                 <div className="mainContainer">
-                    <Topbar />
+                    <Navbar />
                     <div className="featureContainer">
                         {PongSwitch.isPong && (
                             <Pong
@@ -115,21 +115,21 @@ function Home() {
                         {PongSwitch.isPong === false &&
                             featureComponent.get(feature)}
                     </div>
-                </div>
-                <div className="button_container">
-                    {!isVisible && (
-                        <button
-                            className="friendButton"
-                            onClick={() => {
-                                setIsVisible(!isVisible);
-                            }}
-                        >
-                            <img src={ContactIcon} alt="" />
-                        </button>
-                    )}
-                </div>
-                <div className="friendbarContainer" ref={ref}>
-                    {isVisible && <Friendbar />}
+                    <div className="button-container">
+                        {!isVisible && (
+                            <button
+                                className="friend-button"
+                                onClick={() => {
+                                    setIsVisible(!isVisible);
+                                }}
+                            >
+                                <img src={ContactIcon} alt="" />
+                            </button>
+                        )}
+                    </div>
+                    <div className="friendbar-container" ref={ref}>
+                        {isVisible && <Friendbar/>}
+                    </div>
                 </div>
             </div>
         </div>

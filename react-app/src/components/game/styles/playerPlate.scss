@@ -18,7 +18,7 @@
 	span {
 		@extend .flex-row;
 		gap: 20px;
-		filter: $drop-shadow;
+		// filter: $drop-shadow;
 		width: 100px;
 		font-size: 16px;
 		&:first-child {
@@ -43,10 +43,8 @@
 	.details {
 		@extend .flex-row;
 		justify-content: space-between;
-
 		gap: 20px;
 		padding: 5px 10px;
-
 	}
 	.buttons-container {
 		@extend .flex-row;

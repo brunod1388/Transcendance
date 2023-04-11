@@ -23,3 +23,5 @@ export { default as Logo42Icon } from "./42.png";
 export { default as RankingIcon } from "./reward.png";
 export { default as HistoryIcon } from "./livre.png";
 export { default as MatchIcon } from "./joystick.png";
+export { default as LogoutIcon } from "./logout.png";
+

@@ -1,0 +1,73 @@
+@import "../../../assets/styles/variables.scss";
+@import "../../../assets/styles/general.scss";
+
+$avatar-size: 30px;
+.hero {
+	@extend .flex-row;
+	padding: 0 10px;
+	.username {
+		font-family: NatureBeauty;
+		font-size: 20px;
+		font-weight: 200;
+		&::first-letter {
+			text-transform: uppercase;
+		}
+	}
+	.avatar {
+		width: $avatar-size;
+		height: $avatar-size;
+		border-radius: 50%;
+		cursor: pointer;
+	}
+	.hero-menu-wrap {
+		@extend .floating-menu;
+		.menu {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			filter: $drop-shadow;
+		}
+		.user-info {
+			@extend .flex-row;
+			justify-content: flex-start;
+			padding: 0 10px;
+			gap: 15px;
+			.avatar {
+				width: 50px;
+				height: 50px;
+			}
+			.username {
+				font-size: 20px;
+			}
+		}
+
+		.user-details {
+			@extend .flex-row;
+			flex-wrap: wrap;
+			gap: 5px;
+			background-color: $purple-gray;
+			padding: 7px 5px;
+			border-radius: 5px;
+			box-shadow: $shadow-outset-border;
+			div {
+				@extend .flex-row;
+				justify-content: space-around;
+				flex: 1 1 70px;
+				padding: 0 10px;
+				color: white;
+			}
+		}
+
+		.button-wrap {
+			background-color: $purple-gray;
+			border-radius: 5px;
+			padding: 0 5px;
+			&:hover {
+				background-color: $purple;
+				img {
+					filter: $filter-white;
+				}
+			}
+		}
+	}
+}
