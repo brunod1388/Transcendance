@@ -108,6 +108,11 @@ export class GeneralService {
         socket.disconnect();
     }
 
+    getUsersOnline() {
+        const ret = GeneralService.usersOnline;
+        return ret;
+    }
+
     joinRoom(client: Socket, room: string) {
         client.join(room);
     }

@@ -28,6 +28,7 @@ import { Channel } from "./entities";
 import { Penality } from "./entities/Penality.entity";
 import { CreatePenalityDTO } from "./dtos/Penality.dto";
 import { PenalityService } from "./penality/penality.service";
+import { GeneralService } from "src/general/general.service";
 
 interface InvitationType {
     id: number;
@@ -47,7 +48,7 @@ export class ChatGateway {
     @WebSocketServer()
     server: Server;
 
-    private onlineUsers = new Map<number, Socket>();
+    //private onlineUsers = new Map<number, Socket>();
 
     constructor(
         private userService: UsersService,
@@ -55,7 +56,8 @@ export class ChatGateway {
         private channelUserService: ChannelUserService,
         private friendService: FriendService,
         private messageService: MessageService,
-        private penalityService: PenalityService
+        private penalityService: PenalityService,
+        private generalService: GeneralService
     ) {}
 
     @SubscribeMessage("test")
@@ -67,16 +69,16 @@ export class ChatGateway {
         return this.server.sockets.sockets;
     }
 
-    @SubscribeMessage("chatConnection")
-    async chatConnection(
-        @MessageBody("userid") userid: number,
-        @ConnectedSocket() client: Socket
-    ) {
-        // console.log("connection of user : ", userId);
-        // console.log("socket : ", client.id);
-        this.onlineUsers.set(userid, client);
-        client.data.userid = userid;
-    }
+    // @SubscribeMessage("chatConnection")
+    // async chatConnection(
+    //     @MessageBody("userid") userid: number,
+    //     @ConnectedSocket() client: Socket
+    // ) {
+    //     // console.log("connection of user : ", userId);
+    //     // console.log("socket : ", client.id);
+    //     this.onlineUsers.set(userid, client);
+    //     client.data.userid = userid;
+    // }
 
     @SubscribeMessage("joinRoom")
     async joinRoom(
@@ -155,7 +157,10 @@ export class ChatGateway {
             ...channelUser.user,
             rights: channelUser.rights,
             channelUserId: channelUser.id,
-            connected: this.onlineUsers.has(channelUser.user.id),
+            connected: this.generalService
+                .getUsersOnline()
+                .has(channelUser.user.id),
+            //connected: this.onlineUsers.has(channelUser.user.id),
         }));
         return users;
     }
@@ -175,8 +180,10 @@ export class ChatGateway {
         });
         if (channelUser === undefined)
             return `${username} already in channel or is pending`;
-        if (this.onlineUsers.has(user.id))
-            this.onlineUsers[user.id].emit("pendings", {
+        //if (this.onlineUsers.has(user.id))
+        //    this.onlineUsers[user.id].emit("pendings", {
+        if (this.generalService.getUsersOnline().has(user.id))
+            this.generalService.getUsersOnline()[user.id].emit("pendings", {
                 id: channelUser.id,
                 type: "Channel",
                 name: channelUser.channel.name,
@@ -201,7 +208,10 @@ export class ChatGateway {
                 avatar: channelUser.user.avatar,
                 rights: channelUser.rights,
                 channelUserId: channelUser.id,
-                connected: this.onlineUsers.has(channelUser.user.id),
+                connected: this.generalService
+                    .getUsersOnline()
+                    .has(channelUser.user.id),
+                //connected: this.onlineUsers.has(channelUser.user.id),
             };
             if (channelUser !== undefined)
                 this.server
@@ -291,14 +301,22 @@ export class ChatGateway {
         };
         if (accept) {
             //do not work
-            if (this.onlineUsers[updatedFriend.user.id]) {
-                this.onlineUsers[updatedFriend.user.id]?.emit("friend", friend);
+            // if (this.onlineUsers[updatedFriend.user.id]) {
+            //     this.onlineUsers[updatedFriend.user.id]?.emit("friend", friend);
+            // }
+            if (this.generalService.getUsersOnline()[updatedFriend.user.id]) {
+                this.generalService
+                    .getUsersOnline()
+                    [updatedFriend.user.id]?.emit("friend", friend);
             }
             return `friendhip with ${user.username} accepted`;
         }
         const res = await this.friendService.deleteFriend(friendId);
         client.emit("removeFriend", friendId);
-        this.onlineUsers[updatedFriend.user.id]?.emit("removeFriend", friendId);
+        //this.onlineUsers[updatedFriend.user.id]?.emit("removeFriend", friendId);
+        this.generalService
+            .getUsersOnline()
+            [updatedFriend.user.id]?.emit("removeFriend", friendId);
         return `friendship with ${user.username} declined`;
     }
 
@@ -307,8 +325,14 @@ export class ChatGateway {
         const friend = await this.friendService.findFriend(Number(friendId));
         const userId1 = friend.user.id;
         const userId2 = friend.friend.id;
-        this.onlineUsers[userId1]?.emit("removeFriend", friendId);
-        this.onlineUsers[userId2]?.emit("removeFriend", friendId);
+        //this.onlineUsers[userId1]?.emit("removeFriend", friendId);
+        //this.onlineUsers[userId2]?.emit("removeFriend", friendId);
+        this.generalService
+            .getUsersOnline()
+            [userId1]?.emit("removeFriend", friendId);
+        this.generalService
+            .getUsersOnline()
+            [userId2]?.emit("removeFriend", friendId);
         return (await this.friendService.deleteFriend(friendId)) !== -1
             ? "friend deleted"
             : "error";

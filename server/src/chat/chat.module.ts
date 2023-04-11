@@ -13,6 +13,7 @@ import { User } from "src/users/entities/User.entity";
 import { FriendModule } from "src/users/friend/friend.module";
 import { UsersModule } from "src/users/users.module";
 import { Penality } from "./entities/Penality.entity";
+import { GeneralModule } from "src/general/general.module";
 
 @Module({
     imports: [
@@ -29,6 +30,7 @@ import { Penality } from "./entities/Penality.entity";
         PenalityModule,
         UsersModule,
         FriendModule,
+        GeneralModule,
     ],
     controllers: [],
     providers: [

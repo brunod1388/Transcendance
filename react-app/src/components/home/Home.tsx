@@ -58,7 +58,7 @@ function Home() {
     };
 
     useEffect(() => {
-        socket.emit("chatConnection", { userid: userAuth.id });
+        //socket.emit("chatConnection", { userid: userAuth.id });
         socket.emit("getChannels", { userid: userAuth.id, isPendng: false });
     }, [userAuth.id, socket]);
 

@@ -10,6 +10,6 @@ import { UsersModule } from "src/users/users.module";
     imports: [ClientsModule, AuthModule, forwardRef(() => UsersModule)],
     controllers: [],
     providers: [GeneralGateway, GeneralService],
-    exports: [GeneralGateway],
+    exports: [GeneralGateway, GeneralService],
 })
 export class GeneralModule {}
