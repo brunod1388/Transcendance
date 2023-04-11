@@ -27,7 +27,7 @@ export class GeneralService {
         const data: number[] = [];
 
         GeneralService.usersOnline.forEach((value: Socket, key: number) => {
-            console.log("Online users [on connect]: ", key, value.id);
+            //console.log("Online users [on connect]: ", key, value.id);
             data.push(key);
         });
 
@@ -37,17 +37,18 @@ export class GeneralService {
     disconnection(socket: Socket, reason: any) {
         // this.clientsService.removeClient(socket.id);
         // console.log("disconnection");
-        console.log(
-            "User with id: ",
-            socket.data.user.id,
-            "will be disconnected"
-        );
+
+        // console.log(
+        //     "User with id: ",
+        //     socket.data.user.id,
+        //     "will be disconnected"
+        // );
         GeneralService.usersOnline.delete(socket.data.user.id);
 
         const data: number[] = [];
 
         GeneralService.usersOnline.forEach((value: Socket, key: number) => {
-            console.log("Online users [on disconnect]: ", key, value.id);
+            // console.log("Online users [on disconnect]: ", key, value.id);
             data.push(key);
         });
 
