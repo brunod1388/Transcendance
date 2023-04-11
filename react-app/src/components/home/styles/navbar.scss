@@ -27,7 +27,7 @@
 		justify-self: stretch;
 		align-self: stretch;
 		background-color: aliceblue;
-		transition: margin-top 0.5s, background-color 0.5s, padding-top 0.5s, box-shadow 0.5s;
+		transition: margin-top 0.2s, background-color 0.2s, padding-top 0.2s, box-shadow 0.2s;
 		background-color: rgba(0, 0, 0, 0);
 		border-radius: 5px;
 		&:hover {
@@ -41,7 +41,7 @@
 			font-size: 20px;
 			font-weight: 200;
 			top: -10px;
-			transition: opacity 0.5s;
+			transition: opacity 0.2s;
 			filter: $drop-shadow;
 		}
 		.channel-wrapper {

@@ -5,8 +5,6 @@ $avatar-size: 30px;
 .hero {
 	@extend .flex-row;
 	padding: 0 10px;
-	gap: 10px;
-	position: relative;
 	.username {
 		font-family: NatureBeauty;
 		font-size: 20px;
@@ -22,15 +20,7 @@ $avatar-size: 30px;
 		cursor: pointer;
 	}
 	.hero-menu-wrap {
-		z-index: 2000;
-		position: absolute;
-		top: 150%;
-		right: 50%;
-		width: 200px;
-		padding: 10px;
-		background-color: rgb(41, 40, 56);
-		box-shadow: $shadow-outset-border;
-		border-radius: 10px;
+		@extend .floating-menu;
 		.menu {
 			display: flex;
 			flex-direction: column;
