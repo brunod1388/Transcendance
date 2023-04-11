@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth, useChat, Feature, useFeature } from "../../../context";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import { LogoutIcon, NoUserIcon, SettingIcon } from "../../../assets/images";
-import { useVisible } from "../../../hooks";
+import { useSocket, useVisible } from "../../../hooks";
 import "../styles/usermenu.scss";
 
 export default function UserMenu() {
@@ -15,8 +15,15 @@ export default function UserMenu() {
     const { updateChannel } = useChat();
     const avatar = userAuth.avatar;
     const { isVisible, setIsVisible, ref } = useVisible(false);
+    const [socket] = useSocket();
 
     function logout(e: MouseEvent<HTMLButtonElement>) {
+        if (socket !== undefined) {
+            console.log("Logout event triggered");
+            socket.disconnect();
+            //socket.close();
+            //socket.emit("userLogout");
+        }
         removeItem("user");
         Cookies.remove("JWTtoken", { sameSite: "none", secure: true });
         updateUser();
