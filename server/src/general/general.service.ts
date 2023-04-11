@@ -101,7 +101,10 @@ export class GeneralService {
 
         socket.broadcast.emit("users_online", data);
 
-        console.log("Number of users online following disconnect: ", GeneralService.usersOnline.size);
+        console.log(
+            "Number of users online following disconnect: ",
+            GeneralService.usersOnline.size
+        );
         socket.disconnect();
     }
 
