@@ -1,27 +1,23 @@
-import { useSocket } from "../../hooks";
 import { useTimeout } from "../../hooks";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import { joinGame } from "../../utils";
-import { useFeature } from "../../context";
-import { Feature } from "../../context";
 import { Socket } from "socket.io-client";
+import { CLASSIC, GameMode } from "../../@types";
 
 interface Props {
     room: string;
     accepted: number;
     onDisplay: (result: boolean) => void;
     socket: Socket;
+    onPong: (room: string, gameMode: GameMode, host: boolean) => void;
 }
 
-export function ResponsePong({ room, accepted, onDisplay, socket }: Props) {
-    const { setFeature } = useFeature();
-    const [searchParams, setSearchParams] = useSearchParams();
-
-    const activatePong = (roomName: string) => {
-        setFeature(Feature.Pong);
-        setSearchParams({ ["room"]: roomName });
-    };
-
+export function ResponsePong({
+    room,
+    accepted,
+    onDisplay,
+    socket,
+    onPong,
+}: Props) {
     useTimeout(() => {
         onDisplay(false);
     }, 3000);
@@ -35,7 +31,8 @@ export function ResponsePong({ room, accepted, onDisplay, socket }: Props) {
             <button
                 onClick={() => {
                     onDisplay(false);
-                    joinGame(socket, room, activatePong);
+                    joinGame(socket, room, CLASSIC);
+                    onPong(room, CLASSIC, true);
                 }}
             >
                 JOIN

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import UserMenu from "./UserMenu";
 import { NoUserIcon } from "../../../assets/images";
 import { UserPlateType, UserType } from "../../../@types";

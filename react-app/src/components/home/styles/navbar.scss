@@ -1,103 +1,71 @@
 @import "../../../assets/styles/variables.scss";
+@import "../../../assets/styles/general.scss";
 
 .navbar {
-	display: flex;
-	flex-direction: column;
-	width: 40px;
-	padding: 10px 5px;
-	align-items: center;
-	gap: 10px;
-	align-content: space-between;
-	.separator {
-		background-color: $purple-gray;
-		height: 2px;
-		width: 80%;
-		border-radius: 2px;
-	}
-	.channel_wrapper {
-		flex-grow: 1;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		overflow-y: scroll;
-	}
-
-	.channel {
-		padding: 5px;
-		img {
-			height: 35px;
-			width: 35px;
-			border-radius: 50%;
-			cursor: pointer;
-			&.filter {
-				filter: $filter-purple;
-			}
-			&:hover {
-				filter: $filter-white;
-				animation: button-scale 0.5s;
-				animation-fill-mode: forwards;
-			}
-			filter: drop-shadow(3px 3px 5px rgb(10, 10, 10));
-		}
-
-		&.tooltip {
-			position: relative;
-			display: inline-block;
-		}
-		
-		&.tooltip .tooltiptext {
-			visibility: hidden;
-			width: 120px;
-			height: 15px;
-			background-color: black;
-			color: #fff;
-			text-align: center;
-			border-radius: 6px 6px 6px 0px;
-			padding: 5px 0;
-			position: absolute;
-			z-index: 1000;
-		}
-		
-		&.tooltip:hover .tooltiptext {
+	@extend .flex-column;
+	width: 35px;
+	flex-shrink: 0;
+	padding: 50px 5px;
+	padding-left: 5px;
+	align-items: flex-start;
+	align-self: stretch;
+	transition: width 0.5s, padding 0.5s;
+	gap: 1px;
+	&:hover {
+		width: 155px;
+		padding: 50px 10px;
+		.icon-name {
 			visibility: visible;
+			opacity: 1;
+			animation: appear 0.8s;
 		}
 	}
-}
-
-.newChannel_container {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 100%;
-	height: 100%;
-	backdrop-filter: blur(4px);
-	z-index: 200;
-
-	.title {
-		background-color: none;
+	.channels-container {
+		@extend .flex-column;
+		position: relative;
+		justify-self: stretch;
+		align-self: stretch;
+		background-color: aliceblue;
+		transition: margin-top 0.2s, background-color 0.2s, padding-top 0.2s, box-shadow 0.2s;
+		background-color: rgba(0, 0, 0, 0);
+		border-radius: 5px;
+		&:hover {
+			margin-top: 10px;
+		}
+		.channel-title {
+			opacity: 0;
+			position: absolute;
+			color: $purple;
+			font-family: NatureBeauty;
+			font-size: 20px;
+			font-weight: 200;
+			top: -10px;
+			transition: opacity 0.2s;
+			filter: $drop-shadow;
+		}
+		.channel-wrapper {
+			@extend .flex-column;
+			justify-content: flex-start;
+			justify-self: stretch;
+			align-self: stretch;
+			max-height: 200px;
+			overflow: scroll;
+		}
+		&:hover {
+			background-color: $dark-grey;
+			box-shadow: $shadow-outset-border;
+			padding-top: 15px;
+			padding-bottom: 5px;
+			.channel-title {
+				opacity: 1;
+			}
+		}
+		
+	}
+	.notChannel {
+		img {
+			border-radius: 0px;
+		}
 	}
 
-	.error {
-		color: red;
-		font-style: italic;
-	}
-	select {
-		background-color: $purple;
-		color: white;
-		font-weight: 300;
-		outline: none;
-		border: none;
-		padding: 5px 10px;
-		border-radius: 7px;
-	}
-	.select-selected {
-		color: yellow;
-	}
-
-	.cancel-button {
-		margin-top: 10px;
-	}
 }

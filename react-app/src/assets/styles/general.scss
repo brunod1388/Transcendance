@@ -5,6 +5,7 @@
 	border: none;
 	outline: none;
 	background-color: #827fc6;
+	cursor: pointer;
 	&:hover {
 		color: $purple;
 		background-color: white;
@@ -29,4 +30,36 @@
 	flex-direction: row;
 	align-items: center;
 	justify-content: center;
+}
+
+.search {
+	padding: 10px;
+	padding-right: 10px;
+	.searchForm {
+		padding: 8px;
+		background-color: $purple-gray;
+		border-radius: 5px;
+		input {
+			background-color: transparent;
+			border: none;
+			color: white;
+			outline: none;
+			&::placeholder {
+				color: lightgray;
+			}
+		}
+		box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.753);
+	}
+}
+
+.floating-menu {
+	z-index: 20;
+	position: absolute;
+	top: 150%;
+	right: 10%;
+	width: 200px;
+	padding: 10px;
+	background-color: rgb(41, 40, 56);
+	box-shadow: $shadow-outset-border;
+	border-radius: 10px;
 }

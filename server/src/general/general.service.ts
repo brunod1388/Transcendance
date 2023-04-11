@@ -1,16 +1,63 @@
-import { Injectable, Inject } from "@nestjs/common";
+import { Injectable, Inject, forwardRef } from "@nestjs/common";
 import { Socket, Server } from "socket.io";
 import { ClientsService } from "src/clients/clients.service";
 import { InvitationDto } from "./dto/invitation.dto";
 import { BroadcastDTO } from "src/general/dto/Broadcast.dto";
+import { AuthService } from "src/auth/auth.service";
+import { UsersService } from "src/users/users.service";
+import { User } from "src/users/entities/User.entity";
+import { CreateMatchDto } from "src/match/dtos/Match.dto";
 
 @Injectable()
 export class GeneralService {
     @Inject(ClientsService)
     private readonly clientsService: ClientsService;
+    @Inject(forwardRef(() => UsersService))
+    private userService: UsersService;
 
     // map used to store the user id (key) and the corresponding socket id (value)
     static usersOnline = new Map<number, Socket>();
+
+    async obtainOpponentSocket(client: Socket, server: Server, room: string) {
+        const socketsInRoom = server.sockets.adapter.rooms.get(room);
+        const all_sockets = await server.fetchSockets();
+
+        for (const socketId of socketsInRoom) {
+            if (socketId !== client.id) {
+                const opponentSocket = all_sockets.find(
+                    (s) => s.id === socketId
+                );
+                if (opponentSocket !== undefined) {
+                    return opponentSocket;
+                }
+            }
+        }
+        return undefined;
+    }
+
+    async obtainOpponentInfo(client: Socket, server: Server, room: string) {
+        const opponentSocket = await this.obtainOpponentSocket(
+            client,
+            server,
+            room
+        );
+        if (opponentSocket !== undefined) {
+            const me: User = await this.userService.findUserId(
+                client.data.user.id
+            );
+            const opponent: User = await this.userService.findUserId(
+                opponentSocket.data.user.id
+            );
+            opponentSocket.emit("set-opponent-info", {
+                id: me.id,
+                username: me.username,
+            });
+            client.emit("set-opponent-info", {
+                id: opponent.id,
+                username: opponent.username,
+            });
+        }
+    }
 
     connection(socket: Socket) {
         // console.log("connection");
@@ -35,7 +82,7 @@ export class GeneralService {
     }
 
     disconnection(socket: Socket, reason: any) {
-        // this.clientsService.removeClient(socket.id);
+        // this.clientsService.removeClient(opponentSocket.id);
         // console.log("disconnection");
 
         // console.log(
@@ -127,5 +174,27 @@ export class GeneralService {
     gameEnd() {
         // TO DO write result game in DB;
         console.log(`endGame`);
+    }
+    async createMatch(matchDetail: CreateMatchDto) {
+        // const user1 = await this.userService.findUserId(matchDetail.user1id);
+        // const user2 = await this.userService.findUserId(matchDetail.user2id);
+        console.log(
+            matchDetail.score1,
+            matchDetail.score2,
+            matchDetail.type,
+            matchDetail.user1id,
+            matchDetail.user2id,
+            matchDetail.winner
+        );
+        // const match = this.matchRepository.create({
+        //     user1: user1,
+        //     user2: user2,
+        //     score1: matchDetail.score1,
+        //     score2: matchDetail.score2,
+        // 	winner: (matchDetail.winner === user1.id) ? user1 : user2,
+        //     type: matchDetail.type,
+        // });
+
+        // return this.matchRepository.save(match);
     }
 }

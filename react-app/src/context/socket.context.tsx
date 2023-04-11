@@ -15,12 +15,20 @@ export function SocketProvider(props: PropsWithChildren<Props>) {
     //console.log("SOCKET CONTEXT jwt: ", token);
     const socket = useRef<Socket>(
         io(SERVER_URL, {
+            autoConnect: false,
             auth: {
                 token: String(Cookies.get("JWTtoken")),
             },
         })
     );
-    const { userAuth } = useAuth();
+
+    useEffect(() => {
+        const actualSocket = socket.current;
+        actualSocket.connect();
+        return () => {
+            actualSocket.disconnect();
+        };
+    }, [socket]);
 
     socket.current.on("users_online", (data: number[]) => {
         console.log("User ids currently online: ", data);

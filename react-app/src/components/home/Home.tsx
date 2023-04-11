@@ -1,22 +1,35 @@
 import { Navbar, Topbar, Friendbar } from ".";
-import { useSearchParams } from "react-router-dom";
 import { useFeature, Feature } from "../../context/feature.context";
 import { ContactIcon } from "../../assets/images";
-import { useAuth, useChat } from "../../context";
+import { useAuth } from "../../context";
 import { useState, useEffect } from "react";
 import { useNotificationsDispatch, useSocket, useVisible } from "../../hooks";
 import { CreateInvitation, CreateResponse } from "../invitations";
-import { InvitationDTO, ResponseDTO } from "../../@types";
-import { Pong } from "../pong";
+import { InvitationDTO, ResponseDTO, CLASSIC, GameMode } from "../../@types";
+// import { Pong } from "../pong";
 import Chat from "../chat/Chat";
 import "./styles/home.scss";
+import { Game } from "../game";
+import { Game as Pong } from "../pong/Game";
+import { gameConfig } from "../pong/GameService";
 
 const featureComponent = new Map<number, JSX.Element>([
     [Feature.None, <></>],
     [Feature.Chat, <Chat />],
-    // [Feature.Pong, <Pong />],
+    [Feature.Game, <Game />],
     // [Feature.Ranking, <Ranking />],
 ]);
+
+interface JoinPongDto {
+    room: string;
+    mode: GameMode;
+}
+
+interface PongData {
+    isPong: boolean;
+    data: JoinPongDto;
+    host: boolean;
+}
 
 function Home() {
     const { feature } = useFeature();
@@ -24,8 +37,25 @@ function Home() {
     const [socket] = useSocket();
     const dispatch = useNotificationsDispatch();
     const { userAuth } = useAuth();
-    const [isPong, setIsPong] = useState<Boolean>(false);
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [PongSwitch, setPongSwitch] = useState<PongData>({
+        isPong: false,
+        data: {
+            room: "",
+            mode: CLASSIC,
+        },
+        host: false,
+    });
+
+    const onPong = (room: string, mode: GameMode, host: boolean) => {
+        setPongSwitch({
+            isPong: true,
+            data: {
+                room: room,
+                mode: mode,
+            },
+            host: host,
+        });
+    };
 
     useEffect(() => {
         socket.emit("chatConnection", { userid: userAuth.id });
@@ -33,9 +63,13 @@ function Home() {
     }, [userAuth.id, socket]);
 
     useEffect(() => {
+        socket.on("joinPongByMatchmaking", (data: PongData) => {
+            console.log("recieved is pong");
+            setPongSwitch(data);
+        });
         socket.on("invitation", (invitation: InvitationDTO) => {
             if (userAuth.username === invitation.to) {
-                CreateInvitation(invitation, dispatch, socket);
+                CreateInvitation(invitation, dispatch, socket, onPong);
             }
         });
         socket.on("response", (response: ResponseDTO) => {
@@ -43,52 +77,59 @@ function Home() {
             console.log(response.to);
             console.log(userAuth.id);
             if (Number(userAuth.id) === Number(response.to)) {
-                CreateResponse(response, dispatch, socket);
+                CreateResponse(response, dispatch, socket, onPong);
             }
-        });
-        socket.on("joinPong", () => {
-            setIsPong(true);
         });
         return () => {
             socket.off("invitation");
             socket.off("response");
-            socket.off("joinPong");
+            socket.off("joinPongByMatchmaking");
         };
     }, []);
 
     return (
         <div className="home">
             <div className="homeContainer">
-                <Navbar />
+                <Topbar />
                 <div className="mainContainer">
-                    <Topbar />
+                    <Navbar />
                     <div className="featureContainer">
-                        {isPong && (
+                        {PongSwitch.isPong && (
                             <Pong
+                                username={userAuth.username}
+                                host={PongSwitch.host}
                                 onEnd={() => {
-                                    setIsPong(false);
-                                    searchParams.delete("room");
-                                    setSearchParams(searchParams);
+                                    setPongSwitch({
+                                        isPong: false,
+                                        data: {
+                                            room: "",
+                                            mode: CLASSIC,
+                                        },
+                                        host: false,
+                                    });
                                 }}
+                                mode={PongSwitch.data.mode}
+                                room={PongSwitch.data.room}
                             />
                         )}
-                        {isPong === false && featureComponent.get(feature)}
+                        {PongSwitch.isPong === false &&
+                            featureComponent.get(feature)}
                     </div>
-                </div>
-                <div className="button_container">
-                    {!isVisible && (
-                        <button
-                            className="friendButton"
-                            onClick={() => {
-                                setIsVisible(!isVisible);
-                            }}
-                        >
-                            <img src={ContactIcon} alt="" />
-                        </button>
-                    )}
-                </div>
-                <div className="friendbarContainer" ref={ref}>
-                    {isVisible && <Friendbar />}
+                    <div className="button-container">
+                        {!isVisible && (
+                            <button
+                                className="friend-button"
+                                onClick={() => {
+                                    setIsVisible(!isVisible);
+                                }}
+                            >
+                                <img src={ContactIcon} alt="" />
+                            </button>
+                        )}
+                    </div>
+                    <div className="friendbar-container" ref={ref}>
+                        {isVisible && <Friendbar />}
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,0 +1,83 @@
+@import '../../../assets/styles/variables';
+@import '../../../assets/styles/general';
+
+.gamer-board {
+	@extend .flex-column;
+	justify-content: flex-start;
+	height: 100%;
+	width: 180px;
+	$img-size: 130px;
+	$border-size: 7px;
+	.gamer-container {
+		@extend .flex-column;
+		padding: 30px 0 0 0;
+		justify-content: space-between;
+		gap: 7vh;
+	}
+
+	.avatar-border::before {
+		content: ' ';
+		width: calc($img-size + $border-size);
+		height: calc($img-size + $border-size);
+		background: conic-gradient(
+			from 90deg,
+			rgb( 0 0 0 / 0%) 70%, rgb(11 78 230 / 9%) 80%, rgb( 0 220 255) 100%);
+			animation: rotate 3s linear infinite;
+	}
+	.avatar-container {
+		@extend .flex-column;
+		position: relative;
+		min-height: 130px;
+		height: 20vh;
+	}
+	.avatar-border {
+		@extend .flex-row;
+		position: absolute;
+		background-color: rgba(75, 78, 128, 0.588);
+		backdrop-filter: blur(15px);
+		border-radius: 50%;
+		overflow: hidden;
+		filter: $drop-shadow;
+	}
+
+	img {
+		width: $img-size;
+		height: $img-size;
+		border-radius: 50%;
+		z-index: 2;
+	}
+
+	.user-info {
+		@extend .flex-column;
+		justify-content: space-between;
+		gap: 10px;
+		filter: $drop-shadow;
+		position: relative;
+		padding: 12px;
+		padding-top: 20px;
+		border-radius: 5px;
+		background-color: $dark-purple;
+		box-shadow: $shadow-outset-border;
+		.username {
+			position: absolute;
+			top: -15px;
+			font-size: 1.7rem;
+			color: $purple;
+			filter: $drop-shadow;
+			max-width:130px;
+			word-wrap:break-word;
+			font-family: Alkatra;
+			font-family: NatureBeauty;
+			text-size-adjust: auto;
+			text-align: center;
+		}
+		.username::first-letter {
+			text-transform: uppercase;
+		}
+		div {
+			@extend .flex-row;
+			width: 120px;
+			justify-content: space-between;
+		}
+	}
+}

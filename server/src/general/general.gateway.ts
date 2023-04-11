@@ -12,7 +12,62 @@ import { GameEndDTO } from "src/general/dto/GameEnd.dto";
 import { InvitationDto } from "./dto/invitation.dto";
 import { ResponseDto } from "./dto/response.dto";
 import * as jwt from "jsonwebtoken";
+import { CreateMatchDto } from "src/match/dtos/Match.dto";
 
+interface pongDTO {
+    room: string;
+    player: {
+        host: false;
+        status: string;
+        username: null;
+    };
+}
+interface Score {
+    player1: number;
+    player2: number;
+}
+interface scoreDto {
+    score: Score;
+    room: string;
+}
+
+interface recordGameDto {
+    player1: {
+        username: string;
+        score: number;
+        status: string;
+    };
+    player2: {
+        username: string;
+        score: number;
+        status: string;
+    };
+}
+
+interface Ball {
+    pos: {
+        x: number;
+        y: number;
+    };
+    delta: {
+        x: number;
+        y: number;
+    };
+    speed: number;
+}
+interface BallDto {
+    room: string;
+    data: Ball;
+}
+
+enum GameMode {
+    CLASSIC = "classic",
+    PINGPONG = "pingpong",
+}
+interface GameModeDTO {
+    room: string;
+    mode: GameMode;
+}
 @WebSocketGateway({ cors: { origin: ["http://localhost:9000"] } })
 export class GeneralGateway implements OnModuleInit {
     @WebSocketServer()
@@ -71,10 +126,10 @@ export class GeneralGateway implements OnModuleInit {
         this.generalService.leaveRoom(client, room);
     }
 
-    @SubscribeMessage("game-join")
-    handleJoinGame(client: Socket, room: string) {
-        this.generalService.gameJoin(this.server, room);
-    }
+    // @SubscribeMessage("game-join")
+    // handleJoinGame(client: Socket, room: string) {
+    //     this.generalService.gameJoin(this.server, room);
+    // }
 
     // Event to broadcast different event inside a specific room.
     @SubscribeMessage("game-broadcast")
@@ -99,5 +154,44 @@ export class GeneralGateway implements OnModuleInit {
     @SubscribeMessage("joinPong")
     handleJoinPong(client: Socket, room: string) {
         this.server.to(room).emit("joinPong");
+    }
+
+    @SubscribeMessage("player")
+    handlePlayer(client: Socket, data: pongDTO) {
+        console.log("recieved player");
+        client.broadcast.to(data.room).emit("player", data.player);
+    }
+    @SubscribeMessage("game-player-left")
+    handlePlayerLeft(client: Socket, room: string) {
+        client.broadcast.to(room).emit("game-player-left");
+        client.leave(room);
+    }
+
+    @SubscribeMessage("game-score")
+    handleScore(client: Socket, score: scoreDto) {
+        this.server.to(score.room).emit("game-score", {
+            player1: score.score.player1,
+            player2: score.score.player2,
+        });
+    }
+
+    @SubscribeMessage("record-game")
+    handleRecordGame(client: Socket, record: recordGameDto) {
+        //
+    }
+
+    @SubscribeMessage("game-ball")
+    handleUpdatedBall(client: Socket, ball: BallDto) {
+        client.broadcast.to(ball.room).emit("game-ball", ball.data);
+    }
+
+    @SubscribeMessage("obtain-opponent-info")
+    async handleOpponentInfo(client: Socket, room: string) {
+        await this.generalService.obtainOpponentInfo(client, this.server, room);
+    }
+
+    @SubscribeMessage("game-mode")
+    async handleGameMode(client: Socket, data: GameModeDTO) {
+        client.broadcast.to(data.room).emit("game-mode", data.mode);
     }
 }
