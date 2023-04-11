@@ -45,17 +45,25 @@ export default function NewChannel(props: Props) {
                 <div className="form_wrapper">
                     <div className="createOrJoin">
                         <div className="switch-button">
-                            <input className="switch-button-checkbox" type="checkbox" onChange={e => handleChange(e)}></input>
+                            <input
+                                className="switch-button-checkbox"
+                                type="checkbox"
+                                onChange={(e) => handleChange(e)}
+                            ></input>
                             <label className="switch-button-label" htmlFor="">
-                                <span className="switch-button-label-span">Join</span>
+                                <span className="switch-button-label-span">
+                                    Join
+                                </span>
                             </label>
                         </div>
                     </div>
                     <span className="logo">New Channel</span>
-                    { create &&
+                    {create && (
                         <form onSubmit={handleSubmit}>
                             <div className="input_container">
-                                <span className="input-title">Channel name</span>
+                                <span className="input-title">
+                                    Channel name
+                                </span>
                                 <img
                                     className="input_icon channel_icon"
                                     src={NoChannelIcon}
@@ -84,7 +92,9 @@ export default function NewChannel(props: Props) {
                             </select>
                             {isPrivate && (
                                 <div className="input_container">
-                                    <span className="input-title">Password</span>
+                                    <span className="input-title">
+                                        Password
+                                    </span>
                                     <img
                                         className="input_icon locker"
                                         src={LockIcon}
@@ -127,16 +137,19 @@ export default function NewChannel(props: Props) {
                                 Create Channel
                             </button>
                         </form>
-                    }
-                    {!create &&
+                    )}
+                    {!create && (
                         <div className="search">
                             <div className="searchForm">
-                                <input className="search-input" type="text" placeholder="Type Channel to join" />
+                                <input
+                                    className="search-input"
+                                    type="text"
+                                    placeholder="Type Channel to join"
+                                />
                                 {/* <input type="text" placeholder="type a user" /> */}
                             </div>
-                            
                         </div>
-                    }
+                    )}
                     <button
                         className="cancel-button button-purple"
                         onClick={props.quitForm}

@@ -3,7 +3,6 @@
 
 .navbar {
 	@extend .flex-column;
-	width: calc(icon-size + 10px);
 	width: 35px;
 	flex-shrink: 0;
 	padding: 50px 5px;

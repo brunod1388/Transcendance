@@ -16,13 +16,13 @@ $invitation-size: 15px;
 		@extend .flex-row;
 		gap: 5px;
 		.channelImg {
-			padding: 5px;
+			padding: 7px;
 			height: 32px;
 		}
 
 		.channelName {
 			font-size:30px;
-			padding: 0px 0px;
+			padding: 0px;
 			font-family: NatureBeauty;
 			font-family: Alkatra;
 			&:first-letter {

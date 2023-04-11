@@ -42,9 +42,7 @@ function Topbar() {
         <div className="topbar">
             <div className="channel">
                 <img className="channelImg" src={channel.image} alt="" />
-                <span className="channelName">
-                    {defineTitle()}
-                </span>
+                <span className="channelName">{defineTitle()}</span>
                 <span style={{ color: "red" }}>{channel.id}</span>
             </div>
             <div className="user">
@@ -53,7 +51,7 @@ function Topbar() {
                 </button>
                 <span style={{ color: "red" }}>{userAuth.id}</span>{" "}
                 <Invitations />
-                <UserMenu/>
+                <UserMenu />
             </div>
         </div>
     );

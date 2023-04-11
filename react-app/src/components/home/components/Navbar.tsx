@@ -125,7 +125,9 @@ function Navbar() {
                     {channels?.map((chan, i) => (
                         <MenuButton
                             name={chan.name}
-                            image={chan.image === null ? NoChannelIcon : chan.image}
+                            image={
+                                chan.image === null ? NoChannelIcon : chan.image
+                            }
                             onClick={() => {
                                 channelClick(chan.id);
                             }}
@@ -133,7 +135,7 @@ function Navbar() {
                         />
                     ))}
                     <h1 className="channel-title">Channels</h1>
-                    </div>
+                </div>
             </div>
             <MenuButton
                 filter={true}

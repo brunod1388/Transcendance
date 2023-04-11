@@ -56,19 +56,28 @@ export default function Invitations() {
         const handleMessage =
             invite.type === "Friend" ? "updateFriend" : "updateChannelUser";
         console.log("handleMessage: ", handleMessage);
-        socket.emit(handleMessage, { id: invite.id, accept: accept }, (res: any) => {
-            console.log(res);
-            if (invitations.length === 1) setNotif(false);
-            setInvitations((state) =>
-                state.filter((item) => !(item.type === invite.type && item.id === invite.id))
-            );
-        });
+        socket.emit(
+            handleMessage,
+            { id: invite.id, accept: accept },
+            (res: any) => {
+                console.log(res);
+                if (invitations.length === 1) setNotif(false);
+                setInvitations((state) =>
+                    state.filter(
+                        (item) =>
+                            !(
+                                item.type === invite.type &&
+                                item.id === invite.id
+                            )
+                    )
+                );
+            }
+        );
     }
 
     function toggleMenu() {
         const menu = document.getElementById("invitation-menu");
-        if (menu)
-            menu.classList.toggle("active");
+        if (menu) menu.classList.toggle("active");
     }
 
     function handleClickOutside(event: MouseEvent) {
@@ -86,45 +95,47 @@ export default function Invitations() {
 
     return (
         <div className="invitations-container">
-            <img className="invitations-icon" src={BellIcon} onClick={toggleMenu}/>
+            <img
+                className="invitations-icon"
+                src={BellIcon}
+                onClick={toggleMenu}
+            />
             <div className="invitations-menu" id="invitation-menu">
                 <span className="title">Invitations</span>
                 {invitations.length === 0 && (
-                    <span className="noInvitation">
-                        No pending invitations
-                    </span>
+                    <span className="noInvitation">No pending invitations</span>
                 )}
-                {invitations.length > 0 && invitations.map((invite) => (
-                    <div className="invitation-container" key={invite.name}>
-                        <img src={invite.image} alt="" className="icon" />
-                        <div className="invitation-details">
-                            <div className="invitation-line">
-                                <span>{invite.type} invitation :</span>
-                            </div>
-                            <div className="invitation-line">
-                                <span className="name">{invite.name}</span>
-                                <div className="invitation-choice">
-                                    <img
-                                        className="accept choice"
-                                        src={AcceptIcon}
-                                        onClick={() =>
-                                            handleInvitation(invite, true)
-                                        }
+                {invitations.length > 0 &&
+                    invitations.map((invite) => (
+                        <div className="invitation-container" key={invite.name}>
+                            <img src={invite.image} alt="" className="icon" />
+                            <div className="invitation-details">
+                                <div className="invitation-line">
+                                    <span>{invite.type} invitation :</span>
+                                </div>
+                                <div className="invitation-line">
+                                    <span className="name">{invite.name}</span>
+                                    <div className="invitation-choice">
+                                        <img
+                                            className="accept choice"
+                                            src={AcceptIcon}
+                                            onClick={() =>
+                                                handleInvitation(invite, true)
+                                            }
                                         />
-                                    <img
-                                        className="decline choice"
-                                        src={DeclineIcon}
-                                        onClick={() =>
-                                            handleInvitation(invite, false)
-                                        }
+                                        <img
+                                            className="decline choice"
+                                            src={DeclineIcon}
+                                            onClick={() =>
+                                                handleInvitation(invite, false)
+                                            }
                                         />
-
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
             </div>
-        </div>                              
+        </div>
     );
 }

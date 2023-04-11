@@ -128,7 +128,7 @@ function Home() {
                         )}
                     </div>
                     <div className="friendbar-container" ref={ref}>
-                        {isVisible && <Friendbar/>}
+                        {isVisible && <Friendbar />}
                     </div>
                 </div>
             </div>
