@@ -1,7 +1,7 @@
 import UserMenu from "./UserMenu";
 import { NoUserIcon } from "../../../assets/images";
 import { UserPlateType, UserType } from "../../../@types";
-import "../styles/user.scss";
+import "../styles/userPlate.scss";
 import { useVisible } from "../../../hooks";
 
 type Props = {
@@ -10,12 +10,12 @@ type Props = {
     type: UserPlateType;
 };
 
-export default function User(props: Props) {
+export default function UserPlate(props: Props) {
     const { hasNewMsg = false, user, type } = props;
     const { ref, isVisible, setIsVisible } = useVisible(false);
 
     return (
-        <div className={"userChat "}>
+        <div className={"userChat"}>
             <div className={"userPlate "} onClick={() => setIsVisible(true)}>
                 <img
                     className={isVisible ? "bigAvatar" : ""}

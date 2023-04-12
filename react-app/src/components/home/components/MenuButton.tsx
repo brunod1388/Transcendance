@@ -1,3 +1,4 @@
+import { spawn } from "child_process";
 import "../styles/menuButton.scss";
 
 interface Props {
@@ -6,10 +7,11 @@ interface Props {
     filter?: boolean;
     onClick?: any;
     isChannel?: boolean;
+    arrow?:boolean;
 }
 
 export default function MenuButton(props: Props) {
-    const { image, name, filter = false, onClick, isChannel = true } = props;
+    const { image, name, filter = false, onClick, isChannel = true, arrow=false } = props;
     return (
         <div
             className={"menu-button" + (isChannel ? "" : " notChannel")}
@@ -23,6 +25,7 @@ export default function MenuButton(props: Props) {
                 }
             />
             <span className="icon-name">{name}</span>
+            {arrow && <span className="arrow">{">"}</span>}
         </div>
     );
 }

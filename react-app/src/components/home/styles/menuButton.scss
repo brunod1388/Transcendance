@@ -3,13 +3,23 @@
 
 $icon-size: 25px;
 $filter: $drop-shadow;
+@keyframes arow {
+	0% {
+		padding-right: 5px;
+	}
+	50% {
+		padding-right: 10px;
+	}
+	100% {
+		padding-right: 5px;
+	}
+}
 .menu-button {
 	@extend .flex-row;
 	flex-shrink: 0;
 	justify-content: flex-start;
 	align-self: stretch;
 	padding: 5px;
-	
 	gap: 11px;
 	color: white;
 	color: grey;
@@ -18,8 +28,14 @@ $filter: $drop-shadow;
 	transition: transform 0.2s, color 0.2s;
 	cursor: pointer;
 	&:hover {
-		transform: scale(1.05);
+		&:not(.arrow) {
+			transform: scale(1.05);
+		}
 		color: white;
+		.arrow {
+			padding-right: 5px;
+			animation: arow 0.7s infinite;
+		}
 	}
 	img {
 		height: $icon-size;
@@ -29,7 +45,6 @@ $filter: $drop-shadow;
 			filter: $filter-purple;
 		}
 	}
-	max-width: 140px;
 	.icon-name {
 		flex-shrink: 1;
 		opacity: 1;
@@ -39,5 +54,12 @@ $filter: $drop-shadow;
 		&::first-letter {
 			text-transform: uppercase;
 		}
+	}
+
+	.arrow {
+		flex-grow: 1;
+		text-align: right;
+		padding-right: 5px;
+		transition: padding-right 0.5s;
 	}
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import User from "../../chat/components/User";
+import UserPlate from "../../chat/components/UserPlate";
 import { UserType } from "../../../@types";
 import AddContact from "../../chat/components/AddContact";
 import "../styles/friendbar.scss";
@@ -39,7 +39,7 @@ function Friendbar() {
             <span className="title">Friends</span>
             <div className="friends">
                 {friends.map((friend, i) => (
-                    <User user={friend} type="friend" key={`friend-${i}`} />
+                    <UserPlate user={friend} type="friend" key={`friend-${i}`} />
                 ))}
             </div>
             <div className="invitation">

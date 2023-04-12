@@ -77,6 +77,7 @@ export default function UserMenu() {
                                     image={SettingIcon}
                                     isChannel={false}
                                     onClick={() => navigate("/settings")}
+                                    arrow={true}
                                 />
                             </div>
                             <div className="button-wrap">
@@ -86,6 +87,7 @@ export default function UserMenu() {
                                     image={LogoutIcon}
                                     isChannel={false}
                                     onClick={logout}
+                                    arrow={true}
                                 />
                             </div>
                         </div>

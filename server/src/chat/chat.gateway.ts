@@ -49,8 +49,6 @@ export class ChatGateway {
     @WebSocketServer()
     server: Server;
 
-    //private onlineUsers = new Map<number, Socket>();
-
     constructor(
         private userService: UsersService,
         private channelService: ChannelService,
@@ -70,17 +68,6 @@ export class ChatGateway {
         return this.server.sockets.sockets;
     }
 
-    // @SubscribeMessage("chatConnection")
-    // async chatConnection(
-    //     @MessageBody("userid") userid: number,
-    //     @ConnectedSocket() client: Socket
-    // ) {
-    //     // console.log("connection of user : ", userId);
-    //     // console.log("socket : ", client.id);
-    //     this.onlineUsers.set(userid, client);
-    //     client.data.userid = userid;
-    // }
-
     @SubscribeMessage("joinRoom")
     async joinRoom(
         @MessageBody("userid") userId: number,
@@ -91,8 +78,6 @@ export class ChatGateway {
             id: channelid,
             nb: 25,
         });
-        // this.connectedUser.set(userId, client);
-        // console.log("map:", this.connectedUser)
         client.emit("NLastMessage", messages);
         client.join(ROOM_PREFIX + channelid);
         return ROOM_PREFIX + channelid + " joined";
@@ -103,11 +88,7 @@ export class ChatGateway {
         @MessageBody("userid") userid: number,
         @MessageBody("channelid") channelid: number,
         @ConnectedSocket() client: Socket
-    ) {
-        // console.log(userid + "left room-" + channelid);
-        // console.log("socket.id: ", client.id)
-        // this.connectedUser.delete(userid)
-        // console.log("map:", this.connectedUser)
+    ) {            
         client.leave(ROOM_PREFIX + channelid);
         return ROOM_PREFIX + channelid + " left";
     }
@@ -183,7 +164,7 @@ export class ChatGateway {
             return `${username} already in channel or is pending`;
         if (this.generalService.getUsersOnline().has(user.id))
         {
-            this.server.sockets.sockets.forEach( (socket) => {
+            this.server.sockets.sockets.forEach((socket) => {
                 if (socket.data.user.id === user.id)
                     socket.emit("pendings", {
                         id: channelUser.id,

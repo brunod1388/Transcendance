@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import UserPlate from "./UserPlate";
+import PrivateUserPlate from "./PrivateUserPlate";
 import { useAuth, useChat } from "../../../context";
 import { useSocket } from "../../../hooks";
 import { UserType } from "../../../@types";
-import "../styles/channelUsers.scss";
+import "../styles/privateUsers.scss";
 import AddContact from "./AddContact";
 
-export default function ChannelUsers() {
+export default function PrivateUsers() {
     const { channel, updateChannel } = useChat();
     const [socket] = useSocket();
     const { userAuth } = useAuth();
@@ -15,7 +15,7 @@ export default function ChannelUsers() {
 
     useEffect(() => {
         socket.emit(
-            "getChannelUsers",
+            "getPrivateUsers",
             { channelId: channel.id },
             (users: UserType[]) => {
                 setUsers(users);
@@ -26,7 +26,7 @@ export default function ChannelUsers() {
             }
         );
         socket
-            .on("ChannelUser", (user: UserType) => {
+            .on("PrivateUser", (user: UserType) => {
                 setUsers((state) => {
                     const chanIndex = state.findIndex(
                         (c) => c.channelUserId === user.channelUserId
@@ -38,24 +38,24 @@ export default function ChannelUsers() {
                     return newUsers;
                 });
             })
-            .on("RemoveChannelUser", (channelUserId: number) => {
+            .on("RemovePrivateUser", (channelUserId: number) => {
                 setUsers((state) => 
                     [...state.filter((user) => user.channelUserId !== channelUserId)]
                 );
             });
         return () => {
-            socket.off("ChannelUser").off("RemoveChannelUser");
+            socket.off("PrivateUser").off("RemovePrivateUser");
         };
     }, [socket, channel.id]);
 
     return (
-        <div className="ChannelUsers">
+        <div className="private-users">
             <div className="search">
                 <div className="searchForm">
                     <input type="text" placeholder="type a user" />
                 </div>
                 {searchUser !== undefined && (
-                    <UserPlate user={searchUser} type="channelUser" />
+                    <PrivateUserPlate user={searchUser} type="channelUser" />
                 )}
             </div>
             <div className="users">
@@ -63,35 +63,14 @@ export default function ChannelUsers() {
                     <span className="title">Admin</span>
                 )}
                 {users
-                    .filter((user) => user.rights === "admin")
                     .map((user, i) => (
-                        <UserPlate
+                        <PrivateUserPlate
                             user={user}
                             key={`admin-${i}`}
                             type="channelUser"
                         />
                     ))}
-                {users.filter((usr) => usr.rights === "normal").length > 0 && (
-                    <span className="title">Users</span>
-                )}
-                {users
-                    .filter((user) => user.rights === "normal")
-                    .map((user, i) => (
-                        <UserPlate
-                            user={user}
-                            key={`user-${i}`}
-                            type="channelUser"
-                        />
-                    ))}
             </div>
-            {channel.type === "channel" && (
-                <div className="invitation">
-                    <AddContact
-                        placeholder="Invite contact"
-                        type="channelUser"
-                    />
-                </div>
-            )}
         </div>
     );
 }

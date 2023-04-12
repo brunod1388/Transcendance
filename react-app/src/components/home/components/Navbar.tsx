@@ -72,7 +72,7 @@ function Navbar() {
             ...channel,
             id: 0,
             name: "Private Message",
-            type: "directMessage",
+            type: "private",
         });
     }
 
