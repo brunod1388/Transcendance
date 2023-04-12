@@ -11,14 +11,7 @@ import { useAuth } from "../../../context";
 import { ChatInvitationType } from "../../../@types";
 import "../styles/invitations.scss";
 
-type Props = {
-    invitations: ChatInvitationType[];
-    setInvitations: React.Dispatch<React.SetStateAction<ChatInvitationType[]>>;
-    setNotif: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
 export default function Invitations() {
-    // const { invitations, setInvitations, setNotif } = props;
     const { userAuth } = useAuth();
     const [socket] = useSocket();
     const [notif, setNotif] = useState(false);
@@ -44,6 +37,7 @@ export default function Invitations() {
             }
         );
         socket.on("pendings", (invitation: ChatInvitationType) => {
+            console.log("invitation received: ", invitation);
             setNotif(true);
             setInvitations((state) => [...state, invitation]);
         });
@@ -96,7 +90,7 @@ export default function Invitations() {
     return (
         <div className="invitations-container">
             <img
-                className="invitations-icon"
+                className={"invitations-icon" + (notif ? " notif" : "")}
                 src={BellIcon}
                 onClick={toggleMenu}
             />

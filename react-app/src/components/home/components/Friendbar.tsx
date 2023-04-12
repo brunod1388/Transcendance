@@ -15,21 +15,18 @@ function Friendbar() {
     const [friends, setFriends] = useState<UserType[]>([]);
     const [socket] = useSocket();
     const { userAuth } = useAuth();
-    const [selected, setSelected] = useState("");
 
     useEffect(() => {
         socket.emit("getFriends", userAuth.id, (res: UserType[]) => {
             setFriends(res);
-            console.log("friends: ", res);
         });
         socket
             .on("friend", (friend) => {
-                console.log("friend received: ", friend);
                 setFriends((state) => [...state, friend]);
             })
             .on("removeFriend", (friendId: number) => {
-                setFriends((state) =>
-                    state.filter((friend) => friend.id !== friendId)
+                setFriends((state) => 
+                    [...state.filter((friend) => friend.friendId !== friendId)]
                 );
             });
         return () => {

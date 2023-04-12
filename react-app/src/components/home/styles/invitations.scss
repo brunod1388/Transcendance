@@ -21,9 +21,15 @@ $image-size: 25px;
 	.invitations-icon {
 		width: $image-size;
 		height: $image-size;
-		filter: $filter-purple;
+		opacity: 0.0;
+		display:none;
 		cursor: pointer;
-		animation: bell-ring 1s infinite;
+		transition: opacity 0.5s;
+		&.notif {
+			animation: bell-ring 1s infinite;
+			display: block;
+			opacity: 1.0;
+		}
 	}
 	.invitations-menu {
 		@extend .flex-column;

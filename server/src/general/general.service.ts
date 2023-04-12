@@ -108,7 +108,7 @@ export class GeneralService {
         socket.disconnect();
     }
 
-    getUsersOnline() {
+    getUsersOnline(): Map<number, Socket> {
         const ret = GeneralService.usersOnline;
         return ret;
     }
