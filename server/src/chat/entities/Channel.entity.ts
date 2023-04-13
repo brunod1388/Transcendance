@@ -10,6 +10,7 @@ import {
 import { User } from "../../users/entities/User.entity";
 import { ChannelUser, Message } from "../entities";
 import { BlockedUser } from "./BlockedUser.entity";
+import { MutedUser } from "./MutedUser.entity";
 
 // to put in a dto
 export enum ChannelType {
@@ -49,4 +50,7 @@ export class Channel {
 
     @OneToMany(() => BlockedUser, blockedUsers => blockedUsers.channel)
     blockedUsers: BlockedUser[]
+
+    @OneToMany(() => MutedUser, mutedUsers => mutedUsers.channel)
+    mutedUsers: MutedUser[]
 }
