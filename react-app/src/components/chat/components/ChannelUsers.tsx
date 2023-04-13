@@ -39,9 +39,11 @@ export default function ChannelUsers() {
                 });
             })
             .on("RemoveChannelUser", (channelUserId: number) => {
-                setUsers((state) => 
-                    [...state.filter((user) => user.channelUserId !== channelUserId)]
-                );
+                setUsers((state) => [
+                    ...state.filter(
+                        (user) => user.channelUserId !== channelUserId
+                    ),
+                ]);
             });
         return () => {
             socket.off("ChannelUser").off("RemoveChannelUser");

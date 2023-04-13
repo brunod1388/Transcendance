@@ -8,9 +8,7 @@ export default function Chat() {
     const { channel } = useChat();
     return (
         <div className="chat">
-            {channel.type === "channel" ?
-                <ChannelUsers /> : <PrivateUsers />
-            }
+            {channel.type === "channel" ? <ChannelUsers /> : <PrivateUsers />}
             {channel.id !== 0 && <Feed />}
         </div>
     );

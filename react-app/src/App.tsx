@@ -9,6 +9,7 @@ import {
     Verify2FA,
     Settings,
 } from "./pages";
+import { NotFound } from "./pages/NotFound";
 
 function App() {
     // in the future use this to be sur to not access to the chat if no authentified
@@ -38,6 +39,7 @@ function App() {
                 <Route path="twofactor" element={<TwoFactorAuth />} />
                 <Route path="verify2fa" element={<Verify2FA />} />
                 <Route path="settings" element={<Settings />} />
+				<Route path="*" element={<NotFound/>} />
                 {/* <EventLayer /> */}
             </Route>
         </Routes>

@@ -1,0 +1,36 @@
+$wave-time: 600ms;
+$wave-size: 1vmin;
+$wave-seq-list: 0vmin, -$wave-size, 0vmin, $wave-size, 0vmin, -$wave-size, 0vmin;
+$width: 600px;
+$height: 100px;
+@mixin screen-text($font-size) {
+    color: #ffffff;
+    font-family: "naturebeauty", cursive;
+    font-size: $font-size;
+    text-align: center;
+    text-shadow: ($font-size / 15) ($font-size / 15) rgba(#303030, 0.5);
+    user-select: none;
+  }
+
+.errorCode {
+	word-spacing: 30px;
+	line-height: 1.4em;
+    @include screen-text(12vmin);
+    padding: 1.5vmin 5vmin;
+    display: flex;
+    span {
+        font-weight: bold;
+        display: block;
+    }
+}
+
+
+.home_button_container {
+	gap: 10px;
+	button {	
+		width: $width * 0.5 - 5px;
+		height: $height * 0.5 - 5px;
+		text-decoration: none;
+		border-radius: 12px;
+	}
+}

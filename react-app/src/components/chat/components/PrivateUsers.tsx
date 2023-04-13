@@ -39,9 +39,11 @@ export default function PrivateUsers() {
                 });
             })
             .on("RemovePrivateUser", (channelUserId: number) => {
-                setUsers((state) => 
-                    [...state.filter((user) => user.channelUserId !== channelUserId)]
-                );
+                setUsers((state) => [
+                    ...state.filter(
+                        (user) => user.channelUserId !== channelUserId
+                    ),
+                ]);
             });
         return () => {
             socket.off("PrivateUser").off("RemovePrivateUser");
@@ -62,14 +64,13 @@ export default function PrivateUsers() {
                 {users.filter((user) => user.rights === "admin").length > 0 && (
                     <span className="title">Admin</span>
                 )}
-                {users
-                    .map((user, i) => (
-                        <PrivateUserPlate
-                            user={user}
-                            key={`admin-${i}`}
-                            type="channelUser"
-                        />
-                    ))}
+                {users.map((user, i) => (
+                    <PrivateUserPlate
+                        user={user}
+                        key={`admin-${i}`}
+                        type="channelUser"
+                    />
+                ))}
             </div>
         </div>
     );

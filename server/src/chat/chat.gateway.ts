@@ -39,7 +39,6 @@ interface InvitationType {
 
 const ROOM_PREFIX = "room-";
 
-
 @WebSocketGateway({
     cors: {
         origin: ["http://localhost:9000"],
@@ -88,7 +87,7 @@ export class ChatGateway {
         @MessageBody("userid") userid: number,
         @MessageBody("channelid") channelid: number,
         @ConnectedSocket() client: Socket
-    ) {            
+    ) {
         client.leave(ROOM_PREFIX + channelid);
         return ROOM_PREFIX + channelid + " left";
     }
@@ -162,8 +161,7 @@ export class ChatGateway {
         });
         if (channelUser === undefined)
             return `${username} already in channel or is pending`;
-        if (this.generalService.getUsersOnline().has(user.id))
-        {
+        if (this.generalService.getUsersOnline().has(user.id)) {
             this.server.sockets.sockets.forEach((socket) => {
                 if (socket.data.user.id === user.id)
                     socket.emit("pendings", {
@@ -172,7 +170,7 @@ export class ChatGateway {
                         name: channelUser.channel.name,
                         image: channelUser.channel.image,
                     });
-            })
+            });
         }
         return `User ${channelUser.user.username} invited`;
     }
@@ -253,18 +251,16 @@ export class ChatGateway {
         if (friend === undefined) return "error: friends already or is pending";
         let friendSocket = undefined;
         this.server.sockets.sockets.forEach((socket) => {
-            if (socket.data.user.id == friend.friend.id)
-                friendSocket = socket;
+            if (socket.data.user.id == friend.friend.id) friendSocket = socket;
         });
-        if (friendSocket)
-        {
-            console.log("friend", friend)
+        if (friendSocket) {
+            console.log("friend", friend);
             friendSocket.emit("pendings", {
                 id: friend.id,
                 type: "Friend",
                 name: friend.user.username,
                 image: friend.user.avatar,
-            })
+            });
         }
         return `${friendName} invited`;
     }
@@ -295,10 +291,10 @@ export class ChatGateway {
         let userSocket = undefined;
         this.server.sockets.sockets.forEach((socket) => {
             if (socket.data.user.id == updatedFriend.user.id)
-                userSocket = socket
-        })
+                userSocket = socket;
+        });
         if (accept) {
-            userSocket?.emit("friend", {...friend, friendId: friendId});
+            userSocket?.emit("friend", { ...friend, friendId: friendId });
             return `friendhip with ${user.username} accepted`;
         }
         const res = await this.friendService.deleteFriend(friendId);
@@ -313,18 +309,16 @@ export class ChatGateway {
         @ConnectedSocket() client: Socket
     ): Promise<string> {
         const friend = await this.friendService.findFriend(Number(friendId));
-        if (friend === undefined) return "error"
+        if (friend === undefined) return "error";
         const userId = friend.user.id;
         const userFriendId = friend.friend.id;
 
         let friendSocket = undefined;
         let userSocket = undefined;
         this.server.sockets.sockets.forEach((socket) => {
-            if (socket.data.user.id == userId)
-                userSocket = socket
-            if (socket.data.user.id == userFriendId)
-                friendSocket = socket
-        })
+            if (socket.data.user.id == userId) userSocket = socket;
+            if (socket.data.user.id == userFriendId) friendSocket = socket;
+        });
         userSocket?.emit("removeFriend", friendId);
         friendSocket?.emit("removeFriend", friendId);
         return (await this.friendService.deleteFriend(friendId)) !== -1

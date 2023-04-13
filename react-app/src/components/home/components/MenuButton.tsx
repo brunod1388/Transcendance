@@ -7,11 +7,18 @@ interface Props {
     filter?: boolean;
     onClick?: any;
     isChannel?: boolean;
-    arrow?:boolean;
+    arrow?: boolean;
 }
 
 export default function MenuButton(props: Props) {
-    const { image, name, filter = false, onClick, isChannel = true, arrow=false } = props;
+    const {
+        image,
+        name,
+        filter = false,
+        onClick,
+        isChannel = true,
+        arrow = false,
+    } = props;
     return (
         <div
             className={"menu-button" + (isChannel ? "" : " notChannel")}
