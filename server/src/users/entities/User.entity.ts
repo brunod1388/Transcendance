@@ -6,6 +6,7 @@ import { Friend } from "./Friend.entity";
 import { Message } from "../../chat/entities/Message.entity";
 import { ChannelUser } from "../../chat/entities/ChannelUser.entity";
 import { Match } from "src/match/entities/Match.entity";
+import { BlockedUser } from "src/chat/entities/BlockedUser.entity";
 
 // The name provided here will be used as the table name in the db
 @Entity({ name: "users" })
@@ -70,4 +71,7 @@ export class User {
 
     @OneToMany(() => Match, (match) => match.user2)
     matches2: Match[];
+
+    @OneToMany(() => BlockedUser, blockedChannels => blockedChannels.user)
+    blockedChannels: BlockedUser[]
 }
