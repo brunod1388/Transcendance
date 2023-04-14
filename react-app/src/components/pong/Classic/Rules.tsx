@@ -17,6 +17,9 @@ import { useInterval } from "hooks";
 import { move, detectScore, launchBall } from "./Physics";
 import style from "./pong.module.scss";
 
+// const MAX_SCORE = 10;
+const MAX_SCORE = 10000;
+
 export type MatchType = "Training" | "Ranked";
 interface CreateMatchDTO {
     user1id: number;
@@ -174,7 +177,7 @@ export function Rules(props: PropsWithChildren<Props>) {
     }, [gameStatus]);
 
     useEffect(() => {
-        if (props.score.player1 >= 10 || props.score.player2 >= 10) {
+        if (props.score.player1 >= MAX_SCORE || props.score.player2 >= MAX_SCORE) {
             if (props.user.host === true && gameStatus !== END_GAME) {
                 console.log("record on score");
                 const dto: CreateMatchDTO = {

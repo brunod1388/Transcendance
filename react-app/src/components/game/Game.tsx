@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { HistoryIcon, MatchIcon, RankingIcon } from "../../assets/images";
+import { HistoryIcon, MatchIcon, NoUserIcon, RankingIcon } from "../../assets/images";
 import GamerBoard from "./components/GamerBoard";
 import RankingBoard from "./components/RankingBoard";
 import "./styles/game.scss";
 import HistoryBoard from "./components/HistoryBoard";
 import BoardLayout from "./components/BoardLayout";
 import { Matchmaking } from "./components/Matchmaking";
-type Props = {};
+import { LoadGame } from "components/pong/LoadGame";
+import { GameEvent } from "components/pong/GameEvent";
+
+
 
 enum BoardType {
     ranking = "ranking",
@@ -15,7 +18,7 @@ enum BoardType {
     layout = "layout",
 }
 
-function Game({}: Props) {
+function Game() {
     const [panel, setPanel] = useState<BoardType>(BoardType.ranking);
 
     return (
@@ -38,6 +41,14 @@ function Game({}: Props) {
                         onClick={() => setPanel(BoardType.ranking)}
                     >
                         <img src={RankingIcon} alt="" />
+                    </div>
+                    <div                    // TEST PURPOSE
+                        className={`tab ${
+                            panel === BoardType.history ? "selected" : ""
+                        }`}
+                        onClick={() => setPanel(BoardType.layout)}
+                    >
+                        <img src={NoUserIcon} alt="" />
                     </div>
                     <div
                         className={`tab ${
@@ -70,6 +81,12 @@ function Game({}: Props) {
                             <Matchmaking />
                         </BoardLayout>
                     )}
+                    {panel == "layout" && (
+                        <BoardLayout title="Layout test" titleIcon={MatchIcon}>
+                            TEST
+                        </BoardLayout>
+                    )}
+
                 </div>
             </div>
         </div>

@@ -1,7 +1,7 @@
 import { CSSProperties, PropsWithChildren } from "react";
 import style from "./pong.module.scss";
 import { GameConfig, Score } from "@customTypes";
-
+import "../styles/playBoard.scss";
 interface Props {
     config: GameConfig;
     score: Score;
@@ -13,13 +13,17 @@ export function Board(props: PropsWithChildren<Props>) {
         height: props.config.boardHeight,
     };
     return (
-        <>
-            <div style={boardStyle} className={style.container} tabIndex={-1}>
+        <div className="play-board">
+            <div
+                style={boardStyle}
+                className={style.container}
+                tabIndex={-1}
+            >
                 <div
                     style={{
                         width: "100%",
                         height: "100%",
-                        position: "absolute",
+                        // position: "absolute",
                     }}
                 >
                     <div className={style.score} id={style["left"]}>
@@ -32,6 +36,6 @@ export function Board(props: PropsWithChildren<Props>) {
                     {props.children}
                 </div>
             </div>
-        </>
+        </div>
     );
 }
