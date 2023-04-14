@@ -1,7 +1,7 @@
 import style from "./notifications.module.scss";
-import { useNotificationsDispatch } from "../../hooks";
-import { getStyle, removeNotification } from "../../utils/notifications.utils";
-import { Notification } from "../../@types";
+import { useNotificationsDispatch } from "hooks";
+import { getStyle, removeNotification } from "utils/notifications.utils";
+import { Notification } from "@customTypes";
 
 interface Props {
     notifications: Notification[];

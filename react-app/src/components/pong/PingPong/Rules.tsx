@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect, useRef, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import {
     Ball,
     END_GAME,
@@ -12,9 +12,9 @@ import {
     Position,
     DISCONECTED,
     PositionPingPongPaddle,
-} from "../../../@types";
-import { useSocket, useTimeout } from "../../../hooks";
-import { useInterval } from "../../../hooks";
+} from "@customTypes";
+import { useSocket, useTimeout } from "hooks";
+import { useInterval } from "hooks";
 import { move, detectScore, launchBall } from "./Physics";
 import style from "./pong.module.scss";
 interface Props {

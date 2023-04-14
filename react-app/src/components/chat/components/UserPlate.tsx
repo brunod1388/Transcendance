@@ -1,8 +1,8 @@
 import UserMenu from "./UserMenu";
-import { NoUserIcon } from "../../../assets/images";
-import { UserPlateType, UserType } from "../../../@types";
+import { NoUserIcon } from "assets/images";
+import { UserPlateType, UserType } from "@customTypes";
+import { useVisible } from "hooks";
 import "../styles/userPlate.scss";
-import { useVisible } from "../../../hooks";
 
 type Props = {
     hasNewMsg?: boolean;

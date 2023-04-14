@@ -1,4 +1,4 @@
-import { useChat } from "../../context";
+import { useChat } from "context";
 import ChannelUsers from "./components/ChannelUsers";
 import Feed from "./components/Feed";
 import PrivateUsers from "./components/PrivateUsers";

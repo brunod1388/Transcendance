@@ -1,3 +1,5 @@
+@import 'assets/styles/variables';
+
 $width: 650px;
 $height: 480px;
 $scoreSize: 45px;
@@ -7,10 +9,7 @@ $paddleWidth: 11px;       // together must be equal to PADDLE_WIDTH * 2
 $paddleHeight: 80px;	 // must be equal to PADDLE_HEIGHT * 2
 $ballRadius: 20px; 		  // must be equal to BALL_RADIUS * 2
 
-@font-face {
-	font-family: BebasNeue-Regular;
-	src: url(../../../assets/fonts/BebasNeue-Regular.ttf);
-}
+
 
 
 .container {

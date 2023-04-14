@@ -1,7 +1,7 @@
-import { DeleteIcon, EditIcon, NoUserIcon } from "../../../assets/images";
-import { MessageType } from "../../../@types";
+import { DeleteIcon, EditIcon, NoUserIcon } from "assets/images";
+import { MessageType } from "@customTypes";
+import { getDateMsg, getTimeStr } from "utils";
 import "../styles/message.scss";
-import { getDateMsg, getTimeStr } from "../../../utils";
 
 interface Props {
     owner?: boolean;

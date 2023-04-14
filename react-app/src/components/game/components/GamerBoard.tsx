@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../../../context";
+import { useAuth } from "context";
+import { useSocket } from "hooks";
 import "../styles/gamerBoard.scss";
-import { useSocket } from "../../../hooks";
 
 type Props = {};
 interface MatchSummary {

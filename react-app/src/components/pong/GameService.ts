@@ -5,7 +5,7 @@ import {
     READY,
     classicConfig,
     pingpongConfig,
-} from "../../@types";
+} from "@customTypes";
 
 export const playersAreReady = (
     player1: PlayerInfo,

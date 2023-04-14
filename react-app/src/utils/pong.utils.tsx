@@ -1,7 +1,7 @@
-import { Score, Broadcast } from "../@types/pong.types";
+import { Score, Broadcast } from "@customTypes/pong.types";
 import { NavigateFunction } from "react-router-dom";
 import { Socket } from "socket.io-client";
-import { GameMode } from "../@types";
+import { GameMode } from "@customTypes";
 
 export function leaveGame(
     socket: Socket,

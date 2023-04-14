@@ -7,13 +7,12 @@ import {
     LOST,
     PlayerInfo,
     WON,
-} from "../../@types";
+} from "@customTypes";
 
 import { useEffect, PropsWithChildren, useState } from "react";
 import { LoadGame } from "./LoadGame";
-import { Score } from "../../@types";
-import { EndScreen } from "./Classic/Rules";
-import { useAuth } from "../../context";
+import { Score } from "@customTypes";
+import { useAuth } from "context";
 
 interface Props {
     host: boolean;

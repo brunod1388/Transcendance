@@ -10,7 +10,7 @@ import {
     LOADING,
     initialUser,
     initialOpponent,
-} from "../../@types";
+} from "@customTypes";
 import { GameEvent } from "./GameEvent";
 import { useEffect, useState } from "react";
 import { PingPong } from "./PingPong/PingPong";

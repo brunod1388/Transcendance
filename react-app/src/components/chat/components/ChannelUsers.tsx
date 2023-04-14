@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import UserPlate from "./UserPlate";
-import { useAuth, useChat } from "../../../context";
-import { useSocket } from "../../../hooks";
-import { UserType } from "../../../@types";
-import "../styles/channelUsers.scss";
+import { useAuth, useChat } from "context";
+import { useSocket } from "hooks";
+import { UserType } from "@customTypes";
 import AddContact from "./AddContact";
+import "../styles/channelUsers.scss";
 
 export default function ChannelUsers() {
     const { channel, updateChannel } = useChat();
@@ -18,7 +18,7 @@ export default function ChannelUsers() {
             "getChannelUsers",
             { channelId: channel.id },
             (users: UserType[]) => {
-                console.log(users)
+                console.log(users);
                 setUsers(users);
                 const rights = users.find(
                     (user) => user.id === userAuth.id

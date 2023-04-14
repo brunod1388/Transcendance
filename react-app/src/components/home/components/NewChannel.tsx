@@ -1,9 +1,8 @@
 import { useState } from "react";
-import AddImage from "../../../assets/images/add-image.png";
-import { useSocket } from "../../../hooks";
-import { useAuth, useChat } from "../../../context";
-import { ChannelType } from "../../../@types";
-import { LockIcon, NoChannelIcon, UserIcon } from "../../../assets/images";
+import AddImage from "assets/images/add-image.png";
+import { useSocket } from "hooks";
+import { useAuth } from "context";
+import { LockIcon, NoChannelIcon } from "assets/images";
 import "../styles/newChannel.scss";
 interface Props {
     quitForm: () => void;
@@ -15,7 +14,6 @@ export default function NewChannel(props: Props) {
     const [error, setErrot] = useState(false);
     const { userAuth } = useAuth();
     const [create, setCreate] = useState(false);
-    const { channel, updateChannel } = useChat();
 
     function handleSubmit(e: any) {
         e.preventDefault();

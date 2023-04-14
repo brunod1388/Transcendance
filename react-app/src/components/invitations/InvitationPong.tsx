@@ -5,12 +5,12 @@ import {
     InvitationDTO,
     CLASSIC,
     GameMode,
-} from "../../@types";
-import { useNotificationsDispatch } from "../../hooks";
-import { useTimeout } from "../../hooks";
-import { removeNotification } from "../../utils";
-import { joinGame, sendResponse } from "../../utils";
-import { useFeature } from "../../context";
+} from "@customTypes";
+import { useNotificationsDispatch } from "hooks";
+import { useTimeout } from "hooks";
+import { removeNotification } from "utils";
+import { joinGame, sendResponse } from "utils";
+import { useFeature } from "context";
 import { Socket } from "socket.io-client";
 
 interface Props {

@@ -2,7 +2,7 @@ import { PropsWithChildren } from "react";
 import { useReducer } from "react";
 import { createContext } from "react";
 import { createPortal } from "react-dom";
-import { Notifications } from "../components/notifications";
+import { Notifications } from "components/notifications";
 import {
     State,
     Action,
@@ -11,8 +11,8 @@ import {
     ActionType,
     Notification,
     NotificationsContextType,
-} from "../@types/notifications.types";
-import { createId } from "../utils";
+} from "@customTypes/notifications.types";
+import { createId } from "utils";
 
 // Notifications context has:
 // - one list of notifications

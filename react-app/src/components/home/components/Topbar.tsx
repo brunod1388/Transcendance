@@ -1,11 +1,10 @@
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent } from "react";
 import axios from "axios";
-import { useAuth, useChat, Feature, useFeature } from "../../../context";
+import { useAuth, useChat, Feature, useFeature } from "context";
 import Invitations from "./Invitation";
-import { useSocket, useVisible } from "../../../hooks";
-import { ChatInvitationType } from "../../../@types";
+import { useSocket } from "hooks";
 import HeroMenu from "./HeroMenu";
-import { ChatIcon, PlayIcon } from "../../../assets/images";
+import { ChatIcon, PlayIcon } from "assets/images";
 import "../styles/topbar.scss";
 
 axios.defaults.baseURL = `http://localhost:3000`;
@@ -43,13 +42,19 @@ function Topbar() {
     return (
         <div className="topbar">
             <div className="channel">
-                {feature !== Feature.None &&
+                {feature !== Feature.None && (
                     <img
                         // className={"channelImg" + ((channel.image === Feature.Private || channel.image === Feature.Game) ? " icon":"")}
-                        className={"channelImg" + ((channel.image === ChatIcon || channel.image === PlayIcon) ? " icon":"")}
+                        className={
+                            "channelImg" +
+                            (channel.image === ChatIcon ||
+                            channel.image === PlayIcon
+                                ? " icon"
+                                : "")
+                        }
                         src={channel.image}
-                />
-                }
+                    />
+                )}
                 <span className="channelName">{defineTitle()}</span>
                 <span style={{ color: "red" }}>{channel.id}</span>
             </div>

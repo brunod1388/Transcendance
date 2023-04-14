@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { removeNotification, createId, addNotification } from "../../utils";
-import { InvitationDTO, DispatchType, GameMode } from "../../@types";
+import { removeNotification, createId, addNotification } from "utils";
+import { InvitationDTO, DispatchType, GameMode } from "@customTypes";
 import { InvitationPong } from "./InvitationPong";
 import { Socket } from "socket.io-client";
 

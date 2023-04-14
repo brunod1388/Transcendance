@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import { useSocket } from "hooks";
+import { useAuth } from "context";
 import "../styles/matchBoard.scss";
-import { useSocket } from "../../../hooks";
-import { useAuth } from "../../../context";
 
 export function Matchmaking() {
     const [isWaiting, setIsWaiting] = useState<boolean>(false);
@@ -22,20 +22,22 @@ export function Matchmaking() {
     }, []);
 
     return (
-        <div className="button-container">
-            <div className="button-border" />
-            <button
-                className="play-button"
-                onClick={() => {
-                    socket.emit(
-                        isWaiting ? "leaveMatchmaking" : "joinMatchmaking",
-                        userAuth.id
-                    );
-                    socket.emit("getStatusMatchmaking", userAuth.id);
-                }}
-            >
-                {isWaiting ? "Waiting" : "Play"}
-            </button>
+        <div className="match-container">
+            <div className="button-container">
+                <div className="button-border" />
+                <button
+                    className="play-button"
+                    onClick={() => {
+                        socket.emit(
+                            isWaiting ? "leaveMatchmaking" : "joinMatchmaking",
+                            userAuth.id
+                        );
+                        socket.emit("getStatusMatchmaking", userAuth.id);
+                    }}
+                >
+                    {isWaiting ? "Waiting" : "Play"}
+                </button>
+            </div>
         </div>
     );
 }

@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
-import UserPlate from "../../chat/components/UserPlate";
-import { UserType } from "../../../@types";
-import AddContact from "../../chat/components/AddContact";
+import UserPlate from "components/chat/components/UserPlate";
+import { UserType } from "@customTypes";
+import { useSocket } from "hooks";
+import { useAuth } from "context";
+import AddContact from "components/chat/components/AddContact";
 import "../styles/friendbar.scss";
-import { useSocket } from "../../../hooks";
-import { useAuth } from "../../../context";
-
-const usr: UserType = {
-    id: 113,
-    username: "testUser",
-};
 
 function Friendbar() {
     const [friends, setFriends] = useState<UserType[]>([]);

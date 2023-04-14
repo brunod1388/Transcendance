@@ -33,6 +33,15 @@ $green-connected: #00ff00;
 	font-family: MrDeHaviland;
 	src: local("MrDeHaviland"), url("../fonts/MrDeHaviland-Regular.ttf") format("truetype");
 }
+@font-face {
+	font-family: BebasNeue-Regular;
+	src: url("../fonts/BebasNeue-Regular.ttf");
+}
+
+@font-face {
+	font-family: BebasNeue-Regular;
+	src: url("../fonts/BebasNeue-Regular.ttf");
+}
 
 @keyframes appear{
 	0% { opacity: 0%; }

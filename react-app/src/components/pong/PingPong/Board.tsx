@@ -1,6 +1,6 @@
 import { CSSProperties, PropsWithChildren } from "react";
 import style from "./pong.module.scss";
-import { GameConfig, PlayerInfo, Score } from "../../../@types";
+import { GameConfig, PlayerInfo, Score } from "@customTypes";
 
 interface Props {
     config: GameConfig;

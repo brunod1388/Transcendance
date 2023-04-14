@@ -6,11 +6,7 @@ $paddleBorderWidth: 3px; // together must be equal to PADDLE_WIDTH * 2
 $paddleWidth: 11px;       // together must be equal to PADDLE_WIDTH * 2
 $paddleHeight: 80px;	 // must be equal to PADDLE_HEIGHT * 2
 $ballRadius: 20px; 		  // must be equal to BALL_RADIUS * 2
-
-@font-face {
-	font-family: BebasNeue-Regular;
-	src: url(../../../assets/fonts/BebasNeue-Regular.ttf);
-}
+@import 'assets/styles/general';
 
 .container {
 	outline: none;

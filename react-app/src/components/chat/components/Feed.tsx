@@ -1,9 +1,9 @@
 import { FormEvent, useEffect, useState } from "react";
-import { AddImageIcon } from "../../../assets/images";
+import { AddImageIcon } from "assets/images";
 import Message from "./Message";
-import { useAuth, useChat } from "../../../context";
-import { useSocket } from "../../../hooks";
-import { MessageType } from "../../../@types";
+import { useAuth, useChat } from "context";
+import { useSocket } from "hooks";
+import { MessageType } from "@customTypes";
 import "../styles/feed.scss";
 
 const NB_MESSAGE = 20;

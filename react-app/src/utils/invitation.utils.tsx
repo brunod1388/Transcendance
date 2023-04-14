@@ -1,8 +1,7 @@
-import style from "../components/notifications/notifications.module.scss";
-import { ActionType, DispatchType } from "../@types";
+import style from "components/notifications/notifications.module.scss";
+import { ActionType, DispatchType } from "@customTypes";
 import { Socket } from "socket.io-client";
-import { ResponseDTO } from "../@types";
-import axios from "axios";
+import { ResponseDTO } from "@customTypes";
 import { createId } from "./notifications.utils";
 
 const invitation_url = `http://localhost:3000/game/invitation`;

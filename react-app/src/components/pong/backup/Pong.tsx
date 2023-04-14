@@ -1,5 +1,5 @@
 // import { CSSProperties, PropsWithChildren } from "react";
-// import { leaveGame } from "../../../utils/pong.utils";
+// import { leaveGame } from "utils/pong.utils";
 // import { useNavigate } from "react-router-dom";
 // import {
 //     Score,
@@ -12,15 +12,15 @@
 //     WIDTH,
 //     WIN1,
 //     WIN2,
-// } from "../../../@types";
-// import { useSocket, useQuery, useTimeout } from "../../../hooks";
+// } from "@types";
+// import { useSocket, useQuery, useTimeout } from "hooks";
 // import {
 //     useMyPaddle,
 //     useYourPaddle,
 //     useBall,
 //     useGame,
 //     useLoadGame,
-// } from "../../../hooks/pong";
+// } from "hooks/pong";
 // import style from "./pong.module.scss";
 
 // interface PropsGame {

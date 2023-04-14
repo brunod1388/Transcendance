@@ -1,8 +1,8 @@
-import { createId, addNotification } from "../../utils";
-import { DispatchType, ResponseDTO, GameMode } from "../../@types";
+import { createId, addNotification } from "utils";
+import { DispatchType, ResponseDTO, GameMode } from "@customTypes";
 import { ResponsePong } from "./ResponsePong";
 import { useEffect, useState } from "react";
-import { removeNotification } from "../../utils";
+import { removeNotification } from "utils";
 import { Socket } from "socket.io-client";
 
 export const CreateResponse = (

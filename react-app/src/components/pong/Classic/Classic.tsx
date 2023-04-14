@@ -2,8 +2,8 @@ import { Rules } from "./Rules";
 import { Board } from "./Board";
 import { BallComponent } from "./Ball";
 import { MyPaddle, YourPaddle } from "./Paddle";
-import { Ball, GameConfig, PlayerInfo, Position, Score } from "../../../@types";
-import { CSSProperties, useEffect } from "react";
+import { Ball, GameConfig, PlayerInfo, Position, Score } from "@customTypes";
+import { CSSProperties } from "react";
 interface Props {
     host: boolean;
     room: string;

@@ -1,4 +1,3 @@
-import { spawn } from "child_process";
 import "../styles/menuButton.scss";
 
 interface Props {

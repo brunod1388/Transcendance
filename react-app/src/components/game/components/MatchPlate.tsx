@@ -1,5 +1,5 @@
-import { Match } from "../../../@types/match.types";
-import { getTimeStr } from "../../../utils";
+import { Match } from "@customTypes/match.types";
+import { getTimeStr } from "utils";
 import "../styles/matchPlate.scss";
 
 type Props = {

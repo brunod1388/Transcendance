@@ -1,7 +1,7 @@
 import { useState, KeyboardEvent } from "react";
-import { AddUserIcon } from "../../../assets/images";
-import { useAuth, useChat } from "../../../context";
-import { useSocket } from "../../../hooks";
+import { AddUserIcon } from "assets/images";
+import { useAuth, useChat } from "context";
+import { useSocket } from "hooks";
 import "../styles/invite.scss";
 
 type Props = {

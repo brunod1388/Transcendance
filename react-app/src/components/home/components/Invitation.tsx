@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { useSocket } from "hooks";
+import { useAuth } from "context";
+import { ChatInvitationType } from "@customTypes";
 import {
     NoChannelIcon,
     NoUserIcon,
     AcceptIcon,
     DeclineIcon,
     BellIcon,
-} from "../../../assets/images";
-import { useSocket } from "../../../hooks";
-import { useAuth } from "../../../context";
-import { ChatInvitationType } from "../../../@types";
+} from "assets/images";
 import "../styles/invitations.scss";
 
 export default function Invitations() {

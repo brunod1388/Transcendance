@@ -1,10 +1,10 @@
-import { CSSProperties, useState } from "react";
-import { Broadcast, GameConfig, Position } from "../../../@types";
+import { CSSProperties } from "react";
+import { Broadcast, GameConfig, Position } from "@customTypes";
 import { useCallback } from "react";
-import { useKeyboard, useSocket } from "../../../hooks";
-import { useInterval } from "../../../hooks";
+import { useSocket } from "hooks";
+import { useInterval } from "hooks";
 import style from "./pong.module.scss";
-import { useMouse } from "../../../hooks/useMouse";
+import { useMouse } from "hooks/useMouse";
 interface MyProps {
     host: boolean;
     myPaddle: Position;

@@ -1,8 +1,7 @@
 import { CSSProperties, useEffect, useState } from "react";
-import { Broadcast, GameConfig, Position } from "../../../@types";
-import { useCallback } from "react";
-import { useKeyboard, useSocket } from "../../../hooks";
-import { useInterval } from "../../../hooks";
+import { Broadcast, GameConfig, Position } from "@customTypes";
+import { useSocket } from "hooks";
+import { useInterval } from "hooks";
 import style from "./pong.module.scss";
 interface Props {
     host: boolean;

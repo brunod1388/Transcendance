@@ -2,12 +2,8 @@ import { useEffect } from "react";
 import NewChannel from "./NewChannel";
 import MenuButton from "./MenuButton";
 import { useState } from "react";
-import {
-    ChatIcon,
-    AddChannelIcon,
-    NoChannelIcon,
-    PlayIcon,
-} from "../../../assets/images";
+import { useSocket } from "hooks";
+import { ChannelType } from "@customTypes";
 import {
     useAuth,
     useChat,
@@ -15,9 +11,13 @@ import {
     useFeature,
     ChannelDetailsType,
     defaultChannel,
-} from "../../../context";
-import { useSocket } from "../../../hooks";
-import { ChannelType } from "../../../@types";
+} from "context";
+import {
+    ChatIcon,
+    AddChannelIcon,
+    NoChannelIcon,
+    PlayIcon,
+} from "assets/images";
 import "../styles/navbar.scss";
 
 function Navbar() {
@@ -67,15 +67,14 @@ function Navbar() {
     }
 
     function privateClick() {
-        setFeature(Feature.Private)
-        // if (feature !== Feature.Chat) setFeature(Feature.Chat);
+        setFeature(Feature.Private);
         updateChannel({
             ...channel,
             id: 0,
             name: "Private Message",
             type: "private",
             rights: "admin",
-            image: ChatIcon
+            image: ChatIcon,
         });
     }
 
@@ -115,7 +114,7 @@ function Navbar() {
             name: "Play Pong",
             type: "private",
             rights: "admin",
-            image: PlayIcon
+            image: PlayIcon,
         });
     }
 

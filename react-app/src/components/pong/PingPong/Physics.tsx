@@ -5,7 +5,7 @@ import {
     Paddle,
     Range,
     Position,
-} from "../../../@types";
+} from "@customTypes";
 
 // Function to move the ball
 export const move = (

@@ -1,9 +1,9 @@
 import { CSSProperties, PropsWithChildren, useEffect, useState } from "react";
-import { GameConfig, Position } from "../../../@types";
-import { useInterval, useSocket } from "../../../hooks";
-import { Score } from "../../../@types";
+import { GameConfig, Position } from "@customTypes";
+import { useInterval, useSocket } from "hooks";
+import { Score } from "@customTypes";
 import style from "./pong.module.scss";
-import { Ball as BallType } from "../../../@types";
+import { Ball as BallType } from "@customTypes";
 
 // interface Props {
 //     host: boolean;

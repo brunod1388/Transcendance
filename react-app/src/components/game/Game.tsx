@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { player } from "../../@types/match.types";
 import { HistoryIcon, MatchIcon, RankingIcon } from "../../assets/images";
 import GamerBoard from "./components/GamerBoard";
 import RankingBoard from "./components/RankingBoard";
 import "./styles/game.scss";
 import HistoryBoard from "./components/HistoryBoard";
-import MatchBoard from "./components/MatchBoard";
 import BoardLayout from "./components/BoardLayout";
+import { Matchmaking } from "./components/Matchmaking";
 type Props = {};
 
 enum BoardType {
@@ -26,19 +25,19 @@ function Game({}: Props) {
                 <div className="board-tabs">
                     <div
                         className={`tab ${
-                            panel === BoardType.ranking ? "selected" : ""
-                        }`}
-                        onClick={() => setPanel(BoardType.ranking)}
-                    >
-                        <img src={RankingIcon} alt="" />
-                    </div>
-                    <div
-                        className={`tab ${
                             panel === BoardType.match ? "selected" : ""
                         }`}
                         onClick={() => setPanel(BoardType.match)}
                     >
                         <img src={MatchIcon} alt="" />
+                    </div>
+                    <div
+                        className={`tab ${
+                            panel === BoardType.ranking ? "selected" : ""
+                        }`}
+                        onClick={() => setPanel(BoardType.ranking)}
+                    >
+                        <img src={RankingIcon} alt="" />
                     </div>
                     <div
                         className={`tab ${
@@ -67,8 +66,8 @@ function Game({}: Props) {
                         </BoardLayout>
                     )}
                     {panel == "match" && (
-                        <BoardLayout title="Match Board" titleIcon={MatchIcon}>
-                            <MatchBoard />
+                        <BoardLayout title="Match Making" titleIcon={MatchIcon}>
+                            <Matchmaking />
                         </BoardLayout>
                     )}
                 </div>

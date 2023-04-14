@@ -8,11 +8,11 @@ import {
     PlayerInfo,
     READY,
     Score,
-} from "../../@types";
+} from "@customTypes";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { playersAreReady } from "./GameService";
 import { EndScreen } from "./Classic/Rules";
-import { useSocket } from "../../hooks";
+import { useSocket } from "hooks";
 
 interface Props {
     gameStarted: boolean;

@@ -43,7 +43,11 @@ export class ChannelService {
         });
     }
 
-    async getChannels(userId: number, isPending: boolean, isPrivate: boolean): Promise<Channel[]> {
+    async getChannels(
+        userId: number,
+        isPending: boolean,
+        isPrivate: boolean
+    ): Promise<Channel[]> {
         const channels = await this.channelRepository.find({
             relations: {
                 channelUsers: true,
@@ -58,7 +62,7 @@ export class ChannelService {
                 id: true,
                 name: true,
                 image: true,
-                type: true
+                type: true,
             },
         });
         if (isPrivate)
@@ -75,7 +79,7 @@ export class ChannelService {
                 channelUsers: {
                     user: { id: userId },
                 },
-                type: ChannelType.PRIVATE
+                type: ChannelType.PRIVATE,
             },
             select: {
                 id: true,
@@ -84,7 +88,10 @@ export class ChannelService {
         return channels;
     }
 
-    async getPrivateChannel(userId1: number, userId2: number): Promise<Channel> {
+    async getPrivateChannel(
+        userId1: number,
+        userId2: number
+    ): Promise<Channel> {
         const channels = await this.channelRepository.find({
             relations: {
                 channelUsers: true,
@@ -93,38 +100,36 @@ export class ChannelService {
                 channelUsers: {
                     user: { id: userId1 },
                 },
-                type: ChannelType.PRIVATE
+                type: ChannelType.PRIVATE,
             },
             select: {
                 id: true,
                 type: true,
-                channelUsers: true
+                channelUsers: true,
             },
         });
         let channel = undefined;
         channels.filter((chan) => {
             let hasUser2 = false;
             chan.channelUsers.forEach((chanUser) => {
-                if(chanUser.id === userId2)
-                    hasUser2 = true;
+                if (chanUser.id === userId2) hasUser2 = true;
             });
-            if (hasUser2)
-                channel = chan;
-        })
+            if (hasUser2) channel = chan;
+        });
         return channel;
     }
 
     async getPrivateChannelUsers(userId: number) {
         return this.channelRepository.find({
-            relations: ['channelUsers', 'channelUsers.user'],
+            relations: ["channelUsers", "channelUsers.user"],
             where: {
                 type: ChannelType.PRIVATE,
-                channelUsers: { user: { id: userId}}
+                channelUsers: { user: { id: userId } },
             },
-            select:{
+            select: {
                 id: true,
-                channelUsers: true
-            }
-        })
+                channelUsers: true,
+            },
+        });
     }
 }

@@ -1,38 +1,33 @@
 import { useEffect, useState } from "react";
 import PrivateUserPlate from "./PrivateUserPlate";
-import { useAuth, useChat } from "../../../context";
-import { useSocket } from "../../../hooks";
-import { UserType } from "../../../@types";
+import { useChat } from "context";
+import { useSocket } from "hooks";
+import { UserType } from "@customTypes";
 import "../styles/privateUsers.scss";
 
 export default function PrivateUsers() {
-    const { channel, updateChannel } = useChat();
+    const { channel } = useChat();
     const [socket] = useSocket();
-    const { userAuth } = useAuth();
     const [searchUser, setSearchUser] = useState<UserType>();
     const [users, setUsers] = useState<UserType[]>([]);
 
     useEffect(() => {
-        socket.emit(
-            "getPrivateUsers",
-            (users: UserType[]) => {
-				console.log("PRIVATEUSERS: ", users)
-                setUsers(users);
-            }
-        );
-        socket
-            .on("PrivateUser", (user: UserType) => {
-                setUsers((state) => {
-                    const chanIndex = state.findIndex(
-                        (c) => c.channelUserId === user.channelUserId
-                    );
-                    const newUsers = [...state];
-                    chanIndex === -1
-                        ? newUsers.push(user)
-                        : (newUsers[chanIndex] = user);
-                    return newUsers;
-                });
-            })
+        socket.emit("getPrivateUsers", (users: UserType[]) => {
+            console.log("PRIVATEUSERS: ", users);
+            setUsers(users);
+        });
+        socket.on("PrivateUser", (user: UserType) => {
+            setUsers((state) => {
+                const chanIndex = state.findIndex(
+                    (c) => c.channelUserId === user.channelUserId
+                );
+                const newUsers = [...state];
+                chanIndex === -1
+                    ? newUsers.push(user)
+                    : (newUsers[chanIndex] = user);
+                return newUsers;
+            });
+        });
         return () => {
             socket.off("PrivateUser");
         };
@@ -49,14 +44,13 @@ export default function PrivateUsers() {
                 )}
             </div>
             <div className="users">
-                {users
-                    .map((user, i) => (
-                        <PrivateUserPlate
-                            user={user}
-                            key={`admin-${i}`}
-                            type="privateUser"
-                        />
-                    ))}
+                {users.map((user, i) => (
+                    <PrivateUserPlate
+                        user={user}
+                        key={`admin-${i}`}
+                        type="privateUser"
+                    />
+                ))}
             </div>
         </div>
     );

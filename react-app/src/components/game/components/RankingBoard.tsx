@@ -1,11 +1,9 @@
 import PlayerPlate from "./PlayerPlate";
-import { RankingIcon } from "../../../assets/images";
 import { useEffect, useState } from "react";
-import { players as dataPlayers } from "../players.dataset"; // test purposes
-import { player } from "../../../@types/match.types";
+import { player } from "@customTypes/match.types";
+import { useSocket } from "hooks";
 import "../styles/rankingBoard.scss";
-import { useSocket } from "../../../hooks";
-type Props = {};
+
 interface Player {
     username: string;
     avatar: string;
@@ -15,7 +13,7 @@ interface Player {
     league: string;
 }
 
-export default function RankingBoard({}: Props) {
+export default function RankingBoard() {
     const [isVisible, setIsVisible] = useState(-1);
     const [socket] = useSocket();
     const [players, setPlayers] = useState<Player[]>([]);

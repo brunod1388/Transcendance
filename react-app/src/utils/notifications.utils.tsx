@@ -1,5 +1,5 @@
-import style from "../components/notifications/notifications.module.scss";
-import { ActionType, DispatchType } from "../@types";
+import style from "components/notifications/notifications.module.scss";
+import { ActionType, DispatchType } from "@customTypes";
 
 export function getStyle(type: string): string {
     if (type === "info") {

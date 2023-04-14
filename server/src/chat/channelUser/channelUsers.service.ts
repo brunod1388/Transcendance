@@ -153,21 +153,23 @@ export class ChannelUserService {
 
     async getPrivateUsers(userId: number): Promise<UserDTO[]> {
         const channelUsers = await this.channelUserRepository.find({
-            relations: { channel: true},
+            relations: { channel: true },
             where: {
-                channel: {type: ChannelType.PRIVATE},
-                user: { id: userId }
+                channel: { type: ChannelType.PRIVATE },
+                user: { id: userId },
             },
             select: {
-                channel: {id: true}
-            }
-        })
+                channel: { id: true },
+            },
+        });
         const privateUsers = [];
         for (const channelUser of channelUsers) {
-            const chanUsers = await this.getChannelUsers(channelUser.channel.id, false);
+            const chanUsers = await this.getChannelUsers(
+                channelUser.channel.id,
+                false
+            );
             chanUsers.forEach((cUser) => {
-                if (Number(cUser.user.id) !== userId)
-                {
+                if (Number(cUser.user.id) !== userId) {
                     privateUsers.push({
                         id: cUser.user.id,
                         username: cUser.user.username,
@@ -175,10 +177,10 @@ export class ChannelUserService {
                         channelId: cUser.channel.id,
                         channelUserId: cUser.id,
                         rights: cUser.rights,
-                        room: cUser.channel.name
-                    })
+                        room: cUser.channel.name,
+                    });
                 }
-            })
+            });
         }
         return privateUsers;
     }

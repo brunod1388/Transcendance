@@ -8,9 +8,7 @@ const SERVER_URL = "http://localhost:3000";
 
 export const SocketContext = createContext<Socket>({} as Socket);
 
-interface Props {}
-
-export function SocketProvider(props: PropsWithChildren<Props>) {
+export function SocketProvider(props: PropsWithChildren) {
     //const token = Cookies.get("JWTtoken");
     //console.log("SOCKET CONTEXT jwt: ", token);
     const socket = useRef<Socket>(

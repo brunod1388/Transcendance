@@ -39,7 +39,7 @@ function App() {
                 <Route path="twofactor" element={<TwoFactorAuth />} />
                 <Route path="verify2fa" element={<Verify2FA />} />
                 <Route path="settings" element={<Settings />} />
-				<Route path="*" element={<NotFound/>} />
+                <Route path="*" element={<NotFound />} />
                 {/* <EventLayer /> */}
             </Route>
         </Routes>

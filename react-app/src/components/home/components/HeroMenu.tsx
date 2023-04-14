@@ -1,11 +1,11 @@
 import Cookies from "js-cookie";
 import MenuButton from "./MenuButton";
-import { MouseEvent, useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { useAuth, useChat, Feature, useFeature } from "../../../context";
-import { useLocalStorage } from "../../../hooks/useLocalStorage";
-import { LogoutIcon, NoUserIcon, SettingIcon } from "../../../assets/images";
-import { useSocket, useVisible } from "../../../hooks";
+import { MouseEvent } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth, useChat } from "context";
+import { useLocalStorage } from "hooks/useLocalStorage";
+import { LogoutIcon, NoUserIcon, SettingIcon } from "assets/images";
+import { useSocket, useVisible } from "hooks";
 import "../styles/heromenu.scss";
 
 export default function HeroMenu() {

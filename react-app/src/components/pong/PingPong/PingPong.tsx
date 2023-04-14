@@ -2,7 +2,7 @@ import { Rules } from "./Rules";
 import { Board } from "./Board";
 import { BallComponent } from "./Ball";
 import { MyPaddle, YourPaddle } from "./Paddle";
-import { Ball, GameConfig, PlayerInfo, Position, Score } from "../../../@types";
+import { Ball, GameConfig, PlayerInfo, Position, Score } from "@customTypes";
 import { CSSProperties, useEffect, useState } from "react";
 interface Props {
     host: boolean;

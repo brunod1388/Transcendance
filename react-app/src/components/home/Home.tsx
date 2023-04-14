@@ -1,17 +1,15 @@
 import { Navbar, Topbar, Friendbar } from ".";
-import { useFeature, Feature } from "../../context/feature.context";
-import { ContactIcon } from "../../assets/images";
-import { useAuth } from "../../context";
+import { useFeature, Feature } from "context/feature.context";
+import { ContactIcon } from "assets/images";
+import { useAuth } from "context";
 import { useState, useEffect } from "react";
-import { useNotificationsDispatch, useSocket, useVisible } from "../../hooks";
+import { useNotificationsDispatch, useSocket, useVisible } from "hooks";
 import { CreateInvitation, CreateResponse } from "../invitations";
-import { InvitationDTO, ResponseDTO, CLASSIC, GameMode } from "../../@types";
-// import { Pong } from "../pong";
+import { InvitationDTO, ResponseDTO, CLASSIC, GameMode } from "@customTypes";
 import Chat from "../chat/Chat";
-import "./styles/home.scss";
 import { Game } from "../game";
 import { Game as Pong } from "../pong/Game";
-import { gameConfig } from "../pong/GameService";
+import "./styles/home.scss";
 
 const featureComponent = new Map<number, JSX.Element>([
     [Feature.None, <></>],

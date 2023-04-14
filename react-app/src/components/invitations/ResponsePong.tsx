@@ -1,7 +1,7 @@
-import { useTimeout } from "../../hooks";
-import { joinGame } from "../../utils";
+import { useTimeout } from "hooks";
+import { joinGame } from "utils";
 import { Socket } from "socket.io-client";
-import { CLASSIC, GameMode } from "../../@types";
+import { CLASSIC, GameMode } from "@customTypes";
 
 interface Props {
     room: string;

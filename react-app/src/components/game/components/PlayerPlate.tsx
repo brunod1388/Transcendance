@@ -1,5 +1,5 @@
 import React from "react";
-import { player } from "../../../@types/match.types";
+import { player } from "@customTypes/match.types";
 import "../styles/playerPlate.scss";
 
 type Props = {

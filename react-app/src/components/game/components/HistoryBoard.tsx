@@ -1,15 +1,11 @@
-import PlayerPlate from "./PlayerPlate";
-import { HistoryIcon, NoUserIcon, RankingIcon } from "../../../assets/images";
 import { useEffect, useState } from "react";
-import "../styles/historyBoard.scss";
 import MatchPlate from "./MatchPlate";
-import { useSocket } from "../../../hooks";
-import { useAuth } from "../../../context";
-import { MatchType } from "../../pong/Classic/Rules";
-import { Match } from "../../../@types/match.types";
+import { useSocket } from "hooks";
+import { useAuth } from "context";
+import { Match } from "@customTypes/match.types";
+import "../styles/historyBoard.scss";
 
 export default function HistoryBoard() {
-    const [isVisible, setIsVisible] = useState(-1);
     const [socket] = useSocket();
     const { userAuth } = useAuth();
     const [matches, setMatches] = useState<Array<Match>>([]);
