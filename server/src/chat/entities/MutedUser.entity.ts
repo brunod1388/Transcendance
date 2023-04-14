@@ -4,8 +4,6 @@ import {
     PrimaryGeneratedColumn,
     ManyToOne,
     Index,
-    OneToOne,
-    JoinTable,
 } from "typeorm";
 import { Channel } from "./Channel.entity";
 import { User } from "../../users/entities/User.entity";
@@ -22,10 +20,14 @@ export class MutedUser {
     @Column()
     channelID: number;
 
-    @ManyToOne(() => User, user => user.mutedChannels)
+    @ManyToOne(() => User, (user) => user.mutedChannels, {
+        onDelete: "CASCADE",
+    })
     user: User;
 
-    @ManyToOne(() => Channel, channel => channel.mutedUsers)
+    @ManyToOne(() => Channel, (channel) => channel.mutedUsers, {
+        onDelete: "CASCADE",
+    })
     channel: Channel;
 
     @Column()

@@ -48,9 +48,9 @@ export class Channel {
     @OneToMany(() => ChannelUser, (channelUser) => channelUser.channel)
     channelUsers: ChannelUser[];
 
-    @OneToMany(() => BlockedUser, blockedUsers => blockedUsers.channel)
-    blockedUsers: BlockedUser[]
+    @OneToMany(() => BlockedUser, (blockedUsers) => blockedUsers.channel)
+    blockedUsers: BlockedUser[];
 
-    @OneToMany(() => MutedUser, mutedUsers => mutedUsers.channel)
-    mutedUsers: MutedUser[]
+    @OneToMany(() => MutedUser, (mutedUsers) => mutedUsers.channel)
+    mutedUsers: MutedUser[];
 }

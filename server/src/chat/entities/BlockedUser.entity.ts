@@ -20,10 +20,14 @@ export class BlockedUser {
     @Column()
     channelID: number;
 
-    @ManyToOne(() => User, user => user.blockedChannels)
+    @ManyToOne(() => User, (user) => user.blockedChannels, {
+        onDelete: "CASCADE",
+    })
     user: User;
 
-    @ManyToOne(() => Channel, channel => channel.blockedUsers)
+    @ManyToOne(() => Channel, (channel) => channel.blockedUsers, {
+        onDelete: "CASCADE",
+    })
     channel: Channel;
 
     @Column()

@@ -73,9 +73,9 @@ export class User {
     @OneToMany(() => Match, (match) => match.user2)
     matches2: Match[];
 
-    @OneToMany(() => BlockedUser, blockedChannels => blockedChannels.user)
-    blockedChannels: BlockedUser[]
+    @OneToMany(() => BlockedUser, (blockedChannels) => blockedChannels.user)
+    blockedChannels: BlockedUser[];
 
-    @OneToMany(() => MutedUser, mutedChannels => mutedChannels.user)
-    mutedChannels: MutedUser[]
+    @OneToMany(() => MutedUser, (mutedChannels) => mutedChannels.user)
+    mutedChannels: MutedUser[];
 }
