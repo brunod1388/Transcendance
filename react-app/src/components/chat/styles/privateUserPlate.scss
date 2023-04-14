@@ -1,6 +1,7 @@
 @import "../../../assets/styles/variables.scss";
 @import "../../../assets/styles/general.scss";
 
+
 .private-user {
 	$userImage-size: 40px;
 	@extend .flex-column;
@@ -12,10 +13,7 @@
 	border-radius: 20px 5px 5px 20px;
 	box-shadow: $shadow-outset-border;
 	flex-shrink: 0;
-	&.selected {
-		border-radius: 20px 10px 10px 10px;
-		background-color: aliceblue;
-	}
+	transition: order 1s;
 	&:hover {
 		background: none;
 		background-color: $dark-grey;

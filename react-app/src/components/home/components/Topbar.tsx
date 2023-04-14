@@ -31,7 +31,7 @@ function Topbar() {
         });
     }
     function defineTitle() {
-        if (feature === Feature.Chat) {
+        if (feature === Feature.Chat || feature === Feature.Private) {
             return channel.name;
         } else if (feature === Feature.Game) {
             return "Ultimate Pong";

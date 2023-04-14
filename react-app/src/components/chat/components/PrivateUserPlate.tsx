@@ -37,9 +37,9 @@ export default function PrivateUserPlate(props: Props) {
 			name: "Private Message - " + props.user.username,
             type: "private",
             rights: "admin",
-			id: Number(props.user.channelId),
-			room: String(props.user.room),
-			image: String(props.user.avatar),
+			id: Number(user.channelId),
+			room: String(user.room),
+			image: String(user.avatar),
 		}
 		updateChannel(newChannel);
 		joinRoom(newChannel);
@@ -70,11 +70,8 @@ export default function PrivateUserPlate(props: Props) {
     }, []);
 
     return (
-        <div
-			className={"private-user" + (user.channelId === channel.id ? " selected" : "")}
-			id={`privateUser${user.id}`}
-		>
-            <div className={"userPlate"} onClick={selectUser}>
+        <div className={"private-user" + (user.channelId === channel.id ? " selected" : "")}>
+            <div className="userPlate" onClick={selectUser}>
 				<img
 					src={user.avatar === "" ? NoUserIcon : user.avatar}
 				/>
