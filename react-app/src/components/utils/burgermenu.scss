@@ -1,0 +1,33 @@
+@import "../../assets/styles/variables.scss";
+@import "../../assets/styles/general.scss";
+
+.burger-menu {
+	position: absolute;
+	top: 50%;
+	right: -3px;
+	transform: translate(-50%, -50%);
+	width: 14px;
+	&:before,
+	&:after,
+	& div {
+	background: $purple;
+	background: linear-gradient(90deg, rgb(248, 4, 195), $purple);
+	content: "";
+	display: block;
+	height: 3px;
+	border-radius: 3px;
+	margin: 1px 0;
+	transition: 0.5s;
+	}
+	&:hover:before {
+		transform: translateY(4px) rotate(135deg);
+	}
+	&:hover:after {
+		transform: translateY(-4px) rotate(-135deg);
+	}
+	&:hover div {
+		transform: scale(0);
+	}
+}
+
+  

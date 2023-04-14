@@ -1,0 +1,107 @@
+@import "../../../assets/styles/variables.scss";
+@import "../../../assets/styles/general.scss";
+
+.private-user {
+	$userImage-size: 40px;
+	@extend .flex-column;
+	justify-content: flex-start;
+	align-self: stretch;
+	gap: 5px;
+	color: white;
+	background: linear-gradient(90deg, $purple-gray, $chat-bg-color);
+	border-radius: 20px 5px 5px 20px;
+	box-shadow: $shadow-outset-border;
+	flex-shrink: 0;
+	&.selected {
+		border-radius: 20px 10px 10px 10px;
+		background-color: aliceblue;
+	}
+	&:hover {
+		background: none;
+		background-color: $dark-grey;
+		.menu-button {
+			opacity: 1;
+			color: red;
+		}
+	}
+	img {
+		flex-shrink: 0;
+		width: calc($userImage-size + 2px);
+		height: calc($userImage-size + 2px);
+		border-radius: 50%;
+		object-fit: cover;
+		&.bigAvatar {
+			border-radius: 10px 0 50% 0;
+			height: calc($userImage-size * 1.5);
+			width: calc($userImage-size * 1.5);
+		}
+	}
+	.userPlate {
+		@extend .flex-row;
+		align-self: stretch;
+		justify-content: flex-start;
+		gap: 3px;
+
+		.details {
+			@extend .flex-column;
+			align-items: stretch;
+			width: 100%;
+		}
+		.line {
+			@extend .flex-row;
+			height: calc(#{$userImage-size} / 2);
+			justify-content: space-between;
+			align-self: stretch;
+			.menu-button {
+				color: grey;
+				width: 50px;
+			}
+
+			&:last-child {
+				position: relative;
+			}
+
+			.username {
+				&::first-letter {
+					text-transform: uppercase;
+				}
+			}
+		}
+		.connected {
+			flex-grow: 1;
+			display: flex;
+			flex-direction: row-reverse;
+			margin-right: 0px;
+			span {
+				margin-right: 5px;
+				width: 12px;
+				height: 12px;
+				border-radius: 50%;
+				background-color: $green-connected;
+			}
+		}
+		.newMessage {
+			flex-grow: 1;
+			display: flex;
+			flex-direction: row-reverse;
+			span {
+				margin-right: 5px;
+				width: 12px;
+				height: 12px;
+				border-radius: 50%;
+				background-color: rgb(116, 175, 238);
+			}
+		}
+		.last-message {
+			font-style: italic;
+			color: grey;
+			font-size: 12px;
+		}
+	}
+	.private-menu {
+		display: none;
+	}
+	.private-menu.show {
+		display: block;
+	}
+}

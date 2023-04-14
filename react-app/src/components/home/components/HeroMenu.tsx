@@ -6,9 +6,9 @@ import { useAuth, useChat, Feature, useFeature } from "../../../context";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import { LogoutIcon, NoUserIcon, SettingIcon } from "../../../assets/images";
 import { useSocket, useVisible } from "../../../hooks";
-import "../styles/usermenu.scss";
+import "../styles/heromenu.scss";
 
-export default function UserMenu() {
+export default function HeroMenu() {
     const navigate = useNavigate();
     const { userAuth, updateUser } = useAuth();
     const { removeItem } = useLocalStorage();

@@ -16,13 +16,9 @@ export default function PrivateUsers() {
     useEffect(() => {
         socket.emit(
             "getPrivateUsers",
-            { channelId: channel.id },
             (users: UserType[]) => {
+				console.log("PRIVATEUSERS: ", users)
                 setUsers(users);
-                const rights = users.find(
-                    (user) => user.id === userAuth.id
-                )?.rights;
-                updateChannel({ ...channel, rights: String(rights) });
             }
         );
         socket
@@ -38,13 +34,8 @@ export default function PrivateUsers() {
                     return newUsers;
                 });
             })
-            .on("RemovePrivateUser", (channelUserId: number) => {
-                setUsers((state) => 
-                    [...state.filter((user) => user.channelUserId !== channelUserId)]
-                );
-            });
         return () => {
-            socket.off("PrivateUser").off("RemovePrivateUser");
+            socket.off("PrivateUser");
         };
     }, [socket, channel.id]);
 
@@ -59,15 +50,12 @@ export default function PrivateUsers() {
                 )}
             </div>
             <div className="users">
-                {users.filter((user) => user.rights === "admin").length > 0 && (
-                    <span className="title">Admin</span>
-                )}
                 {users
                     .map((user, i) => (
                         <PrivateUserPlate
                             user={user}
                             key={`admin-${i}`}
-                            type="channelUser"
+                            type="privateUser"
                         />
                     ))}
             </div>

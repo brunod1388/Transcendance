@@ -31,7 +31,7 @@ function Navbar() {
     useEffect(() => {
         socket.emit(
             "getChannels",
-            { userid: userAuth.id, isPending: false },
+            { userid: userAuth.id, isPending: false, isPrivate: false },
             (chans: ChannelType[]) => {
                 if (channel.id !== 0 && chans.length != channels.length) {
                     setFeature(Feature.None);
@@ -67,12 +67,15 @@ function Navbar() {
     }
 
     function privateClick() {
-        if (feature !== Feature.Chat) setFeature(Feature.Chat);
+        setFeature(Feature.Private)
+        // if (feature !== Feature.Chat) setFeature(Feature.Chat);
         updateChannel({
             ...channel,
             id: 0,
             name: "Private Message",
             type: "private",
+            rights: "admin",
+            image: ChatIcon
         });
     }
 
@@ -104,6 +107,18 @@ function Navbar() {
         setNewChannel(true);
     }
 
+    function playClick() {
+        setFeature(Feature.Game);
+        updateChannel({
+            ...channel,
+            id: 0,
+            name: "Play Pong",
+            type: "private",
+            rights: "admin",
+            image: PlayIcon
+        });
+    }
+
     return (
         <div className="navbar">
             <MenuButton
@@ -111,7 +126,7 @@ function Navbar() {
                 name="Play Pong"
                 image={PlayIcon}
                 isChannel={false}
-                onClick={() => setFeature(Feature.Game)}
+                onClick={playClick}
             />
             <MenuButton
                 filter={true}
