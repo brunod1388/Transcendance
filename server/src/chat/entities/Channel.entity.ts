@@ -12,9 +12,9 @@ import { ChannelUser, Message } from "../entities";
 
 // to put in a dto
 export enum ChannelType {
-    PRIVATE = "protected",
+    PROTECTED = "protected",
     PUBLIC = "public",
-    DIRECT = "direct",
+    PRIVATE = "private",
 }
 
 @Entity({ name: "channels" })

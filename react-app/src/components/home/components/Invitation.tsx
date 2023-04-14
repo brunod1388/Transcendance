@@ -22,7 +22,6 @@ export default function Invitations() {
             "getPendings",
             { userId: userAuth.id },
             (res: ChatInvitationType[]) => {
-                console.log("pendings: ", res);
                 setInvitations(
                     res.map((i: ChatInvitationType) => {
                         if (i.image === "")

@@ -9,6 +9,7 @@ type MuteOrBlock = "Mute" | "Block" | "";
 interface Props {
     user: UserType;
     type: UserPlateType;
+    isPrivate?: boolean
 }
 
 const MIN_IN_MS = 60 * 1000;
@@ -16,13 +17,13 @@ const HOUR_IN_MS = 60 * MIN_IN_MS;
 const DAY_IN_MS = 24 * HOUR_IN_MS;
 
 export default function UserMenu(props: Props) {
-    const user = props.user;
+    const { isPrivate=false, user } = props;
     const { userAuth } = useAuth();
     const { channel, updateChannel } = useChat();
-    const [socket] = useSocket();
-    const [inviteResponse, setInviteResponse] = useState("");
+    const [ socket ] = useSocket();
+    const [ inviteResponse, setInviteResponse ] = useState("");
     const { setFeature } = useFeature();
-    const [muteOrBlock, setMuteOrBlock] = useState<MuteOrBlock>("");
+    const [ muteOrBlock, setMuteOrBlock ] = useState<MuteOrBlock>("");
     const { ref, isVisible, setIsVisible } = useVisible(false);
 
     function inviteFriend(userId: number) {
@@ -41,47 +42,19 @@ export default function UserMenu(props: Props) {
         );
     }
 
-    function deleteChannelUser(channelUserId: number | undefined) {
-        if (channelUserId !== undefined)
-            socket.emit(
-                "deleteChannelUser",
-                { id: channelUserId },
-                (res: string) => {}
-            );
-    }
-
-    function quitChannel(channelUserId: number | undefined) {
-        if (channelUserId !== undefined)
-            socket.emit(
-                "deleteChannelUser",
-                { id: channelUserId },
-                (res: string) => {
-                    setFeature(Feature.None);
-                }
-            );
-    }
-
-    function deleteUser(user: UserType, type: string) {
-        if (type === "self") setFeature(Feature.None);
-        if (type === "channelUser" || type === "self") {
-            socket.emit("deleteChannelUser", { id: user.channelUserId });
-        } else if (type === "friend")
-            socket.emit("deleteFriend", { id: user.friendId });
-    }
-
     function play(user: UserType) {
         sendInvitation("pong", userAuth.id, user.username, socket);
     }
 
-    function makeAdmin(userId: number) {}
-
-    function deleteFriend(friendId: number | undefined) {
-        console.log("should delete");
-        console.log(friendId);
-        if (friendId !== undefined)
-            socket.emit("deleteFriend", { id: friendId }, (res: string) => {
+    function privateMessage() {
+        socket.emit("privateMessage", {
+                senderId: userAuth.id,
+                receiverId: user.id,
+            },
+            ((res: any) => {
                 console.log(res);
-            });
+            })
+        );
     }
 
     function handleMuteOrBlock(e: FormEvent<HTMLFormElement>) {
@@ -117,9 +90,48 @@ export default function UserMenu(props: Props) {
         setIsVisible(false);
     }
 
+    function deleteChannelUser(channelUserId: number | undefined) {
+        if (channelUserId !== undefined)
+            socket.emit(
+                "deleteChannelUser",
+                { id: channelUserId },
+                (res: string) => {}
+            );
+    }
+
+    function quitChannel(channelUserId: number | undefined) {
+        if (channelUserId !== undefined)
+            socket.emit(
+                "deleteChannelUser",
+                { id: channelUserId },
+                (res: string) => {
+                    setFeature(Feature.None);
+                }
+            );
+    }
+
+    function deleteUser(user: UserType, type: string) {
+        if (type === "self") setFeature(Feature.None);
+        if (type === "channelUser" || type === "self") {
+            socket.emit("deleteChannelUser", { id: user.channelUserId });
+        } else if (type === "friend")
+            socket.emit("deleteFriend", { id: user.friendId });
+    }
+
+    function makeAdmin(userId: number) {}
+
+    function deleteFriend(friendId: number | undefined) {
+        console.log("should delete");
+        console.log(friendId);
+        if (friendId !== undefined)
+            socket.emit("deleteFriend", { id: friendId }, (res: string) => {
+                console.log(res);
+            });
+    }
+
     return (
         <div className="userMenu">
-            {props.type === "channelUser" && userAuth.id !== user.id && (
+            {props.type !== "friend" && userAuth.id !== user.id && (
                 <div className="btnContainer">
                     <button
                         className="askFriend button-purple"
@@ -149,8 +161,8 @@ export default function UserMenu(props: Props) {
                     Play
                 </button>
             )}
-            {userAuth.id !== user.id && (
-                <button className="dm long button-purple" onClick={() => {}}>
+            {props.type === "channelUser" &&  userAuth.id !== user.id && (
+                <button className="dm long button-purple" onClick={privateMessage}>
                     Direct Message
                 </button>
             )}

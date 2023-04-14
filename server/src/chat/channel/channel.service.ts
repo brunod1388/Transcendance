@@ -6,6 +6,7 @@ import { UsersService } from "../../users/users.service";
 import { ChannelUserService } from "../channelUser/channelUsers.service";
 import { Channel, ChannelType, ChannelUser, rightType } from "../entities";
 import { User } from "src/users/entities/User.entity";
+import { channel } from "diagnostics_channel";
 
 @Injectable()
 export class ChannelService {
@@ -42,7 +43,7 @@ export class ChannelService {
         });
     }
 
-    async getChannels(userId: number, isPending: boolean): Promise<Channel[]> {
+    async getChannels(userId: number, isPending: boolean, isPrivate: boolean): Promise<Channel[]> {
         const channels = await this.channelRepository.find({
             relations: {
                 channelUsers: true,
@@ -57,26 +58,73 @@ export class ChannelService {
                 id: true,
                 name: true,
                 image: true,
+                type: true
+            },
+        });
+        if (isPrivate)
+            return channels.filter((channel) => channel.type === "private");
+        return channels.filter((channel) => channel.type !== "private");
+    }
+
+    async getPrivateChannelsI(userId: number): Promise<Channel[]> {
+        const channels = await this.channelRepository.find({
+            relations: {
+                channelUsers: true,
+            },
+            where: {
+                channelUsers: {
+                    user: { id: userId },
+                },
+                type: ChannelType.PRIVATE
+            },
+            select: {
+                id: true,
             },
         });
         return channels;
     }
 
-    async getPrivateUsers(userId: number): Promise<User[]> {
-        const users = this.userRepository.find({
+    async getPrivateChannel(userId1: number, userId2: number): Promise<Channel> {
+        const channels = await this.channelRepository.find({
             relations: {
-                channelUsers: { channel: true },
+                channelUsers: true,
             },
             where: {
                 channelUsers: {
-                    channel: { type: ChannelType.DIRECT },
+                    user: { id: userId1 },
                 },
+                type: ChannelType.PRIVATE
             },
             select: {
                 id: true,
-                username: true,
+                type: true,
+                channelUsers: true
             },
         });
-        return users;
+        let channel = undefined;
+        channels.filter((chan) => {
+            let hasUser2 = false;
+            chan.channelUsers.forEach((chanUser) => {
+                if(chanUser.id === userId2)
+                    hasUser2 = true;
+            });
+            if (hasUser2)
+                channel = chan;
+        })
+        return channel;
+    }
+
+    async getPrivateChannelUsers(userId: number) {
+        return this.channelRepository.find({
+            relations: ['channelUsers', 'channelUsers.user'],
+            where: {
+                type: ChannelType.PRIVATE,
+                channelUsers: { user: { id: userId}}
+            },
+            select:{
+                id: true,
+                channelUsers: true
+            }
+        })
     }
 }

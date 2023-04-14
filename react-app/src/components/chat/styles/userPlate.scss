@@ -1,15 +1,8 @@
 @import "../../../assets/styles/variables.scss";
 
-$userImage-size: 22px;
-
-// *,
-// *::before,
-// *::after {
-//   box-sizing: border-box;
-// }
-
 
 .userChat {
+	$userImage-size: 22px;
 	color: white;
 	background: linear-gradient(90deg, $purple-gray, $chat-bg-color);
 	border-radius: 10px;
@@ -54,7 +47,7 @@ $userImage-size: 22px;
 				padding-left: 5px;
 			}
 		}
-		.newMessage {
+		.connected {
 			flex-grow: 1;
 			display: flex;
 			flex-direction: row-reverse;
@@ -63,7 +56,7 @@ $userImage-size: 22px;
 				width: 12px;
 				height: 12px;
 				border-radius: 50%;
-				background-color: rgb(116, 175, 238);
+				background-color: rgb(94, 230, 106);
 			}
 		}
 	}

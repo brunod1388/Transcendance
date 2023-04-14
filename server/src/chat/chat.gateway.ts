@@ -13,7 +13,7 @@ import { ChannelDto, CreateChannelDto } from "./dtos/Channel.dto";
 import { ChannelService } from "./channel/channel.service";
 import { User } from "src/users/entities/User.entity";
 import { ChannelUserService } from "./channelUser/channelUsers.service";
-import { ChannelUser, Message, rightType } from "./entities";
+import { ChannelType, ChannelUser, Message, rightType } from "./entities";
 import { FriendService } from "src/users/friend/friend.service";
 import { ChannelUserDTO } from "./dtos/ChannelUsers.dto";
 import { FriendDTO } from "src/users/dtos/Friend.dto";
@@ -119,11 +119,47 @@ export class ChatGateway {
     @SubscribeMessage("getChannels")
     async getChannels(
         @MessageBody("userid") userid: number,
-        @MessageBody("isPending") isPending: boolean
+        @MessageBody("isPending") isPending: boolean,
+        @MessageBody("isPrivate") isPrivate: boolean
     ) {
-        return await this.channelService.getChannels(userid, isPending);
+        return await this.channelService.getChannels(userid, isPending, isPrivate);
     }
 
+    @SubscribeMessage("getPrivateUsers")
+    async getPrivateChannels(
+        @ConnectedSocket() client: Socket
+    ): Promise<UserDTO[]>
+    {
+        return this.channelUserService.getPrivateUsers(Number(client.data.user.id))
+    }
+
+    @SubscribeMessage("privateMessage")
+    async privateMessage(
+        @MessageBody("senderId") senderId: number,
+        @MessageBody("receiverId") receiverId: number,
+        @ConnectedSocket() client: Socket
+    ) {
+        const userId = client.data.user.id;
+        const channel = await this.channelService.getPrivateChannel(senderId, receiverId);
+        if (channel !== undefined)
+        return channel
+        const newPrivateChannel = await this.channelService.createChannel({
+            ownerId: senderId,
+            name: `private ${senderId}-${receiverId}`,
+            type: ChannelType.PRIVATE,
+            password: null
+        })
+        const senderChannelUser = {
+            userId: senderId,
+            channelId: newPrivateChannel.id,
+            rights: rightType.ADMIN,
+            isPending: false
+        }
+        this.channelUserService.createChannelUser(senderChannelUser);
+        const receiverChannelUser = {...senderChannelUser, userId: receiverId}
+        this.channelUserService.createChannelUser(receiverChannelUser);
+        return newPrivateChannel;
+    }
     // ========================================================================
     //                               Channel User
     // ========================================================================

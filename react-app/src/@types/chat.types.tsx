@@ -37,6 +37,8 @@ export interface UserType {
     channelUserId?: number;
     friendId?: number;
     connected?: boolean;
+    channelId?: number;
+    room?: string;
 }
 
 export interface MessageType {
@@ -54,7 +56,7 @@ export interface CreateChannelDto {
     password: string;
 }
 
-export type UserPlateType = "channelUser" | "friend" | "direct";
+export type UserPlateType = "channelUser" | "friend" | "privateUser";
 
 export interface ChatInvitationType {
     id: number;

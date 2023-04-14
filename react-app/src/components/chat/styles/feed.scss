@@ -4,9 +4,10 @@
 .feed {
 	display: flex;
 	flex-direction: column;
-	width: 100%;
+	// width: 100%;
 	background-color: $chat-bg-color;
 	flex-shrink: 1;
+	flex-grow: 1;
 	.messages {
 		margin-top: 8px;
 		margin-right: 8px;

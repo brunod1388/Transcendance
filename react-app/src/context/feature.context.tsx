@@ -8,6 +8,7 @@ export enum Feature {
     Setting,
     Pong,
     Game,
+    Private
 }
 
 export interface FeatureContextType {

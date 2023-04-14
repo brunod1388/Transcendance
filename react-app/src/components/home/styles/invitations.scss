@@ -21,6 +21,7 @@ $image-size: 25px;
 	.invitations-icon {
 		width: $image-size;
 		height: $image-size;
+		object-fit: cover;
 		opacity: 0.0;
 		display:none;
 		cursor: pointer;
@@ -97,6 +98,7 @@ $image-size: 25px;
 		.icon {
 			height: calc($image-size + 8px);
 			width: calc($image-size + 8px);
+			object-fit: cover;
 			border-radius: 50%;
 		}
 	}

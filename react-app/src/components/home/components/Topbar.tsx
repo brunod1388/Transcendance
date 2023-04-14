@@ -4,7 +4,8 @@ import { useAuth, useChat, Feature, useFeature } from "../../../context";
 import Invitations from "./Invitation";
 import { useSocket, useVisible } from "../../../hooks";
 import { ChatInvitationType } from "../../../@types";
-import UserMenu from "./UserMenu";
+import HeroMenu from "./HeroMenu";
+import { ChatIcon, PlayIcon } from "../../../assets/images";
 import "../styles/topbar.scss";
 
 axios.defaults.baseURL = `http://localhost:3000`;
@@ -30,7 +31,7 @@ function Topbar() {
         });
     }
     function defineTitle() {
-        if (feature === Feature.Chat) {
+        if (feature === Feature.Chat || feature === Feature.Private) {
             return channel.name;
         } else if (feature === Feature.Game) {
             return "Ultimate Pong";
@@ -38,10 +39,17 @@ function Topbar() {
             return "Transcendance";
         }
     }
+
     return (
         <div className="topbar">
             <div className="channel">
-                <img className="channelImg" src={channel.image} alt="" />
+                {feature !== Feature.None &&
+                    <img
+                        // className={"channelImg" + ((channel.image === Feature.Private || channel.image === Feature.Game) ? " icon":"")}
+                        className={"channelImg" + ((channel.image === ChatIcon || channel.image === PlayIcon) ? " icon":"")}
+                        src={channel.image}
+                />
+                }
                 <span className="channelName">{defineTitle()}</span>
                 <span style={{ color: "red" }}>{channel.id}</span>
             </div>
@@ -51,7 +59,7 @@ function Topbar() {
                 </button>
                 <span style={{ color: "red" }}>{userAuth.id}</span>{" "}
                 <Invitations />
-                <UserMenu />
+                <HeroMenu />
             </div>
         </div>
     );

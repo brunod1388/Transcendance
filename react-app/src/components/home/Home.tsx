@@ -17,6 +17,7 @@ const featureComponent = new Map<number, JSX.Element>([
     [Feature.None, <></>],
     [Feature.Chat, <Chat />],
     [Feature.Game, <Game />],
+    [Feature.Private, <Chat />],
     // [Feature.Ranking, <Ranking />],
 ]);
 

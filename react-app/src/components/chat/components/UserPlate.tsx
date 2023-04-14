@@ -23,10 +23,10 @@ export default function UserPlate(props: Props) {
                 />
                 <div className="userChatInfo">
                     <span>{user.username}</span>
-                    {type === "direct" && hasNewMsg && <p>last message</p>}
+                    {type === "privateUser" && hasNewMsg && <p>last message</p>}
                 </div>
                 {user.connected && (
-                    <div className="newMessage">
+                    <div className="connected">
                         <span />
                     </div>
                 )}

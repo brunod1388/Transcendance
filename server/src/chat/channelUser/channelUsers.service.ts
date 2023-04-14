@@ -1,12 +1,14 @@
 import { Injectable, Inject, forwardRef } from "@nestjs/common";
 import { ChannelUser, rightType } from "../entities/ChannelUser.entity";
-import { Repository } from "typeorm";
+import { Not, Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { ChannelService } from "../channel/channel.service";
 import { ChannelUserDTO, CreateChannelUserDto } from "../dtos/ChannelUsers.dto";
 import { UsersService } from "src/users/users.service";
 import { User } from "src/users/entities/User.entity";
 import { Channel } from "diagnostics_channel";
+import { ChannelType } from "../entities";
+import { UserDTO } from "src/users/dtos/User.dto";
 
 @Injectable()
 export class ChannelUserService {
@@ -147,5 +149,37 @@ export class ChannelUserService {
     async deleteChannelUser(id: number): Promise<string> {
         await this.channelUserRepository.delete({ id });
         return `channelUser ${id} deleted`;
+    }
+
+    async getPrivateUsers(userId: number): Promise<UserDTO[]> {
+        const channelUsers = await this.channelUserRepository.find({
+            relations: { channel: true},
+            where: {
+                channel: {type: ChannelType.PRIVATE},
+                user: { id: userId }
+            },
+            select: {
+                channel: {id: true}
+            }
+        })
+        const privateUsers = [];
+        for (const channelUser of channelUsers) {
+            const chanUsers = await this.getChannelUsers(channelUser.channel.id, false);
+            chanUsers.forEach((cUser) => {
+                if (Number(cUser.user.id) !== userId)
+                {
+                    privateUsers.push({
+                        id: cUser.user.id,
+                        username: cUser.user.username,
+                        avatar: cUser.user.avatar,
+                        channelId: cUser.channel.id,
+                        channelUserId: cUser.id,
+                        rights: cUser.rights,
+                        room: cUser.channel.name
+                    })
+                }
+            })
+        }
+        return privateUsers;
     }
 }
