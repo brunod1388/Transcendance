@@ -56,11 +56,11 @@ export class FtStrategy extends PassportStrategy(Strategy, "42") {
 */
     async validate(accessToken, refreshToken, profile, cb): Promise<any> {
         //    console.log(profile.login);
-        console.log(accessToken, refreshToken, cb);
-        console.log("PROFILE_ID: ", profile.id);
-        console.log("PROFILE_ID_TYPE: ", typeof profile.id);
+        // console.log(accessToken, refreshToken, cb);
+        // console.log("PROFILE_ID: ", profile.id);
+        // console.log("PROFILE_ID_TYPE: ", typeof profile.id);
         let user = await this.usersService.findUserIdFortyTwo(profile.id);
-        console.log(user);
+        // console.log(user);
         if (user === null || user === undefined) {
             user = await this.usersService.create42User({
                 idFortyTwo: profile.id,

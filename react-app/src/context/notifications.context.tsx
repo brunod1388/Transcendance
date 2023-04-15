@@ -2,7 +2,7 @@ import { PropsWithChildren } from "react";
 import { useReducer } from "react";
 import { createContext } from "react";
 import { createPortal } from "react-dom";
-import { Notifications } from "components/notifications";
+import { Notifications } from "components/gameInvitations";
 import {
     State,
     Action,

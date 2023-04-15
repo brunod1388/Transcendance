@@ -1,4 +1,4 @@
-import style from "components/notifications/notifications.module.scss";
+import style from "components/gameInvitations/styles/notifications.module.scss";
 import { ActionType, DispatchType } from "@customTypes";
 
 export function getStyle(type: string): string {

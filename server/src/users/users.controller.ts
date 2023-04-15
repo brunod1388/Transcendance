@@ -1,12 +1,13 @@
 import {
-    Body,
     Controller,
     Delete,
+    FileTypeValidator,
     Get,
+    MaxFileSizeValidator,
     Param,
+    ParseFilePipe,
     ParseIntPipe,
     Post,
-    Put,
     Request,
     Res,
     UploadedFile,
@@ -55,31 +56,32 @@ export class UsersController {
         return user;
     }
 
-    @Post()
-    createUser(@Body() createUserDto: CreateUserDto) {
-        // The confirm password field can be removed from the object before passing it to createUser,
-        // and all the other fields will be spread to into userDetails
-        const { confirmPassword, ...userDetails } = createUserDto;
-        console.log(confirmPassword);
-        // Here the password has not been hashed (TO DO !!!)
-        return this.userService.createUser(userDetails);
-    }
+    // @Post()
+    // createUser(@Body() createUserDto: CreateUserDto) {
+    //     // The confirm password field can be removed from the object before passing it to createUser,
+    //     // and all the other fields will be spread to into userDetails
+    //     const { confirmPassword, ...userDetails } = createUserDto;
+    //     console.log(confirmPassword);
+    //     // Here the password has not been hashed (TO DO !!!)
+    //     return this.userService.createUser(userDetails);
+    // }
 
     // If you are modifying only a part of the record (i.e. only password or only username), the @Patch
     // route would be more suitable as @Put is usually used for modifying the entire record but it will
     // still work for partial modifications as well.
     // The id must be provided in order to know which user to update
     // The ParseIntPipe is used to ensure the route parameter is in fact a number
-    @Put(":id")
-    async updateUserById(
-        @Param("id", ParseIntPipe) id: number,
-        @Body() updateUserDto: UpdateUserDto
-    ) {
-        // Validation has not been perforemed (TO DO !!!)
-        // Here the update result response does not have to be returned
-        await this.userService.updateUser(id, updateUserDto);
-    }
+    // @Put(":id")
+    // async updateUserById(
+    //     @Param("id", ParseIntPipe) id: number,
+    //     @Body() updateUserDto: UpdateUserDto
+    // ) {
+    //     // Validation has not been perforemed (TO DO !!!)
+    //     // Here the update result response does not have to be returned
+    //     await this.userService.updateUser(id, updateUserDto);
+    // }
 
+    // Validation performed on file type and file size (max size 10Mb)
     @Post("avatar")
     @UseInterceptors(
         FileInterceptor("file", {
@@ -100,10 +102,21 @@ export class UsersController {
             }),
         })
     )
-    uploadAvatar(@Request() req, @UploadedFile() file) {
-        console.log("IN SERVER uploadAvatar");
+    uploadAvatar(
+        @Request() req,
+        @UploadedFile(
+            new ParseFilePipe({
+                validators: [
+                    new FileTypeValidator({ fileType: "jpeg" }),
+                    new MaxFileSizeValidator({ maxSize: 10485760 }),
+                ],
+            })
+        )
+        file
+    ) {
+        //console.log("IN SERVER uploadAvatar");
         try {
-            console.log(file);
+            //console.log(file);
             const dto: UpdateUserDto = {
                 avatar: "http://localhost:3000/users/avatar/" + file.filename,
             };

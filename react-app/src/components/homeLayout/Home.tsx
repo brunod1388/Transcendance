@@ -4,7 +4,7 @@ import { ContactIcon } from "assets/images";
 import { useAuth } from "context";
 import { useState, useEffect } from "react";
 import { useNotificationsDispatch, useSocket, useVisible } from "hooks";
-import { CreateInvitation, CreateResponse } from "../invitations";
+import { CreateInvitation, CreateResponse } from "../gameInvitations";
 import { InvitationDTO, ResponseDTO, CLASSIC, GameMode } from "@customTypes";
 import Chat from "../chatPanel/Chat";
 import { Game } from "../gamePanel";
