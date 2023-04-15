@@ -39,8 +39,10 @@ function NotificationItem(notification: Notification) {
     );
 }
 
+// The content can be a function returning a component or some text
 const renderContent = (content: any) => {
     if (typeof content === "function") {
+        // We get the component by executing the function
         return content();
     }
     return <pre>{JSON.stringify(content, null, 2)}</pre>;

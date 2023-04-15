@@ -1,9 +1,4 @@
-import {
-    PropsWithChildren,
-    useContext,
-    useState,
-    createContext,
-} from "react";
+import { PropsWithChildren, useContext, useState, createContext } from "react";
 
 export interface ChannelDetailsType {
     id: number;

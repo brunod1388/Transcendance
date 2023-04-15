@@ -1,9 +1,20 @@
 import { useState, useEffect } from "react";
 import { removeNotification, createId, addNotification } from "utils";
-import { InvitationDTO, DispatchType, GameMode } from "@customTypes";
-import { InvitationPong } from "./InvitationPong";
+import {
+    InvitationDTO,
+    DispatchType,
+    GameMode,
+    NONE,
+    ACCEPTED,
+    DECLINED,
+    CLASSIC,
+} from "@customTypes";
 import { Socket } from "socket.io-client";
+import { useTimeout } from "hooks";
+import { sendResponse } from "utils";
+const NOTIFICATION_TIMEOUT = 300000000;
 
+// Create a notification using a reducer
 export const CreateInvitation = (
     invitation: InvitationDTO,
     dispatch: DispatchType,
@@ -21,7 +32,6 @@ export const CreateInvitation = (
         />
     );
     addNotification(id, invitation.type, content, dispatch);
-
     return null;
 };
 
@@ -32,30 +42,32 @@ interface Props {
     socket: Socket;
     onPong: (room: string, gameMode: GameMode, host: boolean) => void;
 }
-
+// Content of the notification, an invitation to play pong
 function Invitation({ id, invitation, dispatch, socket, onPong }: Props) {
     const [isDisplay, setIsDisplay] = useState(true);
 
-    const onDisplay = (result: boolean) => {
-        setIsDisplay(result);
+    // function called when the user interact with the notification or after the timeout is over
+    const onClose = (statut: number = NONE) => {
+        sendResponse(statut, "pong", invitation.from, invitation.room, socket);
+        if (statut === ACCEPTED) {
+            onPong(invitation.room, CLASSIC, false);
+        }
+        removeNotification(id, dispatch);
+        setIsDisplay(false);
     };
 
-    useEffect(() => {
-        if (isDisplay === false) {
-            removeNotification(id, dispatch);
-        }
-    }, [isDisplay]);
+    // The timeout mentionned previously
+    useTimeout(() => {
+        onClose();
+    }, NOTIFICATION_TIMEOUT);
 
     return (
         <>
             {isDisplay && invitation.type === "pong" && (
-                <InvitationPong
-                    id={id}
-                    invitation={invitation}
-                    onDisplay={onDisplay}
-                    socket={socket}
-                    onPong={onPong}
-                />
+                <div>
+                    <button onClick={() => onClose(ACCEPTED)}>accept</button>
+                    <button onClick={() => onClose(DECLINED)}>decline</button>
+                </div>
             )}
         </>
     );

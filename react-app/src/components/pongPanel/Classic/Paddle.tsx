@@ -19,7 +19,7 @@ enum Move {
     DOWN,
 }
 
-function Paddle(props:Props) {
+function Paddle(props: Props) {
     const { host, paddle, onPaddle, config, skin, room } = props;
     const position: CSSProperties = {
         left: paddle.x + (host ? 0 : -config.paddleWidth),
@@ -27,9 +27,7 @@ function Paddle(props:Props) {
         width: config.paddleWidth,
         height: config.paddleHeight,
     };
-    return (
-        <div className="paddle" style={{ ...position, ...skin }} />
-    );
+    return <div className="paddle" style={{ ...position, ...skin }} />;
 }
 
 export function YourPaddle(props: Props) {
@@ -69,10 +67,7 @@ export function MyPaddle(props: Props) {
     }, []);
 
     useEffect(() => {
-        if (
-            move === Move.UP &&
-            paddle.y + paddleSpeed < config.boardHeight
-        ) {
+        if (move === Move.UP && paddle.y + paddleSpeed < config.boardHeight) {
             onPaddle({
                 ...paddle,
                 y: paddle.y + paddleSpeed,

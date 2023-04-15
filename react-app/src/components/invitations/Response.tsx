@@ -1,9 +1,10 @@
-import { createId, addNotification } from "utils";
-import { DispatchType, ResponseDTO, GameMode } from "@customTypes";
-import { ResponsePong } from "./ResponsePong";
-import { useEffect, useState } from "react";
-import { removeNotification } from "utils";
+import { createId, addNotification, removeNotification } from "utils";
+import { DispatchType, ResponseDTO, GameMode, CLASSIC } from "@customTypes";
+import { useState } from "react";
 import { Socket } from "socket.io-client";
+import { useTimeout } from "hooks";
+
+const INVITATION_TIMEOUT = 3000;
 
 export const CreateResponse = (
     response: ResponseDTO,
@@ -36,26 +37,33 @@ interface Props {
 function Response({ id, response, dispatch, socket, onPong }: Props) {
     const [isDisplay, setIsDisplay] = useState(true);
 
-    const onDisplay = (result: boolean) => {
-        setIsDisplay(result);
-    };
+    useTimeout(() => {
+        onClose();
+    }, INVITATION_TIMEOUT);
 
-    useEffect(() => {
-        if (isDisplay === false) {
-            removeNotification(id, dispatch);
-        }
-    }, [isDisplay]);
+    // function called when the user interact with the notification or after the timeout is over
+    const onClose = () => {
+        removeNotification(id, dispatch);
+        setIsDisplay(false);
+    };
 
     return (
         <>
-            {isDisplay && response.type === "pong" && (
-                <ResponsePong
-                    onPong={onPong}
-                    room={response.room}
-                    accepted={response.statut}
-                    onDisplay={onDisplay}
-                    socket={socket}
-                />
+            {isDisplay && response.type === "pong" && response.statut <= 0 && (
+                <div>Your opponent declined the invitation.</div>
+            )}
+            {isDisplay && response.type === "pong" && response.statut > 0 && (
+                <div>
+                    Your opponent accepted the invitation.
+                    <button
+                        onClick={() => {
+                            onPong(response.room, CLASSIC, true);
+                            onClose();
+                        }}
+                    >
+                        JOIN
+                    </button>
+                </div>
             )}
         </>
     );
