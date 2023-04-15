@@ -19,7 +19,7 @@ enum BoardType {
 }
 
 function Game() {
-    const [panel, setPanel] = useState<BoardType>(BoardType.ranking);
+    const [panel, setPanel] = useState<BoardType>(BoardType.match);
 
     return (
         <div className="game-container">

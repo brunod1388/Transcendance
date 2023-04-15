@@ -1,6 +1,6 @@
 import { Rules } from "./Rules";
 import { Board } from "./Board";
-import { BallComponent } from "./Ball";
+import { BallComponent } from "../components/Ball";
 import { MyPaddle, YourPaddle } from "./Paddle";
 import { Ball, GameConfig, PlayerInfo, Position, Score } from "@customTypes";
 import { CSSProperties } from "react";

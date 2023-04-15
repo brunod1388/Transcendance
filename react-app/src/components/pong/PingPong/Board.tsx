@@ -15,11 +15,15 @@ export function Board(props: PropsWithChildren<Props>) {
         height: props.config.boardHeight,
     };
     return (
-        <div className="play-board">
+        <div className="play-board-wrapper">
+            <span className="title">Ping Pong</span>
             <div
-                style={boardStyle}
+                style={{
+                    width: (props.config.boardWidth + 50) + "px",
+                    height: (props.config.boardHeight + 50) + "px"
+                }}
                 id={"pongBoard"}
-                className={style.container}
+                className="pingpong-container"
                 tabIndex={-1}
                 >
                 <div
@@ -31,10 +35,10 @@ export function Board(props: PropsWithChildren<Props>) {
                     >
                     {props.user.host === true && (
                         <>
-                            <div className={style.score} id={style["left"]}>
+                            <div className="score" id={style["left"]}>
                                 {props.score.player1}
                             </div>
-                            <div className={style.score} id={style["right"]}>
+                            <div className="score" id={style["right"]}>
                                 {props.score.player2}
                             </div>
                         </>
@@ -43,14 +47,14 @@ export function Board(props: PropsWithChildren<Props>) {
                         <>
                             <div
                                 style={{ top: "580px" }}
-                                className={style.score}
+                                className="score"
                                 id={style["right"]}
                                 >
                                 {props.score.player1}
                             </div>
                             <div
                                 style={{ top: "580px" }}
-                                className={style.score}
+                                className="score"
                                 id={style["left"]}
                             >
                                 {props.score.player2}

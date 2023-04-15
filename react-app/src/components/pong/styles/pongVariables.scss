@@ -1,0 +1,10 @@
+
+// Variables common to classic and Ping Pong
+$width: 650px;
+$height: 480px;
+$scoreSize: 45px;
+$scoreWidth: 18px;
+$paddleBorderWidth: 3px;  // together must be equal to PADDLE_WIDTH * 2
+$paddleWidth: 11px;       // together must be equal to PADDLE_WIDTH * 2
+$paddleHeight: 80px;	  // must be equal to PADDLE_HEIGHT * 2
+$ballRadius: 20px; 		  // must be equal to BALL_RADIUS * 2

@@ -1,6 +1,6 @@
 import { CSSProperties, PropsWithChildren } from "react";
-import style from "./pong.module.scss";
 import { GameConfig, Score } from "@customTypes";
+import style from "./pong.module.scss";
 import "../styles/playBoard.scss";
 interface Props {
     config: GameConfig;
@@ -13,27 +13,36 @@ export function Board(props: PropsWithChildren<Props>) {
         height: props.config.boardHeight,
     };
     return (
-        <div className="play-board">
+        <div className="play-board-wrapper">
+            <span className="title">Classic Pong</span>
             <div
-                style={boardStyle}
-                className={style.container}
-                tabIndex={-1}
-            >
-                <div
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        // position: "absolute",
-                    }}
+                className="play-board"
+                style={{
+                    width: (props.config.boardWidth + 50) + "px",
+                    height: (props.config.boardHeight + 50) + "px"
+                }}
                 >
-                    <div className={style.score} id={style["left"]}>
-                        {props.score.player1}
-                    </div>
-                    <div className={style.score} id={style["right"]}>
-                        {props.score.player2}
-                    </div>
+                <div
+                    style={boardStyle}
+                    className={style.container}
+                    tabIndex={-1}
+                    >
+                    <div
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            position: "absolute",
+                        }}
+                    >
+                        <div className="score" id={style["left"]}>
+                            {props.score.player1}
+                        </div>
+                        <div className="score" id={style["right"]}>
+                            {props.score.player2}
+                        </div>
 
-                    {props.children}
+                        {props.children}
+                    </div>
                 </div>
             </div>
         </div>

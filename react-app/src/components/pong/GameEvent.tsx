@@ -1,4 +1,4 @@
-import { useSocket, useTimeout } from "../../hooks";
+import { useSocket } from "../../hooks";
 import {
     CONNECTED,
     DISCONECTED,
@@ -8,7 +8,6 @@ import {
     PlayerInfo,
     WON,
 } from "@customTypes";
-
 import { useEffect, PropsWithChildren, useState } from "react";
 import { LoadGame } from "./LoadGame";
 import { Score } from "@customTypes";

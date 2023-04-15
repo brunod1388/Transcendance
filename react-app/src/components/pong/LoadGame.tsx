@@ -11,10 +11,10 @@ import {
 } from "@customTypes";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { playersAreReady } from "./GameService";
-import { EndScreen } from "./Classic/Rules";
 import { useSocket } from "hooks";
 import "./styles/loadGame.scss"
 import "assets/styles/animationStyle.scss";
+import { EndScreen } from "./components/EndScreen";
 
 interface Props {
     gameStarted: boolean;
@@ -79,10 +79,6 @@ export function LoadGame(props: PropsWithChildren<Props>) {
             </div>
                 {props.user.host && (
                     <div>
-                        {/* <select value={props.mode} onChange={handleChangeOLD}>
-                            <option value={CLASSIC}>Classic</option>
-                            <option value={PINGPONG}>Ping Pong</option>
-                        </select> */}
                         <div className="switch-button">
                             <input
                                 className="switch-button-checkbox"

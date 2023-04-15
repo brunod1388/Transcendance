@@ -1,9 +1,7 @@
-import { CSSProperties, PropsWithChildren, useEffect, useState } from "react";
-import { GameConfig, Position } from "@customTypes";
-import { useInterval, useSocket } from "hooks";
-import { Score } from "@customTypes";
-import style from "./pong.module.scss";
+import { CSSProperties } from "react";
+import { GameConfig } from "@customTypes";
 import { Ball as BallType } from "@customTypes";
+import "../styles/ball.scss";
 
 // interface Props {
 //     host: boolean;
@@ -40,5 +38,5 @@ export function BallComponent({ ball, config, skin }: PropsComponent) {
         height: config.ballRayon * 2,
     };
 
-    return <div className={style.ball} style={{ ...position, ...skin }} />;
+    return <div className="ball" style={{ ...position, ...skin }} />;
 }

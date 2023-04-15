@@ -11,14 +11,14 @@ import {
     GameConfig,
     Position,
     DISCONECTED,
+    WIN_SCORE,
+    END_MESSAGE_TIMEOUT,
 } from "@customTypes";
 import { useSocket, useTimeout } from "hooks";
 import { useInterval } from "hooks";
 import { move, detectScore, launchBall } from "./Physics";
-import style from "./pong.module.scss";
-
-// const MAX_SCORE = 10;
-const MAX_SCORE = 10000;
+import { EndScreen } from "../components/EndScreen";
+import "../styles/endScreen.scss";
 
 export type MatchType = "Training" | "Ranked";
 interface CreateMatchDTO {
@@ -170,21 +170,21 @@ export function Rules(props: PropsWithChildren<Props>) {
         if (gameStatus === END_GAME) {
             const timer = setTimeout(() => {
                 props.onEnd();
-            }, 10000);
+            }, END_MESSAGE_TIMEOUT);
 
             return () => clearTimeout(timer);
         }
     }, [gameStatus]);
 
     useEffect(() => {
-        if (props.score.player1 >= MAX_SCORE || props.score.player2 >= MAX_SCORE) {
+        if (props.score.player1 >= WIN_SCORE || props.score.player2 >= WIN_SCORE) {
             if (props.user.host === true && gameStatus !== END_GAME) {
                 console.log("record on score");
                 const dto: CreateMatchDTO = {
                     user1id: props.user.id,
                     user2id: props.opponent.id,
                     winner:
-                        props.score.player1 >= 10
+                        props.score.player1 >= WIN_SCORE
                             ? props.user.id
                             : props.opponent.id,
                     score1: props.score.player1,
@@ -208,55 +208,8 @@ export function Rules(props: PropsWithChildren<Props>) {
     }
 
     return (
-        <div style={{ position: "relative", width: "400px" }}>
+        <div className="play-board-container">
             {props.children}
-        </div>
-    );
-}
-
-interface PropsEnd {
-    score: Score;
-    opponent: PlayerInfo;
-    user: PlayerInfo;
-}
-
-export function EndScreen(props: PropsEnd) {
-    if (
-        props.opponent.status === DISCONECTED ||
-        (props.user.host === true && props.score.player1 >= 10) ||
-        (props.user.host === false && props.score.player2 >= 10)
-    ) {
-        return (
-            <div className={style.endScreen}>
-                <div className={style.wrapper}>
-                    <div className={style.win}>You Win!</div>
-                    <p className={style.finalScore}>
-                        {props.user.host
-                            ? props.score.player1
-                            : props.score.player2}
-                        -
-                        {props.user.host
-                            ? props.score.player2
-                            : props.score.player1}
-                    </p>
-                </div>
-            </div>
-        );
-    }
-    return (
-        <div className={style.endScreen}>
-            <div className={style.wrapper}>
-                <div className={style.lost}>You Lost...</div>
-                <p className={style.finalScore}>
-                    {props.user.host
-                        ? props.score.player1
-                        : props.score.player2}
-                    -
-                    {props.user.host
-                        ? props.score.player2
-                        : props.score.player1}
-                </p>
-            </div>
         </div>
     );
 }
