@@ -1,0 +1,71 @@
+@import "assets/styles/variables.scss";
+@import "assets/styles/general.scss";
+
+.navbar {
+	@extend .flex-column;
+	width: 35px;
+	flex-shrink: 0;
+	padding: 50px 5px;
+	padding-left: 5px;
+	align-items: flex-start;
+	align-self: stretch;
+	transition: width 0.5s, padding 0.5s;
+	gap: 1px;
+	&:hover {
+		width: 155px;
+		padding: 50px 10px;
+		.icon-name {
+			visibility: visible;
+			opacity: 1;
+			animation: appear 0.8s;
+		}
+	}
+	.channels-container {
+		@extend .flex-column;
+		position: relative;
+		justify-self: stretch;
+		align-self: stretch;
+		background-color: aliceblue;
+		transition: margin-top 0.2s, background-color 0.2s, padding-top 0.2s, box-shadow 0.2s;
+		background-color: rgba(0, 0, 0, 0);
+		border-radius: 5px;
+		&:hover {
+			margin-top: 10px;
+		}
+		.channel-title {
+			opacity: 0;
+			position: absolute;
+			color: $purple;
+			font-family: NatureBeauty;
+			font-size: 20px;
+			font-weight: 200;
+			top: -10px;
+			transition: opacity 0.2s;
+			filter: $drop-shadow;
+		}
+		.channel-wrapper {
+			@extend .flex-column;
+			justify-content: flex-start;
+			justify-self: stretch;
+			align-self: stretch;
+			max-height: 200px;
+			overflow: scroll;
+		}
+		&:hover {
+			background-color: $dark-grey;
+			box-shadow: $shadow-outset-border;
+			padding-top: 15px;
+			padding-bottom: 5px;
+			.channel-title {
+				opacity: 1;
+			}
+		}
+		
+	}
+	.notChannel {
+		img {
+			border-radius: 0px;
+		}
+	}
+
+}

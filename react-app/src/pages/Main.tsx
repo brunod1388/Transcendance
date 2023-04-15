@@ -1,10 +1,10 @@
-import { ChatProvider, SocketProvider } from "../context";
-import { Home } from "../components/home";
+import { ChatProvider, SocketProvider } from "context";
+import { Home } from "../components/homeLayout";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useAuth } from "../context";
-import { useAxios } from "../hooks";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useAuth } from "context";
+import { useAxios } from "hooks";
+import { useLocalStorage } from "hooks/useLocalStorage";
 import { AxiosRequestConfig } from "axios";
 import Cookies from "js-cookie";
 

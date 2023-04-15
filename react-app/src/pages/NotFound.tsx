@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import "../assets/styles/NotFound.scss";
-import "../assets/styles/App.scss";
+import "assets/styles/NotFound.scss";
+import "assets/styles/App.scss";
 
 export function NotFound() {
     return (

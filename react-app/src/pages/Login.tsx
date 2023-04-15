@@ -1,10 +1,10 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect, FormEvent, MouseEvent } from "react";
 import { AxiosRequestConfig } from "axios";
-import "../assets/styles/form.scss";
-import { useAxios } from "../hooks";
+import "assets/styles/form.scss";
+import { useAxios } from "hooks";
 import Cookies from "js-cookie";
-import { LockIcon, Logo42Icon, UserIcon } from "../assets/images";
+import { LockIcon, Logo42Icon, UserIcon } from "assets/images";
 interface DataType {
     username: string;
     password: string;

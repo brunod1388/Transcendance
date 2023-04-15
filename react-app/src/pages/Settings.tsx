@@ -1,9 +1,9 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect, ChangeEvent, FormEvent, MouseEvent } from "react";
 import { AxiosRequestConfig } from "axios";
-import { useAxios } from "../hooks";
-import { Feature, useAuth, useFeature } from "../context";
-import "../assets/styles/form.scss";
+import { useAxios } from "hooks";
+import { useAuth } from "context";
+import "assets/styles/form.scss";
 import {
     AddChannelIcon,
     AddImageIcon,
@@ -67,7 +67,6 @@ function Settings() {
         defaultPasswordRequest
     );
     const [twofaReq, setTwofaReq] = useState<boolean>(false);
-    // const { setFeature } = useFeature();
     const {
         response: resA,
         loading: loadA,

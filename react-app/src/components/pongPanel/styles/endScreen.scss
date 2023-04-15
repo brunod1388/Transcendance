@@ -1,0 +1,106 @@
+@import "assets/styles/variables.scss";
+@import "assets/styles/general.scss";
+
+$shaddow-width: 180px;
+$win-color: rgb(247, 203, 6);
+$lost-color: rgb(6, 237, 245);
+
+@keyframes light-glow {
+	0% {
+		color: $win-color;
+		filter: drop-shadow(0px 0px 15px $win-color);
+	}
+	50% {
+		color: rgb(233, 199, 45);
+		filter: drop-shadow(0px 0px 5px $win-color);
+	}
+	100% {
+		color: $win-color;
+		filter: drop-shadow(0px 0px 15px $win-color);
+	}
+}
+
+@keyframes shadow-glow {
+	0% { background-color: rgba(247, 203, 6, 0.412); }
+	50% { background-color: $win-color; }
+	100% { background-color: rgba(247, 203, 6, 0.412); }
+}
+
+@keyframes light-bug {
+	7%, 10%, 21%, 35%, 43%, 100% {
+		color: rgb(0, 0, 0);
+		filter: drop-shadow(0px 0px 5px $lost-color);
+	}
+
+	8%, 11%, 22%, 37%, 48%, 100% {
+		color: $lost-color;
+		filter: drop-shadow(0px 0px 5px $lost-color);
+	}
+}
+
+@keyframes shadow-bug {
+	7%, 10%, 21%, 35%, 43%, 100% {
+		background-color: rgba(255, 255, 255, 0);
+	}
+
+	8%, 11%, 22%, 37%, 48%, 100% {
+		background-color: $lost-color;
+	}
+}
+
+.endScreen {
+	@extend .flex-column;
+	width: 100%;
+	.wrapper {
+		@extend .flex-column;
+		position: relative;
+		gap: 20px;
+		text-align: center;
+		animation: scale-in 0.5s ease-in-out;
+	}
+	.endText:before, .endText:after {
+		position: absolute;
+		content: " ";
+		border-radius: 15px;
+		width: $shaddow-width;
+		height: 50px;
+		left: calc(50% - $shaddow-width / 2);
+		top: 150px;
+		transform: perspective(1em) rotateX(40deg) scale(1, 0.35);
+	}
+	.endText:before {
+		filter: blur(150px);
+	}
+	.endText:after {
+		filter: blur(50px);
+	}
+	.endText {
+		font-size: 50px;
+		font-family: NatureBeauty;
+		color: $purple;
+	}
+	.lost {
+		color: $lost-color;
+		filter: drop-shadow(0px 0px 5px $lost-color);
+		animation: light-bug 1.8s ease-in-out infinite;
+		&:before, &:after {
+			animation: shadow-bug 1.8s ease-in-out infinite;
+			background-color: $lost-color;
+		}
+	}
+	.finalScore {
+		font-family: MySatisfy;
+		font-size: 50px;
+	}
+	.win {
+		color: $win-color;
+		filter: drop-shadow(0px 0px 5px $win-color);
+		transition: filter 0.2s ease-in-out, color 0.2s ease-in-out;
+		animation: light-glow 1.8s ease-in-out infinite;
+		&:before, &:after {
+			background-color: $win-color;
+			animation: shadow-glow 1.8s ease-in-out infinite;
+			transition: background-color 0.5s ease-in-out;
+		}
+	}
+}

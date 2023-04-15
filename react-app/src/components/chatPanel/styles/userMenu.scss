@@ -1,0 +1,101 @@
+@import "assets/styles/variables.scss";
+@import "assets/styles/general.scss";
+
+
+@keyframes friendSlideUp {
+	0% { transform: translateY(15px); }
+	100% { transform: translateY(0px);}
+}
+
+.userMenu {
+	display:flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 7px;
+	border-radius: 8px;
+	padding: 8px;
+	
+	.red-button {
+		background-color: #d4495c;
+		&:hover {
+			background-color: #692d35;
+			color: white;
+		}
+	}
+	button {
+		width: 63px;
+		border-radius: 5px;
+		padding: 2px;
+		box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.686);
+	}
+	.long {
+		width: 137px;
+	}
+	.askFriend {
+		z-index: 1;
+	}
+	position: relative;
+	.message {
+		background-color: pink;
+		padding: 5px;
+		position: absolute;
+		top: -30px;
+		width: 130px;
+		background-color: $purple;
+		background-color: red;
+		opacity: 0.9;
+		border-radius: 5px;
+		font-style: italic;
+		font-size: 14px;
+		color: $dark-grey;
+		animation: friendSlideUp 3s;
+		z-index: 0;
+		display: flex;
+		align-items: center;
+	}
+
+	.muteAndBlock {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 7px;
+		// background-color: #d4495c;
+		.muteOrBlock {
+			background-color: $purple-gray;
+			border-radius: 5px;
+			padding: 8px 4px;
+			display: flex;
+			flex-wrap: wrap;
+			gap: 7px;
+			font-size: 12px;
+			justify-content: space-between;
+			input {
+				background-color: $purple;
+				border: none;
+				border-radius: 5px;
+				height: 22px;
+				width: 25px;
+				outline: none;
+				text-align: center;
+				color: white;
+			}
+			button {
+				width: 100%;
+				border-radius: 5px;
+				height: 22px;
+			}
+			input::-webkit-outer-spin-button,
+			input::-webkit-inner-spin-button {
+				-webkit-appearance: none;
+				margin: 0;
+			}
+
+			/* Firefox */
+			input[type=number] {
+				-moz-appearance: textfield;
+			}
+		}
+
+	}
+}

@@ -1,0 +1,71 @@
+@import 'assets/styles/variables';
+@import 'assets/styles/general';
+
+$board-color: $chat-bg-color;
+.game-container {
+	@extend .flex-row;
+	padding: 10px;
+	width: 100%;
+	span {
+		color: white
+	}
+	
+	.board-container {
+		@extend .flex-row;
+		flex-grow: 1;
+		flex-shrink: 1;
+		align-self: stretch;
+		height: 100%;
+		border-radius: 10px;
+	
+		box-shadow: $shadow-outset-border;
+	}
+
+	.board-tabs {
+		@extend .flex-column;
+		width: 50px;
+		align-self: stretch;
+		.tab {
+			@extend .flex-column;
+			align-items: center;
+			justify-content: center;
+			flex-grow: 1;
+			width: 100%;
+			&:hover {
+				&:not(.selected) {
+
+					cursor: pointer;
+					img {
+						animation: button-scale 0.5s;
+					}
+				}
+			}
+			border-radius: 10px 0 0 10px;
+			&:not(.selected) {
+				box-shadow: inset -2px 0px 5px rgba(0, 0, 0, 0.75);
+				background-color: rgba(53, 39, 59, 0.744);
+			}
+			&.selected {
+				background-color: $board-color;
+			}
+		}
+
+		img {
+			$img-size: 35px;
+			height: $img-size;
+			width: $img-size;
+			filter: drop-shadow(2px 5px 5px rgba(0, 0, 0, 0.75));
+		}
+	}
+
+	.board {
+		@extend .flex-column;
+		width: 100%;
+		height: 100%;
+		justify-content: space-between;
+		gap: 10px;
+		background-color: $board-color;
+		border-radius: 0 10px 10px 0;
+	}
+
+}

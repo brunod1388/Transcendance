@@ -10,8 +10,8 @@ import {
     AuthContextType,
     defaultUser,
     defaultContext,
-} from "../@types";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+} from "@customTypes";
+import { useLocalStorage } from "hooks/useLocalStorage";
 
 interface Props {}
 

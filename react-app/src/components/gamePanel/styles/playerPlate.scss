@@ -1,0 +1,59 @@
+@import 'assets/styles/variables';
+@import 'assets/styles/general';
+
+.player {
+	@extend .flex-column;
+	align-self: stretch;
+	cursor: pointer;
+	&:hover {
+		background-color: rgba(0, 0, 0, 0.352);
+	}
+}
+
+.player-plate {
+	@extend .flex-row;
+	justify-content: space-between;
+	padding: 5px 10px;
+	align-self: stretch;
+	span {
+		@extend .flex-row;
+		gap: 20px;
+		// filter: $drop-shadow;
+		width: 100px;
+		font-size: 16px;
+		&:first-child {
+			font-size: 13px;
+			flex: 1 1 250px;
+			justify-content: flex-start;
+		}
+	}
+	img {
+		$img-size: 30px;
+		width: $img-size;
+		height: $img-size;
+		border-radius: 100%;
+	}
+}
+
+.player-details {
+	@extend .flex-row;
+	padding: 0 20px 10px 50px;
+	justify-content: space-between;
+	align-self: stretch;
+	.details {
+		@extend .flex-row;
+		justify-content: space-between;
+		gap: 20px;
+		padding: 5px 10px;
+	}
+	.buttons-container {
+		@extend .flex-row;
+		gap: 20px;
+
+		button {
+			width: 100px;
+			height: 25px;
+			border-radius: 5px;
+		}
+	}
+}

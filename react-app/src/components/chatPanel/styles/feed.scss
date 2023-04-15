@@ -1,0 +1,75 @@
+@import "assets/styles/variables.scss";
+@import "assets/styles/background/purple2.scss";
+
+.feed {
+	display: flex;
+	flex-direction: column;
+	// width: 100%;
+	background-color: $chat-bg-color;
+	flex-shrink: 1;
+	flex-grow: 1;
+	.messages {
+		margin-top: 8px;
+		margin-right: 8px;
+		background-color: $dark-purple;
+		overflow-y: scroll;
+		border-radius: 5px;
+		flex: 1 1;
+		padding-top: 5px;
+		display: flex;
+		flex-direction: column-reverse;
+		box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.753);
+	}
+	.input {
+		background-color: white;
+		background-color: $dark-purple;
+		margin: 8px;
+		margin-left: 0px;
+		height: 36px;
+		flex-shrink: 0;
+		padding-top: 0px;
+		padding-right: 5px;
+		padding-bottom: 0px;
+		padding-left: 0;
+		padding: 0 5px 0 0;
+		display: flex;
+		border-radius: 5px;
+		box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.753);
+		input {
+			overflow: auto;
+			width: 100%;
+			border: none;
+			outline: none;
+			color:white;
+			border-radius: 5px;
+			padding: 0 10px;
+			background-color: transparent;
+			resize: vertical;
+			&::placeholder {
+				color: rgb(216, 216, 216);
+			}
+		}
+		.send {
+			width: 100%;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			img {
+				height: 25px;
+				cursor: pointer;
+				filter: $filter-purple;
+			}
+
+			button {
+				border: none;
+				padding: 4px 15px;
+				border-radius: 5px;
+				cursor: pointer;
+			}
+
+			img:hover{
+				filter: $filter-white;
+			}
+		}
+	}
+}

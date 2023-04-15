@@ -1,12 +1,4 @@
-import React, {
-    PropsWithChildren,
-    useContext,
-    useState,
-    createContext,
-} from "react";
-type Props = {};
-
-// export type ChannelContextType = "none" | "directMessage" | "channel";
+import { PropsWithChildren, useContext, useState, createContext } from "react";
 
 export interface ChannelDetailsType {
     id: number;
@@ -38,7 +30,7 @@ const defaultChatContext: ChatContextType = {
 
 const ChatContext = createContext<ChatContextType>(defaultChatContext);
 
-export function ChatProvider(props: PropsWithChildren<Props>) {
+export function ChatProvider(props: PropsWithChildren) {
     const [channel, setChannel] = useState<ChannelDetailsType>(defaultChannel);
 
     function updateChannel(channel?: ChannelDetailsType) {
