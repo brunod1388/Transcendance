@@ -18,11 +18,11 @@ export class UsersService {
     ) {}
 
     // defining the methods below that the users controller will need to invoke
-    findAllUsers() {
+    findAllUsers(): Promise<User[]> {
         // find is asynchronous method (see further details on such methods below)
         return this.userRepository.find();
     }
-    findUserByMail(email: string) {
+    findUserByMail(email: string): Promise<User | undefined> {
         if (typeof email === "string") {
             return this.userRepository.findOne({
                 where: { email: email },
@@ -32,7 +32,7 @@ export class UsersService {
         return undefined;
     }
     // Username is a unique field so can be used to identify user but perhaps should utilise id ??
-    findUser(username: string) {
+    findUser(username: string): Promise<User | undefined> {
         if (typeof username === "string") {
             return this.userRepository.findOne({
                 where: { username: username },
@@ -42,7 +42,7 @@ export class UsersService {
         return undefined;
     }
 
-    findUserId(id: number) {
+    findUserId(id: number): Promise<User | undefined> {
         //    if (typeof id === "number") {
         return this.userRepository.findOne({
             where: { id: id },
@@ -52,7 +52,7 @@ export class UsersService {
         //    return undefined;
     }
 
-    findUserIdFortyTwo(idFT: number) {
+    findUserIdFortyTwo(idFT: number): Promise<User | undefined> {
         //    if (idFortyTwo !== null) {
         console.log("User Service argument: ", idFT);
         console.log("User Service argument_TYPE: ", typeof idFT);

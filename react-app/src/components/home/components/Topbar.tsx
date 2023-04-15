@@ -43,13 +43,19 @@ function Topbar() {
     return (
         <div className="topbar">
             <div className="channel">
-                {feature !== Feature.None &&
+                {feature !== Feature.None && (
                     <img
                         // className={"channelImg" + ((channel.image === Feature.Private || channel.image === Feature.Game) ? " icon":"")}
-                        className={"channelImg" + ((channel.image === ChatIcon || channel.image === PlayIcon) ? " icon":"")}
+                        className={
+                            "channelImg" +
+                            (channel.image === ChatIcon ||
+                            channel.image === PlayIcon
+                                ? " icon"
+                                : "")
+                        }
                         src={channel.image}
-                />
-                }
+                    />
+                )}
                 <span className="channelName">{defineTitle()}</span>
                 <span style={{ color: "red" }}>{channel.id}</span>
             </div>

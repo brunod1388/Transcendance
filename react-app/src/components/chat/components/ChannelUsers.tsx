@@ -18,7 +18,7 @@ export default function ChannelUsers() {
             "getChannelUsers",
             { channelId: channel.id },
             (users: UserType[]) => {
-                console.log(users)
+                console.log(users);
                 setUsers(users);
                 const rights = users.find(
                     (user) => user.id === userAuth.id

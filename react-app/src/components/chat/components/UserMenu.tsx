@@ -9,7 +9,7 @@ type MuteOrBlock = "Mute" | "Block" | "";
 interface Props {
     user: UserType;
     type: UserPlateType;
-    isPrivate?: boolean
+    isPrivate?: boolean;
 }
 
 const MIN_IN_MS = 60 * 1000;
@@ -17,13 +17,13 @@ const HOUR_IN_MS = 60 * MIN_IN_MS;
 const DAY_IN_MS = 24 * HOUR_IN_MS;
 
 export default function UserMenu(props: Props) {
-    const { isPrivate=false, user } = props;
+    const { isPrivate = false, user } = props;
     const { userAuth } = useAuth();
     const { channel, updateChannel } = useChat();
-    const [ socket ] = useSocket();
-    const [ inviteResponse, setInviteResponse ] = useState("");
+    const [socket] = useSocket();
+    const [inviteResponse, setInviteResponse] = useState("");
     const { setFeature } = useFeature();
-    const [ muteOrBlock, setMuteOrBlock ] = useState<MuteOrBlock>("");
+    const [muteOrBlock, setMuteOrBlock] = useState<MuteOrBlock>("");
     const { ref, isVisible, setIsVisible } = useVisible(false);
 
     function inviteFriend(userId: number) {
@@ -47,13 +47,15 @@ export default function UserMenu(props: Props) {
     }
 
     function privateMessage() {
-        socket.emit("privateMessage", {
+        socket.emit(
+            "privateMessage",
+            {
                 senderId: userAuth.id,
                 receiverId: user.id,
             },
-            ((res: any) => {
+            (res: any) => {
                 console.log(res);
-            })
+            }
         );
     }
 
@@ -161,8 +163,11 @@ export default function UserMenu(props: Props) {
                     Play
                 </button>
             )}
-            {props.type === "channelUser" &&  userAuth.id !== user.id && (
-                <button className="dm long button-purple" onClick={privateMessage}>
+            {props.type === "channelUser" && userAuth.id !== user.id && (
+                <button
+                    className="dm long button-purple"
+                    onClick={privateMessage}
+                >
                     Direct Message
                 </button>
             )}

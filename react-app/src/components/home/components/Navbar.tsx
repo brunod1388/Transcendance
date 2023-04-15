@@ -67,7 +67,7 @@ function Navbar() {
     }
 
     function privateClick() {
-        setFeature(Feature.Private)
+        setFeature(Feature.Private);
         // if (feature !== Feature.Chat) setFeature(Feature.Chat);
         updateChannel({
             ...channel,
@@ -75,7 +75,7 @@ function Navbar() {
             name: "Private Message",
             type: "private",
             rights: "admin",
-            image: ChatIcon
+            image: ChatIcon,
         });
     }
 
@@ -115,7 +115,7 @@ function Navbar() {
             name: "Play Pong",
             type: "private",
             rights: "admin",
-            image: PlayIcon
+            image: PlayIcon,
         });
     }
 

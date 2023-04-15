@@ -13,26 +13,22 @@ export default function PrivateUsers() {
     const [users, setUsers] = useState<UserType[]>([]);
 
     useEffect(() => {
-        socket.emit(
-            "getPrivateUsers",
-            (users: UserType[]) => {
-				console.log("PRIVATEUSERS: ", users)
-                setUsers(users);
-            }
-        );
-        socket
-            .on("PrivateUser", (user: UserType) => {
-                setUsers((state) => {
-                    const chanIndex = state.findIndex(
-                        (c) => c.channelUserId === user.channelUserId
-                    );
-                    const newUsers = [...state];
-                    chanIndex === -1
-                        ? newUsers.push(user)
-                        : (newUsers[chanIndex] = user);
-                    return newUsers;
-                });
-            })
+        socket.emit("getPrivateUsers", (users: UserType[]) => {
+            console.log("PRIVATEUSERS: ", users);
+            setUsers(users);
+        });
+        socket.on("PrivateUser", (user: UserType) => {
+            setUsers((state) => {
+                const chanIndex = state.findIndex(
+                    (c) => c.channelUserId === user.channelUserId
+                );
+                const newUsers = [...state];
+                chanIndex === -1
+                    ? newUsers.push(user)
+                    : (newUsers[chanIndex] = user);
+                return newUsers;
+            });
+        });
         return () => {
             socket.off("PrivateUser");
         };
@@ -49,14 +45,13 @@ export default function PrivateUsers() {
                 )}
             </div>
             <div className="users">
-                {users
-                    .map((user, i) => (
-                        <PrivateUserPlate
-                            user={user}
-                            key={`admin-${i}`}
-                            type="privateUser"
-                        />
-                    ))}
+                {users.map((user, i) => (
+                    <PrivateUserPlate
+                        user={user}
+                        key={`admin-${i}`}
+                        type="privateUser"
+                    />
+                ))}
             </div>
         </div>
     );

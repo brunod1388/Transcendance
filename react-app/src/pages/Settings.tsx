@@ -321,7 +321,7 @@ function Settings() {
                     />
                     <label htmlFor="file" className="flex-row">
                         <img src={AddImageIcon} alt="" />
-                        <span>Change your Avatar</span>
+                        <span>Change your Avatar (jpeg format, max 10Mb)</span>
                     </label>
                     {errA && <p>Error: Invalid file</p>}
                     {resA && !loadA && <p>Avatar successfully changed</p>}
