@@ -84,8 +84,7 @@ function Home() {
             socket.off("response");
             socket.off("joinPongByMatchmaking");
         };
-    }, []);
-
+    }, [socket, userAuth.username]);
     return (
         <div className="home">
             <div className="homeContainer">
