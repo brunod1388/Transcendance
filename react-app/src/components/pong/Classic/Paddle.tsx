@@ -2,7 +2,7 @@ import { CSSProperties, useEffect, useState } from "react";
 import { Broadcast, GameConfig, Position } from "@customTypes";
 import { useSocket } from "hooks";
 import { useInterval } from "hooks";
-import style from "./pong.module.scss";
+import "../styles/classic.scss";
 interface Props {
     host: boolean;
     paddle: Position;
@@ -18,7 +18,25 @@ enum Move {
     DOWN,
 }
 
+function Paddle(props:Props) {
+    const { host, paddle, onPaddle, config, skin, room } = props;
+    const position: CSSProperties = {
+        left: paddle.x + (host ? 0 : -config.paddleWidth),
+        bottom: paddle.y - config.paddleHeight,
+        width: config.paddleWidth,
+        height: config.paddleHeight,
+    };
+    return (
+        <div className="paddle" style={{ ...position, ...skin }} />
+    );
+}
+
+export function YourPaddle(props: Props) {
+    return Paddle(props);
+}
+
 export function MyPaddle(props: Props) {
+    const { paddle, onPaddle, config, room } = props;
     const [socket] = useSocket();
     const [move, setMove] = useState(Move.NONE);
     const paddleSpeed = 10; // adjust as needed
@@ -52,19 +70,19 @@ export function MyPaddle(props: Props) {
     useEffect(() => {
         if (
             move === Move.UP &&
-            props.paddle.y + paddleSpeed < props.config.boardHeight
+            paddle.y + paddleSpeed < config.boardHeight
         ) {
-            props.onPaddle({
-                ...props.paddle,
-                y: props.paddle.y + paddleSpeed,
+            onPaddle({
+                ...paddle,
+                y: paddle.y + paddleSpeed,
             });
         } else if (
             move === Move.DOWN &&
-            props.paddle.y - paddleSpeed - props.config.paddleHeight > 0
+            paddle.y - paddleSpeed - config.paddleHeight > 0
         ) {
-            props.onPaddle({
-                ...props.paddle,
-                y: props.paddle.y - paddleSpeed,
+            onPaddle({
+                ...paddle,
+                y: paddle.y - paddleSpeed,
             });
         }
         setMove(Move.NONE);
@@ -74,32 +92,11 @@ export function MyPaddle(props: Props) {
     useInterval(() => {
         socket.emit(
             "game-broadcast",
-            new Broadcast(props.room, "game-paddle", {
-                x: props.paddle.x,
-                y: props.paddle.y,
+            new Broadcast(room, "game-paddle", {
+                x: paddle.x,
+                y: paddle.y,
             })
         );
     }, 20);
-
-    const position: CSSProperties = {
-        left: props.paddle.x + (props.host ? 0 : -props.config.paddleWidth),
-        bottom: props.paddle.y - props.config.paddleHeight,
-        width: props.config.paddleWidth,
-        height: props.config.paddleHeight,
-    };
-    return (
-        <div className={style.paddle} style={{ ...position, ...props.skin }} />
-    );
-}
-
-export function YourPaddle(props: Props) {
-    const position: CSSProperties = {
-        left: props.paddle.x + (props.host ? 0 : -props.config.paddleWidth),
-        bottom: props.paddle.y - props.config.paddleHeight,
-        width: props.config.paddleWidth,
-        height: props.config.paddleHeight,
-    };
-    return (
-        <div className={style.paddle} style={{ ...position, ...props.skin }} />
-    );
+    return Paddle(props);
 }

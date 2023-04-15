@@ -1,6 +1,5 @@
 import { CSSProperties, PropsWithChildren } from "react";
 import { GameConfig, PlayerInfo, Score } from "@customTypes";
-import style from "./pong.module.scss";
 import "../styles/playBoard.scss";
 
 interface Props {
@@ -10,59 +9,45 @@ interface Props {
 }
 
 export function Board(props: PropsWithChildren<Props>) {
-    const boardStyle: CSSProperties = {
-        width: props.config.boardWidth,
-        height: props.config.boardHeight,
+    const { config, score, user, children } = props;
+    function boardStyle(offset: number): CSSProperties 
+    { 
+        return {
+            width: config.boardWidth + offset,
+            height: config.boardHeight + offset,
+        }
     };
     return (
         <div className="play-board-wrapper">
             <span className="title">Ping Pong</span>
             <div
-                style={{
-                    width: (props.config.boardWidth + 50) + "px",
-                    height: (props.config.boardHeight + 50) + "px"
-                }}
-                id={"pongBoard"}
                 className="pingpong-container"
+                style={boardStyle(50)}
+                id={"pongBoard"}
                 tabIndex={-1}
                 >
-                <div
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        position: "absolute",
-                    }}
-                    >
-                    {props.user.host === true && (
+                <div className="absolute100">
+                    {user.host === true && (
                         <>
-                            <div className="score" id={style["left"]}>
-                                {props.score.player1}
+                            <div className="score left">
+                                {score.player1}
                             </div>
-                            <div className="score" id={style["right"]}>
-                                {props.score.player2}
+                            <div className="score right">
+                                {score.player2}
                             </div>
                         </>
                     )}
-                    {props.user.host === false && (
+                    {user.host === false && (
                         <>
-                            <div
-                                style={{ top: "580px" }}
-                                className="score"
-                                id={style["right"]}
-                                >
-                                {props.score.player1}
+                            <div className="score left top580">
+                                {score.player1}
                             </div>
-                            <div
-                                style={{ top: "580px" }}
-                                className="score"
-                                id={style["left"]}
-                            >
-                                {props.score.player2}
+                            <div className="score right top580">
+                                {score.player2}
                             </div>
                         </>
                     )}
-
-                    {props.children}
+                    {children}
                 </div>
             </div>
         </div>

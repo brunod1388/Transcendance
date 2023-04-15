@@ -26,13 +26,21 @@
 		font-family: BebasNeue-Regular;
 		font-size: $scoreSize;
 		color: rgb(40, 31, 79);
+
 	}
+
 	.play-board {
 		@extend .flex-column;
 	border-radius: 20px;
 	background-color: rgb(53, 39, 74);
 	box-shadow: $shadow-outset-border;
 	box-shadow: $shadow-inset-border;
+	}
+
+	.classic-container {
+		outline: none;
+		position: relative;
+		background-color: rgb(30, 23, 59);
 	}
 	.pingpong-container {
 		cursor: none;
@@ -61,5 +69,21 @@
 			padding: 8px;
 			background-size: 100% 4px;
 		}
+	}
+
+	.absolute100 {
+		width: "100%";
+		height: "100%";
+		position: "absolute";
+	}
+	.left {
+		right: (calc($width/2) - 9) + 40px;
+	}
+	.right {
+		left: (calc($width/2) - 9) + 40px;
+	}
+
+	.top580 {
+		top: 580px;
 	}
 }
