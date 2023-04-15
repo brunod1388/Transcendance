@@ -1,10 +1,4 @@
-import {
-    GameConfig,
-    Ball,
-    GameStatus,
-    Paddle,
-    Position,
-} from "@customTypes";
+import { GameConfig, Ball, GameStatus, Paddle, Position } from "@customTypes";
 
 // Function to move the ball
 export const move = (

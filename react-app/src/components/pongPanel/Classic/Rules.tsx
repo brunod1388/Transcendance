@@ -177,7 +177,10 @@ export function Rules(props: PropsWithChildren<Props>) {
     }, [gameStatus]);
 
     useEffect(() => {
-        if (props.score.player1 >= WIN_SCORE || props.score.player2 >= WIN_SCORE) {
+        if (
+            props.score.player1 >= WIN_SCORE ||
+            props.score.player2 >= WIN_SCORE
+        ) {
             if (props.user.host === true && gameStatus !== END_GAME) {
                 console.log("record on score");
                 const dto: CreateMatchDTO = {
@@ -207,9 +210,5 @@ export function Rules(props: PropsWithChildren<Props>) {
         );
     }
 
-    return (
-        <div className="play-board-container">
-            {props.children}
-        </div>
-    );
+    return <div className="play-board-container">{props.children}</div>;
 }

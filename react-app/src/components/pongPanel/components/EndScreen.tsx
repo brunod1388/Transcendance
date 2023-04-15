@@ -1,6 +1,4 @@
-import {
-    DISCONECTED, PlayerInfo, Score, WIN_SCORE,
-} from "@customTypes";
+import { DISCONECTED, PlayerInfo, Score, WIN_SCORE } from "@customTypes";
 import "../styles/endScreen.scss";
 
 interface PropsEnd {
@@ -12,10 +10,10 @@ interface PropsEnd {
 export function EndScreen(props: PropsEnd) {
     const { score, opponent, user } = props;
 
-    const hasWin = (
+    const hasWin =
         props.opponent.status === DISCONECTED ||
         (props.user.host === true && props.score.player1 >= WIN_SCORE) ||
-        (props.user.host === false && props.score.player2 >= WIN_SCORE));
+        (props.user.host === false && props.score.player2 >= WIN_SCORE);
     return (
         <div className="endScreen">
             <div className="wrapper">

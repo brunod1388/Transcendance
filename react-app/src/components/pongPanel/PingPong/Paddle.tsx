@@ -54,7 +54,13 @@ interface YourProps {
 }
 
 export function YourPaddle(props: YourProps) {
-    return <Paddle {...props} paddlePosition={props.yourPaddle} isMyPaddle={false}/>;
+    return (
+        <Paddle
+            {...props}
+            paddlePosition={props.yourPaddle}
+            isMyPaddle={false}
+        />
+    );
 }
 
 interface MyProps {
@@ -69,7 +75,8 @@ interface MyProps {
 }
 
 export function MyPaddle(props: MyProps) {
-    const { myPaddle, onMyPaddle, config, room, myMovement, onMyMovement } = props;
+    const { myPaddle, onMyPaddle, config, room, myMovement, onMyMovement } =
+        props;
     const [socket] = useSocket();
     const handler = useCallback(
         (event: MouseEvent) => {
@@ -80,18 +87,13 @@ export function MyPaddle(props: MyProps) {
             const offsetX = event.clientX - rect.left;
             const offsetY = event.clientY - rect.top;
             let posX = offsetX - config.paddleWidth / 2;
-            let posY =
-                config.boardHeight -
-                offsetY +
-                config.paddleHeight / 2;
+            let posY = config.boardHeight - offsetY + config.paddleHeight / 2;
             if (
                 posX > 0 &&
                 posX + config.paddleWidth < config.boardWidth &&
                 offsetY > 0 &&
-                offsetY - config.paddleHeight <
-                    config.boardHeight &&
-                offsetY - config.paddleHeight / 2 >
-                    config.boardHeight / 2
+                offsetY - config.paddleHeight < config.boardHeight &&
+                offsetY - config.paddleHeight / 2 > config.boardHeight / 2
             ) {
                 onMyPaddle({ x: posX, y: posY });
                 onMyMovement({ x: event.movementX, y: event.movementY });
@@ -116,5 +118,5 @@ export function MyPaddle(props: MyProps) {
             })
         );
     }, 50);
-    return <Paddle {...props} paddlePosition={myPaddle} isMyPaddle={true}/>;
+    return <Paddle {...props} paddlePosition={myPaddle} isMyPaddle={true} />;
 }
