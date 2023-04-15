@@ -3,6 +3,7 @@ import { joinGame } from "utils";
 import { Socket } from "socket.io-client";
 import { CLASSIC, GameMode } from "@customTypes";
 
+const INVITATION_TIMEOUT = 3000;
 interface Props {
     room: string;
     accepted: number;
@@ -20,7 +21,7 @@ export function ResponsePong({
 }: Props) {
     useTimeout(() => {
         onDisplay(false);
-    }, 3000);
+    }, INVITATION_TIMEOUT);
 
     if (accepted <= 0) {
         return <div>Your opponent declined the invitation.</div>;
