@@ -1,5 +1,5 @@
 import { ChatProvider, SocketProvider } from "context";
-import { Home } from "../components/home";
+import { Home } from "../components/homeLayout";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "context";

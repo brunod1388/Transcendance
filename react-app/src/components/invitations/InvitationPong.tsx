@@ -10,7 +10,6 @@ import { useNotificationsDispatch } from "hooks";
 import { useTimeout } from "hooks";
 import { removeNotification } from "utils";
 import { joinGame, sendResponse } from "utils";
-import { useFeature } from "context";
 import { Socket } from "socket.io-client";
 
 interface Props {
@@ -20,6 +19,9 @@ interface Props {
     socket: Socket;
     onPong: (room: string, gameMode: GameMode, host: boolean) => void;
 }
+
+const NOTIFICATION_TIMEOUT = 300000000;
+// const NOTIFICATION_TIMEOUT = 3000;
 
 // This notification contains two button to respond to the invitation,
 export function InvitationPong({
@@ -33,7 +35,7 @@ export function InvitationPong({
 
     useTimeout(() => {
         onClose();
-    }, 3000);
+    }, NOTIFICATION_TIMEOUT);
 
     const onClose = (statut: number = NONE) => {
         sendResponse(statut, "pong", invitation.from, invitation.room, socket);

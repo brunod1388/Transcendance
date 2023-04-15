@@ -6,9 +6,9 @@ import { useState, useEffect } from "react";
 import { useNotificationsDispatch, useSocket, useVisible } from "hooks";
 import { CreateInvitation, CreateResponse } from "../invitations";
 import { InvitationDTO, ResponseDTO, CLASSIC, GameMode } from "@customTypes";
-import Chat from "../chat/Chat";
-import { Game } from "../game";
-import { Game as Pong } from "../pong/Game";
+import Chat from "../chatPanel/Chat";
+import { Game } from "../gamePanel";
+import { Game as Pong } from "../pongPanel/Game";
 import "./styles/home.scss";
 
 const featureComponent = new Map<number, JSX.Element>([

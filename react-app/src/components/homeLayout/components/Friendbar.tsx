@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import UserPlate from "components/chat/components/UserPlate";
+import UserPlate from "components/chatPanel/components/UserPlate";
 import { UserType } from "@customTypes";
 import { useSocket } from "hooks";
 import { useAuth } from "context";
-import AddContact from "components/chat/components/AddContact";
+import AddContact from "components/chatPanel/components/AddContact";
 import "../styles/friendbar.scss";
 
 function Friendbar() {

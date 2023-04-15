@@ -7,9 +7,9 @@ import "../styles/privateUsers.scss";
 
 export default function PrivateUsers() {
     const { channel } = useChat();
-    const [socket] = useSocket();
-    const [searchUser, setSearchUser] = useState<UserType>();
-    const [users, setUsers] = useState<UserType[]>([]);
+    const [ socket ] = useSocket();
+    const [ searchUser, setSearchUser ] = useState<UserType>();
+    const [ users, setUsers ] = useState<UserType[]>([]);
 
     useEffect(() => {
         socket.emit("getPrivateUsers", (users: UserType[]) => {
@@ -45,11 +45,7 @@ export default function PrivateUsers() {
             </div>
             <div className="users">
                 {users.map((user, i) => (
-                    <PrivateUserPlate
-                        user={user}
-                        key={`admin-${i}`}
-                        type="privateUser"
-                    />
+                    <PrivateUserPlate user={user} type="privateUser"/>
                 ))}
             </div>
         </div>
