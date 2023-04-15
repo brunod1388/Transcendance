@@ -89,5 +89,5 @@ export const LOST = ScoreStatus.LOST;
 
 export const END_GAME = GameStatus.END_GAME;
 
-export const WIN_SCORE = 1000;
+export const WIN_SCORE = 10;
 export const END_MESSAGE_TIMEOUT = 5000;

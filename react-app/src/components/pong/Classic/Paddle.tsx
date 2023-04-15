@@ -3,6 +3,7 @@ import { Broadcast, GameConfig, Position } from "@customTypes";
 import { useSocket } from "hooks";
 import { useInterval } from "hooks";
 import "../styles/classic.scss";
+
 interface Props {
     host: boolean;
     paddle: Position;

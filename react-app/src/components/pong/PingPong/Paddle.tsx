@@ -3,8 +3,59 @@ import { Broadcast, GameConfig, Position } from "@customTypes";
 import { useCallback } from "react";
 import { useSocket } from "hooks";
 import { useInterval } from "hooks";
-import style from "./pong.module.scss";
 import { useMouse } from "hooks/useMouse";
+import "../styles/pingpong.scss";
+
+interface Props {
+    host: boolean;
+    paddlePosition: Position;
+    config: GameConfig;
+    skin: CSSProperties;
+    isMyPaddle: boolean;
+}
+
+function Paddle(props: Props) {
+    const { host, paddlePosition, config, skin, isMyPaddle } = props;
+    const position: CSSProperties = {
+        left: paddlePosition.x + (host ? 0 : -config.paddleWidth),
+        bottom: paddlePosition.y - config.paddleHeight,
+        width: config.paddleWidth,
+        height: config.paddleHeight,
+    };
+    return (
+        <div
+            className={isMyPaddle ? "myPaddle" : "yourPaddle"}
+            style={{ ...position, ...skin }}
+        >
+            <div className="solid">
+                <div
+                    style={{
+                        width: config.paddleWidth,
+                        height: config.paddleHeight,
+                    }}
+                    className="surface"
+                >
+                    <div
+                        style={{ top: config.paddleHeight, left: 15 }}
+                        className="handle"
+                    />
+                </div>
+            </div>
+        </div>
+    );
+}
+interface YourProps {
+    host: boolean;
+    yourPaddle: Position;
+    onYourPaddle: (pos: Position) => void;
+    config: GameConfig;
+    skin: CSSProperties;
+    room: string;
+}
+
+export function YourPaddle(props: YourProps) {
+    return <Paddle {...props} paddlePosition={props.yourPaddle} isMyPaddle={false}/>;
+}
 
 interface MyProps {
     host: boolean;
@@ -18,7 +69,7 @@ interface MyProps {
 }
 
 export function MyPaddle(props: MyProps) {
-    const { host, myPaddle, onMyPaddle, config, skin, room, myMovement, onMyMovement } = props;
+    const { myPaddle, onMyPaddle, config, room, myMovement, onMyMovement } = props;
     const [socket] = useSocket();
     const handler = useCallback(
         (event: MouseEvent) => {
@@ -65,69 +116,5 @@ export function MyPaddle(props: MyProps) {
             })
         );
     }, 50);
-
-    const position: CSSProperties = {
-        left: myPaddle.x,
-        bottom: myPaddle.y - config.paddleHeight,
-        width: config.paddleWidth,
-        height: config.paddleHeight,
-    };
-    return (
-        <div className={style.myPaddle} style={{ ...position, ...skin }}>
-            <div className={style.solid}>
-                <div
-                    style={{
-                        width: config.paddleWidth,
-                        height: config.paddleHeight,
-                    }}
-                    className={style.surface}
-                >
-                    <div
-                        style={{ top: config.paddleHeight, left: 15 }}
-                        className={style.handle}
-                    />
-                </div>
-            </div>
-        </div>
-    );
-}
-
-interface YourProps {
-    host: boolean;
-    yourPaddle: Position;
-    onYourPaddle: (pos: Position) => void;
-    config: GameConfig;
-    skin: CSSProperties;
-    room: string;
-}
-
-export function YourPaddle(props: YourProps) {
-    const { host, yourPaddle, onYourPaddle, config, skin, room } = props;
-    const position: CSSProperties = {
-        left: yourPaddle.x + (host ? 0 : -config.paddleWidth),
-        bottom: yourPaddle.y - config.paddleHeight,
-        width: config.paddleWidth,
-        height: config.paddleHeight,
-    };
-    return (
-        <div
-            className={style.yourPaddle}
-            style={{ ...position, ...skin }}
-        >
-            <div className={style.solid}>
-                <div
-                    style={{
-                        width: config.paddleWidth,
-                        height: config.paddleHeight,
-                    }}
-                    className={style.surface}
-                >
-                    <div
-                        style={{ top: config.paddleHeight, left: 15 }}
-                        className={style.handle}
-                    />
-                </div>
-            </div>
-        </div>
-    );
+    return <Paddle {...props} paddlePosition={myPaddle} isMyPaddle={true}/>;
 }

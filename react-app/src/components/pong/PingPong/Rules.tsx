@@ -18,9 +18,8 @@ import {
 import { useSocket, useTimeout } from "hooks";
 import { useInterval } from "hooks";
 import { move, detectScore, launchBall } from "./Physics";
-import style from "./pong.module.scss";
-import "../styles/endScreen.scss";
 import { EndScreen } from "../components/EndScreen";
+import "../styles/endScreen.scss";
 
 interface Props {
     yourMovement: Position;
