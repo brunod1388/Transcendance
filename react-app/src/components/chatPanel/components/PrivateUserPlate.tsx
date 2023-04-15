@@ -81,7 +81,7 @@ export default function PrivateUserPlate(props: Props) {
             }
         >
             <div className="userPlate" onClick={selectUser}>
-                <img src={user.avatar === "" ? NoUserIcon : user.avatar} />
+                <img src={user.avatar === "" ? NoUserIcon : user.avatar} alt="avatar"/>
                 <div className="details">
                     <div className="line">
                         <span className="username">{user.username}</span>

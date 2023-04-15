@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { removeNotification, createId, addNotification } from "utils";
 import {
     InvitationDTO,
@@ -8,11 +8,19 @@ import {
     ACCEPTED,
     DECLINED,
     CLASSIC,
+    UserType,
 } from "@customTypes";
 import { Socket } from "socket.io-client";
 import { useTimeout } from "hooks";
 import { sendResponse } from "utils";
+import { NoUserIcon } from "assets/images";
+import "../styles/gameInvitation.scss";
+
+// const NOTIFICATION_TIMEOUT = 300000000;
 const NOTIFICATION_TIMEOUT = 300000000;
+
+const userTest = {id: 666,  username: "username", avatar: NoUserIcon}
+
 
 // Create a notification using a reducer
 export const CreateInvitation = (
@@ -41,9 +49,10 @@ interface Props {
     invitation: InvitationDTO;
     socket: Socket;
     onPong: (room: string, gameMode: GameMode, host: boolean) => void;
+    user?: UserType;
 }
 // Content of the notification, an invitation to play pong
-function Invitation({ id, invitation, dispatch, socket, onPong }: Props) {
+function Invitation({ id, invitation, dispatch, socket, onPong, user=userTest }: Props) {
     const [isDisplay, setIsDisplay] = useState(true);
 
     // function called when the user interact with the notification or after the timeout is over
@@ -62,13 +71,22 @@ function Invitation({ id, invitation, dispatch, socket, onPong }: Props) {
     }, NOTIFICATION_TIMEOUT);
 
     return (
-        <>
-            {isDisplay && invitation.type === "pong" && (
-                <div>
-                    <button onClick={() => onClose(ACCEPTED)}>accept</button>
-                    <button onClick={() => onClose(DECLINED)}>decline</button>
+        <div className="game-invitation-container">
+                <div className="first-line">
+                    <div className="user-info">
+                        <img src={user.avatar} alt="avatar" />
+                        <span className="username">{user.username}</span>
+                    </div>
+                    {isDisplay && invitation.type === "pong" && (
+                        <div className="invitation-buttons">
+                            <button className="accept" onClick={() => onClose(ACCEPTED)}>accept</button>
+                            <button className="decline" onClick={() => onClose(DECLINED)}>decline</button>
+                        </div>
+                    )}
                 </div>
-            )}
-        </>
+            <span className="invitation-text">
+                An opponent wants to play pong with you.
+            </span>
+        </div>
     );
 }

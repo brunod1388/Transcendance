@@ -1,7 +1,5 @@
 import { createContext, useRef, PropsWithChildren, useEffect } from "react";
 import { io, Socket } from "socket.io-client";
-import axios from "axios";
-import { useAuth } from "./auth.context";
 import Cookies from "js-cookie";
 
 const SERVER_URL = "http://localhost:3000";

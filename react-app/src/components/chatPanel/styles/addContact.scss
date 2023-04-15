@@ -15,7 +15,7 @@ $invite-width: calc(100% - 50px);
 	display: flex;
 	width: auto;
 	display: flex;
-	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.753);
+	box-shadow: $shadow-outset-border;
 	input {
 		width: $invite-width;
 		border: none;
@@ -42,9 +42,8 @@ $invite-width: calc(100% - 50px);
 	}
 	position: relative;
 	.message {
-		background-color: pink;
-		padding: 5px;
 		position: absolute;
+		padding: 5px;
 		bottom: 30px;
 		width: calc(100% - 10px);
 		background-color: $purple;

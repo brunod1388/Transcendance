@@ -1,15 +1,6 @@
 import style from "components/gameInvitations/styles/notifications.module.scss";
 import { ActionType, DispatchType } from "@customTypes";
 
-export function getStyle(type: string): string {
-    if (type === "info") {
-        return " " + style.info;
-    } else if (type === "danger") {
-        return " " + style.danger;
-    }
-    return "";
-}
-
 export function addNotification(
     id: string,
     type: string,

@@ -9,7 +9,6 @@ interface Props {
     next: MessageType | undefined;
 }
 
-const DAY_TIME = 1000 * 60 * 60 * 24;
 const HOUR_TIME = 1000 * 60 * 60;
 
 function stickToPrev(msg: MessageType, next: MessageType): boolean {

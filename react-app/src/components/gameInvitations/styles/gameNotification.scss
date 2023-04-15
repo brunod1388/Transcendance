@@ -1,0 +1,52 @@
+@import "assets/styles/variables.scss";
+@import "assets/styles/general.scss";
+
+.game-notifications {
+	position: fixed;
+	z-index: 100000;
+	top: 150px;
+	right: 50px;
+	width: 300px;
+	height: 80vh;
+	pointer-events: none;
+	.notifications-container {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 10px;
+		width: 100%;
+	}
+	
+	@keyframes translateIn {
+		from { transform: translatex(500px); }
+		to { transform: translatex(0px); }
+	}
+
+	.notification-item {
+		padding: 10px;
+		border-radius: 10px;
+		width: 100%;
+		word-wrap: break-word;
+		color: white;
+		transition: 0.2s;
+		background-color: rgba(43, 32, 64, 0.917);
+		box-shadow: $shadow-outset-border;
+		transform: translatex(500px);
+		animation: translateIn 0.5s ease-in-out;
+		animation-fill-mode: forwards;
+		pointer-events: fill;
+		&:hover {
+			background-color: rgb(84, 58, 126);
+		}
+	}
+
+	.info {
+		border: var(--primaryBlue) solid 1px;
+		background-color: var(--hoverBlue);
+	}
+
+	.danger {
+		border: var(--red) solid 1px;
+		background-color: var(--red);
+	}
+}

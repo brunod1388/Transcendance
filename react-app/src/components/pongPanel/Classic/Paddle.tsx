@@ -20,7 +20,7 @@ enum Move {
 }
 
 function Paddle(props: Props) {
-    const { host, paddle, onPaddle, config, skin, room } = props;
+    const { host, paddle, config, skin } = props;
     const position: CSSProperties = {
         left: paddle.x + (host ? 0 : -config.paddleWidth),
         bottom: paddle.y - config.paddleHeight,

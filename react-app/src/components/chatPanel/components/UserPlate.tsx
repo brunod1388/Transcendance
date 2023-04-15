@@ -20,6 +20,7 @@ export default function UserPlate(props: Props) {
                 <img
                     className={isVisible ? "bigAvatar" : ""}
                     src={user.avatar === "" ? NoUserIcon : user.avatar}
+                    alt="avatar"
                 />
                 <div className="userChatInfo">
                     <span>{user.username}</span>

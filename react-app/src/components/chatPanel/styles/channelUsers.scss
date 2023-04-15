@@ -1,48 +1,27 @@
 @import "assets/styles/variables.scss";
+@import "assets/styles/general.scss";
 
-
-.ChannelUsers {
-	background-color: $chat-bg-color;
-	width: 170px;
+.channel-users {
 	display: flex;
 	flex-direction: column;
-	border-radius: 10px 0 0 0 ;
-	.search {
-
-		// border-bottom: 2px solid $dark-grey;
-		padding: 10px;
-		padding-right: 10px;
-		.searchForm {
-			padding: 8px;
-			background-color: $purple-gray;
-			border-radius: 5px;
-			input {
-				background-color: transparent;
-				border: none;
-				color: white;
-				outline: none;
-				&::placeholder {
-					color: lightgray;
-				}
-			}
-			box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.753);
-		}
-	}
+	width: 180px;
+	flex-shrink: 0;
 	.users {
+		height: calc(100% - 2*$border-padding);
 		display: flex;
 		flex-direction: column;
 		overflow: scroll;
-		padding: 0 10px;
-		padding-right: 10px;
+		padding: $border-padding;
 		gap: 10px;
-		flex-grow: 1;
-		.title {
-			color: white;
-			padding: 5px;
-			filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.882));
-		}
+	}
+	.title {
+		align-self: flex-start;
+		color: white;
+		padding: 5px;
+		padding-top: 10px;
+		filter: $drop-shadow;
 	}
 	.invitation {
-		padding: 8px;
+		padding: $border-padding;
 	}
 }

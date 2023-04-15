@@ -92,15 +92,6 @@ export default function UserMenu(props: Props) {
         setIsVisible(false);
     }
 
-    function deleteChannelUser(channelUserId: number | undefined) {
-        if (channelUserId !== undefined)
-            socket.emit(
-                "deleteChannelUser",
-                { id: channelUserId },
-                (res: string) => {}
-            );
-    }
-
     function quitChannel(channelUserId: number | undefined) {
         if (channelUserId !== undefined)
             socket.emit(
@@ -117,19 +108,10 @@ export default function UserMenu(props: Props) {
         if (type === "channelUser" || type === "self") {
             socket.emit("deleteChannelUser", { id: user.channelUserId });
         } else if (type === "friend")
-            socket.emit("deleteFriend", { id: user.friendId });
+        socket.emit("deleteFriend", { id: user.friendId });
     }
 
     function makeAdmin(userId: number) {}
-
-    function deleteFriend(friendId: number | undefined) {
-        console.log("should delete");
-        console.log(friendId);
-        if (friendId !== undefined)
-            socket.emit("deleteFriend", { id: friendId }, (res: string) => {
-                console.log(res);
-            });
-    }
 
     return (
         <div className="userMenu">
@@ -224,7 +206,7 @@ export default function UserMenu(props: Props) {
                 channel.rights === "admin" && (
                     <button
                         className="handleRight long button-purple"
-                        onClick={() => {}}
+                        onClick={() => makeAdmin(user.id)}
                     >
                         Make Admin
                     </button>
@@ -235,7 +217,7 @@ export default function UserMenu(props: Props) {
                     <button
                         className="delete long red-button button-purple"
                         onClick={() => {
-                            deleteChannelUser(user.channelUserId);
+                            deleteUser(user, "channelUser");
                         }}
                     >
                         Delete channel user
@@ -255,7 +237,7 @@ export default function UserMenu(props: Props) {
                 <button
                     className="deleteFriend red-button long button-purple"
                     onClick={() => {
-                        deleteFriend(user.friendId);
+                        deleteUser(user, "friend");
                     }}
                 >
                     Delete Friend

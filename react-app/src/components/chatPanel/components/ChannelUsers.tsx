@@ -10,7 +10,6 @@ export default function ChannelUsers() {
     const { channel, updateChannel } = useChat();
     const [socket] = useSocket();
     const { userAuth } = useAuth();
-    const [searchUser, setSearchUser] = useState<UserType>();
     const [users, setUsers] = useState<UserType[]>([]);
 
     useEffect(() => {
@@ -52,15 +51,7 @@ export default function ChannelUsers() {
     }, [socket, channel.id]);
 
     return (
-        <div className="ChannelUsers">
-            <div className="search">
-                <div className="searchForm">
-                    <input type="text" placeholder="type a user" />
-                </div>
-                {searchUser !== undefined && (
-                    <UserPlate user={searchUser} type="channelUser" />
-                )}
-            </div>
+        <div className="channel-users">
             <div className="users">
                 {users.filter((user) => user.rights === "admin").length > 0 && (
                     <span className="title">Admin</span>
@@ -68,11 +59,7 @@ export default function ChannelUsers() {
                 {users
                     .filter((user) => user.rights === "admin")
                     .map((user, i) => (
-                        <UserPlate
-                            user={user}
-                            key={`admin-${i}`}
-                            type="channelUser"
-                        />
+                        <UserPlate user={user} key={`admin-${i}`} type="channelUser" />
                     ))}
                 {users.filter((usr) => usr.rights === "normal").length > 0 && (
                     <span className="title">Users</span>
@@ -80,11 +67,7 @@ export default function ChannelUsers() {
                 {users
                     .filter((user) => user.rights === "normal")
                     .map((user, i) => (
-                        <UserPlate
-                            user={user}
-                            key={`user-${i}`}
-                            type="channelUser"
-                        />
+                        <UserPlate user={user} key={`user-${i}`} type="channelUser" />
                     ))}
             </div>
             {channel.type === "channel" && (

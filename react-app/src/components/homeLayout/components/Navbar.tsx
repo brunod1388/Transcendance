@@ -33,7 +33,7 @@ function Navbar() {
             "getChannels",
             { userid: userAuth.id, isPending: false, isPrivate: false },
             (chans: ChannelType[]) => {
-                if (channel.id !== 0 && chans.length != channels.length) {
+                if (channel.id !== 0 && chans.length !== channels.length) {
                     setFeature(Feature.None);
                     updateChannel(defaultChannel);
                 }

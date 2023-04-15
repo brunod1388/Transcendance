@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useAuth } from "context";
 import { useSocket } from "hooks";
 import "../styles/gamerBoard.scss";
-
-type Props = {};
 interface MatchSummary {
     totalWins: number;
     totalLoses: number;
@@ -20,7 +18,7 @@ const initialSummary: MatchSummary = {
     league: "Noob",
 };
 
-export default function GamerBoard({}: Props) {
+export default function GamerBoard() {
     const { userAuth } = useAuth();
     const [matchSummary, setMatchSummary] = useState(initialSummary);
     const [socket] = useSocket();

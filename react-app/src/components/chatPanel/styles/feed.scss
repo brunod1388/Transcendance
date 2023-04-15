@@ -4,37 +4,28 @@
 .feed {
 	display: flex;
 	flex-direction: column;
-	// width: 100%;
-	background-color: $chat-bg-color;
-	flex-shrink: 1;
-	flex-grow: 1;
+	flex: 1 1 auto;
 	.messages {
-		margin-top: 8px;
-		margin-right: 8px;
+		display: flex;
+		flex-direction: column-reverse;
+		flex: 1 1;
+		margin-top: $border-padding;
+		margin-right: $border-padding;
 		background-color: $dark-purple;
 		overflow-y: scroll;
 		border-radius: 5px;
-		flex: 1 1;
-		padding-top: 5px;
-		display: flex;
-		flex-direction: column-reverse;
-		box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.753);
+		box-shadow: $shadow-outset-border;
 	}
 	.input {
-		background-color: white;
+		display: flex;
 		background-color: $dark-purple;
-		margin: 8px;
+		margin: $border-padding;
 		margin-left: 0px;
 		height: 36px;
 		flex-shrink: 0;
-		padding-top: 0px;
-		padding-right: 5px;
-		padding-bottom: 0px;
-		padding-left: 0;
 		padding: 0 5px 0 0;
-		display: flex;
 		border-radius: 5px;
-		box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.753);
+		box-shadow: $shadow-outset-border;
 		input {
 			overflow: auto;
 			width: 100%;

@@ -4,7 +4,8 @@ import { useState } from "react";
 import { Socket } from "socket.io-client";
 import { useTimeout } from "hooks";
 
-const INVITATION_TIMEOUT = 3000;
+const INVITATION_TIMEOUT = 1000000;
+// const INVITATION_TIMEOUT = 3000;
 
 export const CreateResponse = (
     response: ResponseDTO,
@@ -48,7 +49,7 @@ function Response({ id, response, dispatch, socket, onPong }: Props) {
     };
 
     return (
-        <>
+        <div className="game-invitation-container">
             {isDisplay && response.type === "pong" && response.statut <= 0 && (
                 <div>Your opponent declined the invitation.</div>
             )}
@@ -65,6 +66,6 @@ function Response({ id, response, dispatch, socket, onPong }: Props) {
                     </button>
                 </div>
             )}
-        </>
+        </div>
     );
 }

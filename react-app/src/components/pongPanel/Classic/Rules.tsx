@@ -3,10 +3,8 @@ import {
     Ball,
     END_GAME,
     GameStatus,
-    LOST,
     PlayerInfo,
     Score,
-    WON,
     Paddle,
     GameConfig,
     Position,
@@ -14,7 +12,7 @@ import {
     WIN_SCORE,
     END_MESSAGE_TIMEOUT,
 } from "@customTypes";
-import { useSocket, useTimeout } from "hooks";
+import { useSocket } from "hooks";
 import { useInterval } from "hooks";
 import { move, detectScore, launchBall } from "./Physics";
 import { EndScreen } from "../components/EndScreen";
@@ -52,7 +50,6 @@ export function Rules(props: PropsWithChildren<Props>) {
     const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.BEGIN);
     const [update, setUpdate] = useState<boolean>(false);
     const [launch, setLaunch] = useState<boolean>(false);
-    let requestId: number;
 
     useEffect(() => {
         let timer: NodeJS.Timeout;

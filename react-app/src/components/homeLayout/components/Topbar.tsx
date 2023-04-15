@@ -44,7 +44,6 @@ function Topbar() {
             <div className="channel">
                 {feature !== Feature.None && (
                     <img
-                        // className={"channelImg" + ((channel.image === Feature.Private || channel.image === Feature.Game) ? " icon":"")}
                         className={
                             "channelImg" +
                             (channel.image === ChatIcon ||
@@ -53,6 +52,7 @@ function Topbar() {
                                 : "")
                         }
                         src={channel.image}
+                        alt="channel"
                     />
                 )}
                 <span className="channelName">{defineTitle()}</span>

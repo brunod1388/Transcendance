@@ -6,16 +6,6 @@ import { useSocket } from "hooks";
 import { MessageType } from "@customTypes";
 import "../styles/feed.scss";
 
-const NB_MESSAGE = 20;
-
-const messageTest: MessageType = {
-    id: 0,
-    creator: { id: 1, username: "TestUser" },
-    createdAt: new Date(Date.now()),
-    modifiedAt: new Date(Date.now()),
-    content: "this is the message content",
-};
-
 export default function Feed() {
     const [messages, setMessages] = useState<MessageType[]>([]);
     const [socket] = useSocket();

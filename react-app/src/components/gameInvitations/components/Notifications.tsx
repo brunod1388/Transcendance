@@ -1,7 +1,7 @@
 import { useNotificationsDispatch } from "hooks";
-import { getStyle, removeNotification } from "utils/notifications.utils";
+import { removeNotification } from "utils/notifications.utils";
 import { Notification } from "@customTypes";
-import style from "../styles/notifications.module.scss";
+import "../styles/gameNotification.scss";
 
 interface Props {
     notifications: Notification[];
@@ -10,8 +10,8 @@ interface Props {
 // List of notifications
 export function Notifications({ notifications }: Props) {
     return (
-        <div className={style.notifications}>
-            <div className={style.notificationsContainer}>
+        <div className="game-notifications">
+            <div className="notifications-container">
                 {notifications.map((value: Notification) => (
                     <NotificationItem key={value.id} {...value} />
                 ))}
@@ -23,17 +23,10 @@ export function Notifications({ notifications }: Props) {
 // Single notification
 function NotificationItem(notification: Notification) {
     const dispatch = useNotificationsDispatch();
-    let divStyle: string = style.notificationItem + getStyle(notification.type);
+    const notificationType = notification.type; 
 
     return (
-        <div className={divStyle}>
-            <span
-                role="img"
-                className={style.closeCross}
-                onClick={() => removeNotification(notification.id, dispatch)}
-            >
-                &times;
-            </span>
+        <div className={"notification-item " + notificationType}>
             {renderContent(notification.content)}
         </div>
     );

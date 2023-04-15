@@ -3,7 +3,6 @@ import {
     HistoryIcon,
     MatchIcon,
     NoChannelIcon,
-    NoUserIcon,
     RankingIcon,
 } from "../../assets/images";
 import GamerBoard from "./components/GamerBoard";
@@ -57,7 +56,7 @@ function Tab(props: TabProps) {
             className={`tab ${panel === current ? "selected" : ""}`}
             onClick={() => setPanel(panel)}
         >
-            <img src={panels.get(panel)?.icon} />
+            <img src={panels.get(panel)?.icon} alt={panel}/>
         </div>
     );
 }

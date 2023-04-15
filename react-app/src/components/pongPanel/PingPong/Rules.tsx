@@ -3,7 +3,6 @@ import {
     Ball,
     END_GAME,
     GameStatus,
-    LOST,
     PlayerInfo,
     Score,
     WON,
@@ -15,9 +14,9 @@ import {
     WIN_SCORE,
     END_MESSAGE_TIMEOUT,
 } from "@customTypes";
-import { useSocket, useTimeout } from "hooks";
+import { useSocket } from "hooks";
 import { useInterval } from "hooks";
-import { move, detectScore, launchBall } from "./Physics";
+import { move, detectScore } from "./Physics";
 import { EndScreen } from "../components/EndScreen";
 import "../styles/endScreen.scss";
 

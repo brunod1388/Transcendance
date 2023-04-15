@@ -2,7 +2,6 @@ import { ChatProvider, SocketProvider } from "context";
 import { Home } from "../components/homeLayout";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useAuth } from "context";
 import { useAxios } from "hooks";
 import { useLocalStorage } from "hooks/useLocalStorage";
 import { AxiosRequestConfig } from "axios";
@@ -16,7 +15,6 @@ const defaultRequest: AxiosRequestConfig = {
 function Main() {
     const [request] = useState<AxiosRequestConfig>(defaultRequest);
     const navigate = useNavigate();
-    const { userAuth } = useAuth();
     const { setItem, getItem, removeItem } = useLocalStorage();
     const { response, error } = useAxios(request);
 

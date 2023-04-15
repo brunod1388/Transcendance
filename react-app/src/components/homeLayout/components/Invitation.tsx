@@ -91,6 +91,7 @@ export default function Invitations() {
             <img
                 className={"invitations-icon" + (notif ? " notif" : "")}
                 src={BellIcon}
+                alt="invitation-icon"
                 onClick={toggleMenu}
             />
             <div className="invitations-menu" id="invitation-menu">
@@ -101,7 +102,7 @@ export default function Invitations() {
                 {invitations.length > 0 &&
                     invitations.map((invite) => (
                         <div className="invitation-container" key={invite.name}>
-                            <img src={invite.image} alt="" className="icon" />
+                            <img src={invite.image} alt="invite" className="icon" />
                             <div className="invitation-details">
                                 <div className="invitation-line">
                                     <span>{invite.type} invitation :</span>
@@ -112,13 +113,15 @@ export default function Invitations() {
                                         <img
                                             className="accept choice"
                                             src={AcceptIcon}
+                                            alt="accept"
                                             onClick={() =>
                                                 handleInvitation(invite, true)
                                             }
-                                        />
+                                            />
                                         <img
                                             className="decline choice"
                                             src={DeclineIcon}
+                                            alt="decline"
                                             onClick={() =>
                                                 handleInvitation(invite, false)
                                             }

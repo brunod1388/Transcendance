@@ -8,7 +8,6 @@ import "../styles/privateUsers.scss";
 export default function PrivateUsers() {
     const { channel } = useChat();
     const [socket] = useSocket();
-    const [searchUser, setSearchUser] = useState<UserType>();
     const [users, setUsers] = useState<UserType[]>([]);
 
     useEffect(() => {
@@ -35,14 +34,6 @@ export default function PrivateUsers() {
 
     return (
         <div className="private-users">
-            <div className="search">
-                <div className="searchForm">
-                    <input type="text" placeholder="type a user" />
-                </div>
-                {searchUser !== undefined && (
-                    <PrivateUserPlate user={searchUser} type="channelUser" />
-                )}
-            </div>
             <div className="users">
                 {users.map((user, i) => (
                     <PrivateUserPlate user={user} type="privateUser" />

@@ -1,0 +1,60 @@
+@import "assets/styles/variables.scss";
+@import "assets/styles/general.scss";
+
+.game-invitation-container {
+	@extend .flex-column;
+	font-family: $base-font;
+	gap: 10px;
+	align-items: flex-start;
+	.first-line {
+		@extend .flex-row;
+		justify-content: space-between;
+		width: 100%;
+	}
+	.user-info {
+		@extend .flex-row;
+		gap: 10px;
+		img {
+			$img-size: 30px;
+			width: $img-size;
+			height: $img-size;
+		}
+		filter: $drop-shadow;
+	}
+	.username {
+		font-family: NatureBeauty;
+		font-size: 22px;
+		color: $purple;
+		padding-top: 10px;
+		flex: 1 1 auto;
+		flex-wrap: wrap;
+		&::first-letter {
+			text-transform: uppercase;
+		}
+	}
+	.invitation-buttons {
+		@extend .flex-row;
+		gap: 10px;
+	}
+
+	button {
+		@extend .button-purple;
+		padding: 3px 7px;
+		border-radius: 5px;
+		box-shadow: $shadow-outset-border;
+		transition: color 0.2s;
+		&:hover {
+			color:$purple;
+			background-color: white;
+		}
+		&::first-letter {
+			text-transform: uppercase;
+		}
+		&.accept {
+			background-color: rgb(9, 143, 23);
+		}
+		&.decline {
+			background-color: rgb(157, 53, 53);
+		}
+	}
+}

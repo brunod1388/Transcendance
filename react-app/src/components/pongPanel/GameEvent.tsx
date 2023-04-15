@@ -4,9 +4,7 @@ import {
     DISCONECTED,
     GameConfig,
     GameMode,
-    LOST,
     PlayerInfo,
-    WON,
 } from "@customTypes";
 import { useEffect, PropsWithChildren, useState } from "react";
 import { LoadGame } from "./LoadGame";

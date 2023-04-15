@@ -7,7 +7,6 @@ import {
     Ball,
     CLASSIC,
     PINGPONG,
-    LOADING,
     initialUser,
     initialOpponent,
 } from "@customTypes";

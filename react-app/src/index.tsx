@@ -4,7 +4,6 @@ import App from "./App";
 import { AuthProvider } from "./context";
 import { NotificationProvider } from "./context";
 import { BrowserRouter } from "react-router-dom";
-import { ChatProvider } from "./context";
 import { FeatureProvider } from "./context/feature.context";
 
 const root = ReactDOM.createRoot(

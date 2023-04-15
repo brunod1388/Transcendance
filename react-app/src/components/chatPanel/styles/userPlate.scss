@@ -6,7 +6,7 @@
 	color: white;
 	background: linear-gradient(90deg, $purple-gray, $chat-bg-color);
 	border-radius: 10px;
-	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.753);
+	box-shadow: $shadow-outset-border;
 	&.selected {
 		border-radius: 20px 10px 10px 10px;
 	}
