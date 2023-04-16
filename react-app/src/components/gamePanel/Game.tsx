@@ -70,9 +70,9 @@ function Game() {
     };
 
     return (
-        <div className="game-container">
+        <div className="game-wrapper">
             <GamerBoard />
-            <div className="board-container">
+            <div className="game-container">
                 <div className="board-tabs">
                     <Tab panel={MATCH} setPanel={setPanel} current={panel} />
                     <Tab panel={HISTORY} setPanel={setPanel} current={panel} />

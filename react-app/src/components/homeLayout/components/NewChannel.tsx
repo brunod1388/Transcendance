@@ -3,9 +3,40 @@ import AddImage from "assets/images/add-image.png";
 import { useSocket } from "hooks";
 import { useAuth } from "context";
 import { LockIcon, NoChannelIcon } from "assets/images";
+import { ChannelType } from "@customTypes";
 import "../styles/newChannel.scss";
 interface Props {
     quitForm: () => void;
+}
+
+interface ChannelProps {
+    channel: ChannelType;
+    joinChannel: (channel: ChannelType) => void;
+}
+
+const foundChannels = [
+    { id: 1, name: "channel1", image: NoChannelIcon, type: "channel" },
+    { id: 2, name: "channel2", image: NoChannelIcon, type: "channel" },
+    { id: 3, name: "channel3", image: NoChannelIcon, type: "channel" },
+    { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
+    { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
+    { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
+    { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
+    { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
+    { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
+]
+
+function ChannelPlate({ channel, joinChannel }: ChannelProps) {
+    return (
+        <div className="channel">
+            <img
+                src={channel.image}
+                alt="channel-image"
+            />
+            <span>{channel.name}</span>
+            <button onClick={() => joinChannel(channel)}> Join </button>
+        </div>
+    )
 }
 
 export default function NewChannel(props: Props) {
@@ -14,6 +45,8 @@ export default function NewChannel(props: Props) {
     const [error, setErrot] = useState(false);
     const { userAuth } = useAuth();
     const [create, setCreate] = useState(false);
+    // const [foundChannels, setFoundChannels] = useState<ChannelType[]>([]);
+    const [channelName, setChannelName] = useState("");
 
     function handleSubmit(e: any) {
         e.preventDefault();
@@ -35,6 +68,14 @@ export default function NewChannel(props: Props) {
         let isChecked = e.target.checked;
         console.log("isChecked: ", isChecked);
         setCreate(isChecked);
+    }
+
+    function joinChannel(channel: ChannelType) {
+        console.log("join channel:", channel)
+        socket.emit("joinChannel", { channelId: channel.id }, (res?: any) => {
+            if (res === `OK`) props.quitForm();
+            else setErrot(true);
+        });
     }
 
     return (
@@ -143,8 +184,13 @@ export default function NewChannel(props: Props) {
                                     className="search-input"
                                     type="text"
                                     placeholder="Type Channel to join"
+                                    onChange={(e) => setChannelName(e.target.value)}
                                 />
-                                {/* <input type="text" placeholder="type a user" /> */}
+                            </div>
+                            <div className="channel-search">
+                                {foundChannels.map((channel) => (
+                                    <ChannelPlate channel={channel} joinChannel={joinChannel}/>
+                                ))}
                             </div>
                         </div>
                     )}

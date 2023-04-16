@@ -2,6 +2,7 @@
 @import 'assets/styles/general';
 
 .match-board {
+	$title-size: 100px;
 	@extend .flex-column;
 	align-self: stretch;
 	justify-content: space-between;
@@ -10,7 +11,7 @@
 	.title-container {
 		@extend .flex-row;
 		gap: 10px;
-		height: 100px;
+		height: $title-size;
 		img {
 			$img-size: 50px;
 			height: $img-size;
@@ -28,13 +29,15 @@
 		filter: $drop-shadow;
 	}
 	.board-container {
-		flex-grow: 1;
 		@extend .flex-column;
 		align-self: stretch;
 		margin: 10px;
+		height: 100%;
+		height: calc(100% - $title-size - 4px);
+		border-radius: 10px;
 		$play-button-size: 150px;
 		$border-size: 30px;
-		box-shadow: $shadow-inset-border;
+		box-shadow: $shadow-outset-border;
 		background-color: #00000032;
 	}
 }

@@ -16,8 +16,10 @@
 	}
 	.title {
 		align-self: flex-start;
-		color: white;
-		padding: 5px;
+		color: $purple;
+		font-family: NatureBeauty;
+		font-size: 20px;
+		padding: 10px 5px 0 5px;
 		padding-top: 10px;
 		filter: $drop-shadow;
 	}

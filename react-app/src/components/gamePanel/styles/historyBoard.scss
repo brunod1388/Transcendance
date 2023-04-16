@@ -1,7 +1,7 @@
 @import 'assets/styles/variables';
 @import 'assets/styles/general';
 
-.matches-container {
+.history-container {
 	@extend .flex-column;
 	align-self: stretch;
 	flex-grow: 1;
@@ -20,15 +20,14 @@
 			&.score-header {
 				flex-grow: 1;
 			}
+			&:first-child, &:last-child {
+				width: 80px;
+			}
 			&:first-child {
-				width: 100px;
 				justify-content: flex-start;
-				padding-left: 40px;
 			}
 			&:last-child {
-				width: 100px;
 				justify-content: flex-end;
-				padding-right: 40px;
 			}
 			font-size: 20px;
 			filter: $drop-shadow;

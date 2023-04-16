@@ -21,7 +21,7 @@ export default function HistoryBoard() {
     }, []);
 
     return (
-        <div className="matches-container">
+        <div className="history-container">
             <div className="matches-header">
                 <span>Date</span>
                 <span className="score-header">Score</span>

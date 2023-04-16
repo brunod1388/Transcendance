@@ -178,11 +178,12 @@ export class ChatGateway {
     async getChannelUsers(
         @MessageBody("channelId") channelId: number
     ): Promise<UserDTO[]> {
+        const channel = await this.channelService.findChannelById(channelId);
         const users = (
             await this.channelUserService.getChannelUsers(channelId, false)
         ).map((channelUser) => ({
             ...channelUser.user,
-            rights: channelUser.rights,
+            rights: (channelUser.user.id === channel.owner.id ? "owner" :  channelUser.rights),
             channelUserId: channelUser.id,
             connected: this.generalService
                 .getUsersOnline()

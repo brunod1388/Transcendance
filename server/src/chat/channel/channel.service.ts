@@ -22,13 +22,15 @@ export class ChannelService {
         return await this.channelRepository.find();
     }
 
-    async findChannelById(id: number) {
+    async findChannelById(id: number): Promise<Channel> {
         return await this.channelRepository.findOne({
+            relations: {owner: true},
             where: { id: id },
             select: {
                 id: true,
                 name: true,
                 image: true,
+                owner: { id: true }
             },
         });
     }
@@ -51,6 +53,7 @@ export class ChannelService {
         const channels = await this.channelRepository.find({
             relations: {
                 channelUsers: true,
+                owner: true
             },
             where: {
                 channelUsers: {
@@ -63,6 +66,7 @@ export class ChannelService {
                 name: true,
                 image: true,
                 type: true,
+                owner: { id: true }
             },
         });
         if (isPrivate)

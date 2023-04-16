@@ -14,6 +14,7 @@ import { Penality } from "./Penality.entity";
 export enum rightType {
     NORMAL = "normal",
     ADMIN = "admin",
+    OWNER = "owner",
 }
 
 export enum MuteOrBlock {

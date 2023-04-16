@@ -53,6 +53,14 @@ export default function ChannelUsers() {
     return (
         <div className="channel-users">
             <div className="users">
+                {users.filter((user) => user.rights === "owner").length > 0 && (
+                    <span className="title">Owner</span>
+                )}
+                {users
+                    .filter((user) => user.rights === "owner")
+                    .map((user, i) => (
+                        <UserPlate user={user} key={`admin-${i}`} type="channelUser" />
+                    ))}
                 {users.filter((user) => user.rights === "admin").length > 0 && (
                     <span className="title">Admin</span>
                 )}

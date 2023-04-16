@@ -1,17 +1,8 @@
 import PlayerPlate from "./PlayerPlate";
 import { useEffect, useState } from "react";
-import { player } from "@customTypes/match.types";
+import { Player } from "@customTypes/match.types";
 import { useSocket } from "hooks";
 import "../styles/rankingBoard.scss";
-
-interface Player {
-    username: string;
-    avatar: string;
-    wins: number;
-    losses: number;
-    points: number;
-    league: string;
-}
 
 export default function RankingBoard() {
     const [isVisible, setIsVisible] = useState(-1);
@@ -20,9 +11,6 @@ export default function RankingBoard() {
 
     useEffect(() => {
         socket.emit("getPlayersRanking");
-    }, []);
-
-    useEffect(() => {
         socket.on("playersRanking", (data: Player[]) => {
             setPlayers(data);
         });
@@ -42,7 +30,7 @@ export default function RankingBoard() {
             <div className="players">
                 {players
                     .filter((_, i) => i < 4)
-                    .map((player: player, index: number) => (
+                    .map((player: Player, index: number) => (
                         <PlayerPlate
                             player={player}
                             isVisible={isVisible}

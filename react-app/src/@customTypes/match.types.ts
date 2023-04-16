@@ -1,11 +1,3 @@
-export interface player {
-    username: string;
-    avatar: string;
-    wins: number;
-    losses: number;
-    points: number;
-    league: string;
-}
 
 export interface Match {
     username1: string;
@@ -17,3 +9,28 @@ export interface Match {
     type: string;
     playDate: string;
 }
+
+export interface Player {
+    username: string;
+    avatar: string;
+    wins: number;
+    losses: number;
+    points: number;
+    league: string;
+}
+
+export interface MatchSummary {
+    totalWins: number;
+    totalLoses: number;
+    totalGames: number;
+    points: number;
+    league: string;
+}
+
+export const initialSummary: MatchSummary = {
+    totalWins: 0,
+    totalLoses: 0,
+    totalGames: 0,
+    points: 0,
+    league: "Noob",
+};

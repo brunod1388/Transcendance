@@ -2,32 +2,15 @@ import { useEffect, useState } from "react";
 import { useAuth } from "context";
 import { useSocket } from "hooks";
 import "../styles/gamerBoard.scss";
-interface MatchSummary {
-    totalWins: number;
-    totalLoses: number;
-    totalGames: number;
-    points: number;
-    league: string;
-}
-
-const initialSummary: MatchSummary = {
-    totalWins: 0,
-    totalLoses: 0,
-    totalGames: 0,
-    points: 0,
-    league: "Noob",
-};
+import { MatchSummary, initialSummary } from "@customTypes/match.types";
 
 export default function GamerBoard() {
     const { userAuth } = useAuth();
-    const [matchSummary, setMatchSummary] = useState(initialSummary);
     const [socket] = useSocket();
+    const [matchSummary, setMatchSummary] = useState(initialSummary);
 
     useEffect(() => {
         socket.emit("getMatchSummary", userAuth.id);
-    }, []);
-
-    useEffect(() => {
         socket.on("matchSummary", (data: MatchSummary) =>
             setMatchSummary(data)
         );

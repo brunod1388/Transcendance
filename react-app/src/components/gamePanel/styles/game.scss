@@ -2,38 +2,35 @@
 @import 'assets/styles/general';
 
 $board-color: $chat-bg-color;
-.game-container {
+.game-wrapper {
 	@extend .flex-row;
 	padding: 10px;
 	width: 100%;
 	span {
 		color: white
 	}
-	
-	.board-container {
+	.game-container {
 		@extend .flex-row;
 		flex-grow: 1;
 		flex-shrink: 1;
 		align-self: stretch;
-		height: 100%;
 		border-radius: 10px;
-	
-		box-shadow: $shadow-outset-border;
+		box-shadow: 5px 8px 6px -2px rgba(0, 0, 0, 0.75);
 	}
-
 	.board-tabs {
 		@extend .flex-column;
 		width: 50px;
 		align-self: stretch;
 		.tab {
 			@extend .flex-column;
+			z-index: 1;
 			align-items: center;
 			justify-content: center;
 			flex-grow: 1;
 			width: 100%;
+			box-shadow: -2px 5px 3px -0px rgba(0, 0, 0, 0.756);
 			&:hover {
 				&:not(.selected) {
-
 					cursor: pointer;
 					img {
 						animation: button-scale 0.5s;
@@ -42,11 +39,16 @@ $board-color: $chat-bg-color;
 			}
 			border-radius: 10px 0 0 10px;
 			&:not(.selected) {
-				box-shadow: inset -2px 0px 5px rgba(0, 0, 0, 0.75);
+				box-shadow: inset -5px 0px 5px -2px rgba(0, 0, 0, 0.75),
+							-3px 0px 6px -2px rgba(0, 0, 0, 0.756);
 				background-color: rgba(53, 39, 59, 0.744);
+				&:hover {
+					background-color: $purple;
+				}
 			}
 			&.selected {
 				background-color: $board-color;
+				z-index: 3;
 			}
 		}
 
@@ -66,6 +68,7 @@ $board-color: $chat-bg-color;
 		gap: 10px;
 		background-color: $board-color;
 		border-radius: 0 10px 10px 0;
+		z-index:4;
 	}
 
 }

@@ -22,11 +22,13 @@ export interface ChannelType {
     id: number;
     name: string;
     image?: any;
+    protected?: boolean;
 }
 
 export enum channelRightType {
     NORMAL = "normal",
     ADMIN = "admin",
+    OWNER = "owner"
 }
 
 export interface UserType {

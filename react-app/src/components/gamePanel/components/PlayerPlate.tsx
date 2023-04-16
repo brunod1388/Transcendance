@@ -1,15 +1,15 @@
 import React from "react";
-import { player } from "@customTypes/match.types";
+import { Player } from "@customTypes/match.types";
 import "../styles/playerPlate.scss";
 
 type Props = {
-    player: player;
+    player: Player;
     isVisible: number;
     index: number;
     setIsVisible: React.Dispatch<React.SetStateAction<number>>;
 };
 
-function ratio(player: player) {
+function ratio(player: Player) {
     if (player.losses === 0) return 1;
     if (player.wins === 0) return 0;
     return player.wins / (player.wins + player.losses);
@@ -19,7 +19,7 @@ export default function PlayerPlate(props: Props) {
     const { player, isVisible, index, setIsVisible } = props;
     return (
         <div
-            className="player"
+            className={"player" + (isVisible === index ? " active" : "")}
             key={index}
             onClick={() =>
                 setIsVisible((current) => (index === current ? -1 : index))
@@ -31,7 +31,7 @@ export default function PlayerPlate(props: Props) {
                     <h1>{player.username}</h1>
                 </span>
                 <span>{player.league}</span>
-                <span>{ratio(player) * 100 + "%"}</span>
+                <span>{(ratio(player) * 100).toFixed(2)}</span>
                 <span>{player.points}</span>
             </div>
             {isVisible === index && (
