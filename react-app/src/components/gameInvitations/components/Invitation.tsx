@@ -19,8 +19,7 @@ import "../styles/gameInvitation.scss";
 // const NOTIFICATION_TIMEOUT = 300000000;
 const NOTIFICATION_TIMEOUT = 300000000;
 
-const userTest = {id: 666,  username: "username", avatar: NoUserIcon}
-
+const userTest = { id: 666, username: "username", avatar: NoUserIcon };
 
 // Create a notification using a reducer
 export const CreateInvitation = (
@@ -52,7 +51,14 @@ interface Props {
     user?: UserType;
 }
 // Content of the notification, an invitation to play pong
-function Invitation({ id, invitation, dispatch, socket, onPong, user=userTest }: Props) {
+function Invitation({
+    id,
+    invitation,
+    dispatch,
+    socket,
+    onPong,
+    user = userTest,
+}: Props) {
     const [isDisplay, setIsDisplay] = useState(true);
 
     // function called when the user interact with the notification or after the timeout is over
@@ -72,18 +78,28 @@ function Invitation({ id, invitation, dispatch, socket, onPong, user=userTest }:
 
     return (
         <div className="game-invitation-container">
-                <div className="first-line">
-                    <div className="user-info">
-                        <img src={user.avatar} alt="avatar" />
-                        <span className="username">{user.username}</span>
-                    </div>
-                    {isDisplay && invitation.type === "pong" && (
-                        <div className="invitation-buttons">
-                            <button className="accept" onClick={() => onClose(ACCEPTED)}>accept</button>
-                            <button className="decline" onClick={() => onClose(DECLINED)}>decline</button>
-                        </div>
-                    )}
+            <div className="first-line">
+                <div className="user-info">
+                    <img src={user.avatar} alt="avatar" />
+                    <span className="username">{user.username}</span>
                 </div>
+                {isDisplay && invitation.type === "pong" && (
+                    <div className="invitation-buttons">
+                        <button
+                            className="accept"
+                            onClick={() => onClose(ACCEPTED)}
+                        >
+                            accept
+                        </button>
+                        <button
+                            className="decline"
+                            onClick={() => onClose(DECLINED)}
+                        >
+                            decline
+                        </button>
+                    </div>
+                )}
+            </div>
             <span className="invitation-text">
                 An opponent wants to play pong with you.
             </span>

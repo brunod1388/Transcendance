@@ -23,7 +23,7 @@ export function Notifications({ notifications }: Props) {
 // Single notification
 function NotificationItem(notification: Notification) {
     const dispatch = useNotificationsDispatch();
-    const notificationType = notification.type; 
+    const notificationType = notification.type;
 
     return (
         <div className={"notification-item " + notificationType}>

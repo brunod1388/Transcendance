@@ -24,19 +24,16 @@ const foundChannels = [
     { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
     { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
     { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
-]
+];
 
 function ChannelPlate({ channel, joinChannel }: ChannelProps) {
     return (
         <div className="channel">
-            <img
-                src={channel.image}
-                alt="channel-image"
-            />
+            <img src={channel.image} alt="channel-image" />
             <span>{channel.name}</span>
             <button onClick={() => joinChannel(channel)}> Join </button>
         </div>
-    )
+    );
 }
 
 export default function NewChannel(props: Props) {
@@ -71,7 +68,7 @@ export default function NewChannel(props: Props) {
     }
 
     function joinChannel(channel: ChannelType) {
-        console.log("join channel:", channel)
+        console.log("join channel:", channel);
         socket.emit("joinChannel", { channelId: channel.id }, (res?: any) => {
             if (res === `OK`) props.quitForm();
             else setErrot(true);
@@ -184,12 +181,17 @@ export default function NewChannel(props: Props) {
                                     className="search-input"
                                     type="text"
                                     placeholder="Type Channel to join"
-                                    onChange={(e) => setChannelName(e.target.value)}
+                                    onChange={(e) =>
+                                        setChannelName(e.target.value)
+                                    }
                                 />
                             </div>
                             <div className="channel-search">
                                 {foundChannels.map((channel) => (
-                                    <ChannelPlate channel={channel} joinChannel={joinChannel}/>
+                                    <ChannelPlate
+                                        channel={channel}
+                                        joinChannel={joinChannel}
+                                    />
                                 ))}
                             </div>
                         </div>

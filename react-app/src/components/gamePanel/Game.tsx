@@ -56,7 +56,7 @@ function Tab(props: TabProps) {
             className={`tab ${panel === current ? "selected" : ""}`}
             onClick={() => setPanel(panel)}
         >
-            <img src={panels.get(panel)?.icon} alt={panel}/>
+            <img src={panels.get(panel)?.icon} alt={panel} />
         </div>
     );
 }

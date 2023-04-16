@@ -108,7 +108,7 @@ export default function UserMenu(props: Props) {
         if (type === "channelUser" || type === "self") {
             socket.emit("deleteChannelUser", { id: user.channelUserId });
         } else if (type === "friend")
-        socket.emit("deleteFriend", { id: user.friendId });
+            socket.emit("deleteFriend", { id: user.friendId });
     }
 
     function makeAdmin(userId: number) {}

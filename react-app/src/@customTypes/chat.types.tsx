@@ -28,7 +28,7 @@ export interface ChannelType {
 export enum channelRightType {
     NORMAL = "normal",
     ADMIN = "admin",
-    OWNER = "owner"
+    OWNER = "owner",
 }
 
 export interface UserType {

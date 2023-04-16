@@ -183,7 +183,10 @@ export class ChatGateway {
             await this.channelUserService.getChannelUsers(channelId, false)
         ).map((channelUser) => ({
             ...channelUser.user,
-            rights: (channelUser.user.id === channel.owner.id ? "owner" :  channelUser.rights),
+            rights:
+                channelUser.user.id === channel.owner.id
+                    ? "owner"
+                    : channelUser.rights,
             channelUserId: channelUser.id,
             connected: this.generalService
                 .getUsersOnline()
