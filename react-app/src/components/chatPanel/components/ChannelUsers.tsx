@@ -49,7 +49,11 @@ export default function ChannelUsers() {
                 {users
                     .filter((user) => user.rights === "owner")
                     .map((user, i) => (
-                        <UserPlate user={user} key={`admin-${i}`} type="channelUser" />
+                        <UserPlate
+                            user={user}
+                            key={`admin-${i}`}
+                            type="channelUser"
+                        />
                     ))}
                 {users.filter((user) => user.rights === "admin").length > 0 && (
                     <span className="title">Admin</span>
@@ -57,7 +61,11 @@ export default function ChannelUsers() {
                 {users
                     .filter((user) => user.rights === "admin")
                     .map((user, i) => (
-                        <UserPlate user={user} key={`admin-${i}`} type="channelUser" />
+                        <UserPlate
+                            user={user}
+                            key={`admin-${i}`}
+                            type="channelUser"
+                        />
                     ))}
                 {users.filter((usr) => usr.rights === "normal").length > 0 && (
                     <span className="title">Users</span>
@@ -65,7 +73,11 @@ export default function ChannelUsers() {
                 {users
                     .filter((user) => user.rights === "normal")
                     .map((user, i) => (
-                        <UserPlate user={user} key={`user-${i}`} type="channelUser" />
+                        <UserPlate
+                            user={user}
+                            key={`user-${i}`}
+                            type="channelUser"
+                        />
                     ))}
             </div>
             {channel.type === "channel" && (

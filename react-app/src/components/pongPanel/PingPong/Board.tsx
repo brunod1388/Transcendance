@@ -21,7 +21,7 @@ export function Board(props: PropsWithChildren<Props>) {
             <span className="title">Ping Pong</span>
             <div
                 className="pingpong-container"
-                style={boardStyle(50)}
+                style={boardStyle(0)}
                 id={"pongBoard"}
                 tabIndex={-1}
             >
