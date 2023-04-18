@@ -23,10 +23,7 @@ function Paddle(props: Props) {
         height: config.paddleHeight,
     };
     return (
-        <div
-            className={isMyPaddle ? "myPaddle" : "yourPaddle"}
-            style={{ ...position, ...skin }}
-        >
+        <div className={isMyPaddle ? "myPaddle" : "yourPaddle"} style={{ ...position, ...skin }}>
             <div className="solid">
                 <div
                     style={{
@@ -35,10 +32,7 @@ function Paddle(props: Props) {
                     }}
                     className="surface"
                 >
-                    <div
-                        style={{ top: config.paddleHeight, left: 15 }}
-                        className="handle"
-                    />
+                    <div style={{ top: config.paddleHeight, left: 15 }} className="handle" />
                 </div>
             </div>
         </div>
@@ -54,13 +48,7 @@ interface YourProps {
 }
 
 export function YourPaddle(props: YourProps) {
-    return (
-        <Paddle
-            {...props}
-            paddlePosition={props.yourPaddle}
-            isMyPaddle={false}
-        />
-    );
+    return <Paddle {...props} paddlePosition={props.yourPaddle} isMyPaddle={false} />;
 }
 
 interface MyProps {
@@ -75,14 +63,11 @@ interface MyProps {
 }
 
 export function MyPaddle(props: MyProps) {
-    const { myPaddle, onMyPaddle, config, room, myMovement, onMyMovement } =
-        props;
+    const { myPaddle, onMyPaddle, config, room, myMovement, onMyMovement } = props;
     const [socket] = useSocket();
     const handler = useCallback(
         (event: MouseEvent) => {
-            const container = document.getElementById(
-                "pongBoard"
-            ) as HTMLDivElement;
+            const container = document.getElementById("pongBoard") as HTMLDivElement;
             const rect = container.getBoundingClientRect();
             const offsetX = event.clientX - rect.left;
             const offsetY = event.clientY - rect.top;

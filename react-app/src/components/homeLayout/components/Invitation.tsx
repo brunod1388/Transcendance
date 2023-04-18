@@ -2,13 +2,7 @@ import { useEffect, useState } from "react";
 import { useSocket } from "hooks";
 import { useAuth } from "context";
 import { ChatInvitationType } from "@customTypes";
-import {
-    NoChannelIcon,
-    NoUserIcon,
-    AcceptIcon,
-    DeclineIcon,
-    BellIcon,
-} from "assets/images";
+import { NoChannelIcon, NoUserIcon, AcceptIcon, DeclineIcon, BellIcon } from "assets/images";
 import "../styles/invitations.scss";
 
 export default function Invitations() {
@@ -18,23 +12,15 @@ export default function Invitations() {
     const [invitations, setInvitations] = useState<ChatInvitationType[]>([]);
 
     useEffect(() => {
-        socket.emit(
-            "getPendings",
-            { userId: userAuth.id },
-            (res: ChatInvitationType[]) => {
-                setInvitations(
-                    res.map((i: ChatInvitationType) => {
-                        if (i.image === "")
-                            i.image =
-                                i.type === "Friend"
-                                    ? NoUserIcon
-                                    : NoChannelIcon;
-                        return i;
-                    })
-                );
-                if (res.length > 0) setNotif(true);
-            }
-        );
+        socket.emit("getPendings", { userId: userAuth.id }, (res: ChatInvitationType[]) => {
+            setInvitations(
+                res.map((i: ChatInvitationType) => {
+                    if (i.image === "") i.image = i.type === "Friend" ? NoUserIcon : NoChannelIcon;
+                    return i;
+                })
+            );
+            if (res.length > 0) setNotif(true);
+        });
         socket.on("pendings", (invitation: ChatInvitationType) => {
             console.log("invitation received: ", invitation);
             setNotif(true);
@@ -46,26 +32,15 @@ export default function Invitations() {
     }, [socket, setInvitations]);
 
     function handleInvitation(invite: ChatInvitationType, accept: boolean) {
-        const handleMessage =
-            invite.type === "Friend" ? "updateFriend" : "updateChannelUser";
+        const handleMessage = invite.type === "Friend" ? "updateFriend" : "updateChannelUser";
         console.log("handleMessage: ", handleMessage);
-        socket.emit(
-            handleMessage,
-            { id: invite.id, accept: accept },
-            (res: any) => {
-                console.log(res);
-                if (invitations.length === 1) setNotif(false);
-                setInvitations((state) =>
-                    state.filter(
-                        (item) =>
-                            !(
-                                item.type === invite.type &&
-                                item.id === invite.id
-                            )
-                    )
-                );
-            }
-        );
+        socket.emit(handleMessage, { id: invite.id, accept: accept }, (res: any) => {
+            console.log(res);
+            if (invitations.length === 1) setNotif(false);
+            setInvitations((state) =>
+                state.filter((item) => !(item.type === invite.type && item.id === invite.id))
+            );
+        });
     }
 
     function toggleMenu() {
@@ -76,14 +51,12 @@ export default function Invitations() {
     function handleClickOutside(event: MouseEvent) {
         const menu = document.getElementById("invitation-menu");
 
-        if (menu && !menu.contains(event.target as Node))
-            menu.classList.remove("active");
+        if (menu && !menu.contains(event.target as Node)) menu.classList.remove("active");
     }
 
     useEffect(() => {
         document.addEventListener("click", handleClickOutside, true);
-        return () =>
-            document.removeEventListener("click", handleClickOutside, true);
+        return () => document.removeEventListener("click", handleClickOutside, true);
     }, []);
 
     return (
@@ -114,17 +87,13 @@ export default function Invitations() {
                                             className="accept choice"
                                             src={AcceptIcon}
                                             alt="accept"
-                                            onClick={() =>
-                                                handleInvitation(invite, true)
-                                            }
-                                            />
+                                            onClick={() => handleInvitation(invite, true)}
+                                        />
                                         <img
                                             className="decline choice"
                                             src={DeclineIcon}
                                             alt="decline"
-                                            onClick={() =>
-                                                handleInvitation(invite, false)
-                                            }
+                                            onClick={() => handleInvitation(invite, false)}
                                         />
                                     </div>
                                 </div>

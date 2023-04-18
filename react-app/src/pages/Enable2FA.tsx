@@ -41,8 +41,7 @@ function TwoFactorAuth() {
 }
 
 function TwoFactorAuthPage({ qrcode }: Props) {
-    const [request, setRequest] =
-        useState<AxiosRequestConfig>(defaultVerifyRequest);
+    const [request, setRequest] = useState<AxiosRequestConfig>(defaultVerifyRequest);
     const { response, error, sendData } = useAxios(request);
     //const { userAuth, updateUser } = useAuth();
     const navigate = useNavigate();
@@ -78,16 +77,11 @@ function TwoFactorAuthPage({ qrcode }: Props) {
                 <img alt="" src={qrcode} />
                 <form onSubmit={handleSubmit}>
                     <input name="code" type="text" placeholder="code" />
-                    <button>
-                        Verify code and complete two factor activation
-                    </button>
-                    {error?.response?.status === 403 && (
-                        <span>Verification code incorrect</span>
-                    )}
+                    <button>Verify code and complete two factor activation</button>
+                    {error?.response?.status === 403 && <span>Verification code incorrect</span>}
                 </form>
                 <p className="detail">
-                    Cancel activation of Two Factor Authentication?{" "}
-                    <Link to="/home">Home</Link>
+                    Cancel activation of Two Factor Authentication? <Link to="/home">Home</Link>
                 </p>
             </div>
         </div>

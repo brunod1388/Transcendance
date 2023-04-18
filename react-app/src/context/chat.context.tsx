@@ -34,9 +34,7 @@ export function ChatProvider(props: PropsWithChildren) {
     const [channel, setChannel] = useState<ChannelDetailsType>(defaultChannel);
 
     function updateChannel(channel?: ChannelDetailsType) {
-        channel !== undefined
-            ? setChannel(channel)
-            : setChannel(defaultChannel);
+        channel !== undefined ? setChannel(channel) : setChannel(defaultChannel);
     }
 
     const providerValue: ChatContextType = {
@@ -44,11 +42,7 @@ export function ChatProvider(props: PropsWithChildren) {
         updateChannel: updateChannel,
     };
 
-    return (
-        <ChatContext.Provider value={providerValue}>
-            {props.children}
-        </ChatContext.Provider>
-    );
+    return <ChatContext.Provider value={providerValue}>{props.children}</ChatContext.Provider>;
 }
 
 export function useChat(): ChatContextType {

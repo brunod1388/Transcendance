@@ -1,4 +1,3 @@
-
 export interface Match {
     username1: string;
     username2: string;

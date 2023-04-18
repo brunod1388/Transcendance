@@ -3,15 +3,8 @@ import { NavigateFunction } from "react-router-dom";
 import { Socket } from "socket.io-client";
 import { GameMode } from "@customTypes";
 
-export function leaveGame(
-    socket: Socket,
-    room: string,
-    navigate: NavigateFunction
-) {
-    socket.emit(
-        "game-broadcast",
-        new Broadcast(room, "game-player-left", socket.id)
-    );
+export function leaveGame(socket: Socket, room: string, navigate: NavigateFunction) {
+    socket.emit("game-broadcast", new Broadcast(room, "game-player-left", socket.id));
     socket.emit("leave", room);
 }
 

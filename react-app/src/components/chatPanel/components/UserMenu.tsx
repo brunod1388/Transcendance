@@ -66,10 +66,7 @@ export default function UserMenu(props: Props) {
         const minutes = e.currentTarget.minutes.value | 0;
 
         const endDate = new Date(
-            Date.now() +
-                days * DAY_IN_MS +
-                hours * HOUR_IN_MS +
-                minutes * MIN_IN_MS
+            Date.now() + days * DAY_IN_MS + hours * HOUR_IN_MS + minutes * MIN_IN_MS
         );
         console.log(`d: ${days}, h:${hours}, m:${minutes}`);
         socket.emit(
@@ -94,21 +91,16 @@ export default function UserMenu(props: Props) {
 
     function quitChannel(channelUserId: number | undefined) {
         if (channelUserId !== undefined)
-            socket.emit(
-                "deleteChannelUser",
-                { id: channelUserId },
-                (res: string) => {
-                    setFeature(Feature.None);
-                }
-            );
+            socket.emit("deleteChannelUser", { id: channelUserId }, (res: string) => {
+                setFeature(Feature.None);
+            });
     }
 
     function deleteUser(user: UserType, type: string) {
         if (type === "self") setFeature(Feature.None);
         if (type === "channelUser" || type === "self") {
             socket.emit("deleteChannelUser", { id: user.channelUserId });
-        } else if (type === "friend")
-        socket.emit("deleteFriend", { id: user.friendId });
+        } else if (type === "friend") socket.emit("deleteFriend", { id: user.friendId });
     }
 
     function makeAdmin(userId: number) {}
@@ -134,10 +126,7 @@ export default function UserMenu(props: Props) {
             )}
             {userAuth.id !== user.id && (
                 <button
-                    className={
-                        "Play button-purple" +
-                        (props.type === "friend" ? " long" : "")
-                    }
+                    className={"Play button-purple" + (props.type === "friend" ? " long" : "")}
                     onClick={() => {
                         play(user);
                     }}
@@ -146,10 +135,7 @@ export default function UserMenu(props: Props) {
                 </button>
             )}
             {props.type === "channelUser" && userAuth.id !== user.id && (
-                <button
-                    className="dm long button-purple"
-                    onClick={privateMessage}
-                >
+                <button className="dm long button-purple" onClick={privateMessage}>
                     Direct Message
                 </button>
             )}
@@ -178,10 +164,7 @@ export default function UserMenu(props: Props) {
                 )}
                 {isVisible && (
                     <div ref={ref}>
-                        <form
-                            className="muteOrBlock"
-                            onSubmit={handleMuteOrBlock}
-                        >
+                        <form className="muteOrBlock" onSubmit={handleMuteOrBlock}>
                             <div>
                                 {" "}
                                 D: <input name="days" type="number" />{" "}
@@ -194,9 +177,7 @@ export default function UserMenu(props: Props) {
                                 {" "}
                                 M: <input name="minutes" type="number" />{" "}
                             </div>
-                            <button className="button-purple">
-                                {"Apply " + muteOrBlock}
-                            </button>
+                            <button className="button-purple">{"Apply " + muteOrBlock}</button>
                         </form>
                     </div>
                 )}

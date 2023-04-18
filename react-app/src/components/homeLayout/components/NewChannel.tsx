@@ -24,19 +24,16 @@ const foundChannels = [
     { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
     { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
     { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
-]
+];
 
 function ChannelPlate({ channel, joinChannel }: ChannelProps) {
     return (
         <div className="channel">
-            <img
-                src={channel.image}
-                alt="channel-image"
-            />
+            <img src={channel.image} alt="channel-image" />
             <span>{channel.name}</span>
             <button onClick={() => joinChannel(channel)}> Join </button>
         </div>
-    )
+    );
 }
 
 export default function NewChannel(props: Props) {
@@ -71,7 +68,7 @@ export default function NewChannel(props: Props) {
     }
 
     function joinChannel(channel: ChannelType) {
-        console.log("join channel:", channel)
+        console.log("join channel:", channel);
         socket.emit("joinChannel", { channelId: channel.id }, (res?: any) => {
             if (res === `OK`) props.quitForm();
             else setErrot(true);
@@ -90,9 +87,7 @@ export default function NewChannel(props: Props) {
                                 onChange={(e) => handleChange(e)}
                             ></input>
                             <label className="switch-button-label" htmlFor="">
-                                <span className="switch-button-label-span">
-                                    Join
-                                </span>
+                                <span className="switch-button-label-span">Join</span>
                             </label>
                         </div>
                     </div>
@@ -100,23 +95,15 @@ export default function NewChannel(props: Props) {
                     {create && (
                         <form onSubmit={handleSubmit}>
                             <div className="input_container">
-                                <span className="input-title">
-                                    Channel name
-                                </span>
+                                <span className="input-title">Channel name</span>
                                 <img
                                     className="input_icon channel_icon"
                                     src={NoChannelIcon}
                                     alt=""
                                 />
-                                <input
-                                    name="channelName"
-                                    type="text"
-                                    placeholder="ChannelName"
-                                />
+                                <input name="channelName" type="text" placeholder="ChannelName" />
                             </div>
-                            {error && (
-                                <p className="error">Something went wrong!</p>
-                            )}
+                            {error && <p className="error">Something went wrong!</p>}
                             <select
                                 name="channelType"
                                 id="channelType"
@@ -131,31 +118,15 @@ export default function NewChannel(props: Props) {
                             </select>
                             {isPrivate && (
                                 <div className="input_container">
-                                    <span className="input-title">
-                                        Password
-                                    </span>
-                                    <img
-                                        className="input_icon locker"
-                                        src={LockIcon}
-                                        alt=""
-                                    />
-                                    <input
-                                        name="password"
-                                        type="password"
-                                        placeholder="password"
-                                    />
+                                    <span className="input-title">Password</span>
+                                    <img className="input_icon locker" src={LockIcon} alt="" />
+                                    <input name="password" type="password" placeholder="password" />
                                 </div>
                             )}
                             {isPrivate && (
                                 <div className="input_container">
-                                    <span className="input-title">
-                                        Confirm Password
-                                    </span>
-                                    <img
-                                        className="input_icon locker"
-                                        src={LockIcon}
-                                        alt=""
-                                    />
+                                    <span className="input-title">Confirm Password</span>
+                                    <img className="input_icon locker" src={LockIcon} alt="" />
                                     <input
                                         name="confirmPassword"
                                         type="password"
@@ -163,18 +134,12 @@ export default function NewChannel(props: Props) {
                                     />
                                 </div>
                             )}
-                            <input
-                                type="file"
-                                style={{ display: "none" }}
-                                id="fileUrl"
-                            />
+                            <input type="file" style={{ display: "none" }} id="fileUrl" />
                             <label htmlFor="file">
                                 <img src={AddImage} alt="" />
                                 <span>Add a channel image</span>
                             </label>
-                            <button className="button-purple">
-                                Create Channel
-                            </button>
+                            <button className="button-purple">Create Channel</button>
                         </form>
                     )}
                     {!create && (
@@ -189,15 +154,12 @@ export default function NewChannel(props: Props) {
                             </div>
                             <div className="channel-search">
                                 {foundChannels.map((channel) => (
-                                    <ChannelPlate channel={channel} joinChannel={joinChannel}/>
+                                    <ChannelPlate channel={channel} joinChannel={joinChannel} />
                                 ))}
                             </div>
                         </div>
                     )}
-                    <button
-                        className="cancel-button button-purple"
-                        onClick={props.quitForm}
-                    >
+                    <button className="cancel-button button-purple" onClick={props.quitForm}>
                         cancel
                     </button>
                 </div>

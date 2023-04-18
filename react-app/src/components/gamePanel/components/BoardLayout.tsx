@@ -17,9 +17,7 @@ export default function BoardLayout(props: PropsWithChildren<Props>) {
                 <h1 className="title">{title}</h1>
                 <img src={titleIcon} alt="" />
             </div>
-            <div className="board-container">
-                {children}
-            </div>
+            <div className="board-container">{children}</div>
         </div>
     );
 }

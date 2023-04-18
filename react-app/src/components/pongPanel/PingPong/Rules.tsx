@@ -41,9 +41,7 @@ interface Props {
 
 export function Rules(props: PropsWithChildren<Props>) {
     const [socket] = useSocket();
-    const [gameStatus, setGameStatus] = useState<GameStatus>(
-        GameStatus.LAUNCH_BALL
-    );
+    const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.LAUNCH_BALL);
     const [update, setUpdate] = useState<boolean>(false);
     const onGameStatus = (status: GameStatus) => setGameStatus(status);
     const [lastHit, setLastHit] = useState<number>(0);
@@ -144,10 +142,7 @@ export function Rules(props: PropsWithChildren<Props>) {
                     props.config.boardWidth -
                     data.pos.x +
                     (props.user.host ? 0 : -props.config.paddleWidth),
-                y:
-                    props.config.boardHeight -
-                    data.pos.y +
-                    props.config.paddleHeight,
+                y: props.config.boardHeight - data.pos.y + props.config.paddleHeight,
             });
         });
         return () => {
@@ -168,18 +163,12 @@ export function Rules(props: PropsWithChildren<Props>) {
     }, [gameStatus]);
 
     useEffect(() => {
-        if (
-            props.score.player1 >= WIN_SCORE ||
-            props.score.player2 >= WIN_SCORE
-        ) {
+        if (props.score.player1 >= WIN_SCORE || props.score.player2 >= WIN_SCORE) {
             if (props.user.host === true) {
                 socket.emit("newMatch", {
                     user1id: props.user.id,
                     user2id: props.opponent.id,
-                    winner:
-                        props.score.player1 >= WIN_SCORE
-                            ? props.user.id
-                            : props.opponent.id,
+                    winner: props.score.player1 >= WIN_SCORE ? props.user.id : props.opponent.id,
                     score1: props.score.player1,
                     score2: props.score.player2,
                     type: "Training",
@@ -190,13 +179,7 @@ export function Rules(props: PropsWithChildren<Props>) {
     }, [props.score]);
 
     if (gameStatus === END_GAME || props.opponent.status === DISCONECTED) {
-        return (
-            <EndScreen
-                opponent={props.opponent}
-                user={props.user}
-                score={props.score}
-            />
-        );
+        return <EndScreen opponent={props.opponent} user={props.user} score={props.score} />;
     }
 
     return <div className="play-board-container">{props.children}</div>;

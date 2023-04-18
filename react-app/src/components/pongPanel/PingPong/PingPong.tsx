@@ -52,11 +52,7 @@ export function PingPong(props: Props) {
             onBall={props.onBall}
         >
             <Board user={props.user} score={props.score} config={props.config}>
-                <BallComponent
-                    ball={props.ball}
-                    config={props.config}
-                    skin={empty}
-                />
+                <BallComponent ball={props.ball} config={props.config} skin={empty} />
                 <MyPaddle
                     onMyMovement={(newMove: Position) => setMyMovement(newMove)}
                     myMovement={myMovement}

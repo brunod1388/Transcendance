@@ -26,16 +26,8 @@ export default function Message(props: Props) {
     const stick = next !== undefined ? stickToPrev(message, next) : false;
 
     return (
-        <div
-            className={
-                "messageContainer " + (stick ? "stick" : "normalMessage")
-            }
-        >
-            <img
-                className="avatar"
-                src={avatar === undefined ? NoUserIcon : avatar}
-                alt=""
-            />
+        <div className={"messageContainer " + (stick ? "stick" : "normalMessage")}>
+            <img className="avatar" src={avatar === undefined ? NoUserIcon : avatar} alt="" />
             <div className="message">
                 <div className="details">
                     <span className="username">{message.creator.username}</span>
