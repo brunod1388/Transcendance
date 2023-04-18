@@ -4,20 +4,8 @@ import MenuButton from "./MenuButton";
 import { useState } from "react";
 import { useSocket } from "hooks";
 import { ChannelType } from "@customTypes";
-import {
-    useAuth,
-    useChat,
-    Feature,
-    useFeature,
-    ChannelDetailsType,
-    defaultChannel,
-} from "context";
-import {
-    ChatIcon,
-    AddChannelIcon,
-    NoChannelIcon,
-    PlayIcon,
-} from "assets/images";
+import { useAuth, useChat, Feature, useFeature, ChannelDetailsType, defaultChannel } from "context";
+import { ChatIcon, AddChannelIcon, NoChannelIcon, PlayIcon } from "assets/images";
 import "../styles/navbar.scss";
 
 function Navbar() {
@@ -139,9 +127,7 @@ function Navbar() {
                     {channels?.map((chan, i) => (
                         <MenuButton
                             name={chan.name}
-                            image={
-                                chan.image === null ? NoChannelIcon : chan.image
-                            }
+                            image={chan.image === null ? NoChannelIcon : chan.image}
                             onClick={() => {
                                 channelClick(chan.id);
                             }}

@@ -21,25 +21,18 @@ export function MyPaddle(props: MyProps) {
 
     const handler = useCallback(
         (event: MouseEvent) => {
-            const container = document.getElementById(
-                "pongBoard"
-            ) as HTMLDivElement;
+            const container = document.getElementById("pongBoard") as HTMLDivElement;
             const rect = container.getBoundingClientRect();
             const offsetX = event.clientX - rect.left;
             const offsetY = event.clientY - rect.top;
             let posX = offsetX - props.config.paddleWidth / 2;
-            let posY =
-                props.config.boardHeight -
-                offsetY +
-                props.config.paddleHeight / 2;
+            let posY = props.config.boardHeight - offsetY + props.config.paddleHeight / 2;
             if (
                 posX > 0 &&
                 posX + props.config.paddleWidth < props.config.boardWidth &&
                 offsetY > 0 &&
-                offsetY - props.config.paddleHeight <
-                    props.config.boardHeight &&
-                offsetY - props.config.paddleHeight / 2 >
-                    props.config.boardHeight / 2
+                offsetY - props.config.paddleHeight < props.config.boardHeight &&
+                offsetY - props.config.paddleHeight / 2 > props.config.boardHeight / 2
             ) {
                 props.onMyPaddle({ x: posX, y: posY });
                 props.onMyMovement({ x: event.movementX, y: event.movementY });
@@ -108,10 +101,7 @@ export function YourPaddle(props: YourProps) {
         height: props.config.paddleHeight,
     };
     return (
-        <div
-            className={style.yourPaddle}
-            style={{ ...position, ...props.skin }}
-        >
+        <div className={style.yourPaddle} style={{ ...position, ...props.skin }}>
             <div className={style.solid}>
                 <div
                     style={{

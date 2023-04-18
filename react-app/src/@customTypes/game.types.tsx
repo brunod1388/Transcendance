@@ -29,10 +29,7 @@ export const initialUser = (host: boolean, username: string): PlayerInfo => {
     };
 };
 
-export const initialOpponent = (
-    host: boolean,
-    username: string
-): PlayerInfo => {
+export const initialOpponent = (host: boolean, username: string): PlayerInfo => {
     return {
         host,
         username,

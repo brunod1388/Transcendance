@@ -22,8 +22,7 @@ export default function AddContact(props: Props) {
 
     function inviteContact() {
         console.log(props.type);
-        const emitMessage =
-            props.type === "friend" ? "inviteFriend" : "inviteChannelUser";
+        const emitMessage = props.type === "friend" ? "inviteFriend" : "inviteChannelUser";
         const emitData =
             props.type === "friend"
                 ? { userid: userAuth.id, friendname: inviteName }

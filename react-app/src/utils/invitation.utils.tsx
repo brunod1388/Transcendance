@@ -36,12 +36,7 @@ interface InvitationType {
 //     console.log(error.config);
 // }
 
-export function sendInvitation(
-    type: string,
-    from: number,
-    to: string,
-    socket: Socket
-) {
+export function sendInvitation(type: string, from: number, to: string, socket: Socket) {
     // was being converted to string for no reason
     let invitation: InvitationType = {
         type,

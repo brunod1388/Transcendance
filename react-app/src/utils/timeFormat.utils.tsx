@@ -1,10 +1,7 @@
 function getDateMsg(date: Date): string {
     const now = new Date();
 
-    if (
-        date.getFullYear() === now.getFullYear() ||
-        date.getMonth() === now.getMonth()
-    ) {
+    if (date.getFullYear() === now.getFullYear() || date.getMonth() === now.getMonth()) {
         if (date.getDate() === now.getDate()) return "Today at";
         if (date.getDate() === now.getDate() - 1) return "Yesterday at";
     }
