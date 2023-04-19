@@ -72,7 +72,10 @@ export function MyPaddle(props: Props) {
                 ...paddle,
                 y: paddle.y + paddleSpeed,
             });
-        } else if (move === Move.DOWN && paddle.y - paddleSpeed - config.paddleHeight > 0) {
+        } else if (
+            move === Move.DOWN &&
+            paddle.y - paddleSpeed - config.paddleHeight > 0
+        ) {
             onPaddle({
                 ...paddle,
                 y: paddle.y - paddleSpeed,

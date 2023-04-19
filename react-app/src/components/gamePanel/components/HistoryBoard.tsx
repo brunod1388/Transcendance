@@ -15,7 +15,9 @@ export default function HistoryBoard() {
     }, []);
 
     useEffect(() => {
-        socket.on("receiveMatchesByUser", (data: string) => setMatches(JSON.parse(data)));
+        socket.on("receiveMatchesByUser", (data: string) =>
+            setMatches(JSON.parse(data))
+        );
     }, []);
 
     return (

@@ -1,6 +1,9 @@
 import { useRef, useEffect } from "react";
 
-export function useKeyboard(handler: (e: KeyboardEvent) => void, element: Document = document) {
+export function useKeyboard(
+    handler: (e: KeyboardEvent) => void,
+    element: Document = document
+) {
     // Create a ref that stores handler
     const savedHandler = useRef<(e: KeyboardEvent) => void>(() => {});
 

@@ -1,5 +1,11 @@
 import { useSocket } from "../../hooks";
-import { CONNECTED, DISCONECTED, GameConfig, GameMode, PlayerInfo } from "@customTypes";
+import {
+    CONNECTED,
+    DISCONECTED,
+    GameConfig,
+    GameMode,
+    PlayerInfo,
+} from "@customTypes";
 import { useEffect, PropsWithChildren, useState } from "react";
 import { LoadGame } from "./LoadGame";
 import { Score } from "@customTypes";
@@ -56,25 +62,25 @@ export function GameEvent(props: PropsWithChildren<Props>) {
         };
     });
 
-    function popStateHandler(e:PopStateEvent) {
+    function popStateHandler(e: PopStateEvent) {
         console.log("EventListener - USER HAS LEFT GAME");
-                if (props.user.host === true && gameStarted === true) {
-                    console.log("record on leave");
-                    socket.emit("newMatch", {
-                        user1id: props.user.id,
-                        user2id: props.opponent.id,
-                        winner: props.opponent.id,
-                        score1: props.score.player1,
-                        score2: props.score.player2,
-                        type: "Training",
-                    });
-                }
-                socket.emit("game-player-left", props.config.room);
-                props.onEnd();
+        if (props.user.host === true && gameStarted === true) {
+            console.log("record on leave");
+            socket.emit("newMatch", {
+                user1id: props.user.id,
+                user2id: props.opponent.id,
+                winner: props.opponent.id,
+                score1: props.score.player1,
+                score2: props.score.player2,
+                type: "Training",
+            });
+        }
+        socket.emit("game-player-left", props.config.room);
+        props.onEnd();
     }
 
     useEffect(() => {
-        console.log("useEffect - USER HAS LEFT GAME")
+        console.log("useEffect - USER HAS LEFT GAME");
         obtainPlayersInfo();
         window.addEventListener(
             "popstate",
@@ -94,7 +100,7 @@ export function GameEvent(props: PropsWithChildren<Props>) {
                 socket.emit("game-player-left", props.config.room);
                 props.onEnd();
             },
-           { once: true }
+            { once: true }
         );
         // return () => {
         //     window.removeEventListener("popstate", popStateHandler);

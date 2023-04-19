@@ -35,7 +35,9 @@ function Main() {
 
     useEffect(() => {
         if (error?.response?.status === 401) {
-            console.log("*** UNAUTHORIZED USE OF THE SITE - PLEASE SIGNIN IN ***");
+            console.log(
+                "*** UNAUTHORIZED USE OF THE SITE - PLEASE SIGNIN IN ***"
+            );
             removeItem("user");
             Cookies.remove("JWTtoken", { sameSite: "none", secure: true });
             navigate("/login");

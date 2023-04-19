@@ -15,7 +15,13 @@ export const CreateResponse = (
 ) => {
     const id = createId();
     const content = () => (
-        <Response id={id} response={response} dispatch={dispatch} socket={socket} onPong={onPong} />
+        <Response
+            id={id}
+            response={response}
+            dispatch={dispatch}
+            socket={socket}
+            onPong={onPong}
+        />
     );
     addNotification(id, response.type, content, dispatch);
     return null;

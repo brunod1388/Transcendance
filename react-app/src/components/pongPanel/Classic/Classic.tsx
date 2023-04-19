@@ -43,7 +43,11 @@ export function PongClassic(props: Props) {
             onBall={props.onBall}
         >
             <Board score={props.score} config={props.config}>
-                <BallComponent ball={props.ball} config={props.config} skin={empty} />
+                <BallComponent
+                    ball={props.ball}
+                    config={props.config}
+                    skin={empty}
+                />
                 <MyPaddle
                     onPaddle={props.host ? props.onPaddle1 : props.onPaddle2}
                     room={props.room}
@@ -53,7 +57,9 @@ export function PongClassic(props: Props) {
                     config={props.config}
                 />
                 <YourPaddle
-                    onPaddle={() => (props.host ? props.paddle2 : props.paddle1)}
+                    onPaddle={() =>
+                        props.host ? props.paddle2 : props.paddle1
+                    }
                     room={props.room}
                     host={props.opponent.host}
                     paddle={props.user.host ? props.paddle2 : props.paddle1}

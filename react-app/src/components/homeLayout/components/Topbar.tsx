@@ -46,7 +46,8 @@ function Topbar() {
                     <img
                         className={
                             "channelImg" +
-                            (channel.image === ChatIcon || channel.image === PlayIcon
+                            (channel.image === ChatIcon ||
+                            channel.image === PlayIcon
                                 ? " icon"
                                 : "")
                         }
@@ -61,7 +62,8 @@ function Topbar() {
                 <button className="button-purple" onClick={test}>
                     Test
                 </button>
-                <span style={{ color: "red" }}>{userAuth.id}</span> <Invitations />
+                <span style={{ color: "red" }}>{userAuth.id}</span>{" "}
+                <Invitations />
                 <HeroMenu />
             </div>
         </div>

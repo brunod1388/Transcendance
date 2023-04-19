@@ -21,7 +21,9 @@ export default function PlayerPlate(props: Props) {
         <div
             className={"player" + (isVisible === index ? " active" : "")}
             key={index}
-            onClick={() => setIsVisible((current) => (index === current ? -1 : index))}
+            onClick={() =>
+                setIsVisible((current) => (index === current ? -1 : index))
+            }
         >
             <div className="player-plate">
                 <span>

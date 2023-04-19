@@ -1,7 +1,14 @@
 import "./assets/styles/App.scss";
 import { PropsWithChildren } from "react";
 import { Route, Routes } from "react-router-dom";
-import { Login, Main, Subscribe, TwoFactorAuth, Verify2FA, Settings } from "./pages";
+import {
+    Login,
+    Main,
+    Subscribe,
+    TwoFactorAuth,
+    Verify2FA,
+    Settings,
+} from "./pages";
 import { NotFound } from "./pages/NotFound";
 
 function App() {

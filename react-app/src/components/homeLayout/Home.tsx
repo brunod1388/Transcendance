@@ -45,7 +45,7 @@ function Home() {
         host: false,
     });
 
-    window.history.pushState({}, '', 'http://localhost:9000/home');
+    window.history.pushState({}, "", "http://localhost:9000/home");
 
     const onPong = (room: string, mode: GameMode, host: boolean) => {
         setPongSwitch({
@@ -99,7 +99,7 @@ function Home() {
                                 username={userAuth.username}
                                 host={PongSwitch.host}
                                 onEnd={() => {
-                                    console.log("ON END FUNCTION TRIGGERED")
+                                    console.log("ON END FUNCTION TRIGGERED");
                                     setPongSwitch({
                                         isPong: false,
                                         data: {
@@ -113,7 +113,8 @@ function Home() {
                                 room={PongSwitch.data.room}
                             />
                         )}
-                        {PongSwitch.isPong === false && featureComponent.get(feature)}
+                        {PongSwitch.isPong === false &&
+                            featureComponent.get(feature)}
                     </div>
                     <div className="button-container">
                         {!isVisible && (

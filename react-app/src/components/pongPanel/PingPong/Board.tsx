@@ -26,10 +26,14 @@ export function Board(props: PropsWithChildren<Props>) {
                 tabIndex={-1}
             >
                 <div className="absolute100">
-                    <div className={"score left" + (user.host ? "" : " top580")}>
+                    <div
+                        className={"score left" + (user.host ? "" : " top580")}
+                    >
                         {score.player1}
                     </div>
-                    <div className={"score right" + (user.host ? "" : " top580")}>
+                    <div
+                        className={"score right" + (user.host ? "" : " top580")}
+                    >
                         {score.player2}
                     </div>
                     {children}

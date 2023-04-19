@@ -20,7 +20,9 @@ function Friendbar() {
                 setFriends((state) => [...state, friend]);
             })
             .on("removeFriend", (friendId: number) => {
-                setFriends((state) => [...state.filter((friend) => friend.friendId !== friendId)]);
+                setFriends((state) => [
+                    ...state.filter((friend) => friend.friendId !== friendId),
+                ]);
             });
         return () => {
             socket.off("friend").off("removeFriend");
@@ -32,7 +34,11 @@ function Friendbar() {
             <span className="title">Friends</span>
             <div className="friends">
                 {friends.map((friend, i) => (
-                    <UserPlate user={friend} type="friend" key={`friend-${i}`} />
+                    <UserPlate
+                        user={friend}
+                        type="friend"
+                        key={`friend-${i}`}
+                    />
                 ))}
             </div>
             <div className="invitation">

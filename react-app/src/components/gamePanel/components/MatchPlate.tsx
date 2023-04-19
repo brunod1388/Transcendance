@@ -6,7 +6,16 @@ type Props = {
 };
 
 export default function MatchPlate(props: Props) {
-    const { username1, username2, score1, score2, avatar1, avatar2, playDate, type } = props.match;
+    const {
+        username1,
+        username2,
+        score1,
+        score2,
+        avatar1,
+        avatar2,
+        playDate,
+        type,
+    } = props.match;
 
     const newDate = new Date(playDate);
     const dateStr = `${newDate.getDate()}/${newDate.getMonth()}/${newDate.getFullYear()}`;
