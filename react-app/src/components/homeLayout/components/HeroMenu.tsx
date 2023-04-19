@@ -57,24 +57,19 @@ export default function HeroMenu() {
                         </div>
                         <div className="user-details">
                             <div>
-                                <span>Wins</span>{" "}
-                                <span>{matchSummary.totalWins}</span>
+                                <span>Wins</span> <span>{matchSummary.totalWins}</span>
                             </div>
                             <div>
-                                <span>Losses</span>{" "}
-                                <span>{matchSummary.totalLoses}</span>
+                                <span>Losses</span> <span>{matchSummary.totalLoses}</span>
                             </div>
                             <div>
-                                <span>Total</span>{" "}
-                                <span>{matchSummary.totalGames}</span>
+                                <span>Total</span> <span>{matchSummary.totalGames}</span>
                             </div>
                             <div>
-                                <span>Points</span>{" "}
-                                <span>{matchSummary.points}</span>
+                                <span>Points</span> <span>{matchSummary.points}</span>
                             </div>
                             <div>
-                                <span>League</span>{" "}
-                                <span>{matchSummary.league}</span>
+                                <span>League</span> <span>{matchSummary.league}</span>
                             </div>
                         </div>
                         <div className="menu">

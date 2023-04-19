@@ -149,9 +149,7 @@ export default function NewChannel(props: Props) {
                                     className="search-input"
                                     type="text"
                                     placeholder="Type Channel to join"
-                                    onChange={(e) =>
-                                        setChannelName(e.target.value)
-                                    }
+                                    onChange={(e) => setChannelName(e.target.value)}
                                 />
                             </div>
                             <div className="channel-search">
