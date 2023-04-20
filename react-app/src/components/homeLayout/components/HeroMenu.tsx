@@ -22,7 +22,9 @@ export default function HeroMenu() {
 
     useEffect(() => {
         socket.emit("getMatchSummary", userAuth.id);
-        socket.on("matchSummary", (data: MatchSummary) => setMatchSummary(data));
+        socket.on("matchSummary", (data: MatchSummary) =>
+            setMatchSummary(data)
+        );
         return () => {
             socket.off("matchSummary");
         };
@@ -52,8 +54,14 @@ export default function HeroMenu() {
                 <div className="hero-menu-wrap">
                     <div className="menu">
                         <div className="user-info">
-                            <img className="avatar" src={avatar ? avatar : NoUserIcon} alt="" />
-                            <span className="username">{userAuth.username}</span>
+                            <img
+                                className="avatar"
+                                src={avatar ? avatar : NoUserIcon}
+                                alt=""
+                            />
+                            <span className="username">
+                                {userAuth.username}
+                            </span>
                         </div>
                         <div className="user-details">
                             <div>

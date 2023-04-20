@@ -1,6 +1,9 @@
 import { useRef, useEffect } from "react";
 
-export function useMouse(handler: (e: MouseEvent) => void, element: HTMLDivElement) {
+export function useMouse(
+    handler: (e: MouseEvent) => void,
+    element: HTMLDivElement
+) {
     // Create a ref that stores handler
     const savedHandler = useRef<(e: MouseEvent) => void>(() => {});
     const lastMousePosition = useRef<{ x: number; y: number }>({
@@ -26,7 +29,10 @@ export function useMouse(handler: (e: MouseEvent) => void, element: HTMLDivEleme
             // Create event listener that calls handler function stored in ref
             const eventListener = (e: MouseEvent) => {
                 const { x, y } = e;
-                if (x !== lastMousePosition.current.x || y !== lastMousePosition.current.y) {
+                if (
+                    x !== lastMousePosition.current.x ||
+                    y !== lastMousePosition.current.y
+                ) {
                     lastMousePosition.current.x = x;
                     lastMousePosition.current.y = y;
                     savedHandler.current(e);

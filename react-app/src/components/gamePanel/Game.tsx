@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { HistoryIcon, MatchIcon, NoChannelIcon, RankingIcon } from "../../assets/images";
+import {
+    HistoryIcon,
+    MatchIcon,
+    NoChannelIcon,
+    RankingIcon,
+} from "../../assets/images";
 import GamerBoard from "./components/GamerBoard";
 import RankingBoard from "./components/RankingBoard";
 import HistoryBoard from "./components/HistoryBoard";
@@ -24,9 +29,18 @@ type PanelType = {
 };
 
 const panels = new Map<BoardType, PanelType>([
-    [BoardType.ranking, { title: "Ranking Board", icon: RankingIcon, board: <RankingBoard /> }],
-    [BoardType.history, { title: "Match History", icon: HistoryIcon, board: <HistoryBoard /> }],
-    [BoardType.match, { title: "Matchmaking", icon: MatchIcon, board: <Matchmaking /> }],
+    [
+        BoardType.ranking,
+        { title: "Ranking Board", icon: RankingIcon, board: <RankingBoard /> },
+    ],
+    [
+        BoardType.history,
+        { title: "Match History", icon: HistoryIcon, board: <HistoryBoard /> },
+    ],
+    [
+        BoardType.match,
+        { title: "Matchmaking", icon: MatchIcon, board: <Matchmaking /> },
+    ],
 ]);
 
 type TabProps = {

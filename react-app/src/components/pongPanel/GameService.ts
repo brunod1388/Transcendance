@@ -1,6 +1,16 @@
-import { CLASSIC, GameMode, PlayerInfo, READY, classicConfig, pingpongConfig } from "@customTypes";
+import {
+    CLASSIC,
+    GameMode,
+    PlayerInfo,
+    READY,
+    classicConfig,
+    pingpongConfig,
+} from "@customTypes";
 
-export const playersAreReady = (player1: PlayerInfo, player2: PlayerInfo): boolean => {
+export const playersAreReady = (
+    player1: PlayerInfo,
+    player2: PlayerInfo
+): boolean => {
     return player1.status === READY && player2.status === READY;
 };
 

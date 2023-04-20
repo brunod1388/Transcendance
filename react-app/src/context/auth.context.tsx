@@ -1,5 +1,16 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
-import { AuthType, AuthContextType, defaultUser, defaultContext } from "@customTypes";
+import {
+    createContext,
+    PropsWithChildren,
+    useContext,
+    useEffect,
+    useState,
+} from "react";
+import {
+    AuthType,
+    AuthContextType,
+    defaultUser,
+    defaultContext,
+} from "@customTypes";
 import { useLocalStorage } from "hooks/useLocalStorage";
 
 interface Props {}
@@ -9,7 +20,8 @@ const AuthContext = createContext<AuthContextType>(defaultContext);
 export function AuthProvider(props: PropsWithChildren<Props>) {
     const { getItem } = useLocalStorage();
     const [Auth, setAuth] = useState<AuthType>({
-        userAuth: JSON.parse(localStorage.getItem("user") || "null") || defaultUser,
+        userAuth:
+            JSON.parse(localStorage.getItem("user") || "null") || defaultUser,
     });
 
     useEffect(() => {
@@ -36,7 +48,11 @@ export function AuthProvider(props: PropsWithChildren<Props>) {
         updateUser: updateUser,
     };
 
-    return <AuthContext.Provider value={providerValue}>{props.children}</AuthContext.Provider>;
+    return (
+        <AuthContext.Provider value={providerValue}>
+            {props.children}
+        </AuthContext.Provider>
+    );
 }
 
 export function useAuth(): AuthContextType {

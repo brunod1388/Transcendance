@@ -6,7 +6,9 @@ import { NotificationProvider } from "./context";
 import { BrowserRouter } from "react-router-dom";
 import { FeatureProvider } from "./context/feature.context";
 
-const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+const root = ReactDOM.createRoot(
+    document.getElementById("root") as HTMLElement
+);
 
 root.render(
     <React.StrictMode>

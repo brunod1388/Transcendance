@@ -4,7 +4,13 @@ import { AxiosRequestConfig } from "axios";
 import { useAxios } from "hooks";
 import { useAuth } from "context";
 import "assets/styles/form.scss";
-import { AddChannelIcon, AddImageIcon, EmailIcon, UserIcon, LockIcon } from "../assets/images";
+import {
+    AddChannelIcon,
+    AddImageIcon,
+    EmailIcon,
+    UserIcon,
+    LockIcon,
+} from "../assets/images";
 
 const defaultAvatarRequest: AxiosRequestConfig = {
     method: "POST",
@@ -50,10 +56,16 @@ const default2faRequest: AxiosRequestConfig = {
 function Settings() {
     const navigate = useNavigate();
     const { userAuth } = useAuth();
-    const [avatarReq, setAvatarReq] = useState<AxiosRequestConfig>(defaultAvatarRequest);
-    const [usernameReq, setUsernameReq] = useState<AxiosRequestConfig>(defaultUsernameRequest);
-    const [emailReq, setEmailReq] = useState<AxiosRequestConfig>(defaultEmailRequest);
-    const [passwordReq, setPasswordReq] = useState<AxiosRequestConfig>(defaultPasswordRequest);
+    const [avatarReq, setAvatarReq] =
+        useState<AxiosRequestConfig>(defaultAvatarRequest);
+    const [usernameReq, setUsernameReq] = useState<AxiosRequestConfig>(
+        defaultUsernameRequest
+    );
+    const [emailReq, setEmailReq] =
+        useState<AxiosRequestConfig>(defaultEmailRequest);
+    const [passwordReq, setPasswordReq] = useState<AxiosRequestConfig>(
+        defaultPasswordRequest
+    );
     const [twofaReq, setTwofaReq] = useState<boolean>(false);
     const {
         response: resA,
@@ -67,14 +79,23 @@ function Settings() {
         error: errU,
         sendData: sendDataU,
     } = useAxios(usernameReq);
-    const { response: resE, loading: loadE, error: errE, sendData: sendDataE } = useAxios(emailReq);
+    const {
+        response: resE,
+        loading: loadE,
+        error: errE,
+        sendData: sendDataE,
+    } = useAxios(emailReq);
     const {
         response: resP,
         loading: loadP,
         error: errP,
         sendData: sendDataP,
     } = useAxios(passwordReq);
-    const { response: res2, loading: load2, sendData: sendData2 } = useAxios(default2faRequest);
+    const {
+        response: res2,
+        loading: load2,
+        sendData: sendData2,
+    } = useAxios(default2faRequest);
 
     useEffect(() => {
         if (load2 === false && res2?.status === 201) {
@@ -157,7 +178,11 @@ function Settings() {
     function handlePassword(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const target = e.currentTarget;
-        if (target.pwd.value && target.newPwd.value && target.confNewPwd.value) {
+        if (
+            target.pwd.value &&
+            target.newPwd.value &&
+            target.confNewPwd.value
+        ) {
             const data = {
                 password: String(target.pwd.value),
                 newPassword: String(target.newPwd.value),
@@ -185,8 +210,14 @@ function Settings() {
                 <form className="setting_form" onSubmit={handleUsername}>
                     <div className="input_container">
                         <img className="input_icon" src={UserIcon} alt="" />
-                        <span className="input-title">Change your username</span>
-                        <input name="username" type="text" placeholder="new username" />
+                        <span className="input-title">
+                            Change your username
+                        </span>
+                        <input
+                            name="username"
+                            type="text"
+                            placeholder="new username"
+                        />
                     </div>
                     <div className="button_container">
                         <button className="button-purple" type="submit">
@@ -200,7 +231,11 @@ function Settings() {
                     <div className="input_container">
                         <img className="input_icon" src={EmailIcon} alt="" />
                         <span className="input-title">Change your email</span>
-                        <input name="email" type="email" placeholder="new email" />
+                        <input
+                            name="email"
+                            type="email"
+                            placeholder="new email"
+                        />
                     </div>
                     <div className="button_container">
                         <button className="button-purple" type="submit">
@@ -211,28 +246,57 @@ function Settings() {
                     </div>
                 </form>
                 {userAuth.authStrategy === "password" && (
-                    <form className="setting_form password" onSubmit={handlePassword}>
+                    <form
+                        className="setting_form password"
+                        onSubmit={handlePassword}
+                    >
                         <div className="password-row">
                             <div className="input_container">
-                                <span className="input-title">Change your password</span>
-                                <img className="input_icon" src={LockIcon} alt="" />
-                                <input name="pwd" type="password" placeholder="current password" />
+                                <span className="input-title">
+                                    Change your password
+                                </span>
+                                <img
+                                    className="input_icon"
+                                    src={LockIcon}
+                                    alt=""
+                                />
+                                <input
+                                    name="pwd"
+                                    type="password"
+                                    placeholder="current password"
+                                />
                             </div>
                             <div className="button_container">
                                 <button className="button-purple" type="submit">
                                     Update password
                                 </button>
-                                {errP && <p>Error: Password incorrect or too weak</p>}
-                                {resP && !loadP && <p>Password successfully changed</p>}
+                                {errP && (
+                                    <p>Error: Password incorrect or too weak</p>
+                                )}
+                                {resP && !loadP && (
+                                    <p>Password successfully changed</p>
+                                )}
                             </div>
                         </div>
                         <div className="password-row">
                             <div className="input_container">
-                                <img className="input_icon" src={LockIcon} alt="" />
-                                <input name="newPwd" type="password" placeholder="new password" />
+                                <img
+                                    className="input_icon"
+                                    src={LockIcon}
+                                    alt=""
+                                />
+                                <input
+                                    name="newPwd"
+                                    type="password"
+                                    placeholder="new password"
+                                />
                             </div>
                             <div className="input_container">
-                                <img className="input_icon" src={LockIcon} alt="" />
+                                <img
+                                    className="input_icon"
+                                    src={LockIcon}
+                                    alt=""
+                                />
                                 <input
                                     name="confNewPwd"
                                     type="password"
@@ -241,8 +305,8 @@ function Settings() {
                             </div>
                         </div>
                         <span className="info">
-                            (8 character min. length including lowercase, uppercase, number, special
-                            character)
+                            (8 character min. length including lowercase,
+                            uppercase, number, special character)
                         </span>
                     </form>
                 )}
@@ -262,12 +326,20 @@ function Settings() {
                     {resA && !loadA && <p>Avatar successfully changed</p>}
                 </div>
                 {userAuth.enable2FA && (
-                    <button className="button-purple" type="button" onClick={disableTwoFactor}>
+                    <button
+                        className="button-purple"
+                        type="button"
+                        onClick={disableTwoFactor}
+                    >
                         Disable Two Factor Authentication
                     </button>
                 )}
                 {!userAuth.enable2FA && (
-                    <button className="button-purple" type="button" onClick={enableTwoFactor}>
+                    <button
+                        className="button-purple"
+                        type="button"
+                        onClick={enableTwoFactor}
+                    >
                         Enable Two Factor Authentication
                     </button>
                 )}

@@ -13,12 +13,18 @@ export default function ChannelUsers() {
     const [users, setUsers] = useState<UserType[]>([]);
 
     useEffect(() => {
-        socket.emit("getChannelUsers", { channelId: channel.id }, (users: UserType[]) => {
-            console.log(users);
-            setUsers(users);
-            const rights = users.find((user) => user.id === userAuth.id)?.rights;
-            updateChannel({ ...channel, rights: String(rights) });
-        });
+        socket.emit(
+            "getChannelUsers",
+            { channelId: channel.id },
+            (users: UserType[]) => {
+                console.log(users);
+                setUsers(users);
+                const rights = users.find(
+                    (user) => user.id === userAuth.id
+                )?.rights;
+                updateChannel({ ...channel, rights: String(rights) });
+            }
+        );
         socket
             .on("ChannelUser", (user: UserType) => {
                 setUsers((state) => {
@@ -26,13 +32,17 @@ export default function ChannelUsers() {
                         (c) => c.channelUserId === user.channelUserId
                     );
                     const newUsers = [...state];
-                    chanIndex === -1 ? newUsers.push(user) : (newUsers[chanIndex] = user);
+                    chanIndex === -1
+                        ? newUsers.push(user)
+                        : (newUsers[chanIndex] = user);
                     return newUsers;
                 });
             })
             .on("RemoveChannelUser", (channelUserId: number) => {
                 setUsers((state) => [
-                    ...state.filter((user) => user.channelUserId !== channelUserId),
+                    ...state.filter(
+                        (user) => user.channelUserId !== channelUserId
+                    ),
                 ]);
             });
         return () => {
@@ -70,7 +80,10 @@ export default function ChannelUsers() {
             </div>
             {channel.type === "channel" && (
                 <div className="invitation">
-                    <AddContact placeholder="Invite contact" type="channelUser" />
+                    <AddContact
+                        placeholder="Invite contact"
+                        type="channelUser"
+                    />
                 </div>
             )}
         </div>

@@ -17,9 +17,13 @@ export default function PrivateUsers() {
         });
         socket.on("PrivateUser", (user: UserType) => {
             setUsers((state) => {
-                const chanIndex = state.findIndex((c) => c.channelUserId === user.channelUserId);
+                const chanIndex = state.findIndex(
+                    (c) => c.channelUserId === user.channelUserId
+                );
                 const newUsers = [...state];
-                chanIndex === -1 ? newUsers.push(user) : (newUsers[chanIndex] = user);
+                chanIndex === -1
+                    ? newUsers.push(user)
+                    : (newUsers[chanIndex] = user);
                 return newUsers;
             });
         });

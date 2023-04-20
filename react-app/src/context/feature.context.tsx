@@ -29,7 +29,9 @@ export function FeatureProvider(props: PropsWithChildren) {
     };
 
     return (
-        <FeatureContext.Provider value={providerValue}>{props.children}</FeatureContext.Provider>
+        <FeatureContext.Provider value={providerValue}>
+            {props.children}
+        </FeatureContext.Provider>
     );
 }
 

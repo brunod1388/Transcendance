@@ -11,7 +11,9 @@ export default function GamerBoard() {
 
     useEffect(() => {
         socket.emit("getMatchSummary", userAuth.id);
-        socket.on("matchSummary", (data: MatchSummary) => setMatchSummary(data));
+        socket.on("matchSummary", (data: MatchSummary) =>
+            setMatchSummary(data)
+        );
         return () => {
             socket.off("matchSummary");
         };
@@ -27,13 +29,16 @@ export default function GamerBoard() {
                 <div className="user-info">
                     <h1 className="username">{userAuth.username}</h1>
                     <div>
-                        <span>Total wins</span> <span>{matchSummary.totalWins}</span>
+                        <span>Total wins</span>{" "}
+                        <span>{matchSummary.totalWins}</span>
                     </div>
                     <div>
-                        <span>Total losses</span> <span>{matchSummary.totalLoses}</span>
+                        <span>Total losses</span>{" "}
+                        <span>{matchSummary.totalLoses}</span>
                     </div>
                     <div>
-                        <span>Total games</span> <span>{matchSummary.totalGames}</span>
+                        <span>Total games</span>{" "}
+                        <span>{matchSummary.totalGames}</span>
                     </div>
                     <div>
                         <span>Points</span> <span>{matchSummary.points}</span>

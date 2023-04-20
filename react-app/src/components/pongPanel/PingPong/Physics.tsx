@@ -1,4 +1,11 @@
-import { GameConfig, Ball, GameStatus, Paddle, Range, Position } from "@customTypes";
+import {
+    GameConfig,
+    Ball,
+    GameStatus,
+    Paddle,
+    Range,
+    Position,
+} from "@customTypes";
 
 // Function to move the ball
 export const move = (
@@ -62,7 +69,8 @@ function randomNumber(min: number, max: number): number {
 
 // Function to detect if the ball scores
 export const detectScore = (ball: Ball, config: GameConfig) => {
-    let posY = ball.pos.y + (ball.delta.y > 0 ? -config.ballRayon : config.ballRayon);
+    let posY =
+        ball.pos.y + (ball.delta.y > 0 ? -config.ballRayon : config.ballRayon);
     if (posY >= config.boardHeight) {
         return true;
     } else if (posY <= 0) {
@@ -91,11 +99,18 @@ function detectCollision(
     // Create a copy of the ball object to update
     let ballTmp = ball;
 
-    if (paddleX.min < posX && paddleX.max > posX && paddleY.min < posY && paddleY.max > posY) {
+    if (
+        paddleX.min < posX &&
+        paddleX.max > posX &&
+        paddleY.min < posY &&
+        paddleY.max > posY
+    ) {
         if (
             lastHit === 0 ||
-            (lastHit > config.boardHeight / 2 && ball.pos.y < config.boardHeight / 2) ||
-            (lastHit < config.boardHeight / 2 && ball.pos.y > config.boardHeight / 2)
+            (lastHit > config.boardHeight / 2 &&
+                ball.pos.y < config.boardHeight / 2) ||
+            (lastHit < config.boardHeight / 2 &&
+                ball.pos.y > config.boardHeight / 2)
         ) {
             onLastHit(ballTmp.pos.y);
             ballTmp = bouncePaddle(ball, paddle, config, movement);
@@ -111,7 +126,12 @@ function detectCollision(
     // Return the updated ball object
     return ballTmp;
 }
-function bouncePaddle(ball: Ball, paddle: Paddle, config: GameConfig, movement: Position) {
+function bouncePaddle(
+    ball: Ball,
+    paddle: Paddle,
+    config: GameConfig,
+    movement: Position
+) {
     let ballTmp = ball;
 
     if (ball.pos.y < config.boardHeight / 2) {
@@ -135,7 +155,9 @@ function bouncePaddle(ball: Ball, paddle: Paddle, config: GameConfig, movement: 
     }
 
     // Adjust the ball's velocity vector based on the angle
-    const velocityMagnitude = Math.sqrt(ballMagnitude ** 2 + paddleMagnitude ** 2);
+    const velocityMagnitude = Math.sqrt(
+        ballMagnitude ** 2 + paddleMagnitude ** 2
+    );
     const velocityAngle = Math.atan2(ball.delta.y, ball.delta.x) + angle;
     const velocity: Position = {
         x: velocityMagnitude * Math.cos(velocityAngle),

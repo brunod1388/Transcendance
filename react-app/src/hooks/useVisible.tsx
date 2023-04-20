@@ -5,12 +5,14 @@ function useVisible(defaultIsVisible: boolean) {
     const ref = useRef<HTMLDivElement>(null);
 
     function handleClickOutside(event: MouseEvent) {
-        if (ref.current && !ref.current.contains(event.target as Node)) setIsVisible(false);
+        if (ref.current && !ref.current.contains(event.target as Node))
+            setIsVisible(false);
     }
 
     useEffect(() => {
         document.addEventListener("click", handleClickOutside, true);
-        return () => document.removeEventListener("click", handleClickOutside, true);
+        return () =>
+            document.removeEventListener("click", handleClickOutside, true);
     }, []);
 
     return { ref, isVisible, setIsVisible };
