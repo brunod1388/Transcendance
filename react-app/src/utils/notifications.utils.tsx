@@ -1,12 +1,7 @@
 import style from "components/gameInvitations/styles/notifications.module.scss";
 import { ActionType, DispatchType } from "@customTypes";
 
-export function addNotification(
-    id: string,
-    type: string,
-    content: any,
-    dispatch: DispatchType
-) {
+export function addNotification(id: string, type: string, content: any, dispatch: DispatchType) {
     dispatch({
         type: ActionType.ADD,
         payload: {

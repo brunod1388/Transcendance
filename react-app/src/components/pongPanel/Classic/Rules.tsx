@@ -55,12 +55,7 @@ export function Rules(props: PropsWithChildren<Props>) {
         let timer: NodeJS.Timeout;
         if (gameStatus === GameStatus.BEGIN) {
             timer = setTimeout(() => {
-                launchBall(
-                    props.ball,
-                    props.onBall,
-                    onGameStatus,
-                    props.config
-                );
+                launchBall(props.ball, props.onBall, onGameStatus, props.config);
             }, 2000);
         }
         return () => clearTimeout(timer);
@@ -71,12 +66,7 @@ export function Rules(props: PropsWithChildren<Props>) {
         if (launch === true) {
             timer = setTimeout(() => {
                 if (gameStatus !== END_GAME) {
-                    launchBall(
-                        props.ball,
-                        props.onBall,
-                        onGameStatus,
-                        props.config
-                    );
+                    launchBall(props.ball, props.onBall, onGameStatus, props.config);
                 }
                 setLaunch(false);
             }, 2000);
@@ -115,13 +105,7 @@ export function Rules(props: PropsWithChildren<Props>) {
                 props.onScore(newScore);
                 onGameStatus(GameStatus.LAUNCH_BALL);
             } else {
-                move(
-                    props.ball,
-                    props.onBall,
-                    props.paddle1,
-                    props.paddle2,
-                    props.config
-                );
+                move(props.ball, props.onBall, props.paddle1, props.paddle2, props.config);
             }
         }
     }
@@ -174,19 +158,13 @@ export function Rules(props: PropsWithChildren<Props>) {
     }, [gameStatus]);
 
     useEffect(() => {
-        if (
-            props.score.player1 >= WIN_SCORE ||
-            props.score.player2 >= WIN_SCORE
-        ) {
+        if (props.score.player1 >= WIN_SCORE || props.score.player2 >= WIN_SCORE) {
             if (props.user.host === true && gameStatus !== END_GAME) {
                 console.log("record on score");
                 const dto: CreateMatchDTO = {
                     user1id: props.user.id,
                     user2id: props.opponent.id,
-                    winner:
-                        props.score.player1 >= WIN_SCORE
-                            ? props.user.id
-                            : props.opponent.id,
+                    winner: props.score.player1 >= WIN_SCORE ? props.user.id : props.opponent.id,
                     score1: props.score.player1,
                     score2: props.score.player2,
                     type: "Training",
@@ -198,13 +176,7 @@ export function Rules(props: PropsWithChildren<Props>) {
     }, [props.score]);
 
     if (gameStatus === END_GAME || props.opponent.status === DISCONECTED) {
-        return (
-            <EndScreen
-                opponent={props.opponent}
-                user={props.user}
-                score={props.score}
-            />
-        );
+        return <EndScreen opponent={props.opponent} user={props.user} score={props.score} />;
     }
 
     return <div className="play-board-container">{props.children}</div>;

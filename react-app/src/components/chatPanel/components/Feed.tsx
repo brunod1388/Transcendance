@@ -47,9 +47,7 @@ export default function Feed() {
             <div className="messages">
                 {messages.map((message, i) => (
                     <Message
-                        owner={
-                            userAuth.id === message.creator.id ? true : false
-                        }
+                        owner={userAuth.id === message.creator.id ? true : false}
                         message={message}
                         key={i}
                         next={i < messages.length ? messages[i + 1] : undefined}
@@ -58,18 +56,9 @@ export default function Feed() {
             </div>
             <div className="input">
                 <form onSubmit={handleSubmit} className="send">
-                    <input
-                        name="msgContent"
-                        type="text"
-                        placeholder="Type something..."
-                    />
+                    <input name="msgContent" type="text" placeholder="Type something..." />
                     <img src={AddImageIcon} alt="" />
-                    <input
-                        name="img"
-                        type="file"
-                        style={{ display: "none" }}
-                        id="file"
-                    />
+                    <input name="img" type="file" style={{ display: "none" }} id="file" />
                     <button type="submit" className="button-purple">
                         Send
                     </button>

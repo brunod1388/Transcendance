@@ -9,11 +9,7 @@ export const move = (
     config: GameConfig
 ) => {
     // Detect collision with a paddle
-    let ballTmp = detectCollision(
-        ball,
-        ball.delta.x < 0 ? paddle1 : paddle2,
-        config
-    );
+    let ballTmp = detectCollision(ball, ball.delta.x < 0 ? paddle1 : paddle2, config);
     // Update ball position based on its delta
     ballTmp.pos.x += ballTmp.delta.x;
     ballTmp.pos.y += ballTmp.delta.y;
@@ -57,8 +53,7 @@ function randomNumber(min: number, max: number): number {
 
 // Function to detect if the ball scores
 export const detectScore = (ball: Ball, config: GameConfig) => {
-    let posX =
-        ball.pos.x + (ball.delta.x > 0 ? config.ballRayon : -config.ballRayon);
+    let posX = ball.pos.x + (ball.delta.x > 0 ? config.ballRayon : -config.ballRayon);
     if (posX >= config.boardWidth) {
         return true;
     } else if (posX <= 0) {
@@ -69,13 +64,9 @@ export const detectScore = (ball: Ball, config: GameConfig) => {
 
 function detectCollision(ball: Ball, paddle: Paddle, config: GameConfig) {
     // Calculate the positions of the ball and paddle based on their deltas and radius/width
-    let posX =
-        ball.pos.x + (ball.delta.x > 0 ? config.ballRayon : -config.ballRayon);
-    let posY =
-        ball.pos.y + (ball.delta.y > 0 ? config.ballRayon : -config.ballRayon);
-    let paddleX =
-        paddle.x +
-        (ball.delta.x < 0 ? config.paddleWidth : -config.paddleWidth);
+    let posX = ball.pos.x + (ball.delta.x > 0 ? config.ballRayon : -config.ballRayon);
+    let posY = ball.pos.y + (ball.delta.y > 0 ? config.ballRayon : -config.ballRayon);
+    let paddleX = paddle.x + (ball.delta.x < 0 ? config.paddleWidth : -config.paddleWidth);
 
     // Create a copy of the ball object to update
     let ballTmp = ball;
@@ -100,11 +91,7 @@ function detectCollision(ball: Ball, paddle: Paddle, config: GameConfig) {
     return ballTmp;
 }
 
-function touchPaddle(
-    paddleY: number,
-    posY: number,
-    config: GameConfig
-): boolean {
+function touchPaddle(paddleY: number, posY: number, config: GameConfig): boolean {
     // Calculate the top and bottom y positions of the paddle
     let paddleBottom = paddleY - config.paddleHeight;
     let paddleTop = paddleY;
@@ -113,12 +100,7 @@ function touchPaddle(
     return posY <= paddleTop && posY >= paddleBottom;
 }
 
-function bouncePaddle(
-    ball: Ball,
-    paddle: Paddle,
-    side: string,
-    config: GameConfig
-) {
+function bouncePaddle(ball: Ball, paddle: Paddle, side: string, config: GameConfig) {
     // Calculate the distance between the paddle's center and the ball's center
     const collisionY = paddle.y - ball.pos.y;
 
@@ -132,12 +114,9 @@ function bouncePaddle(
     ballTmp.delta.y = -ball.speed * Math.abs(normalizedCollisionY);
 
     // Update the x-velocity based on where the ball hit the paddle
-    const relativeIntersectY =
-        ball.pos.y - (paddle.y - config.paddleHeight / 2);
-    const normalizedRelativeIntersectionY =
-        relativeIntersectY / (config.paddleHeight / 2);
-    const bounceAngle =
-        normalizedRelativeIntersectionY * config.ballMaxBounceAngle;
+    const relativeIntersectY = ball.pos.y - (paddle.y - config.paddleHeight / 2);
+    const normalizedRelativeIntersectionY = relativeIntersectY / (config.paddleHeight / 2);
+    const bounceAngle = normalizedRelativeIntersectionY * config.ballMaxBounceAngle;
     ballTmp.delta.x = ballTmp.speed * Math.cos(bounceAngle);
 
     // If the ball hit the left side of the left paddle, or the right side of the right paddle, reverse the x-velocity

@@ -170,6 +170,33 @@ export class ChatGateway {
         this.channelUserService.createChannelUser(receiverChannelUser);
         return newPrivateChannel;
     }
+
+    @SubscribeMessage("searchChannel")
+    async searchChannel(@MessageBody("channelName") channelName: string): Promise<ChannelDto[]> {
+        return await this.channelService.findChannelByName(channelName);
+    }
+
+    @SubscribeMessage("joinChannel")
+    async joinChannel(
+        @MessageBody("channelId") channelId: number,
+        @ConnectedSocket() client: Socket
+    ): Promise<string> {
+        const channelUser = await this.channelUserService.createChannelUser({
+            userId: client.data.user.id,
+            channelId: channelId,
+            rights: rightType.NORMAL,
+            isPending: false
+        })
+        if (!channelUser)
+            return "Could not add you to channel";
+        const channelAdded = await this.channelService.findChannelById(channelId)
+        if (channelAdded)
+            return "Something went wrong!";
+        client.emit("Channel", channelAdded)
+        return `channel ${channelAdded.name} added`;
+    }
+
+
     // ========================================================================
     //                               Channel User
     // ========================================================================

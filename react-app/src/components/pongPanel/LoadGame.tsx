@@ -68,9 +68,7 @@ export function LoadGame(props: PropsWithChildren<Props>) {
                         onChange={(e) => handleChange(e)}
                     ></input>
                     <label className="switch-button-label" htmlFor="">
-                        <span className="switch-button-label-span">
-                            Classic
-                        </span>
+                        <span className="switch-button-label-span">Classic</span>
                     </label>
                 </div>
             )}
@@ -80,9 +78,7 @@ export function LoadGame(props: PropsWithChildren<Props>) {
                 </div>
             )}
             <button
-                className={
-                    "button-purple" + (status === READY ? " iamready" : "")
-                }
+                className={"button-purple" + (status === READY ? " iamready" : "")}
                 onClick={() => onUser({ ...user, status })}
             >
                 {user.status === READY ? "Ready" : "I am Ready"}

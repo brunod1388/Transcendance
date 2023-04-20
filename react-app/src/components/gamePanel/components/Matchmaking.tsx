@@ -13,9 +13,7 @@ export function Matchmaking() {
     }, []);
 
     useEffect(() => {
-        socket.on("matchmakingStatus", (isWaiting: boolean) =>
-            setIsWaiting(isWaiting)
-        );
+        socket.on("matchmakingStatus", (isWaiting: boolean) => setIsWaiting(isWaiting));
         return () => {
             socket.off("matchmakingStatus");
         };

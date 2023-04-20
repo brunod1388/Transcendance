@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { CreateChannelDto, UpdateChannelDto } from "../dtos/Channel.dto";
+import { Like, Repository } from "typeorm";
+import { ChannelDto, CreateChannelDto, UpdateChannelDto } from "../dtos/Channel.dto";
 import { UsersService } from "../../users/users.service";
 import { ChannelUserService } from "../channelUser/channelUsers.service";
 import { Channel, ChannelType, ChannelUser, rightType } from "../entities";
@@ -33,6 +33,17 @@ export class ChannelService {
                 owner: { id: true },
             },
         });
+    }
+
+    async findChannelByName(channelName: string): Promise<ChannelDto[]> {
+        return await this.channelRepository
+            .createQueryBuilder('channel')
+            .andWhere('channel.name LIKE :searchString', { searchString: `%${channelName}%` })
+            .andWhere("channel.type <> :privateChannel", { privateChannel: ChannelType.PRIVATE})
+            .getMany();
+        // return await this.channelRepository.findBy({
+        //     name: Like(`%${channelName}%`)
+        // })
     }
 
     async createChannel(channelDetails: CreateChannelDto): Promise<Channel> {

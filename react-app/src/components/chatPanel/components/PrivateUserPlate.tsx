@@ -5,7 +5,7 @@ import { useSocket } from "hooks";
 import { useChat, useAuth, ChannelDetailsType } from "context";
 import BurgerMenu from "components/utils/BurgerMenu";
 import { useEffect } from "react";
-import {MutedIcon, BlockedIcon} from "components/utils/penalityIcon";
+import { MutedIcon, BlockedIcon } from "components/utils/penalityIcon";
 import "../styles/privateUserPlate.scss";
 
 type Props = {
@@ -46,68 +46,44 @@ export default function PrivateUserPlate(props: Props) {
         joinRoom(newChannel);
     }
 
-    function toggleMenu(
-        e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-        id: number
-    ) {
+    function toggleMenu(e: React.MouseEvent<HTMLDivElement, MouseEvent>, id: number) {
         e.preventDefault();
         const menu = document.getElementById(`menu${id}`);
         if (menu) menu.classList.toggle("show");
     }
     function handleClickOutsideMenu(event: MouseEvent, id: number) {
         const menu = document.getElementById(`menu${id}`);
-        if (menu && !menu.contains(event.target as Node))
-            menu.classList.remove("show");
+        if (menu && !menu.contains(event.target as Node)) menu.classList.remove("show");
     }
 
     useEffect(() => {
-        document.addEventListener(
-            "click",
-            (e) => handleClickOutsideMenu(e, user.id),
-            true
-        );
+        document.addEventListener("click", (e) => handleClickOutsideMenu(e, user.id), true);
         return () =>
-            document.removeEventListener(
-                "click",
-                (e) => handleClickOutsideMenu(e, user.id),
-                true
-            );
+            document.removeEventListener("click", (e) => handleClickOutsideMenu(e, user.id), true);
     }, []);
-
 
     const tomorrow = new Date(2023, 3, 22, 0, 0, 0, 0);
     user.endBlock = tomorrow;
     user.endMute = tomorrow;
     return (
-        <div
-            className={
-                "private-user" +
-                (user.channelId === channel.id ? " selected" : "")
-            }
-        >
+        <div className={"private-user" + (user.channelId === channel.id ? " selected" : "")}>
             <div className="userPlate" onClick={selectUser}>
-                <img
-                    src={user.avatar === "" ? NoUserIcon : user.avatar}
-                    alt="avatar"
-                />
+                <img src={user.avatar === "" ? NoUserIcon : user.avatar} alt="avatar" />
                 <div className="details">
                     <div className="line">
                         <span className="username">dsadadadasdadsadadadasd{user.username}</span>
                         <div className="status">
                             {user.endMute !== undefined && <MutedIcon endMute={user.endMute} />}
-                            {user.endBlock !== undefined && <BlockedIcon endBlock={user.endBlock} />}
+                            {user.endBlock !== undefined && (
+                                <BlockedIcon endBlock={user.endBlock} />
+                            )}
                             <div className={"connected " + (user.connected ? "on" : "off")} />
                         </div>
                     </div>
                     <div className="line">
-                        {hasNewMsg ||
-                            (true && (
-                                <p className="last-message">last message</p>
-                            ))}
+                        {hasNewMsg || (true && <p className="last-message">last message</p>)}
                         <div className="menu-button">
-                            <BurgerMenu
-                                onClick={(e) => toggleMenu(e, user.id)}
-                            />
+                            <BurgerMenu onClick={(e) => toggleMenu(e, user.id)} />
                         </div>
                     </div>
                 </div>

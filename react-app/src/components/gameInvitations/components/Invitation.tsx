@@ -51,14 +51,7 @@ interface Props {
     user?: UserType;
 }
 // Content of the notification, an invitation to play pong
-function Invitation({
-    id,
-    invitation,
-    dispatch,
-    socket,
-    onPong,
-    user = userTest,
-}: Props) {
+function Invitation({ id, invitation, dispatch, socket, onPong, user = userTest }: Props) {
     const [isDisplay, setIsDisplay] = useState(true);
 
     // function called when the user interact with the notification or after the timeout is over
@@ -85,24 +78,16 @@ function Invitation({
                 </div>
                 {isDisplay && invitation.type === "pong" && (
                     <div className="invitation-buttons">
-                        <button
-                            className="accept"
-                            onClick={() => onClose(ACCEPTED)}
-                        >
+                        <button className="accept" onClick={() => onClose(ACCEPTED)}>
                             accept
                         </button>
-                        <button
-                            className="decline"
-                            onClick={() => onClose(DECLINED)}
-                        >
+                        <button className="decline" onClick={() => onClose(DECLINED)}>
                             decline
                         </button>
                     </div>
                 )}
             </div>
-            <span className="invitation-text">
-                An opponent wants to play pong with you.
-            </span>
+            <span className="invitation-text">An opponent wants to play pong with you.</span>
         </div>
     );
 }
