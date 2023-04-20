@@ -49,6 +49,7 @@ function Home() {
     window.history.pushState({}, "", process.env.REACT_APP_FRONTEND_URL + "/home");
 
     const onPong = (room: string, mode: GameMode, host: boolean) => {
+        socket.emit("join", room);
         setPongSwitch({
             isPong: true,
             data: {
