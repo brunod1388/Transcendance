@@ -19,16 +19,12 @@ export class GeneralService {
     static usersOnline = new Map<number, Socket>();
 
     async obtainOpponentSocket(client: Socket, server: Server, room: string) {
-        const socketsInRoom = server.sockets.adapter.rooms.get(room);
-        const all_sockets = await server.fetchSockets();
+        const socks = await server.in(room).fetchSockets();
 
-        for (const socketId of socketsInRoom) {
-            if (socketId !== client.id) {
-                const opponentSocket = all_sockets.find(
-                    (s) => s.id === socketId
-                );
-                if (opponentSocket !== undefined) {
-                    return opponentSocket;
+        for (const socket of socks) {
+            if (socket.id !== client.id) {
+                if (socket !== undefined) {
+                    return socket;
                 }
             }
         }

@@ -1,11 +1,5 @@
 import { useSocket } from "../../hooks";
-import {
-    CONNECTED,
-    DISCONECTED,
-    GameConfig,
-    GameMode,
-    PlayerInfo,
-} from "@customTypes";
+import { CONNECTED, DISCONECTED, GameConfig, GameMode, PlayerInfo } from "@customTypes";
 import { useEffect, PropsWithChildren, useState } from "react";
 import { LoadGame } from "./LoadGame";
 import { Score } from "@customTypes";
@@ -60,7 +54,7 @@ export function GameEvent(props: PropsWithChildren<Props>) {
         return () => {
             socket.off("set-opponent-info");
         };
-    });
+    }, []);
 
     function popStateHandler(e: PopStateEvent) {
         console.log("EventListener - USER HAS LEFT GAME");
@@ -108,7 +102,7 @@ export function GameEvent(props: PropsWithChildren<Props>) {
     }, []);
 
     useEffect(() => {
-        socket.emit("player", { player: props.user, room: props.config.room });
+        socket.emit("player", { player: props.user, room: props.config.room, id: props.user.id });
     }, [props.user]);
 
     useEffect(() => {
@@ -120,7 +114,10 @@ export function GameEvent(props: PropsWithChildren<Props>) {
             }
         });
 
-        socket.on("player", (player: PlayerInfo) => props.onOpponent(player));
+        socket.on("player", (player: PlayerInfo) => {
+            console.log("received Player");
+            props.onOpponent(player);
+        });
 
         socket.on("game-player-left", () => {
             props.onOpponent({ ...props.opponent, status: DISCONECTED });
@@ -143,7 +140,7 @@ export function GameEvent(props: PropsWithChildren<Props>) {
             socket.off("game-player-left");
             socket.off("player");
         };
-    }, []);
+    }, [ socket, userAuth.username]);
 
     return (
         <LoadGame

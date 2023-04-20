@@ -25,12 +25,7 @@ export class Broadcast implements Broadcast {
     }
 }
 
-type BroadcastData =
-    | PositionBall
-    | PositionPaddle
-    | PositionPingPongPaddle
-    | string
-    | Score;
+type BroadcastData = PositionBall | PositionPaddle | PositionPingPongPaddle | string | Score;
 
 interface PositionBall {
     x: number;

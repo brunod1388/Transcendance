@@ -9,12 +9,14 @@ import {
     PINGPONG,
     initialUser,
     initialOpponent,
+	PlayerStatus,
 } from "@customTypes";
 import { GameEvent } from "./GameEvent";
 import { useEffect, useState } from "react";
 import { PingPong } from "./PingPong/PingPong";
 import { PongClassic } from "./Classic/Classic";
 import { gameConfig } from "./GameService";
+import { useAuth } from "context";
 interface GameProps {
     onEnd: () => void;
     mode: GameMode;
@@ -26,10 +28,14 @@ interface GameProps {
 export function Game({ room, onEnd, host, username }: GameProps) {
     const [mode, setMode] = useState<GameMode>(CLASSIC);
     const [config, setConfig] = useState<GameConfig>(gameConfig(mode, room));
-    const [user, setUser] = useState<PlayerInfo>(initialUser(host, username));
-    const [opponent, setOpponent] = useState<PlayerInfo>(
-        initialOpponent(host, "")
-    );
+	const {userAuth} = useAuth();
+    const [user, setUser] = useState<PlayerInfo>({
+			host,
+			username,
+			status: PlayerStatus.LOADING,
+			id: userAuth.id,
+		});
+    const [opponent, setOpponent] = useState<PlayerInfo>(initialOpponent(host, ""));
     const [userPaddle, setUserPaddle] = useState<Position>(
         host ? config.initialPaddle1 : config.initialPaddle2
     );
@@ -78,9 +84,7 @@ export function Game({ room, onEnd, host, username }: GameProps) {
                     onPaddle2={(newPos: Position) =>
                         host ? setOpponentPaddle(newPos) : setUserPaddle(newPos)
                     }
-                    onOpponentPaddle={(newPos: Position) =>
-                        setOpponentPaddle(newPos)
-                    }
+                    onOpponentPaddle={(newPos: Position) => setOpponentPaddle(newPos)}
                     onScore={(newScore: Score) => setScore(newScore)}
                     onBall={(ball: Ball) => setBall(ball)}
                     onEnd={onEnd}
@@ -98,9 +102,7 @@ export function Game({ room, onEnd, host, username }: GameProps) {
                     userPaddle={userPaddle}
                     opponentPaddle={opponentPaddle}
                     onUserPaddle={(newPos: Position) => setUserPaddle(newPos)}
-                    onOpponentPaddle={(newPos: Position) =>
-                        setOpponentPaddle(newPos)
-                    }
+                    onOpponentPaddle={(newPos: Position) => setOpponentPaddle(newPos)}
                     onScore={(newScore: Score) => setScore(newScore)}
                     onBall={(ball: Ball) => setBall(ball)}
                     onEnd={onEnd}

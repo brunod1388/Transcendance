@@ -113,8 +113,7 @@ function Home() {
                                 room={PongSwitch.data.room}
                             />
                         )}
-                        {PongSwitch.isPong === false &&
-                            featureComponent.get(feature)}
+                        {PongSwitch.isPong === false && featureComponent.get(feature)}
                     </div>
                     <div className="button-container">
                         {!isVisible && (

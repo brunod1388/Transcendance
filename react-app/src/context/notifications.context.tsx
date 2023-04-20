@@ -62,9 +62,7 @@ function addNotification(state: State, action: AddAction): State {
 
 // Remove a notification when receiving an ActionType.REMOVE
 function removeNotification(state: State, action: RemoveAction) {
-    return state.filter(
-        (value: Notification) => value.id !== action.payload.id
-    );
+    return state.filter((value: Notification) => value.id !== action.payload.id);
 }
 
 interface Props {}
@@ -78,10 +76,7 @@ export function NotificationProvider(props: PropsWithChildren<Props>) {
     return (
         <NotificationsContext.Provider value={value}>
             {props.children}
-            {createPortal(
-                <Notifications notifications={notifications} />,
-                document.body
-            )}
+            {createPortal(<Notifications notifications={notifications} />, document.body)}
         </NotificationsContext.Provider>
     );
 }

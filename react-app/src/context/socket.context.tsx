@@ -45,9 +45,5 @@ export function SocketProvider(props: PropsWithChildren) {
     //     };
     // }, []);
 
-    return (
-        <SocketContext.Provider value={socket.current}>
-            {props.children}
-        </SocketContext.Provider>
-    );
+    return <SocketContext.Provider value={socket.current}>{props.children}</SocketContext.Provider>;
 }
