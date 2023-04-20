@@ -53,8 +53,8 @@ export class AuthController {
             const ret = await this.authService.signin(dto);
 
             res.cookie("JWTtoken", ret["access_token"]["access_token"], {
-                sameSite: "none",
-                secure: true,
+                sameSite: "lax",
+                //secure: true,
             });
 
             if (ret["user"]["enable2FA"]) {
@@ -88,10 +88,11 @@ export class AuthController {
                 req.user.username,
                 false
             );
-            res.clearCookie("JWTtoken", { sameSite: "none", secure: true });
+            //res.clearCookie("JWTtoken", { sameSite: "none", secure: true });
+            res.clearCookie("JWTtoken", { sameSite: "lax" });
             res.cookie("JWTtoken", ret["access_token"], {
-                sameSite: "none",
-                secure: true,
+                sameSite: "lax",
+                //secure: true,
             });
         } catch (error) {
             throw error;
@@ -114,10 +115,11 @@ export class AuthController {
         }
         try {
             const ret = await this.authService.activate2FA(req.user.id);
-            res.clearCookie("JWTtoken", { sameSite: "none", secure: true });
+            //res.clearCookie("JWTtoken", { sameSite: "none", secure: true });
+            res.clearCookie("JWTtoken", { sameSite: "lax" });
             res.cookie("JWTtoken", ret["access_token"], {
-                sameSite: "none",
-                secure: true,
+                sameSite: "lax",
+                //secure: true,
             });
         } catch (error) {
             throw error;
@@ -145,8 +147,8 @@ export class AuthController {
             isVerified
         );
         res.cookie("JWTtoken", token["access_token"], {
-            sameSite: "none",
-            secure: true,
+            sameSite: "lax",
+            //secure: true,
         });
     }
 
@@ -159,10 +161,11 @@ export class AuthController {
     ) {
         try {
             const ret = await this.authService.updateUser(req.user.id, dto);
-            res.clearCookie("JWTtoken", { sameSite: "none", secure: true });
+            //res.clearCookie("JWTtoken", { sameSite: "none", secure: true });
+            res.clearCookie("JWTtoken", { sameSite: "lax" });
             res.cookie("JWTtoken", ret["access_token"], {
-                sameSite: "none",
-                secure: true,
+                sameSite: "lax",
+                //secure: true,
             });
         } catch (error) {
             throw error;
@@ -200,8 +203,8 @@ export class AuthController {
         console.log("EMAIL:", req.user.email);
 
         res.cookie("JWTtoken", token["access_token"], {
-            sameSite: "none",
-            secure: true,
+            sameSite: "lax",
+            //secure: true,
         });
 
         res.setHeader("Access-Control-Allow-Origin", "*");
