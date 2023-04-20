@@ -45,7 +45,8 @@ function Home() {
         host: false,
     });
 
-    window.history.pushState({}, "", "http://localhost:9000/home");
+    //window.history.pushState({}, "", "http://localhost:9000/home");
+    window.history.pushState({}, "", process.env.REACT_APP_FRONTEND_URL + "/home");
 
     const onPong = (room: string, mode: GameMode, host: boolean) => {
         setPongSwitch({
@@ -113,8 +114,7 @@ function Home() {
                                 room={PongSwitch.data.room}
                             />
                         )}
-                        {PongSwitch.isPong === false &&
-                            featureComponent.get(feature)}
+                        {PongSwitch.isPong === false && featureComponent.get(feature)}
                     </div>
                     <div className="button-container">
                         {!isVisible && (

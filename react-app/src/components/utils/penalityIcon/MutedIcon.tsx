@@ -10,9 +10,7 @@ export default function MutedIcon(props: Props) {
     return (
         <div className="penality-container">
             <img className="icon" src={Mute} alt="" />
-            <span className="time">
-                for {dateDiffStr(props.endMute, new Date(Date.now()))}
-            </span>
+            <span className="time">for {dateDiffStr(props.endMute, new Date(Date.now()))}</span>
         </div>
     );
 }

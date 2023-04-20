@@ -27,9 +27,7 @@ export function Game({ room, onEnd, host, username }: GameProps) {
     const [mode, setMode] = useState<GameMode>(CLASSIC);
     const [config, setConfig] = useState<GameConfig>(gameConfig(mode, room));
     const [user, setUser] = useState<PlayerInfo>(initialUser(host, username));
-    const [opponent, setOpponent] = useState<PlayerInfo>(
-        initialOpponent(host, "")
-    );
+    const [opponent, setOpponent] = useState<PlayerInfo>(initialOpponent(host, ""));
     const [userPaddle, setUserPaddle] = useState<Position>(
         host ? config.initialPaddle1 : config.initialPaddle2
     );
@@ -78,9 +76,7 @@ export function Game({ room, onEnd, host, username }: GameProps) {
                     onPaddle2={(newPos: Position) =>
                         host ? setOpponentPaddle(newPos) : setUserPaddle(newPos)
                     }
-                    onOpponentPaddle={(newPos: Position) =>
-                        setOpponentPaddle(newPos)
-                    }
+                    onOpponentPaddle={(newPos: Position) => setOpponentPaddle(newPos)}
                     onScore={(newScore: Score) => setScore(newScore)}
                     onBall={(ball: Ball) => setBall(ball)}
                     onEnd={onEnd}
@@ -98,9 +94,7 @@ export function Game({ room, onEnd, host, username }: GameProps) {
                     userPaddle={userPaddle}
                     opponentPaddle={opponentPaddle}
                     onUserPaddle={(newPos: Position) => setUserPaddle(newPos)}
-                    onOpponentPaddle={(newPos: Position) =>
-                        setOpponentPaddle(newPos)
-                    }
+                    onOpponentPaddle={(newPos: Position) => setOpponentPaddle(newPos)}
                     onScore={(newScore: Score) => setScore(newScore)}
                     onBall={(ball: Ball) => setBall(ball)}
                     onEnd={onEnd}

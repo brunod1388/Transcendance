@@ -22,9 +22,7 @@ export default function HeroMenu() {
 
     useEffect(() => {
         socket.emit("getMatchSummary", userAuth.id);
-        socket.on("matchSummary", (data: MatchSummary) =>
-            setMatchSummary(data)
-        );
+        socket.on("matchSummary", (data: MatchSummary) => setMatchSummary(data));
         return () => {
             socket.off("matchSummary");
         };
@@ -54,35 +52,24 @@ export default function HeroMenu() {
                 <div className="hero-menu-wrap">
                     <div className="menu">
                         <div className="user-info">
-                            <img
-                                className="avatar"
-                                src={avatar ? avatar : NoUserIcon}
-                                alt=""
-                            />
-                            <span className="username">
-                                {userAuth.username}
-                            </span>
+                            <img className="avatar" src={avatar ? avatar : NoUserIcon} alt="" />
+                            <span className="username">{userAuth.username}</span>
                         </div>
                         <div className="user-details">
                             <div>
-                                <span>Wins</span>{" "}
-                                <span>{matchSummary.totalWins}</span>
+                                <span>Wins</span> <span>{matchSummary.totalWins}</span>
                             </div>
                             <div>
-                                <span>Losses</span>{" "}
-                                <span>{matchSummary.totalLoses}</span>
+                                <span>Losses</span> <span>{matchSummary.totalLoses}</span>
                             </div>
                             <div>
-                                <span>Total</span>{" "}
-                                <span>{matchSummary.totalGames}</span>
+                                <span>Total</span> <span>{matchSummary.totalGames}</span>
                             </div>
                             <div>
-                                <span>Points</span>{" "}
-                                <span>{matchSummary.points}</span>
+                                <span>Points</span> <span>{matchSummary.points}</span>
                             </div>
                             <div>
-                                <span>League</span>{" "}
-                                <span>{matchSummary.league}</span>
+                                <span>League</span> <span>{matchSummary.league}</span>
                             </div>
                         </div>
                         <div className="menu">

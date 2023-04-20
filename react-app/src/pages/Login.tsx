@@ -58,7 +58,8 @@ function Login() {
     function login42(e: MouseEvent<HTMLButtonElement>) {
         const checking = window.location;
         if (checking !== null) {
-            checking.href = "http://localhost:3000/auth/login42";
+            //checking.href = "http://localhost:3000/auth/login42";
+            checking.href = process.env.REACT_APP_BACKEND_URL + "/auth/login42";
         }
     }
 
@@ -80,11 +81,7 @@ function Login() {
                     </div>
                     <div className="input_container">
                         <span className="input-title">Password</span>
-                        <img
-                            className="input_icon locker"
-                            src={LockIcon}
-                            alt=""
-                        />
+                        <img className="input_icon locker" src={LockIcon} alt="" />
                         <input
                             className="password"
                             name="password"
@@ -98,11 +95,7 @@ function Login() {
                     {notFound && <span>User does not exist</span>}
                 </form>
                 <div className="flex-row signup_buttons_container">
-                    <button
-                        className="button-purple"
-                        type="button"
-                        onClick={login42}
-                    >
+                    <button className="button-purple" type="button" onClick={login42}>
                         <img src={Logo42Icon} alt="" />
                         Login
                     </button>

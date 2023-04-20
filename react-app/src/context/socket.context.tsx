@@ -2,7 +2,8 @@ import { createContext, useRef, PropsWithChildren, useEffect } from "react";
 import { io, Socket } from "socket.io-client";
 import Cookies from "js-cookie";
 
-const SERVER_URL = "http://localhost:3000";
+//const SERVER_URL = "http://localhost:3000";
+const SERVER_URL = String(process.env.REACT_APP_BACKEND_URL);
 
 export const SocketContext = createContext<Socket>({} as Socket);
 
@@ -45,9 +46,5 @@ export function SocketProvider(props: PropsWithChildren) {
     //     };
     // }, []);
 
-    return (
-        <SocketContext.Provider value={socket.current}>
-            {props.children}
-        </SocketContext.Provider>
-    );
+    return <SocketContext.Provider value={socket.current}>{props.children}</SocketContext.Provider>;
 }

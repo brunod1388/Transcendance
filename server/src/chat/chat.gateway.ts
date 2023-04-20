@@ -41,7 +41,8 @@ const ROOM_PREFIX = "room-";
 
 @WebSocketGateway({
     cors: {
-        origin: ["http://localhost:9000"],
+        //origin: ["http://localhost:9000"],
+        origin: [process.env.REACT_APP_FRONTEND_URL],
     },
 })
 export class ChatGateway {

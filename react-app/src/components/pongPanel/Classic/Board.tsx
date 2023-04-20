@@ -19,11 +19,7 @@ export function Board(props: PropsWithChildren<Props>) {
         <div className="play-board-wrapper">
             <span className="title">Classic Pong</span>
             <div className="play-board" style={boardStyle(50)}>
-                <div
-                    style={boardStyle(0)}
-                    className="classic-container"
-                    tabIndex={-1}
-                >
+                <div style={boardStyle(0)} className="classic-container" tabIndex={-1}>
                     <div className="absolute100">
                         <div className="score left">{score.player1}</div>
                         <div className="score right">{score.player2}</div>
