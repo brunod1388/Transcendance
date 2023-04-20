@@ -115,7 +115,7 @@ export function GameEvent(props: PropsWithChildren<Props>) {
         });
 
         socket.on("player", (player: PlayerInfo) => {
-            console.log("received Player");
+            console.log("received Player", player);
             props.onOpponent(player);
         });
 
@@ -140,7 +140,7 @@ export function GameEvent(props: PropsWithChildren<Props>) {
             socket.off("game-player-left");
             socket.off("player");
         };
-    }, [ socket, userAuth.username]);
+    }, [socket, userAuth.username]);
 
     return (
         <LoadGame

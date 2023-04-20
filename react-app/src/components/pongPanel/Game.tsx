@@ -9,7 +9,7 @@ import {
     PINGPONG,
     initialUser,
     initialOpponent,
-	PlayerStatus,
+    PlayerStatus,
 } from "@customTypes";
 import { GameEvent } from "./GameEvent";
 import { useEffect, useState } from "react";
@@ -28,13 +28,13 @@ interface GameProps {
 export function Game({ room, onEnd, host, username }: GameProps) {
     const [mode, setMode] = useState<GameMode>(CLASSIC);
     const [config, setConfig] = useState<GameConfig>(gameConfig(mode, room));
-	const {userAuth} = useAuth();
+    const { userAuth } = useAuth();
     const [user, setUser] = useState<PlayerInfo>({
-			host,
-			username,
-			status: PlayerStatus.LOADING,
-			id: userAuth.id,
-		});
+        host,
+        username,
+        status: PlayerStatus.LOADING,
+        id: userAuth.id,
+    });
     const [opponent, setOpponent] = useState<PlayerInfo>(initialOpponent(host, ""));
     const [userPaddle, setUserPaddle] = useState<Position>(
         host ? config.initialPaddle1 : config.initialPaddle2

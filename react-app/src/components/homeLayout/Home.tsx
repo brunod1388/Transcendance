@@ -48,6 +48,7 @@ function Home() {
     window.history.pushState({}, "", "http://localhost:9000/home");
 
     const onPong = (room: string, mode: GameMode, host: boolean) => {
+		socket.emit("join", room);
         setPongSwitch({
             isPong: true,
             data: {
