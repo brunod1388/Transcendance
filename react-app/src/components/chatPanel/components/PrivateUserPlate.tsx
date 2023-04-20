@@ -5,7 +5,7 @@ import { useSocket } from "hooks";
 import { useChat, useAuth, ChannelDetailsType } from "context";
 import BurgerMenu from "components/utils/BurgerMenu";
 import { useEffect } from "react";
-import {MutedIcon, BlockedIcon} from "components/utils/penalityIcon";
+import { MutedIcon, BlockedIcon } from "components/utils/penalityIcon";
 import "../styles/privateUserPlate.scss";
 
 type Props = {
@@ -74,7 +74,6 @@ export default function PrivateUserPlate(props: Props) {
             );
     }, []);
 
-
     const tomorrow = new Date(2023, 3, 22, 0, 0, 0, 0);
     user.endBlock = tomorrow;
     user.endMute = tomorrow;
@@ -92,11 +91,22 @@ export default function PrivateUserPlate(props: Props) {
                 />
                 <div className="details">
                     <div className="line">
-                        <span className="username">dsadadadasdadsadadadasd{user.username}</span>
+                        <span className="username">
+                            dsadadadasdadsadadadasd{user.username}
+                        </span>
                         <div className="status">
-                            {user.endMute !== undefined && <MutedIcon endMute={user.endMute} />}
-                            {user.endBlock !== undefined && <BlockedIcon endBlock={user.endBlock} />}
-                            <div className={"connected " + (user.connected ? "on" : "off")} />
+                            {user.endMute !== undefined && (
+                                <MutedIcon endMute={user.endMute} />
+                            )}
+                            {user.endBlock !== undefined && (
+                                <BlockedIcon endBlock={user.endBlock} />
+                            )}
+                            <div
+                                className={
+                                    "connected " +
+                                    (user.connected ? "on" : "off")
+                                }
+                            />
                         </div>
                     </div>
                     <div className="line">

@@ -105,7 +105,8 @@ export default function UserMenu(props: Props) {
         if (type === "self") setFeature(Feature.None);
         if (type === "channelUser" || type === "self")
             socket.emit("deleteChannelUser", { id: user.channelUserId });
-        else if (type === "friend") socket.emit("deleteFriend", { id: user.friendId });
+        else if (type === "friend")
+            socket.emit("deleteFriend", { id: user.friendId });
     }
 
     function makeAdmin(userId: number) {}
@@ -152,7 +153,8 @@ export default function UserMenu(props: Props) {
             )}
             <div className="muteAndBlock">
                 {userAuth.id !== user.id &&
-                    (channel.rights === "admin" || channel.rights === "owner") && (
+                    (channel.rights === "admin" ||
+                        channel.rights === "owner") && (
                         <button
                             className="mute button-purple"
                             onClick={() => {
@@ -164,7 +166,8 @@ export default function UserMenu(props: Props) {
                         </button>
                     )}
                 {userAuth.id !== user.id &&
-                    (channel.rights === "admin" || channel.rights === "owner") && (
+                    (channel.rights === "admin" ||
+                        channel.rights === "owner") && (
                         <button
                             className="block button-purple"
                             onClick={() => {

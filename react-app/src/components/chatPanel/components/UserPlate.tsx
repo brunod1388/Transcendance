@@ -28,9 +28,17 @@ export default function UserPlate(props: Props) {
                 <div className="details">
                     <div className="username">{user.username}</div>
                     <div className="status">
-                        {user.endMute !== undefined && <MutedIcon endMute={user.endMute} />}
-                        {user.endBlock !== undefined && <BlockedIcon endBlock={user.endBlock} />}
-                        <div className={"connected " + (user.connected ? "on" : "off")} />
+                        {user.endMute !== undefined && (
+                            <MutedIcon endMute={user.endMute} />
+                        )}
+                        {user.endBlock !== undefined && (
+                            <BlockedIcon endBlock={user.endBlock} />
+                        )}
+                        <div
+                            className={
+                                "connected " + (user.connected ? "on" : "off")
+                            }
+                        />
                     </div>
                 </div>
             </div>
