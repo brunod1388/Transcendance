@@ -237,13 +237,25 @@ export class AuthService {
                 "The specified id does not match an existing user"
             );
         }
-        const updated = await this.usersService.updateUser(user.id, dto);
-        console.log("Updated user: ", updated);
-        const updatedUser = await this.usersService.findUserId(id);
-        if (updatedUser.enable2FA) {
-            return this.signToken(updatedUser.id, updatedUser.username, true);
-        } else {
-            return this.signToken(updatedUser.id, updatedUser.username, false);
+        try {
+            const updated = await this.usersService.updateUser(user.id, dto);
+            console.log("Updated user: ", updated);
+            const updatedUser = await this.usersService.findUserId(id);
+            if (updatedUser.enable2FA) {
+                return this.signToken(
+                    updatedUser.id,
+                    updatedUser.username,
+                    true
+                );
+            } else {
+                return this.signToken(
+                    updatedUser.id,
+                    updatedUser.username,
+                    false
+                );
+            }
+        } catch (err) {
+            throw new ForbiddenException("Credentials taken");
         }
     }
 

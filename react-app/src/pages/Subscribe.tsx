@@ -29,6 +29,7 @@ const defaultRequest: AxiosRequestConfig = {
 function Subscribe() {
     const navigate = useNavigate();
     const [request, setRequest] = useState<AxiosRequestConfig>(defaultRequest);
+    const [err, setErr] = useState("");
     const { response, loading, error, sendData } = useAxios(request);
 
     useEffect(() => {
@@ -41,7 +42,10 @@ function Subscribe() {
         if (loading === false && response?.status === 201) {
             navigate("/login");
         }
-    }, [loading, response]);
+        if (error?.response?.data) {
+            setErr(error.response.data["message" as keyof typeof error.response.data]);
+        }
+    }, [loading, response, error]);
 
     useEffect(() => {
         if (request !== defaultRequest) {
@@ -52,13 +56,20 @@ function Subscribe() {
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const target = e.currentTarget;
-        const data: DataType = {
-            username: target.username.value,
-            email: target.email.value,
-            password: target.password.value,
-            confirmPassword: target.confirmPassword.value,
-        };
-        setRequest((prev: AxiosRequestConfig) => ({ ...prev, data: data }));
+        if (
+            target.username.value &&
+            target.email.value &&
+            target.password.value &&
+            target.confirmPassword.value
+        ) {
+            const data: DataType = {
+                username: target.username.value,
+                email: target.email.value,
+                password: target.password.value,
+                confirmPassword: target.confirmPassword.value,
+            };
+            setRequest((prev: AxiosRequestConfig) => ({ ...prev, data: data }));
+        }
     }
 
     function signup42(e: MouseEvent<HTMLButtonElement>) {
@@ -109,7 +120,7 @@ function Subscribe() {
                     <button className="button-purple" type="submit">
                         Sign up
                     </button>
-                    {error && <p>Invalid Input</p>}
+                    {err !== "" && err}
                 </form>
                 <div className="flex-row signup_buttons_container">
                     <button className="button-purple" type="button" onClick={signup42}>
