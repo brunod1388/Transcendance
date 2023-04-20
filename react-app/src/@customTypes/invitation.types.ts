@@ -1,4 +1,4 @@
-import { DispatchType } from ".";
+import { DispatchType, UserType } from ".";
 // import { NotificationBase } from "../components/notifications";
 
 export const NONE = 0;
@@ -11,6 +11,7 @@ export interface InvitationDTO {
     to: string;
     from: number;
     room: string;
+    user?: UserType;
 }
 
 export interface ResponseDTO {
@@ -18,6 +19,7 @@ export interface ResponseDTO {
     to: number;
     room: string;
     statut: number;
+	username?: string;
 }
 export interface RoomStatutDTO {
     player1: string;

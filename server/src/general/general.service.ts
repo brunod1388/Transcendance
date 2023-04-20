@@ -7,6 +7,7 @@ import { AuthService } from "src/auth/auth.service";
 import { UsersService } from "src/users/users.service";
 import { User } from "src/users/entities/User.entity";
 import { CreateMatchDto } from "src/match/dtos/Match.dto";
+import { ResponseDto } from "./dto/response.dto";
 
 @Injectable()
 export class GeneralService {
@@ -200,5 +201,27 @@ export class GeneralService {
         // });
 
         // return this.matchRepository.save(match);
+    }
+    async handleInvitation(
+        server: Server,
+        client: Socket,
+        invitation: InvitationDto
+    ) {
+        const user = await this.userService.findUserId(client.data.user.id);
+        server.emit("invitation", {
+            ...invitation,
+            user: { avatar: user.avatar, username: user.username, id: user.id },
+        });
+    }
+	async handleResponse(
+        server: Server,
+        client: Socket,
+        response: ResponseDto
+    ) {
+        const user = await this.userService.findUserId(client.data.user.id);
+        server.emit("response", {
+            ...response,
+            username: user.username
+        });
     }
 }

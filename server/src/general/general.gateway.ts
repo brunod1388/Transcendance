@@ -150,12 +150,12 @@ export class GeneralGateway implements OnModuleInit {
 
     @SubscribeMessage("invitation")
     handleInvitation(client: Socket, invitation: InvitationDto) {
-        this.server.emit("invitation", invitation);
+        this.generalService.handleInvitation(this.server, client, invitation);
     }
 
     @SubscribeMessage("response")
     handleResponse(client: Socket, response: ResponseDto) {
-        this.server.emit("response", response);
+		this.generalService.handleResponse(this.server, client, response);
     }
     @SubscribeMessage("joinPong")
     handleJoinPong(client: Socket, room: string) {

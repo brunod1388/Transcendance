@@ -45,11 +45,11 @@ function Response({ id, response, dispatch, socket, onPong }: Props) {
     return (
         <div className="game-invitation-container">
             {isDisplay && response.type === "pong" && response.statut <= 0 && (
-                <div>Your opponent declined the invitation.</div>
+                <div>{response.username} declined the invitation.</div>
             )}
             {isDisplay && response.type === "pong" && response.statut > 0 && (
                 <div>
-                    Your opponent accepted the invitation.
+                    {response.username} accepted the invitation.
                     <button
                         onClick={() => {
                             onPong(response.room, CLASSIC, true);
