@@ -89,7 +89,7 @@ export class AuthController {
                 false
             );
             //res.clearCookie("JWTtoken", { sameSite: "none", secure: true });
-            res.clearCookie("JWTtoken", { sameSite: "lax" });
+            //res.clearCookie("JWTtoken", { sameSite: "lax" });
             res.cookie("JWTtoken", ret["access_token"], {
                 sameSite: "lax",
                 //secure: true,
@@ -116,7 +116,7 @@ export class AuthController {
         try {
             const ret = await this.authService.activate2FA(req.user.id);
             //res.clearCookie("JWTtoken", { sameSite: "none", secure: true });
-            res.clearCookie("JWTtoken", { sameSite: "lax" });
+            //res.clearCookie("JWTtoken", { sameSite: "lax" });
             res.cookie("JWTtoken", ret["access_token"], {
                 sameSite: "lax",
                 //secure: true,
@@ -162,7 +162,7 @@ export class AuthController {
         try {
             const ret = await this.authService.updateUser(req.user.id, dto);
             //res.clearCookie("JWTtoken", { sameSite: "none", secure: true });
-            res.clearCookie("JWTtoken", { sameSite: "lax" });
+            //res.clearCookie("JWTtoken", { sameSite: "lax" });
             res.cookie("JWTtoken", ret["access_token"], {
                 sameSite: "lax",
                 //secure: true,
@@ -207,7 +207,7 @@ export class AuthController {
             //secure: true,
         });
 
-        res.setHeader("Access-Control-Allow-Origin", "*");
+        //res.setHeader("Access-Control-Allow-Origin", "*");
 
         if (req.user.enable2FA) {
             //return res.redirect("http://localhost:9000/verify2fa");
