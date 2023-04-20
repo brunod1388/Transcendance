@@ -75,11 +75,7 @@ export default function Invitations() {
                 {invitations.length > 0 &&
                     invitations.map((invite) => (
                         <div className="invitation-container" key={invite.name}>
-                            <img
-                                src={invite.image}
-                                alt="invite"
-                                className="icon"
-                            />
+                            <img src={invite.image} alt="invite" className="icon" />
                             <div className="invitation-details">
                                 <div className="invitation-line">
                                     <span>{invite.type} invitation :</span>

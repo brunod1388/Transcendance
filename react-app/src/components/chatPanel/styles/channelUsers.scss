@@ -4,7 +4,7 @@
 .channel-users {
 	display: flex;
 	flex-direction: column;
-	width: 180px;
+	width: $channel-users-width;
 	flex-shrink: 0;
 	.users {
 		height: calc(100% - 2*$border-padding);

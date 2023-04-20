@@ -24,3 +24,5 @@ export { default as RankingIcon } from "./reward.png";
 export { default as HistoryIcon } from "./livre.png";
 export { default as MatchIcon } from "./joystick.png";
 export { default as LogoutIcon } from "./logout.png";
+export { default as Mute } from "./mute.png";
+export { default as Block } from "./block.png";

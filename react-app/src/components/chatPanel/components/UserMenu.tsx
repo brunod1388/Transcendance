@@ -53,9 +53,7 @@ export default function UserMenu(props: Props) {
                 senderId: userAuth.id,
                 receiverId: user.id,
             },
-            (res: any) => {
-                console.log(res);
-            }
+            (res: any) => console.log(res)
         );
     }
 
@@ -100,8 +98,7 @@ export default function UserMenu(props: Props) {
         if (type === "self") setFeature(Feature.None);
         if (type === "channelUser" || type === "self")
             socket.emit("deleteChannelUser", { id: user.channelUserId });
-        else if (type === "friend")
-            socket.emit("deleteFriend", { id: user.friendId });
+        else if (type === "friend") socket.emit("deleteFriend", { id: user.friendId });
     }
 
     function makeAdmin(userId: number) {}
@@ -141,28 +138,30 @@ export default function UserMenu(props: Props) {
                 </button>
             )}
             <div className="muteAndBlock">
-                {userAuth.id !== user.id && channel.rights === "admin" && (
-                    <button
-                        className="mute button-purple"
-                        onClick={() => {
-                            setMuteOrBlock("Mute");
-                            setIsVisible(true);
-                        }}
-                    >
-                        Mute
-                    </button>
-                )}
-                {userAuth.id !== user.id && channel.rights === "admin" && (
-                    <button
-                        className="block button-purple"
-                        onClick={() => {
-                            setMuteOrBlock("Block");
-                            setIsVisible(true);
-                        }}
-                    >
-                        Block
-                    </button>
-                )}
+                {userAuth.id !== user.id &&
+                    (channel.rights === "admin" || channel.rights === "owner") && (
+                        <button
+                            className="mute button-purple"
+                            onClick={() => {
+                                setMuteOrBlock("Mute");
+                                setIsVisible(true);
+                            }}
+                        >
+                            Mute
+                        </button>
+                    )}
+                {userAuth.id !== user.id &&
+                    (channel.rights === "admin" || channel.rights === "owner") && (
+                        <button
+                            className="block button-purple"
+                            onClick={() => {
+                                setMuteOrBlock("Block");
+                                setIsVisible(true);
+                            }}
+                        >
+                            Block
+                        </button>
+                    )}
                 {isVisible && (
                     <div ref={ref}>
                         <form className="muteOrBlock" onSubmit={handleMuteOrBlock}>
@@ -185,7 +184,7 @@ export default function UserMenu(props: Props) {
             </div>
             {props.type === "channelUser" &&
                 userAuth.id !== user.id &&
-                channel.rights === "admin" && (
+                (channel.rights === "admin" || channel.rights === "owner") && (
                     <button
                         className="handleRight long button-purple"
                         onClick={() => makeAdmin(user.id)}
@@ -195,7 +194,7 @@ export default function UserMenu(props: Props) {
                 )}
             {props.type === "channelUser" &&
                 userAuth.id !== user.id &&
-                channel.rights === "admin" && (
+                (channel.rights === "admin" || channel.rights === "owner") && (
                     <button
                         className="delete long red-button button-purple"
                         onClick={() => {

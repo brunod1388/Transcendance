@@ -21,4 +21,25 @@ function getTimeStr(date: Date, withSeconds: boolean): string {
     return time;
 }
 
-export { getDateMsg, getTimeStr };
+function dateDiffStr(date1: Date, date2: Date): String {
+    const diff = Math.abs(date1.getTime() - date2.getTime());
+    console.log("diff", diff);
+    console.log("d1", date1.getTime());
+    console.log("d2", date2.getTime());
+    console.log("diff", date1.getTime() - date2.getTime());
+    const diffDays = Math.floor(diff / (1000 * 3600 * 24));
+    const diffHours = Math.floor((diff % (1000 * 3600 * 24)) / (1000 * 3600));
+    const diffMinutes = Math.floor((diff % (1000 * 3600)) / (1000 * 60));
+    const diffSeconds = Math.floor((diff % (1000 * 60)) / 1000);
+    if (diffDays > 0) {
+        return diffDays + "d";
+    } else if (diffHours > 0) {
+        return diffHours + "h";
+    } else if (diffMinutes > 0) {
+        return diffMinutes + "m";
+    } else {
+        return diffSeconds + "s";
+    }
+}
+
+export { getDateMsg, getTimeStr, dateDiffStr };

@@ -1,5 +1,5 @@
 @import "assets/styles/variables.scss";
-
+@import "assets/styles/general.scss";
 
 .userChat {
 	$userImage-size: 22px;
@@ -7,57 +7,83 @@
 	background: linear-gradient(90deg, $purple-gray, $chat-bg-color);
 	border-radius: 10px;
 	box-shadow: $shadow-outset-border;
-	&.selected {
-		border-radius: 20px 10px 10px 10px;
-	}
 	&:hover:not(.selected) {
 		background: none;
 		background-color: $dark-grey;
-		animation: button-scale 1s;
-		animation-fill-mode: forwards;
+	}
+	.details {
+		@extend .flex-row;
+		width: 100%;
 	}
 	.userPlate {
 		display: flex;
 		align-items: center;
-		gap: 10px;
-		
-		img {
+		gap: 3px;
+		.avatar {
+			flex: 0 0 $userImage-size;
 			width: $userImage-size;
 			height: $userImage-size;
 			border-radius: 50%;
 			object-fit: cover;
 			&.bigAvatar {
+				min-width: calc($userImage-size * 2);
 				border-radius: 10px 0 50% 0;
 				height: calc($userImage-size * 2);
 				width: calc($userImage-size * 2);
 			}
 		}
-
-		.userChatInfo {
-			display: flex;
-			align-items: center;
-			span {
-				font-size: 14px;
-				font-weight: 500;
-
-			}
-			p {
-				font-size: 12px;
-				font-style: italic;
-				padding-left: 5px;
+		.username {
+			vertical-align: middle;
+			max-width: 77px;
+			height: 15px;
+			font-size: 14px;
+			font-weight: 500;
+			overflow: hidden;
+			&:first-letter {
+				text-transform: uppercase;
 			}
 		}
-		.connected {
+		.status {
+			$icon-size: $userPlate-icon-size;
+			@extend .flex-row;
+			width: 35px;
+			padding-right: 5px;
+			gap: 5px;
 			flex-grow: 1;
-			display: flex;
-			flex-direction: row-reverse;
-			span {
-				margin-right: 5px;
-				width: 12px;
-				height: 12px;
+			justify-content: flex-end;
+			.connected {
+				width: $icon-size;
+				height: $icon-size;
 				border-radius: 50%;
-				background-color: rgb(94, 230, 106);
+				flex-shrink: 0;
+				&.on {background-color: rgb(94, 230, 106);}
+				&.off {background-color: rgba(140, 140, 140, 0.476);}
 			}
+		}
+	}
+	&.selected {
+		border-radius: 20px 10px 10px 10px;
+		background: none;
+		background-color: $dark-grey;
+		.details {
+			@extend .flex-column;
+			gap: 6px;
+		}
+		.username {
+			color: $purple;
+			width: 100%;
+			align-self: flex-start;
+			margin-left: 5px;
+			font-weight: 900;
+			font-size: 20px;
+			height: 25px;
+			&::first-letter {
+				text-transform: uppercase;
+			}
+		}
+		.status {
+			width: 100%;
+			margin-right: 15px;
 		}
 	}
 }

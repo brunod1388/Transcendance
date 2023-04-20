@@ -41,6 +41,10 @@ export interface UserType {
     connected?: boolean;
     channelId?: number;
     room?: string;
+    muted?: boolean;
+    endMute?: Date;
+    blocked?: boolean;
+    endBlock?: Date;
 }
 
 export interface MessageType {

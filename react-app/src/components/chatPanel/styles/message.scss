@@ -1,19 +1,24 @@
 @import "assets/styles/variables.scss";
+@import "assets/styles/general.scss";
+
 .messageContainer {
+	display: flex;
+	gap: 10px;
+	padding: 3px 8px;
+	position: relative;
+	filter: $drop-shadow;
+	&:hover {
+		background-color: $dark-grey;
+	}
 	&.stick {
-		display: flex;
-		gap: 10px;
-		padding: 3px 8px;
-		&:hover {
-			background-color: $dark-grey;
-			.hour {
-				display: block;
-			}
+		&:hover .hour {
+			display: block;
 		}
-		.avatar, .hour, .day {
+		.avatar, .hour, .day, .username {
 			display: none;
 		}
 		.message {
+			@extend .flex-row;
 			display: flex;
 			flex-direction: row;
 			gap: 5px;
@@ -22,37 +27,25 @@
 			align-items: center;
 			padding: 2px;
 			.details {
+				@extend .flex-column;
 				width: 40px;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
 				flex-shrink: 0;
-				.username {
-					display: none;
-				}
-				.time {
-					color: grey;
-					font-size: 12px;
-				}
 			}
 		}
-		position: relative;
+	}
+	.time {
+		color: grey;
+		font-size: 12px;
 	}
 	&.normalMessage {
-		display: flex;
-		gap: 10px;
-		padding: 3px 8px;
 		margin-top: 10px;
-		&:hover {
-			background-color: $dark-grey;
-		}
-
 		img {
 			width: 35px;
 			height: 35px;
+			flex-shrink: 0;
 			border-radius: 50%;
 			object-fit: cover;
-			padding-top: 4px;
+			margin-top: 4px;
 		}
 
 		.message {
@@ -68,33 +61,27 @@
 				align-items: flex-end;
 				gap: 10px;
 				.time {
-					color: grey;
-					font-size: 12px;
 					display: flex;
 					gap: 3px;
 				}
 			}
 		}
-		position: relative;
 	}
 	.messageMenu {
 		display: none;
 	}
 	&:hover {
 		.messageMenu {
+			@extend .flex-row;
 			position: absolute;
 			top: -10px;
 			right: 15px;
-			display: flex;
-			align-items: center;
-			align-content: center;
-			justify-content: center;
 			gap: 10px;
 			background: $dark-purple;
 			height: 25px;
 			width: 50px;
 			border-radius: 7px;
-			border: 1px solid $dark-grey;
+			border: 1px solid rgba(0, 0, 0, 0.413);
 			.edit {
 				height: 13px;
 				width: 13px;

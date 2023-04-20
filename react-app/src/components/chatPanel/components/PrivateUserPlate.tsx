@@ -5,6 +5,7 @@ import { useSocket } from "hooks";
 import { useChat, useAuth, ChannelDetailsType } from "context";
 import BurgerMenu from "components/utils/BurgerMenu";
 import { useEffect } from "react";
+import {MutedIcon, BlockedIcon} from "components/utils/penalityIcon";
 import "../styles/privateUserPlate.scss";
 
 type Props = {
@@ -61,19 +62,22 @@ export default function PrivateUserPlate(props: Props) {
             document.removeEventListener("click", (e) => handleClickOutsideMenu(e, user.id), true);
     }, []);
 
+
+    const tomorrow = new Date(2023, 3, 22, 0, 0, 0, 0);
+    user.endBlock = tomorrow;
+    user.endMute = tomorrow;
     return (
         <div className={"private-user" + (user.channelId === channel.id ? " selected" : "")}>
             <div className="userPlate" onClick={selectUser}>
                 <img src={user.avatar === "" ? NoUserIcon : user.avatar} alt="avatar" />
                 <div className="details">
                     <div className="line">
-                        <span className="username">{user.username}</span>
-                        {user.connected ||
-                            (true && (
-                                <div className="connected">
-                                    <span />
-                                </div>
-                            ))}
+                        <span className="username">dsadadadasdadsadadadasd{user.username}</span>
+                        <div className="status">
+                            {user.endMute !== undefined && <MutedIcon endMute={user.endMute} />}
+                            {user.endBlock !== undefined && <BlockedIcon endBlock={user.endBlock} />}
+                            <div className={"connected " + (user.connected ? "on" : "off")} />
+                        </div>
                     </div>
                     <div className="line">
                         {hasNewMsg || (true && <p className="last-message">last message</p>)}

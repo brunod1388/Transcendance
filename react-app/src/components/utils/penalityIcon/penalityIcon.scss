@@ -1,0 +1,32 @@
+@import "assets/styles/variables.scss";
+@import "assets/styles/general.scss";
+
+.penality-container {
+	@extend .flex-row;
+	position: relative;
+	&:hover {
+		.time {
+			display: flex;
+			opacity: 1;
+		}
+	}
+	.icon {
+		width: $penality-icon-size;
+		height: $penality-icon-size;
+		border-radius: 50%;
+		filter: $filter-purple;
+	}
+	.time {
+		@extend .flex-row;
+		padding: 3px 5px;
+		position: absolute;
+		top: -18px;
+		right: -15px;
+		font-size: 11px;
+		background-color: $purple;
+		border-radius: 8px;
+		white-space: nowrap;
+		transition: 0.3s;
+		opacity: 0;
+	}
+}
