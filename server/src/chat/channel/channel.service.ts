@@ -1,24 +1,19 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Like, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import {
     ChannelDto,
     CreateChannelDto,
-    UpdateChannelDto,
 } from "../dtos/Channel.dto";
 import { UsersService } from "../../users/users.service";
-import { ChannelUserService } from "../channelUser/channelUsers.service";
-import { Channel, ChannelType, ChannelUser, rightType } from "../entities";
+import { Channel, ChannelType } from "../entities";
 import { User } from "src/users/entities/User.entity";
-import { channel } from "diagnostics_channel";
 
 @Injectable()
 export class ChannelService {
     constructor(
         @InjectRepository(Channel)
         private channelRepository: Repository<Channel>,
-        @InjectRepository(User)
-        private userRepository: Repository<User>,
         private userService: UsersService
     ) {}
 
@@ -151,5 +146,11 @@ export class ChannelService {
                 channelUsers: true,
             },
         });
+    }
+
+    async deleteChannel(channel: Channel): Promise<string>
+    {
+        await this.channelRepository.remove(channel);
+        return "Ok";
     }
 }

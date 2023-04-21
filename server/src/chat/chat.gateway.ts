@@ -205,6 +205,23 @@ export class ChatGateway {
         return channelAdded;
     }
 
+    @SubscribeMessage("deleteChannel")
+    async deleteChannel(
+        @MessageBody("channelId") channelId: number, 
+        @ConnectedSocket() client: Socket
+    ): Promise<string>
+    {
+        const channel = await this.channelService.findChannelById(channelId);
+        const user = await this.userService.findUserId(client.data.user.id);
+        if (channel === undefined)
+            return "Channel does not exist"
+        if (user === undefined)
+            return "Can't find userProfile"
+        if (user.id !== channel.owner.id)
+            return "You don't have the right to delete this channel"
+        this.channelService.deleteChannel(channel);
+        return "Channel deleted"
+    }
     // ========================================================================
     //                               Channel User
     // ========================================================================

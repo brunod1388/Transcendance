@@ -14,37 +14,24 @@ interface ChannelProps {
     joinChannel: (channel: ChannelType) => void;
 }
 
-// const foundChannels = [
-//     { id: 1, name: "channel1", image: NoChannelIcon, type: "channel" },
-//     { id: 2, name: "channel2", image: NoChannelIcon, type: "channel" },
-//     { id: 3, name: "channel3", image: NoChannelIcon, type: "channel" },
-//     { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
-//     { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
-//     { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
-//     { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
-//     { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
-//     { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
-// ];
-
 function ChannelPlate({ channel, joinChannel }: ChannelProps) {
     return (
         <div className="channel">
             <img src={channel.image ? channel.image : NoChannelIcon} alt="channel-image" />
-            <span>{channel.name}</span>
+            <span className="channelName">{channel.name}</span>
             <button onClick={() => joinChannel(channel)}> Join </button>
         </div>
     );
 }
 
 export default function NewChannel(props: Props) {
-    const [isPrivate, setIsPrivate] = useState(false);
-    const [socket] = useSocket();
-    const [error, setErrot] = useState(false);
+    const [ isPrivate, setIsPrivate ] = useState(false);
+    const [ socket ] = useSocket();
+    const [ error, setErrot ] = useState(false);
     const { userAuth } = useAuth();
-    const [create, setCreate] = useState(false);
-    const [foundChannels, setFoundChannels] = useState<ChannelType[]>([]);
-    const [channelName, setChannelName] = useState("");
-    const { channel, updateChannel } = useChat();
+    const [ create, setCreate ] = useState(false);
+    const [ foundChannels, setFoundChannels] = useState<ChannelType[]>([]);
+    const { updateChannel } = useChat();
     const { setFeature } = useFeature();
     function handleSubmit(e: any) {
         e.preventDefault();
@@ -97,7 +84,6 @@ export default function NewChannel(props: Props) {
         const channelName = target.value;
         if (channelName === "") return setFoundChannels([]);
         console.log("channelName: ", channelName);
-        setChannelName(channelName);
         socket.emit("searchChannel", { channelName: channelName }, (res: ChannelType[]) => {
             setFoundChannels(res);
             console.log("res: ", res);

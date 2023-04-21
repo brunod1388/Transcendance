@@ -1,6 +1,6 @@
 import { Mute } from "assets/images";
 import { dateDiffStr } from "utils/timeFormat.utils";
-import "./penalityIcon.scss";
+import "../styles/penalityIcon.scss";
 
 type Props = {
     endMute: Date;

@@ -1,11 +1,9 @@
-import UserMenu from "./UserMenu";
-import { NoUserIcon } from "assets/images";
-import { UserPlateType, UserType } from "@customTypes";
-import { useSocket } from "hooks";
+import { MutedIcon, BlockedIcon, UserMenu, BurgerMenu } from "components/utils";
 import { useChat, useAuth, ChannelDetailsType } from "context";
-import BurgerMenu from "components/utils/BurgerMenu";
+import { UserPlateType, UserType } from "@customTypes";
+import { NoUserIcon } from "assets/images";
+import { useSocket } from "hooks";
 import { useEffect } from "react";
-import { MutedIcon, BlockedIcon } from "components/utils/penalityIcon";
 import "../styles/privateUserPlate.scss";
 
 type Props = {

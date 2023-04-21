@@ -19,11 +19,11 @@ const DAY_IN_MS = 24 * HOUR_IN_MS;
 export default function UserMenu(props: Props) {
     const { user } = props;
     const { userAuth } = useAuth();
-    const { channel } = useChat();
-    const [socket] = useSocket();
-    const [inviteResponse, setInviteResponse] = useState("");
+    const { channel, updateChannel } = useChat();
+    const [ socket ] = useSocket();
+    const [ inviteResponse, setInviteResponse ] = useState("");
     const { setFeature } = useFeature();
-    const [muteOrBlock, setMuteOrBlock] = useState<MuteOrBlock>("");
+    const [ muteOrBlock, setMuteOrBlock ] = useState<MuteOrBlock>("");
     const { ref, isVisible, setIsVisible } = useVisible(false);
 
     function inviteFriend(userId: number) {
@@ -103,6 +103,18 @@ export default function UserMenu(props: Props) {
 
     function makeAdmin(userId: number) {}
 
+    function deleteChannel() {
+        socket.emit("deleteChannel", { id: channel.id });
+        setFeature(Feature.None);
+        updateChannel({
+            ...channel,
+            id: 0,
+            name: "Transcendance",
+            type: "none",
+            rights: "none",
+            image: "",
+        });
+    }
     return (
         <div className="userMenu">
             {props.type !== "friend" && userAuth.id !== user.id && (
@@ -204,7 +216,7 @@ export default function UserMenu(props: Props) {
                         Delete channel user
                     </button>
                 )}
-            {userAuth.id === user.id && (
+            {userAuth.id === user.id && user.rights != "owner" && (
                 <button
                     className="quit channel long button-purple"
                     onClick={() => {
@@ -222,6 +234,14 @@ export default function UserMenu(props: Props) {
                     }}
                 >
                     Delete Friend
+                </button>
+            )}
+            {props.user.rights === "owner" && (
+                <button
+                    className="deleteChannel red-button long button-purple"
+                    onClick={deleteChannel}
+                >
+                    Delete Channel
                 </button>
             )}
         </div>

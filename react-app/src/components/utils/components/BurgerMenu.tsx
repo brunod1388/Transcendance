@@ -1,5 +1,5 @@
 import React from "react";
-import "./burgermenu.scss";
+import "../styles/burgermenu.scss";
 
 type Props = {
     onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
