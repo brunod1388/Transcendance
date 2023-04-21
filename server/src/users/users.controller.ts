@@ -118,7 +118,11 @@ export class UsersController {
         try {
             //console.log(file);
             const dto: UpdateUserDto = {
-                avatar: "http://localhost:3000/users/avatar/" + file.filename,
+                //avatar: "http://localhost:3000/users/avatar/" + file.filename,
+                avatar:
+                    process.env.REACT_APP_BACKEND_URL +
+                    "/users/avatar/" +
+                    file.filename,
             };
             return this.userService.uploadAvatar(req.user.id, dto);
         } catch (err) {

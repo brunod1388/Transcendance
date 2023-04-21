@@ -64,7 +64,8 @@ function Subscribe() {
     function signup42(e: MouseEvent<HTMLButtonElement>) {
         const checking = window.location;
         if (checking !== null) {
-            checking.href = "http://localhost:3000/auth/login42";
+            //checking.href = "http://localhost:3000/auth/login42";
+            checking.href = process.env.REACT_APP_BACKEND_URL + "/auth/login42";
         }
     }
 

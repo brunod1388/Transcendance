@@ -8,10 +8,8 @@ import {
 
 import { Socket, Server } from "socket.io";
 import { UsersService } from "../users/users.service";
-import { CreateUserDto } from "../users/dtos/UserValidation.dto";
 import { ChannelDto, CreateChannelDto } from "./dtos/Channel.dto";
 import { ChannelService } from "./channel/channel.service";
-import { User } from "src/users/entities/User.entity";
 import { ChannelUserService } from "./channelUser/channelUsers.service";
 import { ChannelType, ChannelUser, Message, rightType } from "./entities";
 import { FriendService } from "src/users/friend/friend.service";
@@ -24,10 +22,6 @@ import {
     UpdateMessageDto,
 } from "./dtos/Message.dto";
 import { MessageService } from "./message/message.service";
-import { Channel } from "./entities";
-import { Penality } from "./entities/Penality.entity";
-import { CreatePenalityDTO } from "./dtos/Penality.dto";
-import { PenalityService } from "./penality/penality.service";
 import { GeneralService } from "src/general/general.service";
 
 interface InvitationType {
@@ -41,7 +35,8 @@ const ROOM_PREFIX = "room-";
 
 @WebSocketGateway({
     cors: {
-        origin: ["http://localhost:9000"],
+        //origin: ["http://localhost:9000"],
+        origin: [process.env.REACT_APP_FRONTEND_URL],
     },
 })
 export class ChatGateway {
@@ -54,7 +49,6 @@ export class ChatGateway {
         private channelUserService: ChannelUserService,
         private friendService: FriendService,
         private messageService: MessageService,
-        private penalityService: PenalityService,
         private generalService: GeneralService
     ) {}
 
@@ -176,14 +170,19 @@ export class ChatGateway {
         @MessageBody("channelName") channelName: string,
         @ConnectedSocket() client: Socket
     ): Promise<ChannelDto[]> {
-        const searchChannels = await this.channelService.findChannelByName(channelName);
-        const userChannels = await this.channelService.getChannels(client.data.user.id, false, false)
+        const searchChannels = await this.channelService.findChannelByName(
+            channelName
+        );
+        const userChannels = await this.channelService.getChannels(
+            client.data.user.id,
+            false,
+            false
+        );
         return searchChannels.filter((channel) => {
-            for(const userChannel of userChannels)
-                if (channel.id === userChannel.id)
-                    return false;
-            return true
-        })
+            for (const userChannel of userChannels)
+                if (channel.id === userChannel.id) return false;
+            return true;
+        });
     }
 
     @SubscribeMessage("joinChannel")
@@ -195,17 +194,16 @@ export class ChatGateway {
             userId: client.data.user.id,
             channelId: channelId,
             rights: rightType.NORMAL,
-            isPending: false
-        })
-        if (!channelUser)
-            return "Could not add you to channel";
-        const channelAdded = await this.channelService.findChannelById(channelId)
-        if (channelAdded == undefined)
-            return "Something went wrong!";
-        client.emit("Channel", channelAdded)
+            isPending: false,
+        });
+        if (!channelUser) return "Could not add you to channel";
+        const channelAdded = await this.channelService.findChannelById(
+            channelId
+        );
+        if (channelAdded == undefined) return "Something went wrong!";
+        client.emit("Channel", channelAdded);
         return channelAdded;
     }
-
 
     // ========================================================================
     //                               Channel User
@@ -512,13 +510,5 @@ export class ChatGateway {
             invitations.push(channel);
         });
         return invitations;
-    }
-
-    @SubscribeMessage("createPenality")
-    async createPenality(
-        @MessageBody("penality") penality: CreatePenalityDTO
-    ): Promise<Penality> {
-        const newPenality = await this.penalityService.createPenality(penality);
-        return newPenality;
     }
 }

@@ -7,7 +7,8 @@ import HeroMenu from "./HeroMenu";
 import { ChatIcon, PlayIcon } from "assets/images";
 import "../styles/topbar.scss";
 
-axios.defaults.baseURL = `http://localhost:3000`;
+//axios.defaults.baseURL = `http://localhost:3000`;
+axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 axios.defaults.withCredentials = true;
 
 function Topbar() {

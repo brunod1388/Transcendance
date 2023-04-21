@@ -71,10 +71,8 @@ export default function NewChannel(props: Props) {
     function joinChannel(channel: ChannelType) {
         console.log("join channel:", channel);
         socket.emit("joinChannel", { channelId: channel.id }, (res?: ChannelType | string) => {
-            if (res === undefined)
-                return console.log("res is undefined");
-            if (typeof(res) === "string")
-                return console.log("res: ", res);
+            if (res === undefined) return console.log("res is undefined");
+            if (typeof res === "string") return console.log("res: ", res);
             socket.emit("leaveRoom", {
                 userid: userAuth.id,
                 channelid: channel.id,
@@ -85,8 +83,8 @@ export default function NewChannel(props: Props) {
                 type: "channel",
                 image: res.image,
                 room: "room-" + res.id,
-                rights: "normal"
-            })
+                rights: "normal",
+            });
             setFeature(Feature.Chat);
             socket.emit("joinRoom", { userid: userAuth.id, channelid: res.id });
 
@@ -97,13 +95,12 @@ export default function NewChannel(props: Props) {
     function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
         const target = e.target;
         const channelName = target.value;
-        if (channelName === "")
-            return setFoundChannels([]);
+        if (channelName === "") return setFoundChannels([]);
         console.log("channelName: ", channelName);
         setChannelName(channelName);
         socket.emit("searchChannel", { channelName: channelName }, (res: ChannelType[]) => {
             setFoundChannels(res);
-            console.log("res: ", res)
+            console.log("res: ", res);
         });
     }
 

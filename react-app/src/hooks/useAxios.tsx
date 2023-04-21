@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
-axios.defaults.baseURL = `http://localhost:3000`;
+//axios.defaults.baseURL = `http://localhost:3000`;
+axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 axios.defaults.withCredentials = true;
-axios.defaults.headers.common["crossorigin"] = true;
+//axios.defaults.headers.common["crossorigin"] = true;
 
 export const useAxios = (axiosParams: AxiosRequestConfig) => {
     const [response, setResponse] = useState<AxiosResponse>();

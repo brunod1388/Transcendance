@@ -37,7 +37,8 @@ function Main() {
         if (error?.response?.status === 401) {
             console.log("*** UNAUTHORIZED USE OF THE SITE - PLEASE SIGNIN IN ***");
             removeItem("user");
-            Cookies.remove("JWTtoken", { sameSite: "none", secure: true });
+            //Cookies.remove("JWTtoken", { sameSite: "none", secure: true });
+            Cookies.remove("JWTtoken", { sameSite: "lax" });
             navigate("/login");
         }
     }, [error]);

@@ -15,10 +15,10 @@ export class Message {
     @PrimaryGeneratedColumn({ type: "bigint" })
     id: number;
 
-    @ManyToOne(() => User, (user) => user.id, { onDelete: 'CASCADE' })
+    @ManyToOne(() => User, (user) => user.id, { onDelete: "CASCADE" })
     creator: User;
 
-    @ManyToOne(() => Channel, (channel) => channel.id, { onDelete: 'CASCADE' })
+    @ManyToOne(() => Channel, (channel) => channel.id, { onDelete: "CASCADE" })
     channel: Channel;
 
     @Column()

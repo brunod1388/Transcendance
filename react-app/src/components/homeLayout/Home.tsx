@@ -45,9 +45,11 @@ function Home() {
         host: false,
     });
 
-    window.history.pushState({}, "", "http://localhost:9000/home");
+    //window.history.pushState({}, "", "http://localhost:9000/home");
+    window.history.pushState({}, "", process.env.REACT_APP_FRONTEND_URL + "/home");
 
     const onPong = (room: string, mode: GameMode, host: boolean) => {
+        socket.emit("join", room);
         setPongSwitch({
             isPong: true,
             data: {
@@ -69,6 +71,7 @@ function Home() {
             setPongSwitch(data);
         });
         socket.on("invitation", (invitation: InvitationDTO) => {
+            console.log("invitation", invitation);
             if (userAuth.username === invitation.to) {
                 CreateInvitation(invitation, dispatch, socket, onPong);
             }

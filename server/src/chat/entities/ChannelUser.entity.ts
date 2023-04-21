@@ -31,7 +31,9 @@ export class ChannelUser {
     @ManyToOne(() => User, (user) => user.ownedChannels)
     user: User;
 
-    @ManyToOne(() => Channel, (channel) => channel.owner, { onDelete: 'CASCADE' })
+    @ManyToOne(() => Channel, (channel) => channel.owner, {
+        onDelete: "CASCADE",
+    })
     channel: Channel;
 
     @Column()
@@ -39,5 +41,4 @@ export class ChannelUser {
 
     @Column()
     isPending: boolean;
-
 }

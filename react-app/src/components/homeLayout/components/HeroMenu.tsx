@@ -34,7 +34,8 @@ export default function HeroMenu() {
             socket.disconnect();
         }
         removeItem("user");
-        Cookies.remove("JWTtoken", { sameSite: "none", secure: true });
+        //Cookies.remove("JWTtoken", { sameSite: "none", secure: true });
+        Cookies.remove("JWTtoken", { sameSite: "lax" });
         updateUser();
         updateChannel();
         navigate("/login");
