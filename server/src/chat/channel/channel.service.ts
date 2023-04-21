@@ -35,15 +35,12 @@ export class ChannelService {
         });
     }
 
-    async findChannelByName(channelName: string): Promise<ChannelDto[]> {
+    async findChannelByName(searchName: string): Promise<ChannelDto[]> {
         return await this.channelRepository
             .createQueryBuilder('channel')
-            .andWhere('channel.name LIKE :searchString', { searchString: `%${channelName}%` })
+            .andWhere('channel.name LIKE :searchString', { searchString: `%${searchName}%` })
             .andWhere("channel.type <> :privateChannel", { privateChannel: ChannelType.PRIVATE})
             .getMany();
-        // return await this.channelRepository.findBy({
-        //     name: Like(`%${channelName}%`)
-        // })
     }
 
     async createChannel(channelDetails: CreateChannelDto): Promise<Channel> {

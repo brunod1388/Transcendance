@@ -172,15 +172,25 @@ export class ChatGateway {
     }
 
     @SubscribeMessage("searchChannel")
-    async searchChannel(@MessageBody("channelName") channelName: string): Promise<ChannelDto[]> {
-        return await this.channelService.findChannelByName(channelName);
+    async searchChannel(
+        @MessageBody("channelName") channelName: string,
+        @ConnectedSocket() client: Socket
+    ): Promise<ChannelDto[]> {
+        const searchChannels = await this.channelService.findChannelByName(channelName);
+        const userChannels = await this.channelService.getChannels(client.data.user.id, false, false)
+        return searchChannels.filter((channel) => {
+            for(const userChannel of userChannels)
+                if (channel.id === userChannel.id)
+                    return false;
+            return true
+        })
     }
 
     @SubscribeMessage("joinChannel")
     async joinChannel(
         @MessageBody("channelId") channelId: number,
         @ConnectedSocket() client: Socket
-    ): Promise<string> {
+    ): Promise<ChannelDto | string> {
         const channelUser = await this.channelUserService.createChannelUser({
             userId: client.data.user.id,
             channelId: channelId,
@@ -190,10 +200,10 @@ export class ChatGateway {
         if (!channelUser)
             return "Could not add you to channel";
         const channelAdded = await this.channelService.findChannelById(channelId)
-        if (channelAdded)
+        if (channelAdded == undefined)
             return "Something went wrong!";
         client.emit("Channel", channelAdded)
-        return `channel ${channelAdded.name} added`;
+        return channelAdded;
     }
 
 

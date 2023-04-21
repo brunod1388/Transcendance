@@ -11,6 +11,7 @@ import { User } from "../../users/entities/User.entity";
 import { ChannelUser, Message } from "../entities";
 import { BlockedUser } from "./BlockedUser.entity";
 import { MutedUser } from "./MutedUser.entity";
+import { IsNotEmpty } from "class-validator";
 
 // to put in a dto
 export enum ChannelType {
@@ -28,6 +29,7 @@ export class Channel {
     owner: User;
 
     @Column({ unique: true, type: "varchar", length: 42 })
+    @IsNotEmpty()
     name: string;
 
     @Column({ default: null })

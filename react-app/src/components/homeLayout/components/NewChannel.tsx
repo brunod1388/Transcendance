@@ -1,7 +1,7 @@
 import { useState } from "react";
 import AddImage from "assets/images/add-image.png";
 import { useSocket } from "hooks";
-import { useAuth } from "context";
+import { Feature, useAuth, useChat, useFeature } from "context";
 import { LockIcon, NoChannelIcon } from "assets/images";
 import { ChannelType } from "@customTypes";
 import "../styles/newChannel.scss";
@@ -44,7 +44,8 @@ export default function NewChannel(props: Props) {
     const [create, setCreate] = useState(false);
     const [foundChannels, setFoundChannels] = useState<ChannelType[]>([]);
     const [channelName, setChannelName] = useState("");
-
+    const { channel, updateChannel } = useChat();
+    const { setFeature } = useFeature();
     function handleSubmit(e: any) {
         e.preventDefault();
         const target = e.target;
@@ -69,9 +70,27 @@ export default function NewChannel(props: Props) {
 
     function joinChannel(channel: ChannelType) {
         console.log("join channel:", channel);
-        socket.emit("joinChannel", { channelId: channel.id }, (res?: any) => {
-            if (res === `OK`) props.quitForm();
-            else setErrot(true);
+        socket.emit("joinChannel", { channelId: channel.id }, (res?: ChannelType | string) => {
+            if (res === undefined)
+                return console.log("res is undefined");
+            if (typeof(res) === "string")
+                return console.log("res: ", res);
+            socket.emit("leaveRoom", {
+                userid: userAuth.id,
+                channelid: channel.id,
+            });
+            updateChannel({
+                id: res.id,
+                name: res.name,
+                type: "channel",
+                image: res.image,
+                room: "room-" + res.id,
+                rights: "normal"
+            })
+            setFeature(Feature.Chat);
+            socket.emit("joinRoom", { userid: userAuth.id, channelid: res.id });
+
+            props.quitForm();
         });
     }
 
