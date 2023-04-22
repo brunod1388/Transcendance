@@ -20,7 +20,7 @@ export class ChannelUserService {
         private userService: UsersService,
         @Inject(forwardRef(() => ChannelService))
         private channelService: ChannelService,
-		@Inject(forwardRef(() => GeneralService))
+        @Inject(forwardRef(() => GeneralService))
         private generalService: GeneralService
     ) {}
 
@@ -181,8 +181,10 @@ export class ChannelUserService {
                         channelUserId: cUser.id,
                         rights: cUser.rights,
                         room: cUser.channel.name,
-						connected:  this.generalService.isUserOnline(cUser.user.id),
-						inGame: this.generalService.isUserInGame(cUser.user.id)
+                        connected: this.generalService.isUserOnline(
+                            cUser.user.id
+                        ),
+                        inGame: this.generalService.isUserInGame(cUser.user.id),
                     });
                 }
             });

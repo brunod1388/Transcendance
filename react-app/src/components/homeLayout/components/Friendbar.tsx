@@ -16,19 +16,18 @@ function Friendbar() {
             setFriends(res);
         });
         socket
-		.on("friend", (friend: UserType) => {
-			setFriends((state) => {
-				const newUsers = [...state];
-				let index = newUsers.findIndex((user) => user.id === friend.id);
-				if (index !== -1)
-				{
-					newUsers[index] = friend;
-				} else {
-					newUsers.push(friend);
-				}
-				return newUsers;
-			});
-		})
+            .on("friend", (friend: UserType) => {
+                setFriends((state) => {
+                    const newUsers = [...state];
+                    let index = newUsers.findIndex((user) => user.id === friend.id);
+                    if (index !== -1) {
+                        newUsers[index] = friend;
+                    } else {
+                        newUsers.push(friend);
+                    }
+                    return newUsers;
+                });
+            })
             .on("removeFriend", (friendId: number) => {
                 setFriends((state) => [...state.filter((friend) => friend.friendId !== friendId)]);
             });

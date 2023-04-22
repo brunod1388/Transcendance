@@ -11,7 +11,7 @@ import { GeneralModule } from "src/general/general.module";
         TypeOrmModule.forFeature([ChannelUser]),
         UsersModule,
         forwardRef(() => ChannelModule),
-		forwardRef(() => GeneralModule)
+        forwardRef(() => GeneralModule),
     ],
     providers: [ChannelUserService],
     exports: [ChannelUserService],

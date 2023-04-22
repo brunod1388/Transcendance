@@ -8,7 +8,13 @@ import { ChannelUsersModule } from "src/chat/channelUser/channelUsers.module";
 import { FriendModule } from "src/users/friend/friend.module";
 
 @Module({
-    imports: [AuthModule, forwardRef(() => UsersModule), forwardRef(() => ChannelModule), forwardRef(() => ChannelUsersModule), forwardRef(() => FriendModule)],
+    imports: [
+        AuthModule,
+        forwardRef(() => UsersModule),
+        forwardRef(() => ChannelModule),
+        forwardRef(() => ChannelUsersModule),
+        forwardRef(() => FriendModule),
+    ],
     controllers: [],
     providers: [GeneralGateway, GeneralService],
     exports: [GeneralGateway, GeneralService],

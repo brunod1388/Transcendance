@@ -118,19 +118,19 @@ export class GeneralGateway implements OnModuleInit {
     // client's socket join room
     @SubscribeMessage("join")
     handleJoinRoom(client: Socket, room: string) {
-		console.log("join room");
+        console.log("join room");
         this.generalService.joinRoom(client, room);
-		this.generalService.addUserInGame(client.data.user.id);
-		this.generalService.updateUserStatus(this.server, client);
+        this.generalService.addUserInGame(client.data.user.id);
+        this.generalService.updateUserStatus(this.server, client);
     }
 
     // client's socket leave room
     @SubscribeMessage("leave")
     handleLeaveRoom(client: Socket, room: string) {
-		console.log("leaveROom");
+        console.log("leaveROom");
         this.generalService.leaveRoom(client, room);
-		this.generalService.removeUserInGame(client.data.user.id);
-		this.generalService.updateUserStatus(this.server, client);
+        this.generalService.removeUserInGame(client.data.user.id);
+        this.generalService.updateUserStatus(this.server, client);
     }
 
     @SubscribeMessage("game-paddle-classic")
@@ -167,9 +167,9 @@ export class GeneralGateway implements OnModuleInit {
     @SubscribeMessage("game-player-left")
     handlePlayerLeft(client: Socket, room: string) {
         this.generalService.leaveRoom(client, room);
-		console.log("id", client.data.user.id);
-		this.generalService.removeUserInGame(client.data.user.id);
-		this.generalService.updateUserStatus(this.server, client);
+        console.log("id", client.data.user.id);
+        this.generalService.removeUserInGame(client.data.user.id);
+        this.generalService.updateUserStatus(this.server, client);
         this.server.to(room).emit("game-player-left");
     }
 

@@ -29,6 +29,6 @@ export function SocketProvider(props: PropsWithChildren) {
     // socket.current.on("users_online", (data: number[]) => {
     //     console.log("User ids currently online: ", data);
     // });
-	
+
     return <SocketContext.Provider value={socket.current}>{props.children}</SocketContext.Provider>;
 }

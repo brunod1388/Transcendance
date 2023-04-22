@@ -245,8 +245,7 @@ export class ChatGateway {
             connected: this.generalService
                 .getUsersOnline()
                 .has(channelUser.user.id),
-			inGame: this.generalService
-				.isUserInGame(channelUser.user.id)
+            inGame: this.generalService.isUserInGame(channelUser.user.id),
             //connected: this.onlineUsers.has(channelUser.user.id),
         }));
         return users;
@@ -300,9 +299,8 @@ export class ChatGateway {
                 connected: this.generalService
                     .getUsersOnline()
                     .has(channelUser.user.id),
-				
-			inGame: this.generalService
-			.isUserInGame(channelUser.user.id)
+
+                inGame: this.generalService.isUserInGame(channelUser.user.id),
                 //connected: this.onlineUsers.has(channelUser.user.id),
             };
             if (channelUser !== undefined)
@@ -363,10 +361,14 @@ export class ChatGateway {
         @MessageBody() userId: number
     ): Promise<FriendDTO[]> {
         const friends = await this.friendService.getFriends(userId);
-		const newFriends = Array<FriendDTO>();
-		friends.forEach((friend) => {
-			newFriends.push({...friend, connected: this.generalService.isUserOnline(friend.id), inGame: this.generalService.isUserInGame(friend.id) });
-		})
+        const newFriends = Array<FriendDTO>();
+        friends.forEach((friend) => {
+            newFriends.push({
+                ...friend,
+                connected: this.generalService.isUserOnline(friend.id),
+                inGame: this.generalService.isUserInGame(friend.id),
+            });
+        });
         return newFriends;
     }
 

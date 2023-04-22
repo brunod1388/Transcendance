@@ -19,6 +19,6 @@ export interface FriendDTO {
     type?: "friend";
     avatar?: string;
     username?: string;
-	connected?: boolean;
-	inGame?: boolean
+    connected?: boolean;
+    inGame?: boolean;
 }

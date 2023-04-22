@@ -15,38 +15,36 @@ import { FriendDTO } from "src/users/dtos/Friend.dto";
 export class GeneralService {
     @Inject(forwardRef(() => UsersService))
     private userService: UsersService;
-	@Inject(forwardRef(() => ChannelService))
+    @Inject(forwardRef(() => ChannelService))
     private channelService: ChannelService;
-	@Inject(forwardRef(() => ChannelUserService))
+    @Inject(forwardRef(() => ChannelUserService))
     private channelUserService: ChannelUserService;
-	@Inject(forwardRef(() => FriendService))
+    @Inject(forwardRef(() => FriendService))
     private friendsService: FriendService;
 
-
     // usersOnline:
-	// =====================================================
+    // =====================================================
     static usersOnline = new Map<number, Socket>();
 
-	addUserOnline(userId: number, socket: Socket) {
-		GeneralService.usersOnline.set(userId, socket);
+    addUserOnline(userId: number, socket: Socket) {
+        GeneralService.usersOnline.set(userId, socket);
     }
 
     removeUserOnline(userId: number) {
-		GeneralService.usersOnline.delete(userId);
+        GeneralService.usersOnline.delete(userId);
     }
 
     isUserOnline(userId: number) {
         return GeneralService.usersOnline.has(userId);
     }
 
-	getUsersOnline(): Map<number, Socket> {
+    getUsersOnline(): Map<number, Socket> {
         const ret = GeneralService.usersOnline;
         return ret;
     }
 
-
     // usersInGame:
-	// =====================================================
+    // =====================================================
     static usersInGame = new Array<number>();
 
     addUserInGame(userId: number) {
@@ -54,13 +52,15 @@ export class GeneralService {
     }
 
     removeUserInGame(userId: number) {
-		console.log("before", GeneralService.usersInGame);
-		GeneralService.usersInGame = GeneralService.usersInGame.filter((id) => id !== userId);
-		console.log("after", GeneralService.usersInGame);
+        console.log("before", GeneralService.usersInGame);
+        GeneralService.usersInGame = GeneralService.usersInGame.filter(
+            (id) => id !== userId
+        );
+        console.log("after", GeneralService.usersInGame);
     }
 
     isUserInGame(userId: number) {
-		console.log(GeneralService.usersInGame);
+        console.log(GeneralService.usersInGame);
         return GeneralService.usersInGame.includes(userId);
     }
 
@@ -69,19 +69,18 @@ export class GeneralService {
         return ret;
     }
 
-
-	// Socket events:
-	// =====================================================
-	connection(server: Server, socket: Socket) {
-		this.addUserOnline(socket.data.user.id, socket);
-		this.updateUserStatus(server, socket);
+    // Socket events:
+    // =====================================================
+    connection(server: Server, socket: Socket) {
+        this.addUserOnline(socket.data.user.id, socket);
+        this.updateUserStatus(server, socket);
     }
 
     disconnection(server: Server, socket: Socket, reason: any) {
-       this.removeUserOnline(socket.data.user.id);
-	   this.removeUserInGame(socket.data.user.id);
-	   this.updateUserStatus(server, socket);
-	   socket.disconnect();
+        this.removeUserOnline(socket.data.user.id);
+        this.removeUserInGame(socket.data.user.id);
+        this.updateUserStatus(server, socket);
+        socket.disconnect();
     }
 
     joinRoom(client: Socket | RemoteSocket<any, any>, room: string) {
@@ -92,74 +91,90 @@ export class GeneralService {
         client.leave(room);
     }
 
-	// User status:
-	// =====================================================
-	async updateUserStatus(server: Server, socket: Socket) {
-		const userId = socket.data.user.id;
-		const connected = this.isUserOnline(userId);
-		const privateChannels = await this.channelService.getChannels(userId, false, true);
-		const publicChannels =  await this.channelService.getChannels(userId, false, false);
-		
-		
-		publicChannels.forEach(async (channel) => {
-			const users = await this.channelUserService.getChannelUsers(channel.id, false);
-			const channelUser = users.find((user) => user.user.id === userId);
-			const user = {
+    // User status:
+    // =====================================================
+    async updateUserStatus(server: Server, socket: Socket) {
+        const userId = socket.data.user.id;
+        const connected = this.isUserOnline(userId);
+        const privateChannels = await this.channelService.getChannels(
+            userId,
+            false,
+            true
+        );
+        const publicChannels = await this.channelService.getChannels(
+            userId,
+            false,
+            false
+        );
+
+        publicChannels.forEach(async (channel) => {
+            const users = await this.channelUserService.getChannelUsers(
+                channel.id,
+                false
+            );
+            const channelUser = users.find((user) => user.user.id === userId);
+            const user = {
                 id: channelUser.user.id,
                 username: channelUser.user.username,
                 avatar: channelUser.user.avatar,
                 rights: channelUser.rights,
                 channelUserId: channelUser.id,
                 connected: connected,
-				inGame: this.isUserInGame(userId)
+                inGame: this.isUserInGame(userId),
             };
-			server.to("room-" + channel.id).emit("ChannelUser", user);
-		})
+            server.to("room-" + channel.id).emit("ChannelUser", user);
+        });
 
-		privateChannels.forEach(async (channel) => {
-			const users = await this.channelUserService.getChannelUsers(channel.id, false);
-			const channelUser = users.find((user) => user.user.id === userId);
-			const friend = users.find((user) => user.user.id !== userId);
-			const user = {
+        privateChannels.forEach(async (channel) => {
+            const users = await this.channelUserService.getChannelUsers(
+                channel.id,
+                false
+            );
+            const channelUser = users.find((user) => user.user.id === userId);
+            const friend = users.find((user) => user.user.id !== userId);
+            const user = {
                 id: channelUser.user.id,
                 username: channelUser.user.username,
                 avatar: channelUser.user.avatar,
                 rights: channelUser.rights,
                 channelUserId: channelUser.id,
                 connected: connected,
-				inGame: this.isUserInGame(userId)
+                inGame: this.isUserInGame(userId),
             };
-			const all_sockets = await server.sockets.fetchSockets();
-			all_sockets.forEach((socket) => {
-				if (socket.data.user.id === friend.user.id) {
-					server.to(socket.id).emit("PrivateUser", user);
-				}
-			})
+            const all_sockets = await server.sockets.fetchSockets();
+            all_sockets.forEach((socket) => {
+                if (socket.data.user.id === friend.user.id) {
+                    server.to(socket.id).emit("PrivateUser", user);
+                }
+            });
+        });
 
-		})
+        const friends = await this.friendsService.getFriends(userId);
+        friends.forEach(async (friend) => {
+            const friendUser = await this.userService.findUserId(friend.id);
+            const friendFriends = await this.friendsService.getFriends(
+                friend.id
+            );
+            const userBeforeStatut = friendFriends.find((f) => f.id === userId);
+            const user = {
+                ...userBeforeStatut,
+                connected: this.isUserOnline(userId),
+                inGame: this.isUserInGame(userId),
+            };
+            const all_sockets = await server.sockets.fetchSockets();
 
-		const friends = await this.friendsService.getFriends(userId);
-		friends.forEach(async (friend) => {
-			const friendUser = await this.userService.findUserId(friend.id);
-			const friendFriends = await this.friendsService.getFriends(friend.id);
-			const userBeforeStatut = friendFriends.find((f) => f.id === userId);
-			const user = {...userBeforeStatut, connected: this.isUserOnline(userId), inGame: this.isUserInGame(userId)};
-			const all_sockets = await server.sockets.fetchSockets();
+            console.log("updateFriends", user);
+            all_sockets.forEach((socket) => {
+                if (socket.data.user.id === friend.id) {
+                    server.to(socket.id).emit("friend", user);
+                }
+            });
+        });
+    }
 
-			console.log('updateFriends',  user);
-			all_sockets.forEach((socket) => {
-				if (socket.data.user.id === friend.id) {
-					server.to(socket.id).emit("friend", user);
-				}
-			})
-		})
-		
-	}
-
-
-	//  Pong game invitations:
-	// =====================================================
-	async handleInvitation(
+    //  Pong game invitations:
+    // =====================================================
+    async handleInvitation(
         server: Server,
         client: Socket,
         invitation: InvitationDto
@@ -183,9 +198,8 @@ export class GeneralService {
         });
     }
 
-
-	// Utils pong game:
-	// =====================================================
+    // Utils pong game:
+    // =====================================================
     async obtainOpponentSocket(client: Socket, server: Server, room: string) {
         const socks = await server.in(room).fetchSockets();
 

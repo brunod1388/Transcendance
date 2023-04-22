@@ -39,7 +39,7 @@ export interface UserType {
     channelUserId?: number;
     friendId?: number;
     connected?: boolean;
-	inGame?: boolean;
+    inGame?: boolean;
     channelId?: number;
     room?: string;
     muted?: boolean;

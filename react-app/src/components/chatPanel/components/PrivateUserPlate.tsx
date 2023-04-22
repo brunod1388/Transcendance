@@ -75,7 +75,12 @@ export default function PrivateUserPlate(props: Props) {
                             {user.endBlock !== undefined && (
                                 <BlockedIcon endBlock={user.endBlock} />
                             )}
-                            <div className={"connected " + ((user.connected ? (user.inGame? "inGame" : "on") : "off"))} />
+                            <div
+                                className={
+                                    "connected " +
+                                    (user.connected ? (user.inGame ? "inGame" : "on") : "off")
+                                }
+                            />
                         </div>
                     </div>
                     <div className="line">
