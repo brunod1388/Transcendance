@@ -81,6 +81,7 @@
 				height: $icon-size;
 				border-radius: 50%;
 				&.on {background-color: $green-connected;}
+				&.inGame {background-color: red}
 				&.off {background-color: rgba(140, 140, 140, 0.476);}
 			}
 		}

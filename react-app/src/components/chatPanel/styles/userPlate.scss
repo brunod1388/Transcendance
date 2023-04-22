@@ -62,6 +62,7 @@
 				border-radius: 50%;
 				flex-shrink: 0;
 				&.on {background-color: rgb(94, 230, 106);}
+				&.inGame {background-color: red}
 				&.off {background-color: rgba(140, 140, 140, 0.476);}
 			}
 		}

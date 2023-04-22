@@ -29,7 +29,7 @@ export default function UserPlate(props: Props) {
                     <div className="status">
                         {user.endMute !== undefined && <MutedIcon endMute={user.endMute} />}
                         {user.endBlock !== undefined && <BlockedIcon endBlock={user.endBlock} />}
-                        <div className={"connected " + (user.connected ? "on" : "off")} />
+                        <div className={"connected " + ((user.connected ? (user.inGame ? "inGame" : "on") : "off"))} />
                     </div>
                 </div>
             </div>

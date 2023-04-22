@@ -6,7 +6,6 @@ import {
 } from "@nestjs/websockets";
 import { Socket, Server } from "socket.io";
 import { OnModuleInit } from "@nestjs/common";
-import { BroadcastDTO } from "src/general/dto/Broadcast.dto";
 import { GeneralService } from "./general.service";
 import { GameEndDTO } from "src/general/dto/GameEnd.dto";
 import { InvitationDto } from "./dto/invitation.dto";
@@ -31,20 +30,6 @@ interface scoreDto {
     score: Score;
     room: string;
 }
-
-interface recordGameDto {
-    player1: {
-        username: string;
-        score: number;
-        status: string;
-    };
-    player2: {
-        username: string;
-        score: number;
-        status: string;
-    };
-}
-
 interface Ball {
     pos: {
         x: number;
@@ -59,6 +44,23 @@ interface Ball {
 interface BallDto {
     room: string;
     data: Ball;
+}
+
+interface ClassicDTO {
+    room: string;
+    paddle: { x: number; y: number };
+}
+interface Position {
+    x: number;
+    y: number;
+}
+
+interface PingPongDTO {
+    room: string;
+    paddle: {
+        pos: Position;
+        movement: Position;
+    };
 }
 
 enum GameMode {
@@ -106,45 +108,40 @@ export class GeneralGateway implements OnModuleInit {
             }
         });
         this.server.on("connection", (socket: Socket) => {
-            this.generalService.connection(socket);
+            this.generalService.connection(this.server, socket);
             socket.on("disconnect", (reason) => {
-                this.generalService.disconnection(socket, reason);
+                this.generalService.disconnection(this.server, socket, reason);
             });
         });
     }
 
-    // @SubscribeMessage("userLogout")
-    // async handleLogout(@ConnectedSocket() client: Socket) {
-    //     console.log("Logout event handled");
-    //     this.generalService.disconnection(client, "logout");
-    // }
-
     // client's socket join room
     @SubscribeMessage("join")
     handleJoinRoom(client: Socket, room: string) {
+		console.log("join room");
         this.generalService.joinRoom(client, room);
+		this.generalService.addUserInGame(client.data.user.id);
+		this.generalService.updateUserStatus(this.server, client);
     }
 
     // client's socket leave room
     @SubscribeMessage("leave")
     handleLeaveRoom(client: Socket, room: string) {
+		console.log("leaveROom");
         this.generalService.leaveRoom(client, room);
+		this.generalService.removeUserInGame(client.data.user.id);
+		this.generalService.updateUserStatus(this.server, client);
     }
 
-    // @SubscribeMessage("game-join")
-    // handleJoinGame(client: Socket, room: string) {
-    //     this.generalService.gameJoin(this.server, room);
-    // }
+    @SubscribeMessage("game-paddle-classic")
+    handleClassicPaddle(client: Socket, data: ClassicDTO) {
+        client.broadcast.to(data.room).emit("game-paddle", data.paddle);
+    }
 
     // Event to broadcast different event inside a specific room.
-    @SubscribeMessage("game-broadcast")
-    handleBroadcastGame(client: Socket, broadcast: BroadcastDTO) {
-        this.generalService.gameBroadcast(client, broadcast);
-    }
-
-    @SubscribeMessage("game-end")
-    handleGameEnd(client: Socket, gameEndDTO: GameEndDTO) {
-        this.generalService.gameEnd();
+    @SubscribeMessage("game-paddle-pingpong")
+    handlePingPongPaddle(client: Socket, data: PingPongDTO) {
+        client.broadcast.to(data.room).emit("game-paddle", data.paddle);
     }
 
     @SubscribeMessage("invitation")
@@ -156,14 +153,9 @@ export class GeneralGateway implements OnModuleInit {
     handleResponse(client: Socket, response: ResponseDto) {
         this.generalService.handleResponse(this.server, client, response);
     }
-    @SubscribeMessage("joinPong")
-    handleJoinPong(client: Socket, room: string) {
-        this.server.to(room).emit("joinPong");
-    }
 
     @SubscribeMessage("player")
     async handlePlayer(client: Socket, data: pongDTO) {
-        console.log("recieved player", data);
         const socks = await this.server.in(data.room).fetchSockets();
         socks.forEach((socket) => {
             if (socket.id !== client.id) {
@@ -171,9 +163,13 @@ export class GeneralGateway implements OnModuleInit {
             }
         });
     }
+
     @SubscribeMessage("game-player-left")
     handlePlayerLeft(client: Socket, room: string) {
-        client.leave(room);
+        this.generalService.leaveRoom(client, room);
+		console.log("id", client.data.user.id);
+		this.generalService.removeUserInGame(client.data.user.id);
+		this.generalService.updateUserStatus(this.server, client);
         this.server.to(room).emit("game-player-left");
     }
 
@@ -183,11 +179,6 @@ export class GeneralGateway implements OnModuleInit {
             player1: score.score.player1,
             player2: score.score.player2,
         });
-    }
-
-    @SubscribeMessage("record-game")
-    handleRecordGame(client: Socket, record: recordGameDto) {
-        //
     }
 
     @SubscribeMessage("game-ball")

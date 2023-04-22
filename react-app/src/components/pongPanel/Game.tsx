@@ -17,6 +17,7 @@ import { PingPong } from "./PingPong/PingPong";
 import { PongClassic } from "./Classic/Classic";
 import { gameConfig } from "./GameService";
 import { useAuth } from "context";
+import { useSocket } from "hooks";
 interface GameProps {
     onEnd: () => void;
     mode: GameMode;

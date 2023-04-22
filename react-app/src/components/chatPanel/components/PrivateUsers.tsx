@@ -16,6 +16,7 @@ export default function PrivateUsers() {
             setUsers(users);
         });
         socket.on("PrivateUser", (user: UserType) => {
+			console.log("received");
             setUsers((state) => {
                 const chanIndex = state.findIndex((c) => c.channelUserId === user.channelUserId);
                 const newUsers = [...state];

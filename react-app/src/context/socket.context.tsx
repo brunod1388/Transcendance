@@ -26,24 +26,9 @@ export function SocketProvider(props: PropsWithChildren) {
         };
     }, [socket]);
 
-    socket.current.on("users_online", (data: number[]) => {
-        console.log("User ids currently online: ", data);
-    });
-
-    // useEffect(() => {
-    //     socket.current.connect();
-    //     socket.current.on("connect", () => {
-    //         axios.post("http://localhost:3000/clients/online", {
-    //             socketId: socket.current.id,
-    //             username: userAuth.username,
-    //             id: userAuth.id,
-    //         });
-    //     });
-    //     return () => {
-    //         socket.current.off("connect");
-    //         // socket.current.disconnect();
-    //     };
-    // }, []);
-
+    // socket.current.on("users_online", (data: number[]) => {
+    //     console.log("User ids currently online: ", data);
+    // });
+	
     return <SocketContext.Provider value={socket.current}>{props.children}</SocketContext.Provider>;
 }
