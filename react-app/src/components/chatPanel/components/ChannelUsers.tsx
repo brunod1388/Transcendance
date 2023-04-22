@@ -26,7 +26,7 @@ export default function ChannelUsers() {
                     );
                     const newUsers = [...state];
                     chanIndex === -1 ? newUsers.push(user) : (newUsers[chanIndex] = user);
-                    console.log(newUsers)
+                    console.log(newUsers);
                     return newUsers;
                 });
             })
