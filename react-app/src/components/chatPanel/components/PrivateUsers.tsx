@@ -12,11 +12,9 @@ export default function PrivateUsers() {
 
     useEffect(() => {
         socket.emit("getPrivateUsers", (users: UserType[]) => {
-            console.log("PRIVATEUSERS: ", users);
             setUsers(users);
         });
         socket.on("PrivateUser", (user: UserType) => {
-            console.log("received");
             setUsers((state) => {
                 const chanIndex = state.findIndex((c) => c.channelUserId === user.channelUserId);
                 const newUsers = [...state];

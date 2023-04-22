@@ -37,7 +37,6 @@ function Home() {
     const dispatch = useNotificationsDispatch();
     const { userAuth } = useAuth();
     const [PongSwitch, setPongSwitch] = useState<PongData>(() => {
-        console.log("lol");
         return {
             isPong: false,
             data: {

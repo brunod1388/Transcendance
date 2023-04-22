@@ -14,7 +14,6 @@ export default function ChannelUsers() {
 
     useEffect(() => {
         socket.emit("getChannelUsers", { channelId: channel.id }, (users: UserType[]) => {
-            console.log(users);
             setUsers(users);
             const rights = users.find((user) => user.id === userAuth.id)?.rights;
             updateChannel({ ...channel, rights: String(rights) });
@@ -27,6 +26,7 @@ export default function ChannelUsers() {
                     );
                     const newUsers = [...state];
                     chanIndex === -1 ? newUsers.push(user) : (newUsers[chanIndex] = user);
+                    console.log(newUsers)
                     return newUsers;
                 });
             })

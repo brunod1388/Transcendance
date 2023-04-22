@@ -30,7 +30,6 @@ export default function UserMenu(props: Props) {
     const [matchSummary, setMatchSummary] = useState(initialSummary);
 
     useEffect(() => {
-        console.log("userMenu: ", user);
         socket.emit("getMatchSummary", userAuth.id);
         socket.on("matchSummary", (data: MatchSummary) => setMatchSummary(data));
         return () => {
@@ -116,7 +115,7 @@ export default function UserMenu(props: Props) {
         socket.emit(
             "updateRight",
             {
-                channelUser: user.channelUserId,
+                channelUserId: user.channelUserId,
                 rights: rights,
             },
             (res: string) => console.log(res)

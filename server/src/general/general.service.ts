@@ -60,7 +60,6 @@ export class GeneralService {
     }
 
     isUserInGame(userId: number) {
-        console.log(GeneralService.usersInGame);
         return GeneralService.usersInGame.includes(userId);
     }
 
@@ -163,7 +162,6 @@ export class GeneralService {
             };
             const all_sockets = await server.sockets.fetchSockets();
 
-            console.log("updateFriends", user);
             all_sockets.forEach((socket) => {
                 if (socket.data.user.id === friend.id) {
                     server.to(socket.id).emit("friend", user);
