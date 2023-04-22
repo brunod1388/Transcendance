@@ -19,7 +19,7 @@ export class BlockedUserService {
 
     async createBlockedUser(
         blockedUserDetails: CreateBlockedUserDTO
-    ): Promise<BlockedUser> {
+    ): Promise<BlockedUser | undefined> {
         const user = await this.userService.findUserId(
             blockedUserDetails.userId
         );
@@ -81,6 +81,20 @@ export class BlockedUserService {
                 id: true,
                 userID: true,
                 channelID: true,
+                endDate: true,
+            },
+        });
+    }
+
+    // findOne is an async function, must await when calling checkIfBlocked function
+    checkIfBlocked(userID: number, channelID: number) {
+        return this.blockedUserRepo.findOne({
+            where: {
+                userID: userID,
+                channelID: channelID,
+            },
+            select: {
+                id: true,
                 endDate: true,
             },
         });

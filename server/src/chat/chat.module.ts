@@ -11,6 +11,8 @@ import { User } from "src/users/entities/User.entity";
 import { FriendModule } from "src/users/friend/friend.module";
 import { UsersModule } from "src/users/users.module";
 import { GeneralModule } from "src/general/general.module";
+import { BlockedUserModule } from "./blockedUser/blockedUser.module";
+import { MutedUserModule } from "./mutedUser/mutedUser.module";
 
 @Module({
     imports: [
@@ -21,6 +23,8 @@ import { GeneralModule } from "src/general/general.module";
         UsersModule,
         FriendModule,
         GeneralModule,
+        BlockedUserModule,
+        MutedUserModule,
     ],
     controllers: [],
     providers: [ChatGateway, ChannelUserService, ChannelModule],

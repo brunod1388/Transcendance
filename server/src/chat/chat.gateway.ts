@@ -29,6 +29,10 @@ import {
 } from "./dtos/Message.dto";
 import { MessageService } from "./message/message.service";
 import { GeneralService } from "src/general/general.service";
+import { BlockedUserService } from "./blockedUser/blockedUser.service";
+import { MutedUserService } from "./mutedUser/mutedUser.service";
+import { CreateBlockedUserDTO } from "./dtos/BlockedUser.dto";
+import { CreateMutedUserDTO } from "./dtos/MutedUser.dto";
 
 interface InvitationType {
     id: number;
@@ -54,7 +58,9 @@ export class ChatGateway {
         private channelUserService: ChannelUserService,
         private friendService: FriendService,
         private messageService: MessageService,
-        private generalService: GeneralService
+        private generalService: GeneralService,
+        private blockedUserService: BlockedUserService,
+        private mutedUserService: MutedUserService
     ) {}
 
     @SubscribeMessage("test")
@@ -552,5 +558,65 @@ export class ChatGateway {
             invitations.push(channel);
         });
         return invitations;
+    }
+
+    // ========================================================================
+    //                               Block
+    // ========================================================================
+
+    @SubscribeMessage("blockUser")
+    async blockUser(
+        client: Socket, data: CreateBlockedUserDTO,
+    ): Promise<string> {
+        console.log("BLOCKED USER userId: ", data.userId, " channelId: ", data.channelId, " endDate: ", data.endDate);
+        const check = await this.blockedUserService.checkIfBlocked(data.userId, data.channelId);
+        if (check !== undefined) {
+            console.log("Existing block on this user/channel")
+            this.blockedUserService.deleteBlockedUser(check.id);
+        }
+        const blockedUser = await this.blockedUserService.createBlockedUser(
+            data
+        );
+        if (blockedUser === undefined)
+            return (
+                "Failed to block user with ID " +
+                data.userId +
+                " on channel with ID " +
+                data.channelId
+            );
+        return (
+            "User with ID " +
+            data.userId +
+            " has been blocked on channel with ID " +
+            data.channelId
+        );
+    }
+
+    // ========================================================================
+    //                               Mute
+    // ========================================================================
+
+    @SubscribeMessage("muteUser")
+    async muteUser(client: Socket, data: CreateMutedUserDTO): Promise<string> {
+        console.log("MUTED USER userId: ", data.userId, " channelId: ", data.channelId, " endDate: ", data.endDate);
+        const check = await this.mutedUserService.checkIfMuted(data.userId, data.channelId);
+        if (check !== undefined) {
+            console.log("Existing mute on this user/channel")
+            this.mutedUserService.deleteMutedUser(check.id);
+        }
+        const mutedUser = await this.mutedUserService.createMutedUser(data);
+        if (mutedUser === undefined)
+            return (
+                "Failed to mute user with ID " +
+                data.userId +
+                " on channel with ID " +
+                data.channelId
+            );
+        return (
+            "User with ID " +
+            data.userId +
+            " has been muted on channel with ID " +
+            data.channelId
+        );
     }
 }

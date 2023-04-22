@@ -19,7 +19,7 @@ export class MutedUserService {
 
     async createMutedUser(
         MutedUserDetails: CreateMutedUserDTO
-    ): Promise<MutedUser> {
+    ): Promise<MutedUser | undefined> {
         const user = await this.userService.findUserId(MutedUserDetails.userId);
         const channel = await this.channelService.findChannelById(
             MutedUserDetails.channelId
@@ -79,6 +79,20 @@ export class MutedUserService {
                 id: true,
                 userID: true,
                 channelID: true,
+                endDate: true,
+            },
+        });
+    }
+
+    // findOne is an async function, must await when calling checkIfMuted function
+    checkIfMuted(userID: number, channelID: number) {
+        return this.MutedUserRepo.findOne({
+            where: {
+                userID: userID,
+                channelID: channelID,
+            },
+            select: {
+                id: true,
                 endDate: true,
             },
         });

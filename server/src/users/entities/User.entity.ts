@@ -8,6 +8,7 @@ import { ChannelUser } from "../../chat/entities/ChannelUser.entity";
 import { Match } from "src/match/entities/Match.entity";
 import { BlockedUser } from "src/chat/entities/BlockedUser.entity";
 import { MutedUser } from "src/chat/entities/MutedUser.entity";
+import { Exclude } from "class-transformer";
 
 // The name provided here will be used as the table name in the db
 @Entity({ name: "users" })
@@ -30,6 +31,7 @@ export class User {
 
     // If a unique constraint needs to be added, simply use @Column({ unique: true })
     @Column({ nullable: true })
+    @Exclude()
     password: string;
 
     @Column({
@@ -52,6 +54,7 @@ export class User {
 
     // A nullable property allows the field to be null as default if no value is passed (i.e. optional)
     @Column({ nullable: true })
+    @Exclude()
     code2FA: string;
 
     @OneToMany(() => Channel, (channel) => channel.owner)

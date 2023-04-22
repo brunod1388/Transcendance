@@ -77,23 +77,48 @@ export default function UserMenu(props: Props) {
             Date.now() + days * DAY_IN_MS + hours * HOUR_IN_MS + minutes * MIN_IN_MS
         );
         console.log(`d: ${days}, h:${hours}, m:${minutes}`);
-        socket.emit(
-            "createPenality",
-            {
-                penality: {
-                    channelUserId: Number(user.channelUserId),
-                    endDate: endDate,
-                    type: muteOrBlock,
-                },
-            },
-            (res: any) => console.log("res: ", res)
-        );
-        console.log({
-            channelUserId: Number(user.channelUserId),
-            endDate: endDate,
-            type: muteOrBlock,
-        });
-        console.log("mute or block");
+
+        console.log("End date [UserMenu]: ", endDate);
+        console.log("ChannelId [UserMenu]: ", channel.id);
+        console.log("UserId [UserMenu]: ", user.id);
+
+        if (muteOrBlock === "Block") {
+            socket.emit(
+                "blockUser",
+                { channelId: channel.id, userId: user.id, endDate: endDate },
+                (res: any) => {
+                    console.log("BLOCK RESPONSE: ", res);
+                }
+            );
+        }
+
+        if (muteOrBlock === "Mute") {
+            socket.emit(
+                "muteUser",
+                { channelId: channel.id, userId: user.id, endDate: endDate },
+                (res: any) => {
+                    console.log("MUTE RESPONSE: ", res);
+                }
+            );
+        }
+
+        // socket.emit(
+        //     "createPenality",
+        //     {
+        //         penality: {
+        //             channelUserId: Number(user.channelUserId),
+        //             endDate: endDate,
+        //             type: muteOrBlock,
+        //         },
+        //     },
+        //     (res: any) => console.log("res: ", res)
+        // );
+        // console.log({
+        //     channelUserId: Number(user.channelUserId),
+        //     endDate: endDate,
+        //     type: muteOrBlock,
+        // });
+        // console.log("mute or block");
         setIsVisible(false);
     }
 

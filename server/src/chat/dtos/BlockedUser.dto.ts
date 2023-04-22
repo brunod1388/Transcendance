@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString, IsDate } from "class-validator";
 import { User } from "src/users/entities/User.entity";
 import { Channel } from "../entities";
 
@@ -11,9 +11,9 @@ export class CreateBlockedUserDTO {
     @IsNotEmpty()
     userId: number;
 
-    @IsString()
+    @IsDate()
     @IsNotEmpty()
-    endDate: string;
+    endDate: Date;
 }
 
 // Is this necessary??
@@ -26,7 +26,7 @@ export class UpdateBlockedUserDTO {
     @IsNotEmpty()
     userId: number;
 
-    @IsString()
+    @IsDate()
     @IsNotEmpty()
-    endDate: string;
+    endDate: Date;
 }
