@@ -23,7 +23,6 @@ export default function HistoryBoard() {
             <div className="matches-header">
                 <span>Date</span>
                 <span className="score-header">Score</span>
-                <span>Type</span>
             </div>
             <div className="matches">
                 {matches.map((match: Match, index: number) => (

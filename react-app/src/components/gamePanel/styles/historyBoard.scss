@@ -8,6 +8,7 @@
 	overflow: hidden;
 	.matches-header {
 		@extend .flex-row;
+		color: white;
 		justify-content: space-between;
 		align-self: stretch;
 		border-radius: 8px 8px 0 0;
@@ -20,14 +21,11 @@
 			&.score-header {
 				flex-grow: 1;
 			}
-			&:first-child, &:last-child {
+			&:first-child{
 				width: 80px;
 			}
 			&:first-child {
 				justify-content: flex-start;
-			}
-			&:last-child {
-				justify-content: flex-end;
 			}
 			font-size: 20px;
 			filter: $drop-shadow;

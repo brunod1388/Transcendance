@@ -23,7 +23,6 @@ export interface MatchSummary {
     totalLoses: number;
     totalGames: number;
     points: number;
-    league: string;
 }
 
 export const initialSummary: MatchSummary = {
@@ -31,5 +30,4 @@ export const initialSummary: MatchSummary = {
     totalLoses: 0,
     totalGames: 0,
     points: 0,
-    league: "Noob",
 };
