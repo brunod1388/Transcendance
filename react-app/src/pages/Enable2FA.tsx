@@ -71,16 +71,16 @@ function TwoFactorAuthPage({ qrcode }: Props) {
         <div className="form_container">
             <div className="form_wrapper">
                 <span className="logo enable-2FA">Two Factor Authentication</span>
-                <span className="title">
-                    Google Authenticator
-                </span>
+                <span className="title">Google Authenticator</span>
                 <span className="detail">
                     Scan QR with Google Authenticator then input code below{" "}
                 </span>
                 <img alt="" src={qrcode} />
                 <form onSubmit={handleSubmit}>
                     <input name="code" type="text" placeholder="code" />
-                    <button className="button-purple">Verify code and complete two factor activation</button>
+                    <button className="button-purple">
+                        Verify code and complete two factor activation
+                    </button>
                     {error?.response?.status === 403 && <span>Verification code incorrect</span>}
                 </form>
                 <p className="detail">

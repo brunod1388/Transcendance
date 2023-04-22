@@ -47,9 +47,7 @@ function Verify2FA() {
         <div className="form_container">
             <div className="form_wrapper">
                 <span className="logo logo-2FA">Two Factor Authentication</span>
-                <span className="title">
-                    Google Authenticator
-                </span>
+                <span className="title">Google Authenticator</span>
                 <span className="detail">
                     Input verification code from Google Authenticator to login
                 </span>
