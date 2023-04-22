@@ -33,6 +33,18 @@
 			animation: appear 3s;
 			font-family: NatureBeauty;
 			filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.882));
+
+			&.logo-2FA {
+				bottom: 80%;
+				text-align: center;
+				top: unset;
+			}
+
+			&.enable-2FA {
+				bottom: 90%;
+				text-align: center;
+				top: unset;
+			}
 		}
 
 		form{
@@ -107,7 +119,9 @@
 		.title {
 			color: white;
 			font-size: 25px;
-			font-weight: bolder
+			font-weight: bolder;
+			font-family: NatureBeauty;
+			filter: $drop-shadow;
 		}
 
 		.input_container {
@@ -188,6 +202,8 @@
 		.detail {
 			padding-top: 10px;
 			color: #7774bf;
+			color: white;
+			filter: $drop-shadow;
 		}
 
 		.signup_buttons_container {
