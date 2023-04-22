@@ -1,0 +1,31 @@
+@import 'assets/styles/variables.scss';
+@import 'assets/styles/general.scss';
+
+.user-details {
+	@extend .flex-row;
+	flex-wrap: wrap;
+	gap: 5px;
+	background-color: $purple-gray;
+	padding: 7px 5px;
+	border-radius: 5px;
+	box-shadow: $shadow-outset-border;
+	div {
+		@extend .flex-row;
+		justify-content: space-around;
+		span {
+			&:last-child {
+				font-weight: bald;
+				font-size: 15px;
+			}
+		}
+	}
+	div:not(.small) {
+		flex: 1 1 70px;
+		padding: 0 10px;
+		color: white;
+	}
+	.small {
+		flex: 1 1 60px;
+		font-size: 12px;
+	}
+}

@@ -1,5 +1,5 @@
-import { Block } from "assets/images";
 import { dateDiffStr } from "utils/timeFormat.utils";
+import { Block } from "assets/images";
 
 type Props = {
     endBlock: Date;

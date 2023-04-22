@@ -115,9 +115,11 @@
 		margin-top: 10px;
 		max-height: 200px;
 		overflow-y: scroll;
-		width: 240px;
+		width: 280px;
+		height: 150px;
 		border-radius: 5px;
 		background-color: $purple-gray;
+		overflow: scroll;
 		img {
 			$img-size: 30px;
 			height: $img-size;
@@ -130,14 +132,16 @@
 			@extend .flex-row;
 			justify-content: space-between;
 			align-items: center;
-			padding: 5px;
+			padding: 5px 10px;
 			border-radius: 5px;
 			&:hover {
 				background-color: $dark-purple;
 			}
-			span {
+			.channelName {
 				flex-grow: 1;
 				padding: 0 5px;
+				max-width: 150px;
+				overflow: hidden;
 				&::first-letter {
 					text-transform: uppercase;
 				}

@@ -1,8 +1,7 @@
-import UserMenu from "./UserMenu";
-import { NoUserIcon } from "assets/images";
+import { MutedIcon, BlockedIcon, UserMenu } from "components/utils/";
 import { UserPlateType, UserType } from "@customTypes";
 import { useVisible } from "hooks";
-import { MutedIcon, BlockedIcon } from "components/utils/penalityIcon";
+import { NoUserIcon } from "assets/images";
 import "../styles/userPlate.scss";
 
 type Props = {

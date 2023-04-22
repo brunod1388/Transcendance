@@ -20,6 +20,7 @@ interface pongDTO {
         host: false;
         status: string;
         username: null;
+        id: number;
     };
 }
 interface Score {
@@ -149,12 +150,12 @@ export class GeneralGateway implements OnModuleInit {
 
     @SubscribeMessage("invitation")
     handleInvitation(client: Socket, invitation: InvitationDto) {
-        this.server.emit("invitation", invitation);
+        this.generalService.handleInvitation(this.server, client, invitation);
     }
 
     @SubscribeMessage("response")
     handleResponse(client: Socket, response: ResponseDto) {
-        this.server.emit("response", response);
+        this.generalService.handleResponse(this.server, client, response);
     }
     @SubscribeMessage("joinPong")
     handleJoinPong(client: Socket, room: string) {
@@ -162,14 +163,19 @@ export class GeneralGateway implements OnModuleInit {
     }
 
     @SubscribeMessage("player")
-    handlePlayer(client: Socket, data: pongDTO) {
-        console.log("recieved player");
-        client.broadcast.to(data.room).emit("player", data.player);
+    async handlePlayer(client: Socket, data: pongDTO) {
+        console.log("recieved player", data);
+        const socks = await this.server.in(data.room).fetchSockets();
+        socks.forEach((socket) => {
+            if (socket.id !== client.id) {
+                socket.emit("player", data.player);
+            }
+        });
     }
     @SubscribeMessage("game-player-left")
     handlePlayerLeft(client: Socket, room: string) {
-        client.broadcast.to(room).emit("game-player-left");
         client.leave(room);
+        this.server.to(room).emit("game-player-left");
     }
 
     @SubscribeMessage("game-score")

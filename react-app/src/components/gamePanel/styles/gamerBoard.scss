@@ -61,16 +61,16 @@
 		box-shadow: $shadow-outset-border;
 		.username {
 			position: absolute;
-			top: -15px;
-			font-size: 1.7rem;
+			bottom: 140px;
 			color: $purple;
 			filter: $drop-shadow;
 			max-width:130px;
-			word-wrap:break-word;
-			font-family: Alkatra;
-			font-family: NatureBeauty;
 			text-size-adjust: auto;
 			text-align: center;
+			font-size: 35px;
+			font-weight: 200;
+			overflow-wrap: break-word;
+			font-family: Kaushan;
 		}
 		.username::first-letter {
 			text-transform: uppercase;

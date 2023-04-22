@@ -1,7 +1,7 @@
 import { useState } from "react";
 import AddImage from "assets/images/add-image.png";
 import { useSocket } from "hooks";
-import { useAuth } from "context";
+import { Feature, useAuth, useChat, useFeature } from "context";
 import { LockIcon, NoChannelIcon } from "assets/images";
 import { ChannelType } from "@customTypes";
 import "../styles/newChannel.scss";
@@ -14,37 +14,25 @@ interface ChannelProps {
     joinChannel: (channel: ChannelType) => void;
 }
 
-const foundChannels = [
-    { id: 1, name: "channel1", image: NoChannelIcon, type: "channel" },
-    { id: 2, name: "channel2", image: NoChannelIcon, type: "channel" },
-    { id: 3, name: "channel3", image: NoChannelIcon, type: "channel" },
-    { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
-    { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
-    { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
-    { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
-    { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
-    { id: 4, name: "channel4", image: NoChannelIcon, type: "channel" },
-];
-
 function ChannelPlate({ channel, joinChannel }: ChannelProps) {
     return (
         <div className="channel">
-            <img src={channel.image} alt="channel-image" />
-            <span>{channel.name}</span>
+            <img src={channel.image ? channel.image : NoChannelIcon} alt="channel-image" />
+            <span className="channelName">{channel.name}</span>
             <button onClick={() => joinChannel(channel)}> Join </button>
         </div>
     );
 }
 
 export default function NewChannel(props: Props) {
-    const [isPrivate, setIsPrivate] = useState(false);
-    const [socket] = useSocket();
-    const [error, setErrot] = useState(false);
+    const [ isPrivate, setIsPrivate ] = useState(false);
+    const [ socket ] = useSocket();
+    const [ error, setErrot ] = useState(false);
     const { userAuth } = useAuth();
-    const [create, setCreate] = useState(false);
-    // const [foundChannels, setFoundChannels] = useState<ChannelType[]>([]);
-    const [channelName, setChannelName] = useState("");
-
+    const [ create, setCreate ] = useState(false);
+    const [ foundChannels, setFoundChannels] = useState<ChannelType[]>([]);
+    const { updateChannel } = useChat();
+    const { setFeature } = useFeature();
     function handleSubmit(e: any) {
         e.preventDefault();
         const target = e.target;
@@ -69,9 +57,36 @@ export default function NewChannel(props: Props) {
 
     function joinChannel(channel: ChannelType) {
         console.log("join channel:", channel);
-        socket.emit("joinChannel", { channelId: channel.id }, (res?: any) => {
-            if (res === `OK`) props.quitForm();
-            else setErrot(true);
+        socket.emit("joinChannel", { channelId: channel.id }, (res?: ChannelType | string) => {
+            if (res === undefined) return console.log("res is undefined");
+            if (typeof res === "string") return console.log("res: ", res);
+            socket.emit("leaveRoom", {
+                userid: userAuth.id,
+                channelid: channel.id,
+            });
+            updateChannel({
+                id: res.id,
+                name: res.name,
+                type: "channel",
+                image: res.image,
+                room: "room-" + res.id,
+                rights: "normal",
+            });
+            setFeature(Feature.Chat);
+            socket.emit("joinRoom", { userid: userAuth.id, channelid: res.id });
+
+            props.quitForm();
+        });
+    }
+
+    function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
+        const target = e.target;
+        const channelName = target.value;
+        if (channelName === "") return setFoundChannels([]);
+        console.log("channelName: ", channelName);
+        socket.emit("searchChannel", { channelName: channelName }, (res: ChannelType[]) => {
+            setFoundChannels(res);
+            console.log("res: ", res);
         });
     }
 
@@ -149,7 +164,7 @@ export default function NewChannel(props: Props) {
                                     className="search-input"
                                     type="text"
                                     placeholder="Type Channel to join"
-                                    onChange={(e) => setChannelName(e.target.value)}
+                                    onChange={(e) => handleSearch(e)}
                                 />
                             </div>
                             <div className="channel-search">

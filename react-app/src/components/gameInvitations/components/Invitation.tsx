@@ -8,18 +8,17 @@ import {
     ACCEPTED,
     DECLINED,
     CLASSIC,
-    UserType,
 } from "@customTypes";
 import { Socket } from "socket.io-client";
 import { useTimeout } from "hooks";
 import { sendResponse } from "utils";
-import { NoUserIcon } from "assets/images";
+// import { NoUserIcon } from "assets/images";
 import "../styles/gameInvitation.scss";
 
 // const NOTIFICATION_TIMEOUT = 300000000;
 const NOTIFICATION_TIMEOUT = 300000000;
 
-const userTest = { id: 666, username: "username", avatar: NoUserIcon };
+//const userTest = { id: 666, username: "username", avatar: NoUserIcon };
 
 // Create a notification using a reducer
 export const CreateInvitation = (
@@ -48,10 +47,10 @@ interface Props {
     invitation: InvitationDTO;
     socket: Socket;
     onPong: (room: string, gameMode: GameMode, host: boolean) => void;
-    user?: UserType;
+    // user?: UserType;
 }
 // Content of the notification, an invitation to play pong
-function Invitation({ id, invitation, dispatch, socket, onPong, user = userTest }: Props) {
+function Invitation({ id, invitation, dispatch, socket, onPong }: Props) {
     const [isDisplay, setIsDisplay] = useState(true);
 
     // function called when the user interact with the notification or after the timeout is over
@@ -73,8 +72,8 @@ function Invitation({ id, invitation, dispatch, socket, onPong, user = userTest 
         <div className="game-invitation-container">
             <div className="first-line">
                 <div className="user-info">
-                    <img src={user.avatar} alt="avatar" />
-                    <span className="username">{user.username}</span>
+                    <img src={invitation.user?.avatar} alt="avatar" />
+                    <span className="username">{invitation.user?.username}</span>
                 </div>
                 {isDisplay && invitation.type === "pong" && (
                     <div className="invitation-buttons">

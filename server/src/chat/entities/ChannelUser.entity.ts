@@ -9,7 +9,6 @@ import {
 } from "typeorm";
 import { Channel } from "./Channel.entity";
 import { User } from "../../users/entities/User.entity";
-import { Penality } from "./Penality.entity";
 
 export enum rightType {
     NORMAL = "normal",
@@ -32,7 +31,9 @@ export class ChannelUser {
     @ManyToOne(() => User, (user) => user.ownedChannels)
     user: User;
 
-    @ManyToOne(() => Channel, (channel) => channel.owner)
+    @ManyToOne(() => Channel, (channel) => channel.owner, {
+        onDelete: "CASCADE",
+    })
     channel: Channel;
 
     @Column()
@@ -40,8 +41,4 @@ export class ChannelUser {
 
     @Column()
     isPending: boolean;
-
-    @OneToOne(() => Penality, (penality) => penality.channelUser)
-    @JoinTable()
-    penality: Penality;
 }
