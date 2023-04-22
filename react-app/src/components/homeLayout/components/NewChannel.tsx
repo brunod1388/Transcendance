@@ -25,12 +25,12 @@ function ChannelPlate({ channel, joinChannel }: ChannelProps) {
 }
 
 export default function NewChannel(props: Props) {
-    const [ isPrivate, setIsPrivate ] = useState(false);
-    const [ socket ] = useSocket();
-    const [ error, setErrot ] = useState(false);
+    const [isPrivate, setIsPrivate] = useState(false);
+    const [socket] = useSocket();
+    const [error, setErrot] = useState(false);
     const { userAuth } = useAuth();
-    const [ create, setCreate ] = useState(false);
-    const [ foundChannels, setFoundChannels] = useState<ChannelType[]>([]);
+    const [create, setCreate] = useState(false);
+    const [foundChannels, setFoundChannels] = useState<ChannelType[]>([]);
     const { updateChannel } = useChat();
     const { setFeature } = useFeature();
     function handleSubmit(e: any) {

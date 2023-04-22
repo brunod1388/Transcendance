@@ -11,7 +11,13 @@ import { UsersService } from "../users/users.service";
 import { ChannelDto, CreateChannelDto } from "./dtos/Channel.dto";
 import { ChannelService } from "./channel/channel.service";
 import { ChannelUserService } from "./channelUser/channelUsers.service";
-import { Channel, ChannelType, ChannelUser, Message, rightType } from "./entities";
+import {
+    Channel,
+    ChannelType,
+    ChannelUser,
+    Message,
+    rightType,
+} from "./entities";
 import { FriendService } from "src/users/friend/friend.service";
 import { ChannelUserDTO } from "./dtos/ChannelUsers.dto";
 import { FriendDTO } from "src/users/dtos/Friend.dto";
@@ -142,7 +148,7 @@ export class ChatGateway {
             senderId,
             receiverId
         );
-        console.log("TEST channel:", channel)
+        console.log("TEST channel:", channel);
         if (channel !== undefined) return channel;
         const newPrivateChannel = await this.channelService.createChannel({
             ownerId: senderId,
@@ -207,20 +213,17 @@ export class ChatGateway {
 
     @SubscribeMessage("deleteChannel")
     async deleteChannel(
-        @MessageBody("channelId") channelId: number, 
+        @MessageBody("channelId") channelId: number,
         @ConnectedSocket() client: Socket
-    ): Promise<string>
-    {
+    ): Promise<string> {
         const channel = await this.channelService.findChannelById(channelId);
         const user = await this.userService.findUserId(client.data.user.id);
-        if (channel === undefined)
-            return "Channel does not exist"
-        if (user === undefined)
-            return "Can't find userProfile"
+        if (channel === undefined) return "Channel does not exist";
+        if (user === undefined) return "Can't find userProfile";
         if (user.id !== channel.owner.id)
-            return "You don't have the right to delete this channel"
+            return "You don't have the right to delete this channel";
         this.channelService.deleteChannel(channel);
-        return "Channel deleted"
+        return "Channel deleted";
     }
     // ========================================================================
     //                               Channel User
@@ -329,20 +332,23 @@ export class ChatGateway {
         @MessageBody("channelUserId") channelUserId: number,
         @MessageBody("rights") rights: rightType,
         @ConnectedSocket() client: Socket
-    ): Promise<string>
-    {
-        const clientUser = this.channelUserService.findChannelUserById(client.data.user.id);
-        if (clientUser === undefined )
-            return "Client User not found"
+    ): Promise<string> {
+        const clientUser = this.channelUserService.findChannelUserById(
+            client.data.user.id
+        );
+        if (clientUser === undefined) return "Client User not found";
         if ((await clientUser).rights !== rightType.OWNER)
-            return "You don't have the right to do this!"
-        const channelUser = await this.channelUserService.findChannelUserById(channelUserId);
-        if (channelUser === undefined)
-            return "User not Found"
-        this.channelUserService.updateChannelUser({...channelUser, rights: rights})
-        return `${channelUser.user.username} has been updated to ${rights}`
+            return "You don't have the right to do this!";
+        const channelUser = await this.channelUserService.findChannelUserById(
+            channelUserId
+        );
+        if (channelUser === undefined) return "User not Found";
+        this.channelUserService.updateChannelUser({
+            ...channelUser,
+            rights: rights,
+        });
+        return `${channelUser.user.username} has been updated to ${rights}`;
     }
-
 
     // ========================================================================
     //                               FRIEND

@@ -22,12 +22,12 @@ export default function UserMenu(props: Props) {
     const { user } = props;
     const { userAuth } = useAuth();
     const { channel, updateChannel } = useChat();
-    const [ socket ] = useSocket();
-    const [ inviteResponse, setInviteResponse ] = useState("");
+    const [socket] = useSocket();
+    const [inviteResponse, setInviteResponse] = useState("");
     const { setFeature } = useFeature();
-    const [ muteOrBlock, setMuteOrBlock ] = useState<MuteOrBlock>("");
+    const [muteOrBlock, setMuteOrBlock] = useState<MuteOrBlock>("");
     const { ref, isVisible, setIsVisible } = useVisible(false);
-    const [ matchSummary, setMatchSummary ] = useState(initialSummary);
+    const [matchSummary, setMatchSummary] = useState(initialSummary);
 
     useEffect(() => {
         console.log("userMenu: ", user);
@@ -59,14 +59,12 @@ export default function UserMenu(props: Props) {
     }
 
     function privateMessage() {
-        socket.emit(
-            "privateMessage", { receiverId: user.id, }, (res: any) => {
-                console.log("res: ", res);
-                // setFeature(Feature.Private);
-                // updateChannel({
-                //     ...channel,
-            }
-        );
+        socket.emit("privateMessage", { receiverId: user.id }, (res: any) => {
+            console.log("res: ", res);
+            // setFeature(Feature.Private);
+            // updateChannel({
+            //     ...channel,
+        });
     }
 
     function handleMuteOrBlock(e: FormEvent<HTMLFormElement>) {
@@ -115,11 +113,14 @@ export default function UserMenu(props: Props) {
 
     function updateRight(rights: string) {
         console.log();
-        socket.emit("updateRight",{
-            channelUser: user.channelUserId,
-            rights: rights
-        }, (res: string) => console.log(res));
-
+        socket.emit(
+            "updateRight",
+            {
+                channelUser: user.channelUserId,
+                rights: rights,
+            },
+            (res: string) => console.log(res)
+        );
     }
 
     function deleteChannel() {
@@ -136,14 +137,14 @@ export default function UserMenu(props: Props) {
     }
     return (
         <div className="userMenu">
-            {user.id !== userAuth.id && 
+            {user.id !== userAuth.id && (
                 <div className="user-info">
                     <span className="title">User Info</span>
                     <div className="details">
-                        <UserDetails matchSummary={matchSummary} small={true}/>
+                        <UserDetails matchSummary={matchSummary} small={true} />
                     </div>
                 </div>
-            }
+            )}
             {props.type !== "friend" && userAuth.id !== user.id && (
                 <div className="btnContainer">
                     <button
@@ -176,8 +177,9 @@ export default function UserMenu(props: Props) {
                     Direct Message
                 </button>
             )}
-            {(user.friendId !== undefined || userAuth.id !== user.id &&
-                (channel.rights === "admin" || channel.rights === "owner")) && 
+            {(user.friendId !== undefined ||
+                (userAuth.id !== user.id &&
+                    (channel.rights === "admin" || channel.rights === "owner"))) && (
                 <div className="muteAndBlock">
                     <button
                         className="mute button-purple"
@@ -217,7 +219,7 @@ export default function UserMenu(props: Props) {
                         </div>
                     )}
                 </div>
-            }
+            )}
             {props.type === "channelUser" &&
                 userAuth.id !== user.id &&
                 (channel.rights === "admin" || channel.rights === "owner") && (

@@ -32,7 +32,7 @@ export default function PrivateUsers() {
         <div className="private-users">
             <div className="users">
                 {users.map((user, i) => (
-                    <PrivateUserPlate user={user} type="privateUser" key={`${i}`}/>
+                    <PrivateUserPlate user={user} type="privateUser" key={`${i}`} />
                 ))}
             </div>
         </div>
