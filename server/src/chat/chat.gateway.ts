@@ -236,7 +236,8 @@ export class ChatGateway {
 
     @SubscribeMessage("getChannelUsers")
     async getChannelUsers(
-        @MessageBody("channelId") channelId: number
+        @MessageBody("channelId") channelId: number,
+        @ConnectedSocket() client: Socket,
     ): Promise<UserDTO[]> {
         const channel = await this.channelService.findChannelById(channelId);
         const users = (
@@ -253,7 +254,17 @@ export class ChatGateway {
                 .has(channelUser.user.id),
             //connected: this.onlineUsers.has(channelUser.user.id),
         }));
-        return users;
+        if (channel.owner.id === client.data.user.id)
+            return users;
+        const blocked = await this.blockedUserService.getBlockedUsers(
+            channelId
+        );
+        const blockedID = [];
+        blocked.forEach((element) => {
+            blockedID.push(element.userID);
+        });
+        const filteredUsers = users.filter((user) => !blockedID.includes(Number(user.id)));
+        return filteredUsers;
     }
 
     @SubscribeMessage("inviteChannelUser")
@@ -566,12 +577,24 @@ export class ChatGateway {
 
     @SubscribeMessage("blockUser")
     async blockUser(
-        client: Socket, data: CreateBlockedUserDTO,
+        client: Socket,
+        data: CreateBlockedUserDTO
     ): Promise<string> {
-        console.log("BLOCKED USER userId: ", data.userId, " channelId: ", data.channelId, " endDate: ", data.endDate);
-        const check = await this.blockedUserService.checkIfBlocked(data.userId, data.channelId);
+        console.log(
+            "BLOCKED USER userId: ",
+            data.userId,
+            " channelId: ",
+            data.channelId,
+            " endDate: ",
+            data.endDate
+        );
+        const check = await this.blockedUserService.checkIfBlocked(
+            data.userId,
+            data.channelId
+        );
         if (check !== undefined) {
-            console.log("Existing block on this user/channel")
+            console.log("Check blocked users: ", check);
+            console.log("Existing block on this user/channel");
             this.blockedUserService.deleteBlockedUser(check.id);
         }
         const blockedUser = await this.blockedUserService.createBlockedUser(
@@ -598,10 +621,20 @@ export class ChatGateway {
 
     @SubscribeMessage("muteUser")
     async muteUser(client: Socket, data: CreateMutedUserDTO): Promise<string> {
-        console.log("MUTED USER userId: ", data.userId, " channelId: ", data.channelId, " endDate: ", data.endDate);
-        const check = await this.mutedUserService.checkIfMuted(data.userId, data.channelId);
+        console.log(
+            "MUTED USER userId: ",
+            data.userId,
+            " channelId: ",
+            data.channelId,
+            " endDate: ",
+            data.endDate
+        );
+        const check = await this.mutedUserService.checkIfMuted(
+            data.userId,
+            data.channelId
+        );
         if (check !== undefined) {
-            console.log("Existing mute on this user/channel")
+            console.log("Existing mute on this user/channel");
             this.mutedUserService.deleteMutedUser(check.id);
         }
         const mutedUser = await this.mutedUserService.createMutedUser(data);

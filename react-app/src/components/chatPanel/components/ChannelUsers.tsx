@@ -14,6 +14,7 @@ export default function ChannelUsers() {
 
     useEffect(() => {
         socket.emit("getChannelUsers", { channelId: channel.id }, (users: UserType[]) => {
+            console.log("Socket emit return value: ", users);
             console.log(users);
             setUsers(users);
             const rights = users.find((user) => user.id === userAuth.id)?.rights;

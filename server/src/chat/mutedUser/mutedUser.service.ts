@@ -39,9 +39,8 @@ export class MutedUserService {
         }
     }
 
-    // find is an async function, must await when calling getMutedUsers function
-    getMutedUsers(channelId: number) {
-        return this.MutedUserRepo.find({
+    async getMutedUsers(channelId: number): Promise<MutedUser[] | undefined> {
+        const ret = await this.MutedUserRepo.find({
             where: {
                 channelID: channelId,
             },
@@ -52,11 +51,11 @@ export class MutedUserService {
                 endDate: true,
             },
         });
+        return ret;
     }
 
-    // findOne is an async function, must await when calling findMutedUserByID function
-    findMutedUserByID(MutedUserID: number) {
-        return this.MutedUserRepo.findOne({
+    async findMutedUserByID(MutedUserID: number): Promise<MutedUser | undefined> {
+        const ret = await this.MutedUserRepo.findOne({
             where: {
                 id: MutedUserID,
             },
@@ -67,11 +66,11 @@ export class MutedUserService {
                 endDate: true,
             },
         });
+        return ret;
     }
 
-    // find is an async function, must await when calling getMutedUsersByUserID function
-    getMutedUsersByUserID(userID: number) {
-        return this.MutedUserRepo.find({
+    async getMutedUsersByUserID(userID: number): Promise<MutedUser[] | undefined> {
+        const ret = await this.MutedUserRepo.find({
             where: {
                 userID: userID,
             },
@@ -82,11 +81,11 @@ export class MutedUserService {
                 endDate: true,
             },
         });
+        return ret;
     }
 
-    // findOne is an async function, must await when calling checkIfMuted function
-    checkIfMuted(userID: number, channelID: number) {
-        return this.MutedUserRepo.findOne({
+    async checkIfMuted(userID: number, channelID: number): Promise<MutedUser | undefined> {
+        const ret = await this.MutedUserRepo.findOne({
             where: {
                 userID: userID,
                 channelID: channelID,
@@ -96,6 +95,7 @@ export class MutedUserService {
                 endDate: true,
             },
         });
+        return ret;
     }
 
     async deleteMutedUser(id: number): Promise<string> {

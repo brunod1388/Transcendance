@@ -41,9 +41,9 @@ export class BlockedUserService {
         }
     }
 
-    // find is an async function, must await when calling getBlockedUsers function
-    getBlockedUsers(channelId: number) {
-        return this.blockedUserRepo.find({
+    
+    async getBlockedUsers(channelId: number): Promise<BlockedUser[] | undefined> {
+        const ret = await this.blockedUserRepo.find({
             where: {
                 channelID: channelId,
             },
@@ -54,11 +54,11 @@ export class BlockedUserService {
                 endDate: true,
             },
         });
+        return ret;
     }
 
-    // findOne is an async function, must await when calling findBlockedUserByID function
-    findBlockedUserByID(blockedUserID: number) {
-        return this.blockedUserRepo.findOne({
+    async findBlockedUserByID(blockedUserID: number): Promise<BlockedUser | undefined> {
+        const ret = await this.blockedUserRepo.findOne({
             where: {
                 id: blockedUserID,
             },
@@ -69,11 +69,11 @@ export class BlockedUserService {
                 endDate: true,
             },
         });
+        return ret;
     }
 
-    // find is an async function, must await when calling getBlockedUsersByUserID function
-    getBlockedUsersByUserID(userID: number) {
-        return this.blockedUserRepo.find({
+    async getBlockedUsersByUserID(userID: number): Promise<BlockedUser[] | undefined> {
+        const ret = await this.blockedUserRepo.find({
             where: {
                 userID: userID,
             },
@@ -84,11 +84,12 @@ export class BlockedUserService {
                 endDate: true,
             },
         });
+        return ret;
     }
 
-    // findOne is an async function, must await when calling checkIfBlocked function
-    checkIfBlocked(userID: number, channelID: number) {
-        return this.blockedUserRepo.findOne({
+
+    async checkIfBlocked(userID: number, channelID: number): Promise<BlockedUser | undefined> {
+        const ret = await this.blockedUserRepo.findOne({
             where: {
                 userID: userID,
                 channelID: channelID,
@@ -98,6 +99,7 @@ export class BlockedUserService {
                 endDate: true,
             },
         });
+        return ret;
     }
 
     async deleteBlockedUser(id: number): Promise<string> {
