@@ -2,6 +2,20 @@
 @import "assets/styles/general.scss";
 
 $avatar-size: 30px;
+
+@keyframes pulse {
+	$pulse-color-max: #7674bfd8;
+	$pulse-color-zero: #7674bf00;
+	0% {
+		box-shadow: 0 0 0 0 $pulse-color-max;
+	}
+	70% {
+		box-shadow: 0 0 0 8px $pulse-color-zero;
+	}
+	100% {
+		box-shadow: 0 0 0 0 $pulse-color-zero;
+	}
+}
 .hero {
 	@extend .flex-row;
 	padding: 0 10px;
@@ -11,7 +25,15 @@ $avatar-size: 30px;
 		border-radius: 50%;
 		cursor: pointer;
 		object-fit: cover;
+		transition: 0.5s;
 	}
+	.pulse {
+		&:hover {
+			// transform: scale(1.1);
+			animation: pulse 0.8s infinite;
+		}
+}
+		
 	.hero-menu-wrap {
 		@extend .floating-menu;
 		.menu {
@@ -37,23 +59,6 @@ $avatar-size: 30px;
 				&::first-letter {
 					text-transform: uppercase;
 				}
-			}
-		}
-
-		.user-details {
-			@extend .flex-row;
-			flex-wrap: wrap;
-			gap: 5px;
-			background-color: $purple-gray;
-			padding: 7px 5px;
-			border-radius: 5px;
-			box-shadow: $shadow-outset-border;
-			div {
-				@extend .flex-row;
-				justify-content: space-around;
-				flex: 1 1 70px;
-				padding: 0 10px;
-				color: white;
 			}
 		}
 

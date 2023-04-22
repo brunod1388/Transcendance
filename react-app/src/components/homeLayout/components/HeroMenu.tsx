@@ -8,6 +8,7 @@ import { LogoutIcon, NoUserIcon, SettingIcon } from "assets/images";
 import { useSocket, useVisible } from "hooks";
 import { MatchSummary, initialSummary } from "@customTypes/match.types";
 import "../styles/heromenu.scss";
+import UserDetails from "components/utils/components/UserDetails";
 
 export default function HeroMenu() {
     const navigate = useNavigate();
@@ -44,7 +45,7 @@ export default function HeroMenu() {
     return (
         <div className="hero" ref={ref}>
             <img
-                className="avatar"
+                className="avatar pulse"
                 src={avatar ? avatar : NoUserIcon}
                 onClick={() => setIsVisible(!isVisible)}
                 alt=""
@@ -56,23 +57,7 @@ export default function HeroMenu() {
                             <img className="avatar" src={avatar ? avatar : NoUserIcon} alt="" />
                             <span className="username">{userAuth.username}</span>
                         </div>
-                        <div className="user-details">
-                            <div>
-                                <span>Wins</span> <span>{matchSummary.totalWins}</span>
-                            </div>
-                            <div>
-                                <span>Losses</span> <span>{matchSummary.totalLoses}</span>
-                            </div>
-                            <div>
-                                <span>Total</span> <span>{matchSummary.totalGames}</span>
-                            </div>
-                            <div>
-                                <span>Points</span> <span>{matchSummary.points}</span>
-                            </div>
-                            <div>
-                                <span>League</span> <span>{matchSummary.league}</span>
-                            </div>
-                        </div>
+                        <UserDetails matchSummary={matchSummary} />
                         <div className="menu">
                             <div className="button-wrap">
                                 <MenuButton

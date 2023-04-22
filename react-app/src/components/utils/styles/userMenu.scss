@@ -16,7 +16,7 @@
 	gap: 7px;
 	border-radius: 8px;
 	padding: 8px;
-	
+	position: relative;
 	.red-button {
 		background-color: #d4495c;
 		&:hover {
@@ -25,7 +25,7 @@
 		}
 	}
 	button {
-		width: 63px;
+		width: 65px;
 		border-radius: 5px;
 		padding: 2px;
 		box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.686);
@@ -36,7 +36,28 @@
 	.askFriend {
 		z-index: 1;
 	}
-	position: relative;
+	transition: 1s;
+	.user-info {
+		transition: 0.5s;
+		.title {
+			color: $purple;
+			font-size: 14px;
+			width: 100%;
+		}
+		.details {
+			height: 0px;
+			overflow: hidden;
+			opacity: 0;
+			transition: 1s;
+		}
+		&:hover {
+			.details {
+				height: 100%;
+				overflow: visible;
+				opacity: 1;
+			}
+		}
+	}
 	.message {
 		background-color: pink;
 		padding: 5px;

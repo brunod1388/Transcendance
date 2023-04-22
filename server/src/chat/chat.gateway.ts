@@ -11,7 +11,7 @@ import { UsersService } from "../users/users.service";
 import { ChannelDto, CreateChannelDto } from "./dtos/Channel.dto";
 import { ChannelService } from "./channel/channel.service";
 import { ChannelUserService } from "./channelUser/channelUsers.service";
-import { ChannelType, ChannelUser, Message, rightType } from "./entities";
+import { Channel, ChannelType, ChannelUser, Message, rightType } from "./entities";
 import { FriendService } from "src/users/friend/friend.service";
 import { ChannelUserDTO } from "./dtos/ChannelUsers.dto";
 import { FriendDTO } from "src/users/dtos/Friend.dto";
@@ -134,15 +134,15 @@ export class ChatGateway {
 
     @SubscribeMessage("privateMessage")
     async privateMessage(
-        @MessageBody("senderId") senderId: number,
         @MessageBody("receiverId") receiverId: number,
         @ConnectedSocket() client: Socket
-    ) {
-        const userId = client.data.user.id;
+    ): Promise<ChannelDto> {
+        const senderId = client.data.user.id;
         const channel = await this.channelService.getPrivateChannel(
             senderId,
             receiverId
         );
+        console.log("TEST channel:", channel)
         if (channel !== undefined) return channel;
         const newPrivateChannel = await this.channelService.createChannel({
             ownerId: senderId,
@@ -156,12 +156,12 @@ export class ChatGateway {
             rights: rightType.ADMIN,
             isPending: false,
         };
-        this.channelUserService.createChannelUser(senderChannelUser);
+        await this.channelUserService.createChannelUser(senderChannelUser);
         const receiverChannelUser = {
             ...senderChannelUser,
             userId: receiverId,
         };
-        this.channelUserService.createChannelUser(receiverChannelUser);
+        await this.channelUserService.createChannelUser(receiverChannelUser);
         return newPrivateChannel;
     }
 
@@ -323,6 +323,26 @@ export class ChatGateway {
             .emit("RemoveChannelUser", channelUser.id);
         return await this.channelUserService.deleteChannelUser(Number(id));
     }
+
+    @SubscribeMessage("updateRight")
+    async makeAdmin(
+        @MessageBody("channelUserId") channelUserId: number,
+        @MessageBody("rights") rights: rightType,
+        @ConnectedSocket() client: Socket
+    ): Promise<string>
+    {
+        const clientUser = this.channelUserService.findChannelUserById(client.data.user.id);
+        if (clientUser === undefined )
+            return "Client User not found"
+        if ((await clientUser).rights !== rightType.OWNER)
+            return "You don't have the right to do this!"
+        const channelUser = await this.channelUserService.findChannelUserById(channelUserId);
+        if (channelUser === undefined)
+            return "User not Found"
+        this.channelUserService.updateChannelUser({...channelUser, rights: rights})
+        return `${channelUser.user.username} has been updated to ${rights}`
+    }
+
 
     // ========================================================================
     //                               FRIEND

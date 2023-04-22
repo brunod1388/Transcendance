@@ -41,5 +41,9 @@ $invitation-size: 15px;
 		@extend .flex-row;
 		gap: 5px;
 		position: relative;
+		.topbar-username {
+			font-family: Kaushan;
+			font-size: 25px;
+		}
 	}
 }

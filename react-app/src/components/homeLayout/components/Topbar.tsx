@@ -63,6 +63,7 @@ function Topbar() {
                     Test
                 </button>
                 <span style={{ color: "red" }}>{userAuth.id}</span> <Invitations />
+                <span className="topbar-username">{userAuth.username}</span>
                 <HeroMenu />
             </div>
         </div>
