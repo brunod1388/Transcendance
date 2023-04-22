@@ -69,7 +69,7 @@ export default function PrivateUserPlate(props: Props) {
                 <img src={user.avatar === "" ? NoUserIcon : user.avatar} alt="avatar" />
                 <div className="details">
                     <div className="line">
-                        <span className="username">dsadadadasdadsadadadasd{user.username}</span>
+                        <span className="username">{user.username}</span>
                         <div className="status">
                             {user.endMute !== undefined && <MutedIcon endMute={user.endMute} />}
                             {user.endBlock !== undefined && (

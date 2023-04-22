@@ -21,7 +21,6 @@ $invitation-size: 15px;
 			flex-shrink: 0;
 			border-radius: 50%;
 			object-fit: cover;
-
 			&.icon {
 				filter: $filter-purple;
 				border-radius: 0;
@@ -31,8 +30,7 @@ $invitation-size: 15px;
 		.channelName {
 			font-size:30px;
 			padding: 0px;
-			font-family: NatureBeauty;
-			font-family: Alkatra;
+			font-family: Kaushan;
 			padding-left: 5px;
 			&:first-letter {
 				text-transform: uppercase;

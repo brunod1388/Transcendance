@@ -36,9 +36,10 @@
 			vertical-align: middle;
 			max-width: 77px;
 			height: 15px;
-			font-size: 14px;
+			font-size: 15px;
 			font-weight: 500;
 			overflow: hidden;
+			font-family: Kaushan;
 			&:first-letter {
 				text-transform: uppercase;
 			}
@@ -65,9 +66,11 @@
 		border-radius: 20px 10px 10px 10px;
 		background: none;
 		background-color: $dark-grey;
+		.avatar {
+			align-self: flex-start
+		}
 		.details {
 			@extend .flex-column;
-			gap: 6px;
 		}
 		.username {
 			color: $purple;
@@ -77,6 +80,8 @@
 			font-weight: 900;
 			font-size: 20px;
 			height: 28px;
+			padding-top: 5px;
+			filter: $drop-shadow;
 			&::first-letter {
 				text-transform: uppercase;
 			}
