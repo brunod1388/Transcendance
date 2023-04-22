@@ -33,7 +33,6 @@ export class User {
     password: string;
 
     @Column({
-        //default: "http://localhost:3000/users/avatar/default_avatar.jpg",
         default:
             process.env.REACT_APP_BACKEND_URL +
             "/users/avatar/default_avatar.jpg",

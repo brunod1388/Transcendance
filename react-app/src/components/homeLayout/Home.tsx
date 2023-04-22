@@ -45,7 +45,6 @@ function Home() {
         host: false,
     });
 
-    //window.history.pushState({}, "", "http://localhost:9000/home");
     window.history.pushState({}, "", process.env.REACT_APP_FRONTEND_URL + "/home");
 
     const onPong = (room: string, mode: GameMode, host: boolean) => {

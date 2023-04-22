@@ -2,9 +2,6 @@ import { Socket } from "socket.io-client";
 import { ResponseDTO } from "@customTypes";
 import { createId } from "./notifications.utils";
 
-// const invitation_url = `http://localhost:3000/game/invitation`;
-// const response_url = `http://localhost:3000/game/response`;
-
 interface InvitationType {
     type: string;
     from: number;

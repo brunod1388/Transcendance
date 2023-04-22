@@ -210,12 +210,10 @@ export class AuthController {
         //res.setHeader("Access-Control-Allow-Origin", "*");
 
         if (req.user.enable2FA) {
-            //return res.redirect("http://localhost:9000/verify2fa");
             return res.redirect(
                 process.env.REACT_APP_FRONTEND_URL + "/verify2fa"
             );
         }
-        //return res.redirect("http://localhost:9000/home");
         return res.redirect(process.env.REACT_APP_FRONTEND_URL + "/home");
     }
 }

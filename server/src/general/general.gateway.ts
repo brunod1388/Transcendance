@@ -71,7 +71,6 @@ interface GameModeDTO {
 }
 @WebSocketGateway({
     cors: {
-        //origin: ["http://localhost:9000"],
         origin: [process.env.REACT_APP_FRONTEND_URL],
     },
 })
