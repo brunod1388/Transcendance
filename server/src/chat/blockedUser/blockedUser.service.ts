@@ -41,8 +41,9 @@ export class BlockedUserService {
         }
     }
 
-    
-    async getBlockedUsers(channelId: number): Promise<BlockedUser[] | undefined> {
+    async getBlockedUsers(
+        channelId: number
+    ): Promise<BlockedUser[] | undefined> {
         const ret = await this.blockedUserRepo.find({
             where: {
                 channelID: channelId,
@@ -57,7 +58,9 @@ export class BlockedUserService {
         return ret;
     }
 
-    async findBlockedUserByID(blockedUserID: number): Promise<BlockedUser | undefined> {
+    async findBlockedUserByID(
+        blockedUserID: number
+    ): Promise<BlockedUser | undefined> {
         const ret = await this.blockedUserRepo.findOne({
             where: {
                 id: blockedUserID,
@@ -72,7 +75,9 @@ export class BlockedUserService {
         return ret;
     }
 
-    async getBlockedUsersByUserID(userID: number): Promise<BlockedUser[] | undefined> {
+    async getBlockedUsersByUserID(
+        userID: number
+    ): Promise<BlockedUser[] | undefined> {
         const ret = await this.blockedUserRepo.find({
             where: {
                 userID: userID,
@@ -87,8 +92,10 @@ export class BlockedUserService {
         return ret;
     }
 
-
-    async checkIfBlocked(userID: number, channelID: number): Promise<BlockedUser | undefined> {
+    async checkIfBlocked(
+        userID: number,
+        channelID: number
+    ): Promise<BlockedUser | undefined> {
         const ret = await this.blockedUserRepo.findOne({
             where: {
                 userID: userID,
@@ -102,8 +109,7 @@ export class BlockedUserService {
         return ret;
     }
 
-    async deleteBlockedUser(id: number): Promise<string> {
-        await this.blockedUserRepo.delete({ id });
-        return `blockedUser ${id} deleted`;
+    async deleteBlockedUser(id: number) {
+        return await this.blockedUserRepo.delete({ id: id });
     }
 }

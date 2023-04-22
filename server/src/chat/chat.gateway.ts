@@ -125,13 +125,27 @@ export class ChatGateway {
     async getChannels(
         @MessageBody("userid") userid: number,
         @MessageBody("isPending") isPending: boolean,
-        @MessageBody("isPrivate") isPrivate: boolean
+        @MessageBody("isPrivate") isPrivate: boolean,
+        @ConnectedSocket() client: Socket
     ) {
-        return await this.channelService.getChannels(
+        const channels = await this.channelService.getChannels(
             userid,
             isPending,
             isPrivate
         );
+        const blocked = await this.blockedUserService.getBlockedUsersByUserID(
+            userid
+        );
+        const blockedID = [];
+        const now = new Date(Date.now());
+        blocked.forEach((element) => {
+            if (element.endDate > now) blockedID.push(Number(element.userID));
+        });
+        if (blockedID.includes(Number(client.data.user.id)) === false) return channels;
+        const filteredChannels = channels.filter(
+            (channels) => !blockedID.includes(Number(channels.id))
+        );
+        return filteredChannels;
     }
 
     @SubscribeMessage("getPrivateUsers")
@@ -237,7 +251,7 @@ export class ChatGateway {
     @SubscribeMessage("getChannelUsers")
     async getChannelUsers(
         @MessageBody("channelId") channelId: number,
-        @ConnectedSocket() client: Socket,
+        @ConnectedSocket() client: Socket
     ): Promise<UserDTO[]> {
         const channel = await this.channelService.findChannelById(channelId);
         const users = (
@@ -254,16 +268,24 @@ export class ChatGateway {
                 .has(channelUser.user.id),
             //connected: this.onlineUsers.has(channelUser.user.id),
         }));
-        if (channel.owner.id === client.data.user.id)
-            return users;
         const blocked = await this.blockedUserService.getBlockedUsers(
             channelId
         );
         const blockedID = [];
-        blocked.forEach((element) => {
-            blockedID.push(element.userID);
-        });
-        const filteredUsers = users.filter((user) => !blockedID.includes(Number(user.id)));
+        const now = new Date(Date.now());
+        if (blocked !== undefined && blocked !== null) {
+            blocked.forEach((element) => {
+                if (element.endDate > now) blockedID.push(Number(element.userID));
+            });
+        }
+        console.log("Blocked users in getChannelUsers: ", blockedID);
+        console.log("UserID emitted getChannelUsers: ", client.data.user.id);
+        console.log("Include check: ", blockedID.includes(Number(client.data.user.id)));
+        if (blockedID.includes(Number(client.data.user.id)) === false) return users;
+        const filteredUsers = users.filter(
+            (user) => !blockedID.includes(Number(user.id))
+        );
+        console.log("Filtered users in getChannelUsers ", filteredUsers);
         return filteredUsers;
     }
 
@@ -483,6 +505,22 @@ export class ChatGateway {
         const channel = await this.channelService.findChannelById(
             messageDTO.channelId
         );
+        const blocked = await this.blockedUserService.checkIfBlocked(
+            messageDTO.userId,
+            messageDTO.channelId
+        );
+        const muted = await this.mutedUserService.checkIfMuted(
+            messageDTO.userId,
+            messageDTO.channelId
+        );
+        const now = new Date(Date.now());
+        if (
+            (blocked !== undefined &&
+                blocked !== null &&
+                blocked.endDate > now) ||
+            (muted !== undefined && muted !== null && muted.endDate > now)
+        )
+            return "user is muted/blocked";
         const newMessage = await this.messageService.createMessage(
             user,
             channel,
@@ -580,22 +618,12 @@ export class ChatGateway {
         client: Socket,
         data: CreateBlockedUserDTO
     ): Promise<string> {
-        console.log(
-            "BLOCKED USER userId: ",
-            data.userId,
-            " channelId: ",
-            data.channelId,
-            " endDate: ",
-            data.endDate
-        );
         const check = await this.blockedUserService.checkIfBlocked(
             data.userId,
             data.channelId
         );
-        if (check !== undefined) {
-            console.log("Check blocked users: ", check);
-            console.log("Existing block on this user/channel");
-            this.blockedUserService.deleteBlockedUser(check.id);
+        if (check !== undefined && check !== null) {
+            await this.blockedUserService.deleteBlockedUser(Number(check.id));
         }
         const blockedUser = await this.blockedUserService.createBlockedUser(
             data
@@ -621,21 +649,12 @@ export class ChatGateway {
 
     @SubscribeMessage("muteUser")
     async muteUser(client: Socket, data: CreateMutedUserDTO): Promise<string> {
-        console.log(
-            "MUTED USER userId: ",
-            data.userId,
-            " channelId: ",
-            data.channelId,
-            " endDate: ",
-            data.endDate
-        );
         const check = await this.mutedUserService.checkIfMuted(
             data.userId,
             data.channelId
         );
-        if (check !== undefined) {
-            console.log("Existing mute on this user/channel");
-            this.mutedUserService.deleteMutedUser(check.id);
+        if (check !== undefined && check !== null) {
+            await this.mutedUserService.deleteMutedUser(Number(check.id));
         }
         const mutedUser = await this.mutedUserService.createMutedUser(data);
         if (mutedUser === undefined)

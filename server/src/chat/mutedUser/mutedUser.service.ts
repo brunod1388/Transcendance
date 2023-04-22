@@ -54,7 +54,9 @@ export class MutedUserService {
         return ret;
     }
 
-    async findMutedUserByID(MutedUserID: number): Promise<MutedUser | undefined> {
+    async findMutedUserByID(
+        MutedUserID: number
+    ): Promise<MutedUser | undefined> {
         const ret = await this.MutedUserRepo.findOne({
             where: {
                 id: MutedUserID,
@@ -69,7 +71,9 @@ export class MutedUserService {
         return ret;
     }
 
-    async getMutedUsersByUserID(userID: number): Promise<MutedUser[] | undefined> {
+    async getMutedUsersByUserID(
+        userID: number
+    ): Promise<MutedUser[] | undefined> {
         const ret = await this.MutedUserRepo.find({
             where: {
                 userID: userID,
@@ -84,7 +88,10 @@ export class MutedUserService {
         return ret;
     }
 
-    async checkIfMuted(userID: number, channelID: number): Promise<MutedUser | undefined> {
+    async checkIfMuted(
+        userID: number,
+        channelID: number
+    ): Promise<MutedUser | undefined> {
         const ret = await this.MutedUserRepo.findOne({
             where: {
                 userID: userID,
@@ -98,8 +105,7 @@ export class MutedUserService {
         return ret;
     }
 
-    async deleteMutedUser(id: number): Promise<string> {
-        await this.MutedUserRepo.delete({ id });
-        return `mutedUser ${id} deleted`;
+    async deleteMutedUser(id: number) {
+        return await this.MutedUserRepo.delete({ id: id });
     }
 }
