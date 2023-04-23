@@ -3,6 +3,7 @@ import { DispatchType, ResponseDTO, GameMode, CLASSIC } from "@customTypes";
 import { useState } from "react";
 import { Socket } from "socket.io-client";
 import { useTimeout } from "hooks";
+import { NoUserIcon } from "assets/images";
 
 const INVITATION_TIMEOUT = 1000000;
 // const INVITATION_TIMEOUT = 3000;
@@ -45,19 +46,37 @@ function Response({ id, response, dispatch, socket, onPong }: Props) {
     return (
         <div className="game-invitation-container">
             {isDisplay && response.type === "pong" && response.statut <= 0 && (
-                <div>{response.username} declined the invitation.</div>
+                <div className="response-container">
+                    <div className="first-line">
+                        <div className="user-info">
+                            <img src={NoUserIcon} alt="" />
+                            <span className="username">{response.username}</span>
+                        </div>
+                    </div>
+                    <div className="second-line">
+                        <span className="message">declined the invitation.</span>
+                    </div>
+                </div>
             )}
             {isDisplay && response.type === "pong" && response.statut > 0 && (
-                <div>
-                    {response.username} accepted the invitation.
-                    <button
-                        onClick={() => {
-                            onPong(response.room, CLASSIC, true);
-                            onClose();
-                        }}
-                    >
-                        JOIN
-                    </button>
+                <div className="response-container">
+                    <div className="first-line">
+                        <div className="user-info">
+                            <img src={NoUserIcon} alt="" />
+                            <span className="username">{response.username}</span>
+                        </div>
+                    </div>
+                    <div className="second-line">
+                        <span className="message">accepted the invitation.</span>
+                        <button
+                            onClick={() => {
+                                onPong(response.room, CLASSIC, true);
+                                onClose();
+                            }}
+                            >
+                            JOIN
+                        </button>
+                    </div>
                 </div>
             )}
         </div>

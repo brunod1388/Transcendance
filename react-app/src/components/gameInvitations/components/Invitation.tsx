@@ -12,7 +12,6 @@ import {
 import { Socket } from "socket.io-client";
 import { useTimeout } from "hooks";
 import { sendResponse } from "utils";
-// import { NoUserIcon } from "assets/images";
 import "../styles/gameInvitation.scss";
 
 // const NOTIFICATION_TIMEOUT = 300000000;
