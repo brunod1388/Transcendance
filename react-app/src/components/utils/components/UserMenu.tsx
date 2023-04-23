@@ -1,11 +1,11 @@
+import { MatchSummary, initialSummary } from "@customTypes/match.types";
+import { Feature, useAuth, useChat, useFeature } from "context";
 import { FormEvent, useEffect, useState } from "react";
 import { UserPlateType, UserType } from "@customTypes";
-import { Feature, useAuth, useChat, useFeature } from "context";
 import { useSocket, useVisible } from "hooks";
 import { sendInvitation } from "utils";
-import "../styles/userMenu.scss";
 import UserDetails from "./UserDetails";
-import { MatchSummary, initialSummary } from "@customTypes/match.types";
+import "../styles/userMenu.scss";
 
 type MuteOrBlock = "Mute" | "Block" | "";
 interface Props {
@@ -19,7 +19,7 @@ const HOUR_IN_MS = 60 * MIN_IN_MS;
 const DAY_IN_MS = 24 * HOUR_IN_MS;
 
 export default function UserMenu(props: Props) {
-    const { user } = props;
+    const { user, isPrivate = false } = props;
     const { userAuth } = useAuth();
     const { channel, updateChannel } = useChat();
     const [socket] = useSocket();
@@ -135,10 +135,10 @@ export default function UserMenu(props: Props) {
         });
     }
     return (
-        <div className="userMenu">
+        <div className={"userMenu " + (isPrivate ? "private" : "")}>
             {user.id !== userAuth.id && (
                 <div className="user-info">
-                    <span className="title">User Info</span>
+                    <span className={"title " + (isPrivate ? "private" : "")}>User Info</span>
                     <div className="details">
                         <UserDetails matchSummary={matchSummary} small={true} />
                     </div>

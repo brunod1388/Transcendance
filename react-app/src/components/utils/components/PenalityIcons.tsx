@@ -7,14 +7,14 @@ import "../styles/penalityIcon.scss";
 
 type PenalityType = "Block" | "Mute";
 
-type Props = {
+type PenalityProps = {
     type: PenalityType;
     endBlock?: Date;
     endMute?: Date;
     channelUserId: number;
 };
 
-function PenalityIcon(props: Props) {
+function PenalityIcon(props: PenalityProps) {
     const endTime = (props.type === "Mute" ? props.endMute : props.endBlock) || new Date(Date.now());
 	const {channel} = useChat();
 	const isAdmin = channel.rights !== "normal";
@@ -40,11 +40,11 @@ function PenalityIcon(props: Props) {
     );
 }
 
-type IconsProps = {
+type Props = {
 	user: UserType;
 }
 
-export default function PenalityIcons(props: IconsProps) {
+export default function PenalityIcons(props: Props) {
 	const {user} = props;
 	return (
 		<div className="penalities-container">

@@ -47,11 +47,15 @@ export default function PrivateUserPlate(props: Props) {
     function toggleMenu(e: React.MouseEvent<HTMLDivElement, MouseEvent>, id: number) {
         e.preventDefault();
         const menu = document.getElementById(`menu${id}`);
-        if (menu) menu.classList.toggle("show");
+        if (menu) menu.classList.add("show");
+        const plate = document.getElementById(`plate${id}`);
+        if (plate) plate.classList.add("selected");
     }
     function handleClickOutsideMenu(event: MouseEvent, id: number) {
         const menu = document.getElementById(`menu${id}`);
         if (menu && !menu.contains(event.target as Node)) menu.classList.remove("show");
+        const plate = document.getElementById(`plate${id}`);
+        if (plate && !plate.contains(event.target as Node)) plate.classList.remove("selected");
     }
 
     useEffect(() => {
@@ -64,7 +68,7 @@ export default function PrivateUserPlate(props: Props) {
     user.endBlock = tomorrow;
     user.endMute = tomorrow;
     return (
-        <div className={"private-user" + (user.channelId === channel.id ? " selected" : "")}>
+        <div className="private-user" id={`plate${user.id}`}>
             <div className="userPlate" onClick={selectUser}>
                 <img src={user.avatar === "" ? NoUserIcon : user.avatar} alt="avatar" />
                 <div className="details">
@@ -82,14 +86,12 @@ export default function PrivateUserPlate(props: Props) {
                     </div>
                     <div className="line">
                         {hasNewMsg || (true && <p className="last-message">last message</p>)}
-                        <div className="menu-button">
-                            <BurgerMenu onClick={(e) => toggleMenu(e, user.id)} />
-                        </div>
+                        <BurgerMenu onClick={(e) => toggleMenu(e, user.id)} />
                     </div>
                 </div>
             </div>
             <div className="private-menu" id={`menu${user.id}`}>
-                <UserMenu user={user} type={type} />
+                <UserMenu user={user} type={type} isPrivate={true}/>
             </div>
         </div>
     );

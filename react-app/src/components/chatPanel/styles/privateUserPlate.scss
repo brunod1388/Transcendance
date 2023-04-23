@@ -14,13 +14,17 @@
 	box-shadow: $shadow-outset-border;
 	flex-shrink: 0;
 	transition: order 1s;
+	&.selected {
+		
+		background: none;
+		background-color: $dark-grey;
+		border-radius: 20px 5px 5px 5px;
+		
+		
+	}
 	&:hover {
 		background: none;
 		background-color: $dark-grey;
-		.menu-button {
-			opacity: 1;
-			color: red;
-		}
 	}
 	img {
 		flex-shrink: 0;
