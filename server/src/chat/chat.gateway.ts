@@ -651,8 +651,12 @@ export class ChatGateway {
                 " on channel with ID " +
                 data.channelId
             );
-        console.log("TEST  ", this.server.sockets.sockets);
-        //this.server.sockets.connected[client.data.user.id].leave(ROOM_PREFIX + data.channelId);
+        if (this.generalService.getUsersOnline().has(data.userId)) {
+            this.server.sockets.sockets.forEach((socket) => {
+                if (socket.data.user.id === data.userId)
+                    socket.leave(ROOM_PREFIX + data.channelId);
+            });
+        }
         return (
             "User with ID " +
             data.userId +
