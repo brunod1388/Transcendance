@@ -50,14 +50,14 @@ interface CreateMatchDTO {
 
 export function PongClassic(props: PropsWithChildren<Props>) {
     const [socket] = useSocket();
-	const empty: CSSProperties = {};
+    const empty: CSSProperties = {};
     const [update, setUpdate] = useState<boolean>(false);
     const [launch, setLaunch] = useState<boolean>(false);
     const [hidden, setHidden] = useState<boolean>(false);
-	const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.BEGIN);
-	const onGameStatus = (status: GameStatus) => setGameStatus(status);
+    const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.BEGIN);
+    const onGameStatus = (status: GameStatus) => setGameStatus(status);
 
-	// Launch the ball for the first time
+    // Launch the ball for the first time
     useEffect(() => {
         let timer: NodeJS.Timeout;
         if (gameStatus === GameStatus.BEGIN) {
@@ -68,7 +68,7 @@ export function PongClassic(props: PropsWithChildren<Props>) {
         return () => clearTimeout(timer);
     }, []);
 
-	// Launch the ball in a random direction
+    // Launch the ball in a random direction
     useEffect(() => {
         let timer: NodeJS.Timeout;
         if (launch === true) {
@@ -82,14 +82,14 @@ export function PongClassic(props: PropsWithChildren<Props>) {
         return () => clearTimeout(timer);
     }, [launch]);
 
-	// Main loop of the game (run every 10ms)
+    // Main loop of the game (run every 10ms)
     useInterval(() => {
         if (gameStatus !== END_GAME && hidden === false) {
             setUpdate(true);
         }
     }, 10);
-	
-	useEffect(() => {
+
+    useEffect(() => {
         if (props.user.host) {
             startGame();
             socket.emit("game-ball", { data: props.ball, room: props.room });
@@ -131,13 +131,12 @@ export function PongClassic(props: PropsWithChildren<Props>) {
         }
     }
 
+    // handle sleeping tabs
     useEffect(() => {
         setHidden(document.hidden);
     }, [document.hidden]);
 
-
-   
-
+    // socket events
     useEffect(() => {
         socket.on("game-score", (newScore: Score) => {
             props.onScore(newScore);
@@ -161,8 +160,7 @@ export function PongClassic(props: PropsWithChildren<Props>) {
         };
     }, []);
 
-    
-
+    // Trigger the end of the game if the win score is reached
     useEffect(() => {
         if (props.score.player1 >= WIN_SCORE || props.score.player2 >= WIN_SCORE) {
             if (props.user.host === true && gameStatus !== END_GAME) {
@@ -181,7 +179,9 @@ export function PongClassic(props: PropsWithChildren<Props>) {
         }
     }, [props.score]);
 
-	useEffect(() => {
+    // Start a count down before coming back to the home page
+    // In the meantime the endscreen is displayed
+    useEffect(() => {
         if (gameStatus === END_GAME) {
             const timer = setTimeout(() => {
                 props.onEnd();
@@ -191,10 +191,12 @@ export function PongClassic(props: PropsWithChildren<Props>) {
         }
     }, [gameStatus]);
 
+    // Display End screen
     if (gameStatus === END_GAME || props.opponent.status === DISCONECTED) {
         return <EndScreen opponent={props.opponent} user={props.user} score={props.score} />;
     }
 
+    // Display Pong Game
     return (
         <div className="play-board-container">
             <Board score={props.score} config={props.config}>
