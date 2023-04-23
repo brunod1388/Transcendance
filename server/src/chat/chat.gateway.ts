@@ -139,7 +139,8 @@ export class ChatGateway {
         const blockedID = [];
         const now = new Date(Date.now());
         blocked.forEach((element) => {
-            if (new Date(element.endDate) > now) blockedID.push(Number(element.userID));
+            if (new Date(element.endDate) > now)
+                blockedID.push(Number(element.userID));
         });
         if (blockedID.includes(Number(client.data.user.id)) === false)
             return channels;
@@ -524,7 +525,9 @@ export class ChatGateway {
             (blocked !== undefined &&
                 blocked !== null &&
                 new Date(blocked.endDate) > now) ||
-            (muted !== undefined && muted !== null && new Date(muted.endDate) > now)
+            (muted !== undefined &&
+                muted !== null &&
+                new Date(muted.endDate) > now)
         )
             return "user is muted/blocked";
         const newMessage = await this.messageService.createMessage(
@@ -626,9 +629,10 @@ export class ChatGateway {
     ): Promise<string> {
         const clientUser = await this.channelUserService.checkIfChannelUser(
             Number(client.data.user.id),
-            Number(data.channelId),
+            Number(data.channelId)
         );
-        if (clientUser === undefined || clientUser === null) return "Client User not found";
+        if (clientUser === undefined || clientUser === null)
+            return "Client User not found";
         if (clientUser.rights === rightType.NORMAL)
             return "You don't have the right to block users";
         const check = await this.blockedUserService.checkIfBlocked(
@@ -636,10 +640,11 @@ export class ChatGateway {
             data.channelId
         );
         const now = new Date(Date.now());
-        
+
         if (check !== undefined && check !== null) {
             await this.blockedUserService.deleteBlockedUser(Number(check.id));
-            if (new Date(data.endDate) <= now) return "The user has been unblocked"
+            if (new Date(data.endDate) <= now)
+                return "The user has been unblocked";
         }
         const blockedUser = await this.blockedUserService.createBlockedUser(
             data
@@ -673,9 +678,10 @@ export class ChatGateway {
     async muteUser(client: Socket, data: CreateMutedUserDTO): Promise<string> {
         const clientUser = await this.channelUserService.checkIfChannelUser(
             Number(client.data.user.id),
-            Number(data.channelId),
+            Number(data.channelId)
         );
-        if (clientUser === undefined || clientUser === null) return "Client User not found";
+        if (clientUser === undefined || clientUser === null)
+            return "Client User not found";
         if (clientUser.rights === rightType.NORMAL)
             return "You don't have the right to mute users";
         const check = await this.mutedUserService.checkIfMuted(
@@ -685,7 +691,8 @@ export class ChatGateway {
         const now = new Date(Date.now());
         if (check !== undefined && check !== null) {
             await this.mutedUserService.deleteMutedUser(Number(check.id));
-            if (new Date(data.endDate) <= now) return "The user has been unmuted"
+            if (new Date(data.endDate) <= now)
+                return "The user has been unmuted";
         }
         const mutedUser = await this.mutedUserService.createMutedUser(data);
         if (mutedUser === undefined)
