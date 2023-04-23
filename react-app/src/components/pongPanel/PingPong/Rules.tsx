@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect, useState } from "react";
+import { CSSProperties, PropsWithChildren, useEffect, useState } from "react";
 import {
     Ball,
     END_GAME,
@@ -19,10 +19,11 @@ import { useInterval } from "hooks";
 import { move, detectScore } from "./Physics";
 import { EndScreen } from "../components/EndScreen";
 import "../styles/endScreen.scss";
+import { BallComponent } from "../components/Ball";
+import { MyPaddle, YourPaddle } from "./Paddle";
+import { Board } from "./Board";
 
 interface Props {
-    yourMovement: Position;
-    myMovement: Position;
     ball: Ball;
     userPaddle: Paddle;
     opponentPaddle: Paddle;
@@ -36,7 +37,6 @@ interface Props {
     score: Score;
     user: PlayerInfo;
     opponent: PlayerInfo;
-    onYourMovement: (newMove: Position) => void;
 }
 
 export function Rules(props: PropsWithChildren<Props>) {
@@ -45,6 +45,18 @@ export function Rules(props: PropsWithChildren<Props>) {
     const [update, setUpdate] = useState<boolean>(false);
     const onGameStatus = (status: GameStatus) => setGameStatus(status);
     const [lastHit, setLastHit] = useState<number>(0);
+	const [hidden, setHidden] = useState<boolean>(false);
+
+    const empty: CSSProperties = {};
+    const [myMovement, setMyMovement] = useState<Position>({ x: 0, y: 0 });
+    const [yourMovement, setYourMovement] = useState<Position>({ x: 0, y: 0 });
+
+    useEffect(() => {
+        props.onBall({
+            ...props.ball,
+            pos: { x: props.config.boardWidth / 2, y: 50 },
+        });
+    }, []);
 
     const onLastHit = (posY: number) => {
         setLastHit(posY);
@@ -91,8 +103,8 @@ export function Rules(props: PropsWithChildren<Props>) {
                     props.userPaddle,
                     props.opponentPaddle,
                     props.config,
-                    props.myMovement,
-                    props.yourMovement,
+                    myMovement,
+                    yourMovement,
                     lastHit,
                     onLastHit
                 );
@@ -100,8 +112,12 @@ export function Rules(props: PropsWithChildren<Props>) {
         }
     }
 
+	useEffect(() => {
+        setHidden(document.hidden);
+    }, [document.hidden]);
+
     useInterval(() => {
-        if (gameStatus !== END_GAME) {
+        if (gameStatus !== END_GAME && hidden === false) {
             setUpdate(true);
         }
     }, 10);
@@ -135,7 +151,7 @@ export function Rules(props: PropsWithChildren<Props>) {
 
         socket.on("game-paddle", (data: PositionPingPongPaddle) => {
             if (data.movement !== undefined) {
-                props.onYourMovement(data.movement);
+                setYourMovement(data.movement);
             }
             props.onOpponentPaddle({
                 x:
@@ -182,5 +198,29 @@ export function Rules(props: PropsWithChildren<Props>) {
         return <EndScreen opponent={props.opponent} user={props.user} score={props.score} />;
     }
 
-    return <div className="play-board-container">{props.children}</div>;
+    return (
+        <div className="play-board-container">
+            <Board user={props.user} score={props.score} config={props.config}>
+                <BallComponent ball={props.ball} config={props.config} skin={empty} />
+                <MyPaddle
+                    onMyMovement={(newMove: Position) => setMyMovement(newMove)}
+                    myMovement={myMovement}
+                    onMyPaddle={props.onUserPaddle}
+                    room={props.room}
+                    host={props.user.host}
+                    myPaddle={props.userPaddle}
+                    skin={empty}
+                    config={props.config}
+                />
+                <YourPaddle
+                    onYourPaddle={props.onOpponentPaddle}
+                    room={props.room}
+                    host={props.opponent.host}
+                    yourPaddle={props.opponentPaddle}
+                    skin={empty}
+                    config={props.config}
+                />
+            </Board>
+        </div>
+    );
 }

@@ -22,21 +22,10 @@ interface Props {
 }
 
 export function PingPong(props: Props) {
-    const empty: CSSProperties = {};
-    const [myMovement, setMyMovement] = useState<Position>({ x: 0, y: 0 });
-    const [yourMovement, setYourMovement] = useState<Position>({ x: 0, y: 0 });
-    useEffect(() => {
-        props.onBall({
-            ...props.ball,
-            pos: { x: props.config.boardWidth / 2, y: 50 },
-        });
-    }, []);
+    
 
     return (
         <Rules
-            yourMovement={yourMovement}
-            myMovement={myMovement}
-            onYourMovement={(newMove: Position) => setYourMovement(newMove)}
             userPaddle={props.userPaddle}
             opponentPaddle={props.opponentPaddle}
             onUserPaddle={props.onUserPaddle}
@@ -50,28 +39,6 @@ export function PingPong(props: Props) {
             user={props.user}
             onScore={props.onScore}
             onBall={props.onBall}
-        >
-            <Board user={props.user} score={props.score} config={props.config}>
-                <BallComponent ball={props.ball} config={props.config} skin={empty} />
-                <MyPaddle
-                    onMyMovement={(newMove: Position) => setMyMovement(newMove)}
-                    myMovement={myMovement}
-                    onMyPaddle={props.onUserPaddle}
-                    room={props.room}
-                    host={props.user.host}
-                    myPaddle={props.userPaddle}
-                    skin={empty}
-                    config={props.config}
-                />
-                <YourPaddle
-                    onYourPaddle={props.onOpponentPaddle}
-                    room={props.room}
-                    host={props.opponent.host}
-                    yourPaddle={props.opponentPaddle}
-                    skin={empty}
-                    config={props.config}
-                />
-            </Board>
-        </Rules>
+        />
     );
 }
