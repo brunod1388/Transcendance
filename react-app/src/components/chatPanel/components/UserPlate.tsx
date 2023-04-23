@@ -1,4 +1,4 @@
-import { MutedIcon, BlockedIcon, UserMenu } from "components/utils/";
+import { UserMenu, PenalityIcons } from "components/utils/";
 import { UserPlateType, UserType } from "@customTypes";
 import { useVisible } from "hooks";
 import { NoUserIcon } from "assets/images";
@@ -27,8 +27,7 @@ export default function UserPlate(props: Props) {
                 <div className="details">
                     <div className="username">{user.username}</div>
                     <div className="status">
-                        {user.endMute !== undefined && <MutedIcon endMute={user.endMute} />}
-                        {user.endBlock !== undefined && <BlockedIcon endBlock={user.endBlock} />}
+                        <PenalityIcons user={user} />
                         <div
                             className={
                                 "connected " +

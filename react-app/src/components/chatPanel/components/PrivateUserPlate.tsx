@@ -1,4 +1,4 @@
-import { MutedIcon, BlockedIcon, UserMenu, BurgerMenu } from "components/utils";
+import { UserMenu, BurgerMenu, PenalityIcons } from "components/utils";
 import { useChat, useAuth, ChannelDetailsType } from "context";
 import { UserPlateType, UserType } from "@customTypes";
 import { NoUserIcon } from "assets/images";
@@ -71,10 +71,7 @@ export default function PrivateUserPlate(props: Props) {
                     <div className="line">
                         <span className="username">{user.username}</span>
                         <div className="status">
-                            {user.endMute !== undefined && <MutedIcon endMute={user.endMute} />}
-                            {user.endBlock !== undefined && (
-                                <BlockedIcon endBlock={user.endBlock} />
-                            )}
+                            <PenalityIcons user={user} />
                             <div
                                 className={
                                     "connected " +

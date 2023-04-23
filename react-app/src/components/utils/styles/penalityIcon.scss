@@ -1,13 +1,16 @@
 @import "assets/styles/variables.scss";
 @import "assets/styles/general.scss";
 
+.penalities-container {
+	@extend .flex-row;
+	gap: 5px;
+}
 .penality-container {
 	@extend .flex-row;
 	position: relative;
 	&:hover {
-		.time {
+		.tooltip {
 			display: flex;
-			opacity: 1;
 		}
 	}
 	.icon {
@@ -16,17 +19,27 @@
 		border-radius: 50%;
 		filter: $filter-purple;
 	}
-	.time {
+	.tooltip {
 		@extend .flex-row;
+		gap: 5px;
 		padding: 3px 5px;
 		position: absolute;
-		top: -18px;
+		top: -20px;
 		right: -15px;
 		font-size: 11px;
 		background-color: $purple;
 		border-radius: 8px;
 		white-space: nowrap;
-		transition: 0.3s;
-		opacity: 0;
+		display: none;
+		box-shadow: $shadow-outset-border;
+		&.admin {
+			top: -27px;
+		}
+		button {
+			background-color: $dark-grey;
+			padding: 3px;
+			border-radius: 5px;
+			filter: $drop-shadow;
+		}
 	}
 }
