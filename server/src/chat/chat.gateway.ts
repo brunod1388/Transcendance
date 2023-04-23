@@ -31,8 +31,8 @@ import { MessageService } from "./message/message.service";
 import { GeneralService } from "src/general/general.service";
 import { BlockedUserService } from "./blockedUser/blockedUser.service";
 import { MutedUserService } from "./mutedUser/mutedUser.service";
-import { CreateBlockedUserDTO } from "./dtos/BlockedUser.dto";
-import { CreateMutedUserDTO } from "./dtos/MutedUser.dto";
+import { CreateBlockedUserDTO, unblockUserDTO } from "./dtos/BlockedUser.dto";
+import { CreateMutedUserDTO, unmuteUserDTO } from "./dtos/MutedUser.dto";
 
 interface InvitationType {
     id: number;
@@ -690,6 +690,45 @@ export class ChatGateway {
         );
     }
 
+    @SubscribeMessage("unblockUser")
+    async unblockUser(
+        client: Socket,
+        data: unblockUserDTO,
+    ): Promise<string> {
+        const clientUser = await this.channelUserService.checkIfChannelUser(
+            Number(client.data.user.id),
+            Number(data.channelId)
+        );
+        if (clientUser === undefined || clientUser === null)
+            return "Client User not found";
+        if (clientUser.rights === rightType.NORMAL)
+            return "You don't have the right to unblock users";
+        const user2unblock = await this.channelUserService.findChannelUserById(
+            Number(data.channelUserId)
+        );
+        if (user2unblock === undefined || user2unblock === null)
+            return "Unblock target channel user not found"
+        const check = await this.blockedUserService.checkIfBlocked(
+            Number(user2unblock.user.id),
+            Number(data.channelId),
+        );
+        if (check !== undefined && check !== null) {
+            await this.blockedUserService.deleteBlockedUser(Number(check.id));
+            return (
+                "ChannelUser with ID " +
+                data.channelUserId +
+                " has been unblocked on channel with ID " +
+                data.channelId
+            );
+        }
+        return (
+            "Failed to unblock channelUser with ID " +
+            data.channelUserId +
+            " on channel with ID " +
+            data.channelId + " as no existing block detected"
+        );
+    }
+
     // ========================================================================
     //                               Mute
     // ========================================================================
@@ -727,6 +766,45 @@ export class ChatGateway {
             data.userId +
             " has been muted on channel with ID " +
             data.channelId
+        );
+    }
+
+    @SubscribeMessage("unmuteUser")
+    async unmuteUser(
+        client: Socket,
+        data: unmuteUserDTO,
+    ): Promise<string> {
+        const clientUser = await this.channelUserService.checkIfChannelUser(
+            Number(client.data.user.id),
+            Number(data.channelId)
+        );
+        if (clientUser === undefined || clientUser === null)
+            return "Client User not found";
+        if (clientUser.rights === rightType.NORMAL)
+            return "You don't have the right to unmute users";
+        const user2unmute = await this.channelUserService.findChannelUserById(
+            Number(data.channelUserId)
+        );
+        if (user2unmute === undefined || user2unmute === null)
+            return "Unmute target channel user not found"
+        const check = await this.mutedUserService.checkIfMuted(
+            Number(user2unmute.user.id),
+            Number(data.channelId),
+        );
+        if (check !== undefined && check !== null) {
+            await this.mutedUserService.deleteMutedUser(Number(check.id));
+            return (
+                "ChannelUser with ID " +
+                data.channelUserId +
+                " has been unmuted on channel with ID " +
+                data.channelId
+            );
+        }
+        return (
+            "Failed to unmute channelUser with ID " +
+            data.channelUserId +
+            " on channel with ID " +
+            data.channelId + " as no existing mute detected"
         );
     }
 }

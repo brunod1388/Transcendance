@@ -4,6 +4,7 @@ import { Mute } from "assets/images";
 import { useChat } from "context";
 import { UserType } from "@customTypes";
 import "../styles/penalityIcon.scss";
+import { useSocket } from "hooks";
 
 type PenalityType = "Block" | "Mute";
 
@@ -19,9 +20,26 @@ function PenalityIcon(props: PenalityProps) {
         (props.type === "Mute" ? props.endMute : props.endBlock) || new Date(Date.now());
     const { channel } = useChat();
     const isAdmin = channel.rights !== "normal";
+    const [socket] = useSocket();
 
     function handlePenality() {
-        // TODO: handle penality
+        if (props.type === "Block") {
+            socket.emit(
+                "unblockUser",
+                { channelId: channel.id, channelUserId: props.channelUserId },
+                (res: any) => {
+                    console.log("UNBLOCK RESPONSE: ", res);
+                }
+            );
+        } else {
+            socket.emit(
+                "unmuteUser",
+                { channelId: channel.id, channelUserId: props.channelUserId },
+                (res: any) => {
+                    console.log("UNMUTE RESPONSE: ", res);
+                }
+            );
+        }
     }
 
     return (

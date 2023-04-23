@@ -16,17 +16,12 @@ export class CreateMutedUserDTO {
     endDate: Date;
 }
 
-// Is this necessary??
-export class UpdateMutedUserDTO {
+export class unmuteUserDTO {
     @IsNumber()
     @IsNotEmpty()
     channelId: number;
 
     @IsNumber()
     @IsNotEmpty()
-    userId: number;
-
-    @IsDate()
-    @IsNotEmpty()
-    endDate: Date;
+    channelUserId: number;
 }
