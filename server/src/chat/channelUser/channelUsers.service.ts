@@ -115,6 +115,29 @@ export class ChannelUserService {
         return channelUsers;
     }
 
+    async checkIfChannelUser(
+        userID: number,
+        channelID: number
+    ): Promise<ChannelUser | undefined> {
+        const ret = await this.channelUserRepository.findOne({
+            relations: {
+                user: true,
+                channel: true,
+            },
+            where: {
+                user: { id: userID },
+                channel: { id: channelID },
+            },
+            select: {
+                id: true,
+                user: { id: true, username: true, avatar: true },
+                channel: { id: true, name: true, image: true },
+                rights: true,
+            },
+        });
+        return ret;
+    }
+
     async updateChannelUser(
         channelUserDetails: ChannelUserDTO
     ): Promise<ChannelUser | undefined> {
