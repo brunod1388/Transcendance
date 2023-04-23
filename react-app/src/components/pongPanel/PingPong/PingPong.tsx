@@ -2,7 +2,7 @@ import { Board } from "./Board";
 import { BallComponent } from "../components/Ball";
 import { MyPaddle, YourPaddle } from "./Paddle";
 import { Ball, GameConfig, PlayerInfo, Position, Score } from "@customTypes";
-import { CSSProperties, useEffect, useState,  PropsWithChildren } from "react";
+import { CSSProperties, useEffect, useState, PropsWithChildren } from "react";
 import {
     END_GAME,
     GameStatus,
@@ -45,7 +45,7 @@ export function PingPong(props: PropsWithChildren<Props>) {
     const [myMovement, setMyMovement] = useState<Position>({ x: 0, y: 0 });
     const [yourMovement, setYourMovement] = useState<Position>({ x: 0, y: 0 });
 
-	// Set ball position at the beginning of the game 
+    // Set ball position at the beginning of the game
     useEffect(() => {
         props.onBall({
             ...props.ball,
@@ -53,13 +53,13 @@ export function PingPong(props: PropsWithChildren<Props>) {
         });
     }, []);
 
-	// Check if the user already hit the ball on his side
+    // Check if the user already hit the ball on his side
     const onLastHit = (posY: number) => {
         setLastHit(posY);
     };
 
-	// Main loop of the game (run every 10ms)
-	useInterval(() => {
+    // Main loop of the game (run every 10ms)
+    useInterval(() => {
         if (gameStatus !== END_GAME && hidden === false) {
             setUpdate(true);
         }
@@ -127,7 +127,6 @@ export function PingPong(props: PropsWithChildren<Props>) {
         setHidden(document.hidden);
     }, [document.hidden]);
 
-   
     // socket events
     useEffect(() => {
         socket.on("game-score", (newScore: Score) => {
@@ -198,7 +197,7 @@ export function PingPong(props: PropsWithChildren<Props>) {
     if (gameStatus === END_GAME || props.opponent.status === DISCONECTED) {
         return <EndScreen opponent={props.opponent} user={props.user} score={props.score} />;
     }
-	
+
     // Display Pong Game
     return (
         <div className="play-board-container">
