@@ -120,6 +120,7 @@ export class GeneralGateway implements OnModuleInit {
     handleJoinRoom(client: Socket, room: string) {
         console.log("join room");
         this.generalService.joinRoom(client, room);
+		this.generalService.addGameRoom(client.data.user.id, room);
         this.generalService.addUserInGame(client.data.user.id);
         this.generalService.updateUserStatus(this.server, client);
     }
@@ -129,6 +130,7 @@ export class GeneralGateway implements OnModuleInit {
     handleLeaveRoom(client: Socket, room: string) {
         console.log("leaveROom");
         this.generalService.leaveRoom(client, room);
+		this.generalService.removeGameRoom(room);
         this.generalService.removeUserInGame(client.data.user.id);
         this.generalService.updateUserStatus(this.server, client);
     }
@@ -168,6 +170,7 @@ export class GeneralGateway implements OnModuleInit {
     handlePlayerLeft(client: Socket, room: string) {
         this.generalService.leaveRoom(client, room);
         console.log("id", client.data.user.id);
+		this.generalService.removeGameRoom(room);
         this.generalService.removeUserInGame(client.data.user.id);
         this.generalService.updateUserStatus(this.server, client);
         this.server.to(room).emit("game-player-left");
