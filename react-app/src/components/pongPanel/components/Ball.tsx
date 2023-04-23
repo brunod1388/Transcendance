@@ -31,6 +31,7 @@ interface PropsComponent {
 }
 
 export function BallComponent({ ball, config, skin }: PropsComponent) {
+    // console.log("ball", ball.pos.x);
     const position: CSSProperties = {
         left: ball.pos.x - config.ballRayon,
         bottom: ball.pos.y - config.ballRayon,
