@@ -1,4 +1,4 @@
-import { MutedIcon, BlockedIcon, UserMenu, BurgerMenu } from "components/utils";
+import { UserMenu, BurgerMenu, PenalityIcons } from "components/utils";
 import { useChat, useAuth, ChannelDetailsType } from "context";
 import { UserPlateType, UserType } from "@customTypes";
 import { NoUserIcon } from "assets/images";
@@ -47,11 +47,15 @@ export default function PrivateUserPlate(props: Props) {
     function toggleMenu(e: React.MouseEvent<HTMLDivElement, MouseEvent>, id: number) {
         e.preventDefault();
         const menu = document.getElementById(`menu${id}`);
-        if (menu) menu.classList.toggle("show");
+        if (menu) menu.classList.add("show");
+        const plate = document.getElementById(`plate${id}`);
+        if (plate) plate.classList.add("selected");
     }
     function handleClickOutsideMenu(event: MouseEvent, id: number) {
         const menu = document.getElementById(`menu${id}`);
         if (menu && !menu.contains(event.target as Node)) menu.classList.remove("show");
+        const plate = document.getElementById(`plate${id}`);
+        if (plate && !plate.contains(event.target as Node)) plate.classList.remove("selected");
     }
 
     useEffect(() => {
@@ -64,30 +68,30 @@ export default function PrivateUserPlate(props: Props) {
     user.endBlock = tomorrow;
     user.endMute = tomorrow;
     return (
-        <div className={"private-user" + (user.channelId === channel.id ? " selected" : "")}>
+        <div className="private-user" id={`plate${user.id}`}>
             <div className="userPlate" onClick={selectUser}>
                 <img src={user.avatar === "" ? NoUserIcon : user.avatar} alt="avatar" />
                 <div className="details">
                     <div className="line">
                         <span className="username">{user.username}</span>
                         <div className="status">
-                            {user.endMute !== undefined && <MutedIcon endMute={user.endMute} />}
-                            {user.endBlock !== undefined && (
-                                <BlockedIcon endBlock={user.endBlock} />
-                            )}
-                            <div className={"connected " + (user.connected ? "on" : "off")} />
+                            <PenalityIcons user={user} />
+                            <div
+                                className={
+                                    "connected " +
+                                    (user.connected ? (user.inGame ? "inGame" : "on") : "off")
+                                }
+                            />
                         </div>
                     </div>
                     <div className="line">
                         {hasNewMsg || (true && <p className="last-message">last message</p>)}
-                        <div className="menu-button">
-                            <BurgerMenu onClick={(e) => toggleMenu(e, user.id)} />
-                        </div>
+                        <BurgerMenu onClick={(e) => toggleMenu(e, user.id)} />
                     </div>
                 </div>
             </div>
             <div className="private-menu" id={`menu${user.id}`}>
-                <UserMenu user={user} type={type} />
+                <UserMenu user={user} type={type} isPrivate={true} />
             </div>
         </div>
     );

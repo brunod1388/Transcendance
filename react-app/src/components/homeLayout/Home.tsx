@@ -36,13 +36,15 @@ function Home() {
     const [socket] = useSocket();
     const dispatch = useNotificationsDispatch();
     const { userAuth } = useAuth();
-    const [PongSwitch, setPongSwitch] = useState<PongData>({
-        isPong: false,
-        data: {
-            room: "",
-            mode: CLASSIC,
-        },
-        host: false,
+    const [PongSwitch, setPongSwitch] = useState<PongData>(() => {
+        return {
+            isPong: false,
+            data: {
+                room: "",
+                mode: CLASSIC,
+            },
+            host: false,
+        };
     });
 
     window.history.pushState({}, "", process.env.REACT_APP_FRONTEND_URL + "/home");
@@ -67,7 +69,7 @@ function Home() {
     useEffect(() => {
         socket.on("joinPongByMatchmaking", (data: PongData) => {
             console.log("recieved is pong");
-            setPongSwitch(data);
+            onPong(data.data.room, data.data.mode, data.host);
         });
         socket.on("invitation", (invitation: InvitationDTO) => {
             console.log("invitation", invitation);
@@ -102,6 +104,7 @@ function Home() {
                                 host={PongSwitch.host}
                                 onEnd={() => {
                                     console.log("ON END FUNCTION TRIGGERED");
+                                    socket.emit("leave", PongSwitch.data.room);
                                     setPongSwitch({
                                         isPong: false,
                                         data: {

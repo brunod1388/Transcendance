@@ -8,6 +8,7 @@
 	padding: 5px;
 	font-size: 17px;
 	color: white;
+	filter: $drop-shadow;
 	.date {
 		width: 80px;
 		text-align: center;
@@ -17,12 +18,12 @@
 	.result {
 		@extend .flex-row;
 		gap: 20px;
+		flex: 1 1 auto;
 	}
 	.user {
 		@extend .flex-row;
 		gap: 10px;
 		width: 120px;
-		filter: $drop-shadow;
 		flex: 1 1 auto;
 		&:first-child {
 			justify-content: flex-end;
@@ -36,17 +37,16 @@
 		height: $img-size;
 		width: $img-size;
 		border-radius: 50%;
-		filter: $drop-shadow;
 		object-fit: cover;
 	}
 	.score {
 		width: 50px;
 		text-align: center;
 	}
-	.type {
-		width: 80px;
-		height: 5px;
-		justify-content: flex-end;
-		margin-right: 5px;
-	}
+	// .type {
+	// 	width: 80px;
+	// 	height: 5px;
+	// 	justify-content: flex-end;
+	// 	margin-right: 5px;
+	// }
 }

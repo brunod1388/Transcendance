@@ -1,0 +1,42 @@
+@import "assets/styles/variables.scss";
+
+.league {
+	font-family: NatureBeauty !important;
+	padding-top: 5px;
+}
+
+.Noob {
+	color: white;
+	filter:
+		drop-shadow(0 0 10px rgba(255, 255, 255, 0.466))
+		drop-shadow( 0 0 3px rgb(4, 37, 255)) !important;
+}
+
+.Bronze {
+	color: rgb(197, 142, 2);
+	filter:
+		drop-shadow(0 0 5px rgb(216, 99, 3))
+		drop-shadow( 0 0 3px rgb(145, 27, 21)) !important;
+}
+
+.Silver {
+	color: rgb(209, 240, 240);
+	filter:
+		drop-shadow(0 0 10px rgb(199, 224, 238))
+		drop-shadow(0 0 1px rgba(0,0,0, 0.888))
+		drop-shadow( 0 0 3px rgb(155, 185, 185)) !important;
+}
+
+.Gold {
+	color: rgb(255, 255, 0);
+	filter:
+		drop-shadow(0 0 10px rgb(252, 161, 2))
+		drop-shadow( 0 0 3px rgb(255, 176, 4)) !important;
+}
+
+.Diamond {
+	color: aqua;
+	filter:
+		drop-shadow(0 0 10px rgba(39, 136, 189, 0.888))
+		drop-shadow( 0 0 5px rgb(4, 37, 255)) !important;
+}

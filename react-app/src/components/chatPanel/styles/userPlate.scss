@@ -63,6 +63,13 @@
 				flex-shrink: 0;
 				&.on {background-color: rgb(94, 230, 106);}
 				&.off {background-color: rgba(140, 140, 140, 0.476);}
+				&.inGame {
+					background-color: none;
+					background-image: url("../../../assets/images/play.png");
+					filter: $filter-green;
+					background-size: cover;
+					border-radius: 0;
+				}
 			}
 		}
 	}

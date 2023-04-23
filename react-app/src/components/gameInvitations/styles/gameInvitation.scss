@@ -18,16 +18,18 @@
 			$img-size: 30px;
 			width: $img-size;
 			height: $img-size;
+			border-radius: 50%;
+			object-fit: cover;
 		}
 		filter: $drop-shadow;
 	}
 	.username {
-		font-family: NatureBeauty;
+		font-family: Kaushan;
+		max-width: 130px;
+		overflow: hidden;
 		font-size: 22px;
 		color: $purple;
 		padding-top: 10px;
-		flex: 1 1 auto;
-		flex-wrap: wrap;
 		&::first-letter {
 			text-transform: uppercase;
 		}
@@ -35,6 +37,9 @@
 	.invitation-buttons {
 		@extend .flex-row;
 		gap: 10px;
+	}
+	.invitation-text {
+		filter: $drop-shadow;
 	}
 
 	button {
@@ -55,6 +60,30 @@
 		}
 		&.decline {
 			background-color: rgb(157, 53, 53);
+		}
+	}
+
+	.response-container {
+		@extend .flex-column;
+		width: 100%;
+		gap: 10px;
+		.username {
+			max-width: 150px;
+		}
+		.message {
+			width: 100%;
+			filter: $drop-shadow;
+			padding-left: 10px
+		}
+		.second-line {
+			@extend .flex-row;
+			justify-content: space-between;
+			width: 100%;
+		}
+		.button {
+			align-self: flex-end;
+			justify-self: flex-end;
+
 		}
 	}
 }

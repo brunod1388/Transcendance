@@ -59,15 +59,16 @@
 		border-radius: 5px;
 		background-color: $dark-purple;
 		box-shadow: $shadow-outset-border;
+		color: white;
 		.username {
 			position: absolute;
-			bottom: 140px;
+			bottom: 148px;
 			color: $purple;
 			filter: $drop-shadow;
 			max-width:130px;
 			text-size-adjust: auto;
 			text-align: center;
-			font-size: 35px;
+			font-size: 33px;
 			font-weight: 200;
 			overflow-wrap: break-word;
 			font-family: Kaushan;
@@ -79,6 +80,10 @@
 			@extend .flex-row;
 			width: 120px;
 			justify-content: space-between;
+		}
+
+		.league {
+			font-size: 20px;
 		}
 	}
 }

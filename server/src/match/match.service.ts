@@ -48,14 +48,12 @@ export class MatchService {
     }
 
     async addUserToMatchmaking(server: Server, client: Socket, userId: number) {
-        console.log(this.matchmaking);
         if (
             (await this.getMatchmakingOpponent(server, client, userId)) ===
             false
         ) {
             this.matchmaking.push(userId);
         }
-        console.log(this.matchmaking);
     }
 
     createId(): string {

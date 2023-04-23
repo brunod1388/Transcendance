@@ -45,14 +45,15 @@ function Verify2FA() {
 
     return (
         <div className="form_container">
-            <span className="logo">Two Factor Authentication</span>
             <div className="form_wrapper">
-                <span className="title">
+                <span className="logo logo-2FA">Two Factor Authentication</span>
+                <span className="title">Google Authenticator</span>
+                <span className="detail">
                     Input verification code from Google Authenticator to login
                 </span>
                 <form onSubmit={handleSubmit}>
                     <input name="code" type="text" placeholder="code" />
-                    <button>Verify</button>
+                    <button className="button-purple">Verify</button>
                     {error && <span>Invalid code</span>}
                 </form>
             </div>

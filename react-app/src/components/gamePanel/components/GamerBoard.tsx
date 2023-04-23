@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "context";
 import { useSocket } from "hooks";
-import "../styles/gamerBoard.scss";
 import { MatchSummary, initialSummary } from "@customTypes/match.types";
+import { getLeague } from "utils";
+import "../styles/gamerBoard.scss";
+import "assets/styles/league.scss";
 
 export default function GamerBoard() {
     const { userAuth } = useAuth();
@@ -38,9 +40,9 @@ export default function GamerBoard() {
                     <div>
                         <span>Points</span> <span>{matchSummary.points}</span>
                     </div>
-                    <div>
-                        <span>League</span> <span>{matchSummary.league}</span>
-                    </div>
+                    <span className={"league " + getLeague(matchSummary.points)}>
+                        {getLeague(matchSummary.points)}
+                    </span>
                 </div>
             </div>
         </div>

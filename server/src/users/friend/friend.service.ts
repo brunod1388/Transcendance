@@ -48,7 +48,6 @@ export class FriendService {
     }
 
     async updateFriend(friendDto: FriendDTO): Promise<FriendDTO> {
-        console.log(friendDto);
         const friend = await this.friendRepository.findOne({
             relations: { user: true, friend: true },
             where: {

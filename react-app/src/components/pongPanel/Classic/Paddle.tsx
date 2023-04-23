@@ -83,13 +83,7 @@ export function MyPaddle(props: Props) {
     // useKeyboard(handler, document);
 
     useInterval(() => {
-        socket.emit(
-            "game-broadcast",
-            new Broadcast(room, "game-paddle", {
-                x: paddle.x,
-                y: paddle.y,
-            })
-        );
+        if (document.hidden === false) socket.emit("game-paddle-classic", { room, paddle });
     }, 20);
     return Paddle(props);
 }

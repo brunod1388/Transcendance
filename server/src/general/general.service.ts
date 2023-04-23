@@ -1,24 +1,243 @@
 import { Injectable, Inject, forwardRef } from "@nestjs/common";
-import { Socket, Server } from "socket.io";
-import { ClientsService } from "src/clients/clients.service";
+import { Socket, Server, RemoteSocket } from "socket.io";
 import { InvitationDto } from "./dto/invitation.dto";
-import { BroadcastDTO } from "src/general/dto/Broadcast.dto";
 import { AuthService } from "src/auth/auth.service";
 import { UsersService } from "src/users/users.service";
 import { User } from "src/users/entities/User.entity";
 import { CreateMatchDto } from "src/match/dtos/Match.dto";
 import { ResponseDto } from "./dto/response.dto";
+import { ChannelUserService } from "src/chat/channelUser/channelUsers.service";
+import { ChannelService } from "src/chat/channel/channel.service";
+import { FriendService } from "src/users/friend/friend.service";
+import { FriendDTO } from "src/users/dtos/Friend.dto";
 
 @Injectable()
 export class GeneralService {
-    @Inject(ClientsService)
-    private readonly clientsService: ClientsService;
     @Inject(forwardRef(() => UsersService))
     private userService: UsersService;
+    @Inject(forwardRef(() => ChannelService))
+    private channelService: ChannelService;
+    @Inject(forwardRef(() => ChannelUserService))
+    private channelUserService: ChannelUserService;
+    @Inject(forwardRef(() => FriendService))
+    private friendsService: FriendService;
 
-    // map used to store the user id (key) and the corresponding socket id (value)
+    // usersOnline:
+    // =====================================================
     static usersOnline = new Map<number, Socket>();
 
+    addUserOnline(userId: number, socket: Socket) {
+        GeneralService.usersOnline.set(userId, socket);
+    }
+
+    removeUserOnline(userId: number) {
+        GeneralService.usersOnline.delete(userId);
+    }
+
+    isUserOnline(userId: number) {
+        return GeneralService.usersOnline.has(userId);
+    }
+
+    getUsersOnline(): Map<number, Socket> {
+        const ret = GeneralService.usersOnline;
+        return ret;
+    }
+
+    // usersInGame:
+    // =====================================================
+    static usersInGame = new Array<number>();
+
+    addUserInGame(userId: number) {
+        GeneralService.usersInGame.push(userId);
+    }
+
+    removeUserInGame(userId: number) {
+        console.log("before", GeneralService.usersInGame);
+        GeneralService.usersInGame = GeneralService.usersInGame.filter(
+            (id) => id !== userId
+        );
+        console.log("after", GeneralService.usersInGame);
+    }
+
+    isUserInGame(userId: number) {
+        return GeneralService.usersInGame.includes(userId);
+    }
+
+    getUsersInGame() {
+        const ret = GeneralService.usersInGame;
+        return ret;
+    }
+
+    // gameRooms:
+    // =====================================================
+    static gameRooms = new Map<string, Array<number>>();
+
+    addGameRoom(userId: number, room: string) {
+        //console.log("before adding", GeneralService.gameRooms);
+        if (GeneralService.gameRooms.has(room) === false) {
+            const array = new Array<number>();
+            array.push(userId);
+            GeneralService.gameRooms.set(room, array);
+        } else {
+            const array = GeneralService.gameRooms.get(room);
+            array.push(userId);
+            GeneralService.gameRooms.set(room, array);
+        }
+        //console.log("after adding", GeneralService.gameRooms);
+    }
+
+    getGameRoomByUserId(userId: number): string {
+        for (const entry of GeneralService.gameRooms.entries()) {
+            if (entry[1].find((id) => id === userId) != undefined) {
+                return entry[0];
+            }
+        }
+        return "";
+    }
+
+    removeGameRoom(room: string) {
+        //	console.log("before remove", GeneralService.gameRooms);
+        GeneralService.gameRooms.delete(room);
+        //	console.log("after remove", GeneralService.gameRooms);
+    }
+
+    // Socket events:
+    // =====================================================
+    connection(server: Server, socket: Socket) {
+        this.addUserOnline(socket.data.user.id, socket);
+        this.updateUserStatus(server, socket);
+    }
+
+    disconnection(server: Server, socket: Socket, reason: any) {
+        if (this.isUserInGame(socket.data.user.id) === true) {
+            const room = this.getGameRoomByUserId(socket.data.user.id);
+            this.leaveRoom(socket, room);
+            this.removeGameRoom(room);
+            this.removeUserInGame(socket.data.user.id);
+            server.to(room).emit("game-player-left");
+        }
+        this.removeUserOnline(socket.data.user.id);
+        this.updateUserStatus(server, socket);
+        socket.disconnect();
+    }
+
+    joinRoom(client: Socket | RemoteSocket<any, any>, room: string) {
+        client.join(room);
+    }
+
+    leaveRoom(client: Socket, room: string) {
+        client.leave(room);
+    }
+
+    // User status:
+    // =====================================================
+    async updateUserStatus(server: Server, socket: Socket) {
+        const userId = socket.data.user.id;
+        const connected = this.isUserOnline(userId);
+        const privateChannels = await this.channelService.getChannels(
+            userId,
+            false,
+            true
+        );
+        const publicChannels = await this.channelService.getChannels(
+            userId,
+            false,
+            false
+        );
+
+        publicChannels.forEach(async (channel) => {
+            const users = await this.channelUserService.getChannelUsers(
+                channel.id,
+                false
+            );
+            const channelUser = users.find((user) => user.user.id === userId);
+            const user = {
+                id: channelUser.user.id,
+                username: channelUser.user.username,
+                avatar: channelUser.user.avatar,
+                rights: channelUser.rights,
+                channelUserId: channelUser.id,
+                connected: connected,
+                inGame: this.isUserInGame(userId),
+            };
+            server.to("room-" + channel.id).emit("ChannelUser", user);
+        });
+
+        privateChannels.forEach(async (channel) => {
+            const users = await this.channelUserService.getChannelUsers(
+                channel.id,
+                false
+            );
+            const channelUser = users.find((user) => user.user.id === userId);
+            const friend = users.find((user) => user.user.id !== userId);
+            const user = {
+                id: channelUser.user.id,
+                username: channelUser.user.username,
+                avatar: channelUser.user.avatar,
+                rights: channelUser.rights,
+                channelUserId: channelUser.id,
+                connected: connected,
+                inGame: this.isUserInGame(userId),
+            };
+            const all_sockets = await server.sockets.fetchSockets();
+            all_sockets.forEach((socket) => {
+                if (socket.data.user.id === friend.user.id) {
+                    server.to(socket.id).emit("PrivateUser", user);
+                }
+            });
+        });
+
+        const friends = await this.friendsService.getFriends(userId);
+        friends.forEach(async (friend) => {
+            const friendUser = await this.userService.findUserId(friend.id);
+            const friendFriends = await this.friendsService.getFriends(
+                friend.id
+            );
+            const userBeforeStatut = friendFriends.find((f) => f.id === userId);
+            const user = {
+                ...userBeforeStatut,
+                connected: this.isUserOnline(userId),
+                inGame: this.isUserInGame(userId),
+            };
+            const all_sockets = await server.sockets.fetchSockets();
+
+            all_sockets.forEach((socket) => {
+                if (socket.data.user.id === friend.id) {
+                    server.to(socket.id).emit("friend", user);
+                }
+            });
+        });
+    }
+
+    //  Pong game invitations:
+    // =====================================================
+    async handleInvitation(
+        server: Server,
+        client: Socket,
+        invitation: InvitationDto
+    ) {
+        const user = await this.userService.findUserId(client.data.user.id);
+        server.emit("invitation", {
+            ...invitation,
+            user: { avatar: user.avatar, username: user.username, id: user.id },
+        });
+    }
+
+    async handleResponse(
+        server: Server,
+        client: Socket,
+        response: ResponseDto
+    ) {
+        const user = await this.userService.findUserId(client.data.user.id);
+        server.emit("response", {
+            ...response,
+            username: user.username,
+            avatar: user.avatar,
+        });
+    }
+
+    // Utils pong game:
+    // =====================================================
     async obtainOpponentSocket(client: Socket, server: Server, room: string) {
         const socks = await server.in(room).fetchSockets();
 
@@ -54,174 +273,5 @@ export class GeneralService {
                 username: opponent.username,
             });
         }
-    }
-
-    connection(socket: Socket) {
-        // console.log("connection");
-
-        // check to avoid same user id connecting with multiple sockets
-        // has method returns true if the key is present otherwise returns false
-        // if (GeneralService.usersOnline.has(socket.data.user.id)) {
-        //     console.log("User already has active socket connection");
-        //     socket.disconnect();
-        //     return;
-        // }
-        GeneralService.usersOnline.set(socket.data.user.id, socket);
-
-        const data: number[] = [];
-
-        GeneralService.usersOnline.forEach((value: Socket, key: number) => {
-            //console.log("Online users [on connect]: ", key, value.id);
-            data.push(key);
-        });
-
-        socket.broadcast.emit("users_online", data);
-    }
-
-    disconnection(socket: Socket, reason: any) {
-        // this.clientsService.removeClient(opponentSocket.id);
-        // console.log("disconnection");
-
-        // console.log(
-        //     "User with id: ",
-        //     socket.data.user.id,
-        //     "will be disconnected"
-        // );
-        GeneralService.usersOnline.delete(socket.data.user.id);
-
-        const data: number[] = [];
-
-        GeneralService.usersOnline.forEach((value: Socket, key: number) => {
-            // console.log("Online users [on disconnect]: ", key, value.id);
-            data.push(key);
-        });
-
-        socket.broadcast.emit("users_online", data);
-
-        console.log(
-            "Number of users online following disconnect: ",
-            GeneralService.usersOnline.size
-        );
-        socket.disconnect();
-    }
-
-    getUsersOnline(): Map<number, Socket> {
-        const ret = GeneralService.usersOnline;
-        return ret;
-    }
-
-    joinRoom(client: Socket, room: string) {
-        client.join(room);
-    }
-
-    leaveRoom(client: Socket, room: string) {
-        client.leave(room);
-    }
-
-    sendInvitation(server: Server, client: Socket, invitation: InvitationDto) {
-        const socketId = this.clientsService.findByUsername(
-            invitation.to
-        ).socketId;
-        server.to(socketId).emit("invitation", invitation);
-    }
-
-    broadcast(server: Server, client: Socket, broadcast) {
-        // if (broadcast.event === "game-player-left") {
-        //     client.broadcast
-        //         .to(broadcast.room)
-        //         .emit(
-        //             broadcast.event,
-        //             client.handshake.query.username as string
-        //         );
-        // } else {
-        //     client.broadcast
-        //         .to(broadcast.room)
-        //         .emit(broadcast.event, broadcast.data);
-        // }
-    }
-
-    gameBroadcast(client: Socket, broadcast: BroadcastDTO) {
-        if (broadcast.event === "game-player-left") {
-            client.broadcast.to(broadcast.room).emit(broadcast.event);
-        } else {
-            client.broadcast
-                .to(broadcast.room)
-                .emit(broadcast.event, broadcast.data);
-        }
-    }
-
-    gameJoin(server: Server, room: string) {
-        let i = 0;
-        let player1 = "";
-        let player2 = "";
-        server
-            .in(room)
-            .fetchSockets()
-            .then((sockets: any) => {
-                if (sockets.length === 2) {
-                    i = sockets.length;
-                    console.log(this.clientsService.findByUsername(sockets));
-                    player1 = sockets[0].id;
-                    player2 = sockets[1].id;
-                    // console.log(player1, player2);
-                    server.to(player1).emit("game-info", {
-                        player1: player1,
-                        player2: player2,
-                    });
-                    server.to(player2).emit("game-info", {
-                        player1: player1,
-                        player2: player2,
-                    });
-                }
-            });
-    }
-
-    gameEnd() {
-        // TO DO write result game in DB;
-        console.log(`endGame`);
-    }
-    async createMatch(matchDetail: CreateMatchDto) {
-        // const user1 = await this.userService.findUserId(matchDetail.user1id);
-        // const user2 = await this.userService.findUserId(matchDetail.user2id);
-        console.log(
-            matchDetail.score1,
-            matchDetail.score2,
-            matchDetail.type,
-            matchDetail.user1id,
-            matchDetail.user2id,
-            matchDetail.winner
-        );
-        // const match = this.matchRepository.create({
-        //     user1: user1,
-        //     user2: user2,
-        //     score1: matchDetail.score1,
-        //     score2: matchDetail.score2,
-        // 	winner: (matchDetail.winner === user1.id) ? user1 : user2,
-        //     type: matchDetail.type,
-        // });
-
-        // return this.matchRepository.save(match);
-    }
-    async handleInvitation(
-        server: Server,
-        client: Socket,
-        invitation: InvitationDto
-    ) {
-        const user = await this.userService.findUserId(client.data.user.id);
-        server.emit("invitation", {
-            ...invitation,
-            user: { avatar: user.avatar, username: user.username, id: user.id },
-        });
-    }
-    async handleResponse(
-        server: Server,
-        client: Socket,
-        response: ResponseDto
-    ) {
-        const user = await this.userService.findUserId(client.data.user.id);
-        server.emit("response", {
-            ...response,
-            username: user.username,
-        });
     }
 }

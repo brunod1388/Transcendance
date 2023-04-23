@@ -8,6 +8,7 @@
 	overflow: hidden;
 	.players-header {
 		@extend .flex-row;
+		color: white;
 		justify-content: space-between;
 		align-self: stretch;
 		border-radius: 10px 10px 0 0;

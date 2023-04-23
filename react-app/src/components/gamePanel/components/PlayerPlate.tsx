@@ -1,5 +1,6 @@
 import React from "react";
 import { Player } from "@customTypes/match.types";
+import { getLeague } from "utils";
 import "../styles/playerPlate.scss";
 
 type Props = {
@@ -28,7 +29,9 @@ export default function PlayerPlate(props: Props) {
                     <img src={player.avatar} alt="" className="avatar" />
                     <h1>{player.username}</h1>
                 </span>
-                <span>{player.league}</span>
+                <span className={"league " + getLeague(player.points)}>
+                    {getLeague(player.points)}
+                </span>
                 <span>{(ratio(player) * 100).toFixed(2)}</span>
                 <span>{player.points}</span>
             </div>

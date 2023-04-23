@@ -27,9 +27,9 @@ export default function MatchPlate(props: Props) {
                     <span>{username2}</span>
                 </div>
             </div>
-            <div className="col type">
+            {/* <div className="col type">
                 <span>{type}</span>
-            </div>
+            </div> */}
         </div>
     );
 }

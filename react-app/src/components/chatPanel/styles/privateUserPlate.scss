@@ -14,13 +14,17 @@
 	box-shadow: $shadow-outset-border;
 	flex-shrink: 0;
 	transition: order 1s;
+	&.selected {
+		
+		background: none;
+		background-color: $dark-grey;
+		border-radius: 20px 5px 5px 5px;
+		
+		
+	}
 	&:hover {
 		background: none;
 		background-color: $dark-grey;
-		.menu-button {
-			opacity: 1;
-			color: red;
-		}
 	}
 	img {
 		flex-shrink: 0;
@@ -82,6 +86,13 @@
 				border-radius: 50%;
 				&.on {background-color: $green-connected;}
 				&.off {background-color: rgba(140, 140, 140, 0.476);}
+				&.inGame {
+					background-color: none;
+					background-image: url("../../../assets/images/play.png");
+					filter: $filter-green;
+					background-size: cover;
+					border-radius: 0;
+				}
 			}
 		}
 		.newMessage {

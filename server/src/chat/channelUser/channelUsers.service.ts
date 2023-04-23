@@ -9,6 +9,7 @@ import { User } from "src/users/entities/User.entity";
 import { Channel } from "diagnostics_channel";
 import { ChannelType } from "../entities";
 import { UserDTO } from "src/users/dtos/User.dto";
+import { GeneralService } from "src/general/general.service";
 
 @Injectable()
 export class ChannelUserService {
@@ -18,7 +19,9 @@ export class ChannelUserService {
         @Inject(forwardRef(() => UsersService))
         private userService: UsersService,
         @Inject(forwardRef(() => ChannelService))
-        private channelService: ChannelService
+        private channelService: ChannelService,
+        @Inject(forwardRef(() => GeneralService))
+        private generalService: GeneralService
     ) {}
 
     async createChannelUser(
@@ -201,6 +204,10 @@ export class ChannelUserService {
                         channelUserId: cUser.id,
                         rights: cUser.rights,
                         room: cUser.channel.name,
+                        connected: this.generalService.isUserOnline(
+                            cUser.user.id
+                        ),
+                        inGame: this.generalService.isUserInGame(cUser.user.id),
                     });
                 }
             });

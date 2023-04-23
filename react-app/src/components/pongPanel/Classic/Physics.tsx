@@ -20,7 +20,6 @@ export const move = (
 
 // Function to launch the ball
 export const launchBall = (
-    ball: Ball,
     onBall: (ball: Ball) => void,
     onGameStatus: (status: GameStatus) => void,
     config: GameConfig

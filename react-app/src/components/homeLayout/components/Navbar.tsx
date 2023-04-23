@@ -110,7 +110,7 @@ function Navbar() {
         <div className="navbar">
             <MenuButton
                 filter={true}
-                name="Play Pong"
+                name="Pong"
                 image={PlayIcon}
                 isChannel={false}
                 onClick={playClick}

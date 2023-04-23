@@ -12,7 +12,7 @@ export default function PrivateUsers() {
 
     useEffect(() => {
         socket.emit("getPrivateUsers", (users: UserType[]) => {
-            console.log("PRIVATEUSERS: ", users);
+            console.log(users);
             setUsers(users);
         });
         socket.on("PrivateUser", (user: UserType) => {

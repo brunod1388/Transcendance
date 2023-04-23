@@ -43,19 +43,13 @@ export function MyPaddle(props: MyProps) {
     useMouse(handler, document.getElementById("pongBoard") as HTMLDivElement);
 
     useInterval(() => {
-        socket.emit(
-            "game-broadcast",
-            new Broadcast(props.room, "game-paddle", {
-                pos: {
-                    x: props.myPaddle.x,
-                    y: props.myPaddle.y,
-                },
-                movement: {
-                    x: props.myMovement.x,
-                    y: props.myMovement.y,
-                },
-            })
-        );
+        socket.emit("game-paddle-pingpong", {
+            room: props.room,
+            paddle: {
+                movement: props.myMovement,
+                pos: props.myPaddle,
+            },
+        });
     }, 50);
 
     const position: CSSProperties = {

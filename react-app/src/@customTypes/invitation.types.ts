@@ -20,6 +20,7 @@ export interface ResponseDTO {
     room: string;
     statut: number;
     username?: string;
+    avatar?: string;
 }
 export interface RoomStatutDTO {
     player1: string;

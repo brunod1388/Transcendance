@@ -169,7 +169,6 @@ export class ChatGateway {
             senderId,
             receiverId
         );
-        console.log("TEST channel:", channel);
         if (channel !== undefined) return channel;
         const newPrivateChannel = await this.channelService.createChannel({
             ownerId: senderId,
@@ -268,6 +267,7 @@ export class ChatGateway {
             connected: this.generalService
                 .getUsersOnline()
                 .has(channelUser.user.id),
+            inGame: this.generalService.isUserInGame(channelUser.user.id),
             //connected: this.onlineUsers.has(channelUser.user.id),
         }));
         const blocked = await this.blockedUserService.getBlockedUsers(
@@ -344,6 +344,8 @@ export class ChatGateway {
                 connected: this.generalService
                     .getUsersOnline()
                     .has(channelUser.user.id),
+
+                inGame: this.generalService.isUserInGame(channelUser.user.id),
                 //connected: this.onlineUsers.has(channelUser.user.id),
             };
             if (channelUser !== undefined)
@@ -378,19 +380,30 @@ export class ChatGateway {
         @MessageBody("rights") rights: rightType,
         @ConnectedSocket() client: Socket
     ): Promise<string> {
-        const clientUser = this.channelUserService.findChannelUserById(
-            client.data.user.id
-        );
-        if (clientUser === undefined) return "Client User not found";
-        if ((await clientUser).rights !== rightType.OWNER)
-            return "You don't have the right to do this!";
         const channelUser = await this.channelUserService.findChannelUserById(
             channelUserId
         );
+        const channel = await this.channelService.findChannelById(
+            channelUser.channel.id
+        );
         if (channelUser === undefined) return "User not Found";
-        this.channelUserService.updateChannelUser({
+        if (channel.owner.id !== client.data.user.id)
+            return "You don't have the right to do this!";
+        const newChannelUser = await this.channelUserService.updateChannelUser({
             ...channelUser,
             rights: rights,
+        });
+        const room = ROOM_PREFIX + channel.id;
+        this.server.to(room).emit("ChannelUser", {
+            id: newChannelUser.user.id,
+            username: newChannelUser.user.username,
+            avatar: newChannelUser.user.avatar,
+            channelUserId: newChannelUser.id,
+            rights: newChannelUser.rights,
+            connected: this.generalService
+                .getUsersOnline()
+                .has(newChannelUser.user.id),
+            inGame: this.generalService.isUserInGame(newChannelUser.user.id),
         });
         return `${channelUser.user.username} has been updated to ${rights}`;
     }
@@ -404,7 +417,15 @@ export class ChatGateway {
         @MessageBody() userId: number
     ): Promise<FriendDTO[]> {
         const friends = await this.friendService.getFriends(userId);
-        return friends;
+        const newFriends = Array<FriendDTO>();
+        friends.forEach((friend) => {
+            newFriends.push({
+                ...friend,
+                connected: this.generalService.isUserOnline(friend.id),
+                inGame: this.generalService.isUserInGame(friend.id),
+            });
+        });
+        return newFriends;
     }
 
     @SubscribeMessage("inviteFriend")
@@ -427,7 +448,6 @@ export class ChatGateway {
             if (socket.data.user.id == friend.friend.id) friendSocket = socket;
         });
         if (friendSocket) {
-            console.log("friend", friend);
             friendSocket.emit("pendings", {
                 id: friend.id,
                 type: "Friend",
@@ -536,7 +556,6 @@ export class ChatGateway {
             messageDTO.content
         );
         if (newMessage === undefined) return "could not write message";
-        const room = ROOM_PREFIX + channel.id;
         const message = {
             id: newMessage.id,
             creator: {
@@ -548,6 +567,7 @@ export class ChatGateway {
             createdAt: newMessage.createdAt,
             modifiedAt: newMessage.modifiedAt,
         };
+        const room = ROOM_PREFIX + channel.id;
         this.server.to(room).emit("messageListener", message);
         return "message created";
     }

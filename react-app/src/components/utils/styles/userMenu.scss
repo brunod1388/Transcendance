@@ -39,22 +39,19 @@
 	transition: 1s;
 	.user-info {
 		transition: 0.5s;
+		position: relative;
+		padding-top: 5px;
 		.title {
+			position: absolute;
+			font-family: NatureBeauty;
 			color: $purple;
 			font-size: 14px;
+			top: -12px;
 			width: 100%;
-		}
-		.details {
-			height: 0px;
-			overflow: hidden;
-			opacity: 0;
-			transition: 1s;
-		}
-		&:hover {
-			.details {
-				height: 100%;
-				overflow: visible;
-				opacity: 1;
+			filter: $drop-shadow;
+			&.private {
+				left: 10px;
+				top: -2px;
 			}
 		}
 	}
@@ -116,6 +113,16 @@
 			input[type=number] {
 				-moz-appearance: textfield;
 			}
+		}
+
+	}
+
+	&.private {
+		button {
+			width: 85px;
+		}
+		.long {
+			width: 178px;
 		}
 
 	}
