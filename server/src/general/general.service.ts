@@ -193,6 +193,7 @@ export class GeneralService {
         server.emit("response", {
             ...response,
             username: user.username,
+            avatar: user.avatar,
         });
     }
 

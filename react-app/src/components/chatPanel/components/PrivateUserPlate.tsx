@@ -91,7 +91,7 @@ export default function PrivateUserPlate(props: Props) {
                 </div>
             </div>
             <div className="private-menu" id={`menu${user.id}`}>
-                <UserMenu user={user} type={type} isPrivate={true}/>
+                <UserMenu user={user} type={type} isPrivate={true} />
             </div>
         </div>
     );

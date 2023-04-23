@@ -49,7 +49,7 @@ function Response({ id, response, dispatch, socket, onPong }: Props) {
                 <div className="response-container">
                     <div className="first-line">
                         <div className="user-info">
-                            <img src={NoUserIcon} alt="" />
+                            <img src={response.avatar} alt="" />
                             <span className="username">{response.username}</span>
                         </div>
                     </div>
@@ -62,7 +62,7 @@ function Response({ id, response, dispatch, socket, onPong }: Props) {
                 <div className="response-container">
                     <div className="first-line">
                         <div className="user-info">
-                            <img src={NoUserIcon} alt="" />
+                            <img src={response.avatar} alt="" />
                             <span className="username">{response.username}</span>
                         </div>
                     </div>
@@ -73,7 +73,7 @@ function Response({ id, response, dispatch, socket, onPong }: Props) {
                                 onPong(response.room, CLASSIC, true);
                                 onClose();
                             }}
-                            >
+                        >
                             JOIN
                         </button>
                     </div>
