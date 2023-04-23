@@ -4,7 +4,7 @@ import { useSocket } from "hooks";
 import { MatchSummary, initialSummary } from "@customTypes/match.types";
 import { getLeague } from "utils";
 import "../styles/gamerBoard.scss";
-import "assets/styles/league.scss"
+import "assets/styles/league.scss";
 
 export default function GamerBoard() {
     const { userAuth } = useAuth();
@@ -18,7 +18,6 @@ export default function GamerBoard() {
             socket.off("matchSummary");
         };
     }, []);
-
 
     return (
         <div className="gamer-board">

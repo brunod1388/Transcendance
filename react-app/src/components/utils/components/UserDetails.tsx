@@ -26,8 +26,8 @@ export default function UserDetails(props: Props) {
             </div>
             <div className={small ? "small" : ""}>
                 <span>League</span>
-                    <span className={"league " + getLeague(matchSummary.points)}>
-                        {getLeague(matchSummary.points)}
+                <span className={"league " + getLeague(matchSummary.points)}>
+                    {getLeague(matchSummary.points)}
                 </span>
             </div>
         </div>

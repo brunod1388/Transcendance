@@ -29,7 +29,9 @@ export default function PlayerPlate(props: Props) {
                     <img src={player.avatar} alt="" className="avatar" />
                     <h1>{player.username}</h1>
                 </span>
-                <span className={"league " + getLeague(player.points)}>{getLeague(player.points)}</span>
+                <span className={"league " + getLeague(player.points)}>
+                    {getLeague(player.points)}
+                </span>
                 <span>{(ratio(player) * 100).toFixed(2)}</span>
                 <span>{player.points}</span>
             </div>
