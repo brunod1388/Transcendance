@@ -68,6 +68,40 @@ export class GeneralService {
         return ret;
     }
 
+	 // gameRooms:
+    // =====================================================
+    static gameRooms = new Map<string, Array<number>>();
+
+    addGameRoom(userId: number, room: string) {
+		//console.log("before adding", GeneralService.gameRooms);
+		if (GeneralService.gameRooms.has(room) === false) {
+			let array = new Array<number>();
+			array.push(userId);
+			GeneralService.gameRooms.set(room, array);
+		} else {
+			let array = GeneralService.gameRooms.get(room);
+			array.push(userId);
+			GeneralService.gameRooms.set(room, array);
+		}
+		//console.log("after adding", GeneralService.gameRooms);
+    }
+
+	getGameRoomByUserId(userId: number): string {
+		for (const entry of GeneralService.gameRooms.entries()) {
+			if (entry[1].find((id) => id === userId) != undefined) {
+				return entry[0];
+			}
+		}
+		return "";
+    }
+
+    removeGameRoom(room: string) {
+	//	console.log("before remove", GeneralService.gameRooms);
+		GeneralService.gameRooms.delete(room);
+	//	console.log("after remove", GeneralService.gameRooms);
+    }
+
+
     // Socket events:
     // =====================================================
     connection(server: Server, socket: Socket) {
@@ -76,10 +110,16 @@ export class GeneralService {
     }
 
     disconnection(server: Server, socket: Socket, reason: any) {
+		if (this.isUserInGame(socket.data.user.id) === true) {
+			const room = this.getGameRoomByUserId(socket.data.user.id);
+        	this.leaveRoom(socket, room);
+			this.removeGameRoom(room);
+        	this.removeUserInGame(socket.data.user.id);
+        	server.to(room).emit("game-player-left");
+		}
         this.removeUserOnline(socket.data.user.id);
-        this.removeUserInGame(socket.data.user.id);
         this.updateUserStatus(server, socket);
-        socket.disconnect();
+        socket.disconnect(); 
     }
 
     joinRoom(client: Socket | RemoteSocket<any, any>, room: string) {
