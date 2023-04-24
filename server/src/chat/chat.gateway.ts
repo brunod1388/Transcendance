@@ -134,18 +134,17 @@ export class ChatGateway {
             isPrivate
         );
         const blocked = await this.blockedUserService.getBlockedUsersByUserID(
-            userid
+            Number(userid)
         );
         const blockedID = [];
         const now = new Date(Date.now());
         blocked.forEach((element) => {
             if (new Date(element.endDate) > now)
-                blockedID.push(Number(element.userID));
+                blockedID.push(Number(element.channelID));
         });
-        if (blockedID.includes(Number(client.data.user.id)) === false)
-            return channels;
+        if (!blockedID.length) return channels;
         const filteredChannels = channels.filter(
-            (channels) => !blockedID.includes(Number(channels.id))
+            (channel) => !blockedID.includes(Number(channel.id))
         );
         return filteredChannels;
     }
