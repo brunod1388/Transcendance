@@ -94,10 +94,8 @@ export default function NewChannel(props: Props) {
     }
 
     function joinChannel(channel: ChannelType) {
-        console.log(channel)
         socket.emit("joinChannel", { channelId: channel.id, password: channel.password },
             (res?: ChannelType | string) => {
-                console.log(res)
                 if (res === undefined) return console.log("res is undefined");
                 if (typeof res === "string") return setError(res);
                 socket.emit("leaveRoom", {
@@ -207,8 +205,8 @@ export default function NewChannel(props: Props) {
                                 />
                             </div>
                             <div className="channel-search">
-                                {foundChannels.map((channel) => (
-                                    <ChannelPlate channel={channel} joinChannel={joinChannel} />
+                                {foundChannels.map((channel, i) => (
+                                    <ChannelPlate channel={channel} joinChannel={joinChannel} key={`${i}`}/>
                                 ))}
                             </div>
                         </div>
