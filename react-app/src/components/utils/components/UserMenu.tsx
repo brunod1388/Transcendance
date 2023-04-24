@@ -199,7 +199,7 @@ export default function UserMenu(props: Props) {
                     Direct Message
                 </button>
             )}
-            {(user.friendId !== undefined ||
+            {user.rights !== "owner" && (user.friendId !== undefined ||
                 (userAuth.id !== user.id &&
                     (channel.rights === "admin" || channel.rights === "owner"))) && (
                 <div className="muteAndBlock">
@@ -242,7 +242,7 @@ export default function UserMenu(props: Props) {
                     )}
                 </div>
             )}
-            {props.type === "channelUser" &&
+            {props.type === "channelUser" && user.rights !== "owner" && 
                 userAuth.id !== user.id &&
                 (channel.rights === "admin" || channel.rights === "owner") && (
                     <button
@@ -253,7 +253,7 @@ export default function UserMenu(props: Props) {
                     </button>
                 )}
             {props.type === "channelUser" &&
-                userAuth.id !== user.id &&
+                userAuth.id !== user.id && user.rights !== "owner" && 
                 (channel.rights === "admin" || channel.rights === "owner") && (
                     <button
                         className="delete long red-button button-purple"

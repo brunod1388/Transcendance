@@ -227,15 +227,12 @@ export class ChatGateway {
         @MessageBody("password") password: string,
         @ConnectedSocket() client: Socket
     ): Promise<ChannelDto | string> {
-        if (
-            password &&
-            !this.channelService.checkPassword(
-                channelId,
-                await argon.hash(password)
-            )
-        ) {
+        const channelAdded = await this.channelService.findChannelById(
+            channelId
+        );
+        if (channelAdded.type === "protected" &&
+            ! (await this.channelService.checkPassword(channelId, password)))
             return "Wrong password";
-        }
         const channelUser = await this.channelUserService.createChannelUser({
             userId: client.data.user.id,
             channelId: channelId,
@@ -243,9 +240,6 @@ export class ChatGateway {
             isPending: false,
         });
         if (!channelUser) return "Could not add you to channel";
-        const channelAdded = await this.channelService.findChannelById(
-            channelId
-        );
         if (channelAdded == undefined) return "Something went wrong!";
         client.emit("Channel", channelAdded);
         return channelAdded;

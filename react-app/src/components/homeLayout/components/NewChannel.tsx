@@ -24,11 +24,9 @@ interface ChannelProps {
 }
 
 function ChannelPlate({ channel, joinChannel }: ChannelProps) {
-    // console.log(channel)
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const password = e.currentTarget.querySelector("input")?.value;
-        console.log(password);
         joinChannel({ ...channel, password: password });
     }
 
@@ -96,26 +94,30 @@ export default function NewChannel(props: Props) {
     }
 
     function joinChannel(channel: ChannelType) {
-        socket.emit("joinChannel", { channelId: channel.id }, (res?: ChannelType | string) => {
-            if (res === undefined) return console.log("res is undefined");
-            if (typeof res === "string") return setError(res);
-            socket.emit("leaveRoom", {
-                userid: userAuth.id,
-                channelid: channel.id,
-            });
-            updateChannel({
-                id: res.id,
-                name: res.name,
-                type: "channel",
-                image: res.image,
-                room: "room-" + res.id,
-                rights: "normal",
-                protected: res.type === "protected",
-            });
-            setFeature(Feature.Chat);
-            socket.emit("joinRoom", { userid: userAuth.id, channelid: res.id });
-            props.quitForm();
-        });
+        console.log(channel)
+        socket.emit("joinChannel", { channelId: channel.id, password: channel.password },
+            (res?: ChannelType | string) => {
+                console.log(res)
+                if (res === undefined) return console.log("res is undefined");
+                if (typeof res === "string") return setError(res);
+                socket.emit("leaveRoom", {
+                    userid: userAuth.id,
+                    channelid: channel.id,
+                });
+                updateChannel({
+                    id: res.id,
+                    name: res.name,
+                    type: "channel",
+                    image: res.image,
+                    room: "room-" + res.id,
+                    rights: "normal",
+                    protected: res.type === "protected",
+                });
+                setFeature(Feature.Chat);
+                socket.emit("joinRoom", { userid: userAuth.id, channelid: res.id });
+                props.quitForm();
+            }
+        );
     }
 
     function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
@@ -137,6 +139,7 @@ export default function NewChannel(props: Props) {
                                 className="switch-button-checkbox"
                                 type="checkbox"
                                 onChange={(e) => handleChange(e)}
+                                onClick={() => setError("")}
                             />
                             <label className="switch-button-label" htmlFor="">
                                 <span className="switch-button-label-span">Join</span>
@@ -155,7 +158,6 @@ export default function NewChannel(props: Props) {
                                 />
                                 <input name="channelName" type="text" placeholder="ChannelName" />
                             </div>
-                            {error && <p className="error">{error}</p>}
                             <select
                                 name="channelType"
                                 id="channelType"
@@ -186,11 +188,11 @@ export default function NewChannel(props: Props) {
                                     />
                                 </div>
                             )}
-                            <input type="file" style={{ display: "none" }} id="fileUrl" />
+                            {/* <input type="file" style={{ display: "none" }} id="fileUrl" />
                             <label htmlFor="file">
                                 <img src={AddImage} alt="" />
                                 <span>Add a channel image</span>
-                            </label>
+                            </label> */}
                             <button className="button-purple">Create Channel</button>
                         </form>
                     )}
@@ -211,6 +213,7 @@ export default function NewChannel(props: Props) {
                             </div>
                         </div>
                     )}
+                    {error && <p className="error">{error}</p>}
                     <button className="cancel-button button-purple" onClick={props.quitForm}>
                         cancel
                     </button>

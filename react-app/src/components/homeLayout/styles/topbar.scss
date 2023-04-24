@@ -14,6 +14,7 @@ $invitation-size: 15px;
 	z-index: 100;
 	.channel {
 		@extend .flex-row;
+		position: relative;
 		.channelImg {
 			padding: 7px;
 			height: 32px;
@@ -26,7 +27,6 @@ $invitation-size: 15px;
 				border-radius: 0;
 			}
 		}
-		position: relative;
 		.protected {
 			$img-size: 16px;
 			width: $img-size;

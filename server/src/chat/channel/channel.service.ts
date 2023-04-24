@@ -5,6 +5,7 @@ import { ChannelDto, CreateChannelDto } from "../dtos/Channel.dto";
 import { UsersService } from "../../users/users.service";
 import { Channel, ChannelType } from "../entities";
 import { User } from "src/users/entities/User.entity";
+import * as argon from "argon2";
 
 @Injectable()
 export class ChannelService {
@@ -31,12 +32,14 @@ export class ChannelService {
             },
         });
     }
-    async checkPassword(id: number, hashPassword: string): Promise<boolean> {
+    async checkPassword(channelId: number, password: string): Promise<boolean> {
         const channel = await this.channelRepository.findOne({
-            where: { id: id },
+            where: { id: channelId },
             select: { password: true },
         });
-        return channel.password === hashPassword;
+        console.log(channel);
+        console.log(password);
+        return await argon.verify(channel.password, password);
     }
 
     async findChannelByName(searchName: string): Promise<ChannelDto[]> {

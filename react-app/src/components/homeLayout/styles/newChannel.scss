@@ -161,9 +161,11 @@
 				border-radius: 7px;
 				width: 50px;
 			}
-			&:hover {
+			&:hover, &:focus {
 				background-color: $dark-grey;
-				border-radius: 0;
+				// border-radius: 0;
+				box-shadow: $shadow-outset-border;
+
 				.protected-form {
 					display: flex;
 					height: auto;
@@ -177,9 +179,7 @@
 				padding: 5px 0;
 				gap: 10px;
 				position: relative;
-				// display:none;
 				height: 0;
-				overflow: hidden;
 				transition: 0.5s height;
 				div {
 					display: flex;

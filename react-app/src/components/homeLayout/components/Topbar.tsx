@@ -4,7 +4,7 @@ import { useAuth, useChat, Feature, useFeature } from "context";
 import Invitations from "./Invitation";
 import { useSocket } from "hooks";
 import HeroMenu from "./HeroMenu";
-import { ChatIcon, LockIcon, PlayIcon } from "assets/images";
+import { ChatIcon, LockIcon, NoChannelIcon, PlayIcon } from "assets/images";
 import "../styles/topbar.scss";
 
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
@@ -52,7 +52,7 @@ function Topbar() {
                                 ? " icon"
                                 : "")
                         }
-                        src={channel.image}
+                        src={channel.image ? channel.image : NoChannelIcon}
                         alt="channel"
                     />
                 )}
