@@ -38,7 +38,7 @@ export function MyPaddle(props: Props) {
     const { paddle, onPaddle, config, room } = props;
     const [socket] = useSocket();
     const [move, setMove] = useState(Move.NONE);
-    const paddleSpeed = 20; // adjust as needed
+    const paddleSpeed = 20; // <- nombre de pixel du déplacement du paddle
     const moveInterval = useRef<NodeJS.Timer | null>(null);
 
     useEffect(() => {
@@ -80,11 +80,11 @@ export function MyPaddle(props: Props) {
                 y: paddle.y - paddleSpeed,
             });
         }
-    }, 20);
+    }, 20); // <- loop temps seconde 
 
     useInterval(() => {
         if (document.hidden === false) socket.emit("game-paddle-classic", { room, paddle });
-    }, 20);
+    }, 20); // adjust as needed - if lag opponent
 
     return Paddle(props);
 }
