@@ -66,6 +66,9 @@ type Props = {
 
 export default function PenalityIcons(props: Props) {
     const { user } = props;
+    if (user.endBlock || user.endMute) {
+        console.log("USER: ", user);
+    }
     return (
         <div className="penalities-container">
             {user.endMute !== undefined && (

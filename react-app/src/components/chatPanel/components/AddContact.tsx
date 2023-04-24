@@ -21,14 +21,11 @@ export default function AddContact(props: Props) {
     }
 
     function inviteContact() {
-        console.log(props.type);
         const emitMessage = props.type === "friend" ? "inviteFriend" : "inviteChannelUser";
         const emitData =
             props.type === "friend"
                 ? { userid: userAuth.id, friendname: inviteName }
                 : { username: inviteName, channelId: channel.id };
-        console.log("INVITE CONTACT");
-        console.log(emitMessage, emitData);
 
         socket.emit(emitMessage, emitData, (res: any) => {
             console.log("INVITE RESPONSE: ", res);

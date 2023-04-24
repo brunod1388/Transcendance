@@ -29,9 +29,6 @@
 		transition: margin-top 0.2s, background-color 0.2s, padding-top 0.2s, box-shadow 0.2s;
 		background-color: rgba(0, 0, 0, 0);
 		border-radius: 5px;
-		&:hover {
-			margin-top: 10px;
-		}
 		.channel-title {
 			opacity: 0;
 			position: absolute;
@@ -50,8 +47,17 @@
 			align-self: stretch;
 			max-height: 200px;
 			overflow: scroll;
+			border-radius: 10px;
 		}
-		&:hover {
+	}
+	.notChannel {
+		img {
+			border-radius: 0px;
+		}
+	}
+	
+	&:hover {
+		.channel-wrapper {
 			background-color: $dark-grey;
 			box-shadow: $shadow-outset-border;
 			padding-top: 15px;
@@ -59,13 +65,14 @@
 			.channel-title {
 				opacity: 1;
 			}
-		}
-		
-	}
-	.notChannel {
-		img {
-			border-radius: 0px;
-		}
-	}
 
+			.menu-button {
+				width: 135px;
+				padding-left: 8px;
+			}
+		}
+		.channels-container{
+			margin-top: 10px;
+		}
+	}
 }

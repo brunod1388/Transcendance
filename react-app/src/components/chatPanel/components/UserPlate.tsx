@@ -12,9 +12,7 @@ type Props = {
 
 export default function UserPlate(props: Props) {
     const { user, type } = props;
-    const tomorrow = new Date(2023, 3, 22, 0, 0, 0, 0);
-    user.endBlock = tomorrow;
-    user.endMute = tomorrow;
+
     const { ref, isVisible, setIsVisible } = useVisible(false);
     return (
         <div className={"userChat" + (isVisible ? " selected" : "")}>
