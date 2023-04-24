@@ -74,7 +74,7 @@ export default function PrivateUserPlate(props: Props) {
                 <div className="details">
                     <div className="line">
                         <span className="username">{user.username}</span>
-                        <span style={{color: "red"}}>{user.id}</span>
+                        <span style={{ color: "red" }}>{user.id}</span>
                         <div className="status">
                             <PenalityIcons user={user} />
                             <div

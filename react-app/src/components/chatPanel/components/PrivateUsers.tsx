@@ -7,13 +7,12 @@ import "../styles/privateUsers.scss";
 
 export default function PrivateUsers() {
     const { channel } = useChat();
-    const [ socket ] = useSocket();
-    const [ users, setUsers ] = useState<UserType[]>([]);
-    const [ selected, setSelected ] = useState<number>(-1);
+    const [socket] = useSocket();
+    const [users, setUsers] = useState<UserType[]>([]);
+    const [selected, setSelected] = useState<number>(-1);
 
     useEffect(() => {
-        if (channel.id > 0)
-            setSelected(channel.id);
+        if (channel.id > 0) setSelected(channel.id);
         socket.emit("getPrivateUsers", (users: UserType[]) => {
             setUsers(users);
         });
@@ -39,7 +38,8 @@ export default function PrivateUsers() {
                         type="privateUser"
                         selected={selected === user.channelId}
                         setSelected={setSelected}
-                        key={`${i}`} />
+                        key={`${i}`}
+                    />
                 ))}
             </div>
         </div>

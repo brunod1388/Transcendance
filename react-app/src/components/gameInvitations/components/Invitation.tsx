@@ -16,7 +16,6 @@ import "../styles/gameInvitation.scss";
 
 const NOTIFICATION_TIMEOUT = 30000;
 
-
 // Create a notification using a reducer
 export const CreateInvitation = (
     invitation: InvitationDTO,

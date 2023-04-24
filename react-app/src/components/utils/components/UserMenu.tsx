@@ -73,8 +73,8 @@ export default function UserMenu(props: Props) {
                 rights: "admin",
                 room: String(res.name),
                 image: String(user.avatar),
-            }
-            console.log(newChannel)
+            };
+            console.log(newChannel);
             updateChannel(newChannel);
             socket.emit("joinRoom", { userid: userAuth.id, channelid: newChannel.id });
         });

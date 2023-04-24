@@ -104,7 +104,11 @@ export class ChannelService {
         userId1: number,
         userId2: number
     ): Promise<Channel> {
-        const name = "private " + (userId1 < userId2 ? `${userId1}-${userId2}` : `${userId2}-${userId1}`);
+        const name =
+            "private " +
+            (userId1 < userId2
+                ? `${userId1}-${userId2}`
+                : `${userId2}-${userId1}`);
         const channel = await this.channelRepository.findOne({
             relations: {
                 channelUsers: true,

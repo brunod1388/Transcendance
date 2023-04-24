@@ -114,6 +114,7 @@ export class GeneralService {
             this.leaveRoom(socket, room);
             this.removeGameRoom(room);
             this.removeUserInGame(socket.data.user.id);
+            server.to(room).emit("game-player-logout");
             server.to(room).emit("game-player-left");
         }
         this.removeUserOnline(socket.data.user.id);

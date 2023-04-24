@@ -170,7 +170,11 @@ export class ChatGateway {
             receiverId
         );
         if (channel) return channel;
-        const name = "private " + (senderId < receiverId ? `${senderId}-${receiverId}` : `${receiverId}-${senderId}`);
+        const name =
+            "private " +
+            (senderId < receiverId
+                ? `${senderId}-${receiverId}`
+                : `${receiverId}-${senderId}`);
         const newPrivateChannel = await this.channelService.createChannel({
             ownerId: senderId,
             name: name,
@@ -692,10 +696,7 @@ export class ChatGateway {
     }
 
     @SubscribeMessage("unblockUser")
-    async unblockUser(
-        client: Socket,
-        data: unblockUserDTO,
-    ): Promise<string> {
+    async unblockUser(client: Socket, data: unblockUserDTO): Promise<string> {
         const clientUser = await this.channelUserService.checkIfChannelUser(
             Number(client.data.user.id),
             Number(data.channelId)
@@ -708,10 +709,10 @@ export class ChatGateway {
             Number(data.channelUserId)
         );
         if (user2unblock === undefined || user2unblock === null)
-            return "Unblock target channel user not found"
+            return "Unblock target channel user not found";
         const check = await this.blockedUserService.checkIfBlocked(
             Number(user2unblock.user.id),
-            Number(data.channelId),
+            Number(data.channelId)
         );
         if (check !== undefined && check !== null) {
             await this.blockedUserService.deleteBlockedUser(Number(check.id));
@@ -726,7 +727,8 @@ export class ChatGateway {
             "Failed to unblock channelUser with ID " +
             data.channelUserId +
             " on channel with ID " +
-            data.channelId + " as no existing block detected"
+            data.channelId +
+            " as no existing block detected"
         );
     }
 
@@ -771,10 +773,7 @@ export class ChatGateway {
     }
 
     @SubscribeMessage("unmuteUser")
-    async unmuteUser(
-        client: Socket,
-        data: unmuteUserDTO,
-    ): Promise<string> {
+    async unmuteUser(client: Socket, data: unmuteUserDTO): Promise<string> {
         const clientUser = await this.channelUserService.checkIfChannelUser(
             Number(client.data.user.id),
             Number(data.channelId)
@@ -787,10 +786,10 @@ export class ChatGateway {
             Number(data.channelUserId)
         );
         if (user2unmute === undefined || user2unmute === null)
-            return "Unmute target channel user not found"
+            return "Unmute target channel user not found";
         const check = await this.mutedUserService.checkIfMuted(
             Number(user2unmute.user.id),
-            Number(data.channelId),
+            Number(data.channelId)
         );
         if (check !== undefined && check !== null) {
             await this.mutedUserService.deleteMutedUser(Number(check.id));
@@ -805,7 +804,8 @@ export class ChatGateway {
             "Failed to unmute channelUser with ID " +
             data.channelUserId +
             " on channel with ID " +
-            data.channelId + " as no existing mute detected"
+            data.channelId +
+            " as no existing mute detected"
         );
     }
 }
