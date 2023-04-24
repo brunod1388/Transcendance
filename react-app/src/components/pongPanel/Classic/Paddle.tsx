@@ -1,5 +1,5 @@
-import { CSSProperties, useEffect, useState } from "react";
-import { Broadcast, GameConfig, Position } from "@customTypes";
+import { CSSProperties, useEffect, useState, useRef } from "react";
+import { GameConfig, Position } from "@customTypes";
 import { useSocket } from "hooks";
 import { useInterval } from "hooks";
 import "../styles/classic.scss";
@@ -38,7 +38,8 @@ export function MyPaddle(props: Props) {
     const { paddle, onPaddle, config, room } = props;
     const [socket] = useSocket();
     const [move, setMove] = useState(Move.NONE);
-    const paddleSpeed = 10; // adjust as needed
+    const paddleSpeed = 20; // adjust as needed
+    const moveInterval = useRef<NodeJS.Timer | null>(null);
 
     useEffect(() => {
         function handleMoveStart(event: KeyboardEvent) {
@@ -49,24 +50,25 @@ export function MyPaddle(props: Props) {
             }
         }
 
-        // function handleMoveEnd(event: KeyboardEvent) {
-        //     if (event.code === "ArrowUp") {
-        //         setMove(Move.NONE);
-        //     } else if (event.code === "ArrowDown") {
-        //         setMove(Move.NONE);
-        //     }
-        // }
+        function handleMoveEnd(event: KeyboardEvent) {
+            if (event.code === "ArrowUp" && move === Move.UP) {
+                setMove(Move.NONE);
+            } else if (event.code === "ArrowDown" && move === Move.DOWN) {
+                setMove(Move.NONE);
+            }
+        }
 
         document.addEventListener("keydown", handleMoveStart);
-        // document.addEventListener("keyup", handleMoveEnd);
+        document.addEventListener("keyup", handleMoveEnd);
 
         return () => {
             document.removeEventListener("keydown", handleMoveStart);
-            // document.removeEventListener("keyup", handleMoveEnd);
+            document.removeEventListener("keyup", handleMoveEnd);
+            clearInterval(moveInterval.current!);
         };
-    }, []);
+    }, [move]);
 
-    useEffect(() => {
+    useInterval(() => {
         if (move === Move.UP && paddle.y + paddleSpeed < config.boardHeight) {
             onPaddle({
                 ...paddle,
@@ -78,12 +80,11 @@ export function MyPaddle(props: Props) {
                 y: paddle.y - paddleSpeed,
             });
         }
-        setMove(Move.NONE);
-    }, [move]);
-    // useKeyboard(handler, document);
+    }, 20);
 
     useInterval(() => {
         if (document.hidden === false) socket.emit("game-paddle-classic", { room, paddle });
     }, 20);
+
     return Paddle(props);
 }
