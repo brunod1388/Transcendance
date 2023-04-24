@@ -300,7 +300,7 @@ export default function UserMenu(props: Props) {
                     Delete Friend
                 </button>
             )}
-            {props.user.rights === "owner" && (
+            {channel.rights === "owner" && (
                 <button
                     className="deleteChannel red-button long button-purple"
                     onClick={deleteChannel}
