@@ -196,7 +196,7 @@ export default function UserMenu(props: Props) {
                     Play
                 </button>
             )}
-            {userAuth.id !== user.id && (
+            {userAuth.id !== user.id && !isPrivate && (
                 <button className="dm long button-purple" onClick={privateMessage}>
                     Direct Message
                 </button>

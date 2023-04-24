@@ -15,13 +15,16 @@
 	flex-shrink: 0;
 	transition: order 1s;
 	&.selected {
+		order: -1;
 		background: none;
-		background-color: $dark-grey;
-		border-radius: 20px 5px 5px 5px;
+		background-color: rgba(176, 94, 239, 0.357);
+		border-radius: 20px 5px 5px 20px;
 	}
 	&:hover {
-		background: none;
-		background-color: $dark-grey;
+		&:not(.selected) {
+			background: none;
+			background-color: $dark-grey;
+		}
 	}
 	img {
 		flex-shrink: 0;

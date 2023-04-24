@@ -10,10 +10,12 @@ type Props = {
     hasNewMsg?: boolean;
     user: UserType;
     type: UserPlateType;
+    selected: boolean;
+    setSelected: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export default function PrivateUserPlate(props: Props) {
-    const { hasNewMsg = false, user, type } = props;
+    const { hasNewMsg = false, user, type, selected, setSelected } = props;
     const { channel, updateChannel } = useChat();
     const { userAuth } = useAuth();
     const [socket] = useSocket();
@@ -31,6 +33,7 @@ export default function PrivateUserPlate(props: Props) {
     }
 
     function selectUser() {
+        setSelected(user.id);
         leaveRoom();
         const newChannel = {
             name: "Private Message - " + props.user.username,
@@ -64,11 +67,8 @@ export default function PrivateUserPlate(props: Props) {
             document.removeEventListener("click", (e) => handleClickOutsideMenu(e, user.id), true);
     }, []);
 
-    const tomorrow = new Date(2023, 3, 22, 0, 0, 0, 0);
-    user.endBlock = tomorrow;
-    user.endMute = tomorrow;
     return (
-        <div className="private-user" id={`plate${user.id}`}>
+        <div className={"private-user" + (selected ? " selected" : "")}>
             <div className="userPlate" onClick={selectUser}>
                 <img src={user.avatar === "" ? NoUserIcon : user.avatar} alt="avatar" />
                 <div className="details">
