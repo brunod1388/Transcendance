@@ -121,6 +121,9 @@
 			object-fit: cover;
 		}
 		transition: 0.5s;
+
+
+
 		.channel{
 			@extend .flex-column;
 			justify-content: space-between;
@@ -163,7 +166,7 @@
 				input {
 					width: 115px;
 					color: white;
-					padding: 7px 8px;
+					padding: 5px 8px;
 					padding-left: 36px;
 					border: none;
 					outline: none;

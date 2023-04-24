@@ -109,9 +109,9 @@ export class ChatGateway {
     ): Promise<string> {
         try {
             if (channel.type === "protected")
-                channel.password = await argon.hash(channel.password)
-            console.log(channel)
-            const newChannel = await this.channelService.createChannel(channel)
+                channel.password = await argon.hash(channel.password);
+            console.log(channel);
+            const newChannel = await this.channelService.createChannel(channel);
             await this.channelUserService.createChannelUser({
                 channelId: newChannel.id,
                 userId: newChannel.owner.id,
@@ -175,7 +175,11 @@ export class ChatGateway {
             receiverId
         );
         if (channel) return channel;
-        const name = "private " + (senderId < receiverId ? `${senderId}-${receiverId}` : `${receiverId}-${senderId}`);
+        const name =
+            "private " +
+            (senderId < receiverId
+                ? `${senderId}-${receiverId}`
+                : `${receiverId}-${senderId}`);
         const newPrivateChannel = await this.channelService.createChannel({
             ownerId: senderId,
             name: name,
@@ -223,7 +227,13 @@ export class ChatGateway {
         @MessageBody("password") password: string,
         @ConnectedSocket() client: Socket
     ): Promise<ChannelDto | string> {
-        if (password && !this.channelService.checkPassword(channelId, await argon.hash(password))) {
+        if (
+            password &&
+            !this.channelService.checkPassword(
+                channelId,
+                await argon.hash(password)
+            )
+        ) {
             return "Wrong password";
         }
         const channelUser = await this.channelUserService.createChannelUser({
@@ -246,7 +256,9 @@ export class ChatGateway {
         @MessageBody("channelId") channelId: number,
         @ConnectedSocket() client: Socket
     ): Promise<string> {
-        const channel = await this.channelService.findChannelById(Number(channelId));
+        const channel = await this.channelService.findChannelById(
+            Number(channelId)
+        );
         const user = await this.userService.findUserId(client.data.user.id);
         if (channel === undefined) return "Channel does not exist";
         if (user === undefined) return "Can't find userProfile";
@@ -701,10 +713,7 @@ export class ChatGateway {
     }
 
     @SubscribeMessage("unblockUser")
-    async unblockUser(
-        client: Socket,
-        data: unblockUserDTO,
-    ): Promise<string> {
+    async unblockUser(client: Socket, data: unblockUserDTO): Promise<string> {
         const clientUser = await this.channelUserService.checkIfChannelUser(
             Number(client.data.user.id),
             Number(data.channelId)
@@ -717,10 +726,10 @@ export class ChatGateway {
             Number(data.channelUserId)
         );
         if (user2unblock === undefined || user2unblock === null)
-            return "Unblock target channel user not found"
+            return "Unblock target channel user not found";
         const check = await this.blockedUserService.checkIfBlocked(
             Number(user2unblock.user.id),
-            Number(data.channelId),
+            Number(data.channelId)
         );
         if (check !== undefined && check !== null) {
             await this.blockedUserService.deleteBlockedUser(Number(check.id));
@@ -735,7 +744,8 @@ export class ChatGateway {
             "Failed to unblock channelUser with ID " +
             data.channelUserId +
             " on channel with ID " +
-            data.channelId + " as no existing block detected"
+            data.channelId +
+            " as no existing block detected"
         );
     }
 
@@ -780,10 +790,7 @@ export class ChatGateway {
     }
 
     @SubscribeMessage("unmuteUser")
-    async unmuteUser(
-        client: Socket,
-        data: unmuteUserDTO,
-    ): Promise<string> {
+    async unmuteUser(client: Socket, data: unmuteUserDTO): Promise<string> {
         const clientUser = await this.channelUserService.checkIfChannelUser(
             Number(client.data.user.id),
             Number(data.channelId)
@@ -796,10 +803,10 @@ export class ChatGateway {
             Number(data.channelUserId)
         );
         if (user2unmute === undefined || user2unmute === null)
-            return "Unmute target channel user not found"
+            return "Unmute target channel user not found";
         const check = await this.mutedUserService.checkIfMuted(
             Number(user2unmute.user.id),
-            Number(data.channelId),
+            Number(data.channelId)
         );
         if (check !== undefined && check !== null) {
             await this.mutedUserService.deleteMutedUser(Number(check.id));
@@ -814,7 +821,8 @@ export class ChatGateway {
             "Failed to unmute channelUser with ID " +
             data.channelUserId +
             " on channel with ID " +
-            data.channelId + " as no existing mute detected"
+            data.channelId +
+            " as no existing mute detected"
         );
     }
 }

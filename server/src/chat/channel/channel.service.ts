@@ -32,8 +32,8 @@ export class ChannelService {
     }
     async checkPassword(id: number, hashPassword: string): Promise<boolean> {
         const channel = await this.channelRepository.findOne({
-            where: {id: id},
-            select: { password: true }
+            where: { id: id },
+            select: { password: true },
         });
         return channel.password === hashPassword;
     }
@@ -82,7 +82,7 @@ export class ChannelService {
                 image: true,
                 type: true,
                 owner: { id: true },
-                password: false
+                password: false,
             },
         });
         if (isPrivate)
@@ -112,7 +112,11 @@ export class ChannelService {
         userId1: number,
         userId2: number
     ): Promise<Channel> {
-        const name = "private " + (userId1 < userId2 ? `${userId1}-${userId2}` : `${userId2}-${userId1}`);
+        const name =
+            "private " +
+            (userId1 < userId2
+                ? `${userId1}-${userId2}`
+                : `${userId2}-${userId1}`);
         const channel = await this.channelRepository.findOne({
             relations: {
                 channelUsers: true,

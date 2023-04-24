@@ -73,8 +73,8 @@ export default function UserMenu(props: Props) {
                 rights: "admin",
                 room: String(res.name),
                 image: String(user.avatar),
-            }
-            console.log(newChannel)
+            };
+            console.log(newChannel);
             updateChannel(newChannel);
             socket.emit("joinRoom", { userid: userAuth.id, channelid: newChannel.id });
         });
@@ -144,7 +144,7 @@ export default function UserMenu(props: Props) {
     }
 
     function deleteChannel() {
-        console.log(channel.id)
+        console.log(channel.id);
         socket.emit("deleteChannel", { channelId: channel.id });
         setFeature(Feature.None);
         updateChannel({
@@ -283,7 +283,7 @@ export default function UserMenu(props: Props) {
                     Delete Friend
                 </button>
             )}
-            {channel.rights === "owner" && (
+            {channel.rights === "owner" && user.rights === "owner" && (
                 <button
                     className="deleteChannel red-button long button-purple"
                     onClick={deleteChannel}

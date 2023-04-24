@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import AddImage from "assets/images/add-image.png";
 import { useSocket } from "hooks";
 import { Feature, useAuth, useChat, useFeature } from "context";
@@ -13,7 +13,7 @@ const NEWCHANNEL_ERROR = {
     PWD_NOMATCH: "Passwords do not match",
     NAME_TAKEN: "Channel name already taken",
     NAME_EMPTY: "Channel name cannot be empty",
-}
+};
 interface Props {
     quitForm: () => void;
 }
@@ -24,30 +24,29 @@ interface ChannelProps {
 }
 
 function ChannelPlate({ channel, joinChannel }: ChannelProps) {
-    console.log(channel)
-    function openPassword() {
-        
+    // console.log(channel)
+    function handleSubmit(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const password = e.currentTarget.querySelector("input")?.value;
+        console.log(password);
+        joinChannel({ ...channel, password: password });
     }
     return (
-        <div className="channel">
+        <div className={"channel" + (channel.type ? " protected" : "")}>
             <div className="first-line">
                 <img src={channel.image ? channel.image : NoChannelIcon} alt="channel-image" />
                 <span className="channelName">{channel.name}</span>
-                {channel.type === "public" &&
+                {channel.type === "public" && (
                     <button onClick={() => joinChannel(channel)}> Join </button>
-                }
-                {channel.type === "protected" &&
-                    <button onClick={openPassword}> Join </button>
-                }
+                )}
             </div>
-            {channel.type === "protected" &&
-                <div className="protected">
+            {channel.type === "protected" && (
+                <form className="protected" onSubmit={handleSubmit}>
                     <img src={LockIcon} alt="" />
-                    <input type="password" />
-                    <button onClick={() => joinChannel(channel)}> Join </button>
-                </div>
-            }
-
+                    <input type="password" name="password" />
+                    <button> Join </button>
+                </form>
+            )}
         </div>
     );
 }
@@ -65,11 +64,13 @@ export default function NewChannel(props: Props) {
     function handleSubmit(e: any) {
         e.preventDefault();
         const target = e.target;
-        if (target.channelName.value === "")
-            return setError(NEWCHANNEL_ERROR.NAME_EMPTY);
+        if (target.channelName.value === "") return setError(NEWCHANNEL_ERROR.NAME_EMPTY);
         if (target.password?.value.length < PWD_MIN_LENGTH)
             return setError(NEWCHANNEL_ERROR.PWD_TOOSHORT);
-        if (target.channeltype === "protected" && target.password.value !== target.confirmPassword.value)
+        if (
+            target.channeltype === "protected" &&
+            target.password.value !== target.confirmPassword.value
+        )
             return setError(NEWCHANNEL_ERROR.PWD_NOMATCH);
         const newChannel = {
             name: target.channelName.value,

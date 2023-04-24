@@ -24,6 +24,7 @@ export interface ChannelType {
     image?: any;
     protected?: boolean;
     type?: string;
+    password?: string;
 }
 
 export enum channelRightType {
