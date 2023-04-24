@@ -25,11 +25,11 @@
 	}
 	.username {
 		font-family: Kaushan;
-		max-width: 130px;
+		max-width: 120px;
+		padding-right: 5px;
 		overflow: hidden;
 		font-size: 22px;
 		color: $purple;
-		padding-top: 10px;
 		&::first-letter {
 			text-transform: uppercase;
 		}

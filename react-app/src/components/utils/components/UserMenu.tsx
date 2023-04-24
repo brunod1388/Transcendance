@@ -6,6 +6,7 @@ import { useSocket, useVisible } from "hooks";
 import { sendInvitation } from "utils";
 import UserDetails from "./UserDetails";
 import "../styles/userMenu.scss";
+import { ChatIcon } from "assets/images";
 
 type MuteOrBlock = "Mute" | "Block" | "";
 interface Props {
@@ -59,10 +60,23 @@ export default function UserMenu(props: Props) {
 
     function privateMessage() {
         socket.emit("privateMessage", { receiverId: user.id }, (res: any) => {
+            socket.emit("leaveRoom", {
+                userid: userAuth.id,
+                channelid: channel.id,
+            });
             console.log("res: ", res);
-            // setFeature(Feature.Private);
-            // updateChannel({
-            //     ...channel,
+            setFeature(Feature.Private);
+            const newChannel = {
+                id: res.id,
+                name: `Private Message - ${user.username}`,
+                type: res.type,
+                rights: "admin",
+                room: String(res.name),
+                image: String(user.avatar),
+            }
+            console.log(newChannel)
+            updateChannel(newChannel);
+            socket.emit("joinRoom", { userid: userAuth.id, channelid: newChannel.id });
         });
     }
 

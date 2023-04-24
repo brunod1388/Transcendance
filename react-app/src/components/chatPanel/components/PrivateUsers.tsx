@@ -12,8 +12,9 @@ export default function PrivateUsers() {
     const [ selected, setSelected ] = useState<number>(-1);
 
     useEffect(() => {
+        if (channel.id > 0)
+            setSelected(channel.id);
         socket.emit("getPrivateUsers", (users: UserType[]) => {
-            console.log(users);
             setUsers(users);
         });
         socket.on("PrivateUser", (user: UserType) => {
@@ -36,7 +37,7 @@ export default function PrivateUsers() {
                     <PrivateUserPlate
                         user={user}
                         type="privateUser"
-                        selected={selected === user.id}
+                        selected={selected === user.channelId}
                         setSelected={setSelected}
                         key={`${i}`} />
                 ))}

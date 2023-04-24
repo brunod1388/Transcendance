@@ -14,10 +14,8 @@ import { useTimeout } from "hooks";
 import { sendResponse } from "utils";
 import "../styles/gameInvitation.scss";
 
-// const NOTIFICATION_TIMEOUT = 300000000;
-const NOTIFICATION_TIMEOUT = 300000000;
+const NOTIFICATION_TIMEOUT = 30000;
 
-//const userTest = { id: 666, username: "username", avatar: NoUserIcon };
 
 // Create a notification using a reducer
 export const CreateInvitation = (

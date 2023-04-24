@@ -33,13 +33,13 @@ export default function PrivateUserPlate(props: Props) {
     }
 
     function selectUser() {
-        setSelected(user.id);
+        setSelected(Number(user.channelId));
         leaveRoom();
         const newChannel = {
+            id: Number(user.channelId),
             name: "Private Message - " + props.user.username,
             type: "private",
             rights: "admin",
-            id: Number(user.channelId),
             room: String(user.room),
             image: String(user.avatar),
         };

@@ -5,8 +5,7 @@ import { Socket } from "socket.io-client";
 import { useTimeout } from "hooks";
 import { NoUserIcon } from "assets/images";
 
-const INVITATION_TIMEOUT = 1000000;
-// const INVITATION_TIMEOUT = 3000;
+const INVITATION_TIMEOUT = 3000;
 
 export const CreateResponse = (
     response: ResponseDTO,

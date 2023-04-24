@@ -169,10 +169,11 @@ export class ChatGateway {
             senderId,
             receiverId
         );
-        if (channel !== undefined) return channel;
+        if (channel) return channel;
+        const name = "private " + (senderId < receiverId ? `${senderId}-${receiverId}` : `${receiverId}-${senderId}`);
         const newPrivateChannel = await this.channelService.createChannel({
             ownerId: senderId,
-            name: `private ${senderId}-${receiverId}`,
+            name: name,
             type: ChannelType.PRIVATE,
             password: null,
         });

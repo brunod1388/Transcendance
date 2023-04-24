@@ -104,29 +104,21 @@ export class ChannelService {
         userId1: number,
         userId2: number
     ): Promise<Channel> {
-        const channels = await this.channelRepository.find({
+        const name = "private " + (userId1 < userId2 ? `${userId1}-${userId2}` : `${userId2}-${userId1}`);
+        const channel = await this.channelRepository.findOne({
             relations: {
                 channelUsers: true,
             },
             where: {
-                channelUsers: {
-                    user: { id: userId1 },
-                },
+                name: name,
                 type: ChannelType.PRIVATE,
             },
             select: {
                 id: true,
                 type: true,
+                name: true,
                 channelUsers: true,
             },
-        });
-        let channel = undefined;
-        channels.filter((chan) => {
-            let hasUser2 = false;
-            chan.channelUsers.forEach((chanUser) => {
-                if (chanUser.id === userId2) hasUser2 = true;
-            });
-            if (hasUser2) channel = chan;
         });
         return channel;
     }
