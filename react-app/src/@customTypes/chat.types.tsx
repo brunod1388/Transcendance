@@ -43,9 +43,9 @@ export interface UserType {
     channelId?: number;
     room?: string;
     muted?: boolean;
-    endMute?: Date;
+    endMute?: string;
     blocked?: boolean;
-    endBlock?: Date;
+    endBlock?: string;
 }
 
 export interface MessageType {

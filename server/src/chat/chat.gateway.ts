@@ -63,6 +63,40 @@ export class ChatGateway {
         private mutedUserService: MutedUserService
     ) {}
 
+    async getChatUserData(userID: number, channelID: number) {
+        const channelUser = await this.channelUserService.checkIfChannelUser(
+            Number(userID),
+            Number(channelID)
+        );
+        if (channelUser === undefined || channelUser === null) return undefined;
+        const checkIfBlocked = await this.blockedUserService.checkIfBlocked(
+            userID,
+            channelID
+        );
+        const checkIfMuted = await this.blockedUserService.checkIfBlocked(
+            userID,
+            channelID
+        );
+        const now = new Date(Date.now());
+        this.server.to(ROOM_PREFIX + channelID).emit("ChannelUser", {
+            id: userID,
+            username: channelUser.user.username,
+            avatar: channelUser.user.avatar,
+            channelUserId: channelUser.id,
+            rights: channelUser.rights,
+            connected: this.generalService.getUsersOnline().has(userID),
+            inGame: this.generalService.isUserInGame(userID),
+            muted: checkIfMuted
+                ? new Date(checkIfMuted?.endDate) <= now
+                : false,
+            endMute: checkIfMuted ? String(checkIfMuted.endDate) : undefined,
+            blocked: checkIfBlocked
+                ? new Date(checkIfBlocked?.endDate) <= now
+                : false,
+            endBlock: checkIfBlocked ? String(checkIfBlocked.endDate) : undefined,
+        });
+    }
+
     @SubscribeMessage("test")
     async test(@MessageBody() data: any) {
         console.log("---------TEST--------");
@@ -226,6 +260,13 @@ export class ChatGateway {
             rights: rightType.NORMAL,
             isPending: false,
         });
+        const now = new Date(Date.now());
+        const checkIfBlocked = await this.blockedUserService.checkIfBlocked(
+            client.data.user.id,
+            channelId,
+        );
+        if ((checkIfBlocked !== undefined && checkIfBlocked !== null) && new Date(checkIfBlocked.endDate) > now)
+            return "User is blocked - cannot join"
         if (!channelUser) return "Could not add you to channel";
         const channelAdded = await this.channelService.findChannelById(
             channelId
@@ -353,9 +394,10 @@ export class ChatGateway {
                 //connected: this.onlineUsers.has(channelUser.user.id),
             };
             if (channelUser !== undefined)
-                this.server
-                    .to(ROOM_PREFIX + channelUser.channel.id)
-                    .emit("ChannelUser", user);
+                // this.server
+                //     .to(ROOM_PREFIX + channelUser.channel.id)
+                //     .emit("ChannelUser", user);
+                this.getChatUserData(channelUser.user.id, channelUser.channel.id);
             return channelUser;
         }
         this.server
@@ -397,18 +439,19 @@ export class ChatGateway {
             ...channelUser,
             rights: rights,
         });
-        const room = ROOM_PREFIX + channel.id;
-        this.server.to(room).emit("ChannelUser", {
-            id: newChannelUser.user.id,
-            username: newChannelUser.user.username,
-            avatar: newChannelUser.user.avatar,
-            channelUserId: newChannelUser.id,
-            rights: newChannelUser.rights,
-            connected: this.generalService
-                .getUsersOnline()
-                .has(newChannelUser.user.id),
-            inGame: this.generalService.isUserInGame(newChannelUser.user.id),
-        });
+        // const room = ROOM_PREFIX + channel.id;
+        // this.server.to(room).emit("ChannelUser", {
+        //     id: newChannelUser.user.id,
+        //     username: newChannelUser.user.username,
+        //     avatar: newChannelUser.user.avatar,
+        //     channelUserId: newChannelUser.id,
+        //     rights: newChannelUser.rights,
+        //     connected: this.generalService
+        //         .getUsersOnline()
+        //         .has(newChannelUser.user.id),
+        //     inGame: this.generalService.isUserInGame(newChannelUser.user.id),
+        // });
+        this.getChatUserData(newChannelUser.user.id, newChannelUser.channel.id);
         return `${channelUser.user.username} has been updated to ${rights}`;
     }
 
@@ -680,6 +723,7 @@ export class ChatGateway {
                 " on channel with ID " +
                 data.channelId
             );
+        this.getChatUserData(data.userId, data.channelId);
         if (this.generalService.getUsersOnline().has(data.userId)) {
             this.server.sockets.sockets.forEach((socket) => {
                 if (socket.data.user.id === data.userId)
@@ -715,6 +759,7 @@ export class ChatGateway {
         );
         if (check !== undefined && check !== null) {
             await this.blockedUserService.deleteBlockedUser(Number(check.id));
+            this.getChatUserData(user2unblock.user.id, data.channelId);
             return (
                 "ChannelUser with ID " +
                 data.channelUserId +
@@ -763,6 +808,7 @@ export class ChatGateway {
                 " on channel with ID " +
                 data.channelId
             );
+        this.getChatUserData(data.userId, data.channelId);
         return (
             "User with ID " +
             data.userId +
@@ -792,6 +838,7 @@ export class ChatGateway {
         );
         if (check !== undefined && check !== null) {
             await this.mutedUserService.deleteMutedUser(Number(check.id));
+            this.getChatUserData(user2unmute.user.id, data.channelId);
             return (
                 "ChannelUser with ID " +
                 data.channelUserId +

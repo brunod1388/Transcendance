@@ -22,7 +22,7 @@ function getTimeStr(date: Date, withSeconds: boolean): string {
 }
 
 function dateDiffStr(date1: Date, date2: Date): String {
-    const diff = Math.abs(date1.getTime() - date2.getTime());
+    const diff = date1.getTime() - date2.getTime();
     const diffDays = Math.floor(diff / (1000 * 3600 * 24));
     const diffHours = Math.floor((diff % (1000 * 3600 * 24)) / (1000 * 3600));
     const diffMinutes = Math.floor((diff % (1000 * 3600)) / (1000 * 60));

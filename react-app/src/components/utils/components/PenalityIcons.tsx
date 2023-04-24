@@ -10,14 +10,14 @@ type PenalityType = "Block" | "Mute";
 
 type PenalityProps = {
     type: PenalityType;
-    endBlock?: Date;
-    endMute?: Date;
+    endBlock: string;
+    endMute: string;
     channelUserId: number;
 };
 
 function PenalityIcon(props: PenalityProps) {
     const endTime =
-        (props.type === "Mute" ? props.endMute : props.endBlock) || new Date(Date.now());
+        (props.type === "Mute" ? new Date(props.endMute) : new Date(props.endBlock)) || new Date(Date.now());
     const { channel } = useChat();
     const isAdmin = channel.rights !== "normal";
     const [socket] = useSocket();
@@ -74,14 +74,16 @@ export default function PenalityIcons(props: Props) {
             {user.endMute !== undefined && (
                 <PenalityIcon
                     type="Mute"
-                    endBlock={user.endMute}
+                    endBlock={user.endBlock ? user.endBlock : String(Date.now())}
+                    endMute={user.endMute ? user.endMute : String(Date.now())}
                     channelUserId={Number(user.channelUserId)}
                 />
             )}
             {user.endBlock !== undefined && (
                 <PenalityIcon
                     type="Block"
-                    endBlock={user.endBlock}
+                    endBlock={user.endBlock ? user.endBlock : String(Date.now())}
+                    endMute={user.endMute ? user.endMute : String(Date.now())}
                     channelUserId={Number(user.channelUserId)}
                 />
             )}
