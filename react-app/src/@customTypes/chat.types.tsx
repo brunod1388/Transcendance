@@ -23,6 +23,7 @@ export interface ChannelType {
     name: string;
     image?: any;
     protected?: boolean;
+    type?: string;
 }
 
 export enum channelRightType {

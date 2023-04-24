@@ -114,24 +114,6 @@ export default function UserMenu(props: Props) {
                 }
             );
         }
-
-        // socket.emit(
-        //     "createPenality",
-        //     {
-        //         penality: {
-        //             channelUserId: Number(user.channelUserId),
-        //             endDate: endDate,
-        //             type: muteOrBlock,
-        //         },
-        //     },
-        //     (res: any) => console.log("res: ", res)
-        // );
-        // console.log({
-        //     channelUserId: Number(user.channelUserId),
-        //     endDate: endDate,
-        //     type: muteOrBlock,
-        // });
-        // console.log("mute or block");
         setIsVisible(false);
     }
 
@@ -162,7 +144,8 @@ export default function UserMenu(props: Props) {
     }
 
     function deleteChannel() {
-        socket.emit("deleteChannel", { id: channel.id });
+        console.log(channel.id)
+        socket.emit("deleteChannel", { channelId: channel.id });
         setFeature(Feature.None);
         updateChannel({
             ...channel,

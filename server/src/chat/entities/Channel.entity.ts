@@ -38,7 +38,7 @@ export class Channel {
     @Column({ type: "enum", enum: ChannelType })
     type: ChannelType;
 
-    @Column({ default: null })
+    @Column({ default: null, select: false })
     password: string;
 
     @CreateDateColumn()

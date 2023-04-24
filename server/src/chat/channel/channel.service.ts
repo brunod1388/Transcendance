@@ -30,6 +30,13 @@ export class ChannelService {
             },
         });
     }
+    async checkPassword(id: number, hashPassword: string): Promise<boolean> {
+        const channel = await this.channelRepository.findOne({
+            where: {id: id},
+            select: { password: true }
+        });
+        return channel.password === hashPassword;
+    }
 
     async findChannelByName(searchName: string): Promise<ChannelDto[]> {
         return await this.channelRepository
@@ -75,6 +82,7 @@ export class ChannelService {
                 image: true,
                 type: true,
                 owner: { id: true },
+                password: false
             },
         });
         if (isPrivate)
