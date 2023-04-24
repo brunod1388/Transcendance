@@ -17,7 +17,8 @@ type PenalityProps = {
 
 function PenalityIcon(props: PenalityProps) {
     const endTime =
-        (props.type === "Mute" ? new Date(props.endMute) : new Date(props.endBlock)) || new Date(Date.now());
+        (props.type === "Mute" ? new Date(props.endMute) : new Date(props.endBlock)) ||
+        new Date(Date.now());
     const { channel } = useChat();
     const isAdmin = channel.rights !== "normal";
     const [socket] = useSocket();

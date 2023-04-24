@@ -73,7 +73,7 @@ export class ChatGateway {
             userID,
             channelID
         );
-        const checkIfMuted = await this.blockedUserService.checkIfBlocked(
+        const checkIfMuted = await this.mutedUserService.checkIfMuted(
             userID,
             channelID
         );
@@ -86,14 +86,17 @@ export class ChatGateway {
             rights: channelUser.rights,
             connected: this.generalService.getUsersOnline().has(userID),
             inGame: this.generalService.isUserInGame(userID),
-            muted: checkIfMuted
-                ? new Date(checkIfMuted?.endDate) <= now
+            muted: (checkIfMuted !== undefined && checkIfMuted !== null)
+                ? new Date(checkIfMuted.endDate) <= now
                 : false,
-            endMute: checkIfMuted ? String(checkIfMuted.endDate) : undefined,
-            blocked: checkIfBlocked
+            endMute: (checkIfMuted !== undefined && checkIfMuted !== null)
+                ? new Date(checkIfMuted.endDate) : undefined,
+            blocked: (checkIfBlocked !== undefined && checkIfBlocked !== null)
                 ? new Date(checkIfBlocked?.endDate) <= now
                 : false,
-            endBlock: checkIfBlocked ? String(checkIfBlocked.endDate) : undefined,
+            endBlock: (checkIfBlocked !== undefined && checkIfBlocked !== null)
+                ? new Date(checkIfBlocked.endDate)
+                : undefined,
         });
     }
 
@@ -263,10 +266,14 @@ export class ChatGateway {
         const now = new Date(Date.now());
         const checkIfBlocked = await this.blockedUserService.checkIfBlocked(
             client.data.user.id,
-            channelId,
+            channelId
         );
-        if ((checkIfBlocked !== undefined && checkIfBlocked !== null) && new Date(checkIfBlocked.endDate) > now)
-            return "User is blocked - cannot join"
+        if (
+            checkIfBlocked !== undefined &&
+            checkIfBlocked !== null &&
+            new Date(checkIfBlocked.endDate) > now
+        )
+            return "User is blocked - cannot join";
         if (!channelUser) return "Could not add you to channel";
         const channelAdded = await this.channelService.findChannelById(
             channelId
@@ -326,18 +333,11 @@ export class ChatGateway {
                     blockedID.push(Number(element.userID));
             });
         }
-        console.log("Blocked users in getChannelUsers: ", blockedID);
-        console.log("UserID emitted getChannelUsers: ", client.data.user.id);
-        console.log(
-            "Include check: ",
-            blockedID.includes(Number(client.data.user.id))
-        );
         if (blockedID.includes(Number(client.data.user.id)) === false)
             return users;
         const filteredUsers = users.filter(
             (user) => !blockedID.includes(Number(user.id))
         );
-        console.log("Filtered users in getChannelUsers ", filteredUsers);
         return filteredUsers;
     }
 
@@ -397,7 +397,10 @@ export class ChatGateway {
                 // this.server
                 //     .to(ROOM_PREFIX + channelUser.channel.id)
                 //     .emit("ChannelUser", user);
-                this.getChatUserData(channelUser.user.id, channelUser.channel.id);
+                this.getChatUserData(
+                    channelUser.user.id,
+                    channelUser.channel.id
+                );
             return channelUser;
         }
         this.server
