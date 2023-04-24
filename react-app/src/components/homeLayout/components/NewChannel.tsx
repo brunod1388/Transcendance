@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import AddImage from "assets/images/add-image.png";
 import { useSocket } from "hooks";
 import { Feature, useAuth, useChat, useFeature } from "context";
 import { LockIcon, NoChannelIcon } from "assets/images";
 import { ChannelType } from "@customTypes";
 import "../styles/newChannel.scss";
+
+const PWD_MIN_LENGTH = 5;
+
+const NEWCHANNEL_ERROR = {
+    PWD_TOOSHORT: "Password must be at least 6 characters",
+    PWD_NOMATCH: "Passwords do not match",
+    NAME_TAKEN: "Channel name already taken",
+    NAME_EMPTY: "Channel name cannot be empty",
+};
 interface Props {
     quitForm: () => void;
 }
@@ -15,11 +24,33 @@ interface ChannelProps {
 }
 
 function ChannelPlate({ channel, joinChannel }: ChannelProps) {
+    function handleSubmit(e: FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const password = e.currentTarget.querySelector("input")?.value;
+        joinChannel({ ...channel, password: password });
+    }
+
     return (
-        <div className="channel">
-            <img src={channel.image ? channel.image : NoChannelIcon} alt="channel-image" />
-            <span className="channelName">{channel.name}</span>
-            <button onClick={() => joinChannel(channel)}> Join </button>
+        <div className={"channel" + (channel.type ? " protected" : "")}>
+            <div className="first-line">
+                <img src={channel.image ? channel.image : NoChannelIcon} alt="channel-image" />
+                <span className="channelName">{channel.name}</span>
+                {channel.type === "public" && (
+                    <button onClick={() => joinChannel(channel)}> Join </button>
+                )}
+                {channel.type === "protected" && (
+                    <img className="icon" src={LockIcon} alt="protected"/>
+                )}
+            </div>
+            {channel.type === "protected" && (
+                <form className="protected-form" onSubmit={handleSubmit}>
+                    <div>
+                        <img src={LockIcon} alt="" />
+                        <input type="password" name="password" placeholder="Password to join"/>
+                        <button> Join </button>
+                    </div>
+                </form>
+            )}
         </div>
     );
 }
@@ -27,66 +58,72 @@ function ChannelPlate({ channel, joinChannel }: ChannelProps) {
 export default function NewChannel(props: Props) {
     const [isPrivate, setIsPrivate] = useState(false);
     const [socket] = useSocket();
-    const [error, setErrot] = useState(false);
+    const [error, setError] = useState("");
     const { userAuth } = useAuth();
     const [create, setCreate] = useState(false);
     const [foundChannels, setFoundChannels] = useState<ChannelType[]>([]);
     const { updateChannel } = useChat();
     const { setFeature } = useFeature();
+
     function handleSubmit(e: any) {
         e.preventDefault();
         const target = e.target;
+        if (target.channelName.value === "") return setError(NEWCHANNEL_ERROR.NAME_EMPTY);
+        if (target.password?.value.length < PWD_MIN_LENGTH)
+            return setError(NEWCHANNEL_ERROR.PWD_TOOSHORT);
+        if (
+            target.channeltype === "protected" &&
+            target.password.value !== target.confirmPassword.value
+        )
+            return setError(NEWCHANNEL_ERROR.PWD_NOMATCH);
         const newChannel = {
             name: target.channelName.value,
             type: target.channelType.value,
             password: target.password?.value,
             ownerId: userAuth.id,
         };
-
         socket.emit("newChannel", { newChannel: newChannel }, (res?: any) => {
             if (res === `OK`) props.quitForm();
-            else setErrot(true);
+            else setError(res);
         });
     }
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         let isChecked = e.target.checked;
-        console.log("isChecked: ", isChecked);
         setCreate(isChecked);
     }
 
     function joinChannel(channel: ChannelType) {
-        console.log("join channel:", channel);
-        socket.emit("joinChannel", { channelId: channel.id }, (res?: ChannelType | string) => {
-            if (res === undefined) return console.log("res is undefined");
-            if (typeof res === "string") return console.log("res: ", res);
-            socket.emit("leaveRoom", {
-                userid: userAuth.id,
-                channelid: channel.id,
-            });
-            updateChannel({
-                id: res.id,
-                name: res.name,
-                type: "channel",
-                image: res.image,
-                room: "room-" + res.id,
-                rights: "normal",
-            });
-            setFeature(Feature.Chat);
-            socket.emit("joinRoom", { userid: userAuth.id, channelid: res.id });
-
-            props.quitForm();
-        });
+        socket.emit("joinChannel", { channelId: channel.id, password: channel.password },
+            (res?: ChannelType | string) => {
+                if (res === undefined) return console.log("res is undefined");
+                if (typeof res === "string") return setError(res);
+                socket.emit("leaveRoom", {
+                    userid: userAuth.id,
+                    channelid: channel.id,
+                });
+                updateChannel({
+                    id: res.id,
+                    name: res.name,
+                    type: "channel",
+                    image: res.image,
+                    room: "room-" + res.id,
+                    rights: "normal",
+                    protected: res.type === "protected",
+                });
+                setFeature(Feature.Chat);
+                socket.emit("joinRoom", { userid: userAuth.id, channelid: res.id });
+                props.quitForm();
+            }
+        );
     }
 
     function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
         const target = e.target;
         const channelName = target.value;
         if (channelName === "") return setFoundChannels([]);
-        console.log("channelName: ", channelName);
         socket.emit("searchChannel", { channelName: channelName }, (res: ChannelType[]) => {
             setFoundChannels(res);
-            console.log("res: ", res);
         });
     }
 
@@ -100,7 +137,8 @@ export default function NewChannel(props: Props) {
                                 className="switch-button-checkbox"
                                 type="checkbox"
                                 onChange={(e) => handleChange(e)}
-                            ></input>
+                                onClick={() => setError("")}
+                            />
                             <label className="switch-button-label" htmlFor="">
                                 <span className="switch-button-label-span">Join</span>
                             </label>
@@ -118,7 +156,6 @@ export default function NewChannel(props: Props) {
                                 />
                                 <input name="channelName" type="text" placeholder="ChannelName" />
                             </div>
-                            {error && <p className="error">Something went wrong!</p>}
                             <select
                                 name="channelType"
                                 id="channelType"
@@ -149,11 +186,11 @@ export default function NewChannel(props: Props) {
                                     />
                                 </div>
                             )}
-                            <input type="file" style={{ display: "none" }} id="fileUrl" />
+                            {/* <input type="file" style={{ display: "none" }} id="fileUrl" />
                             <label htmlFor="file">
                                 <img src={AddImage} alt="" />
                                 <span>Add a channel image</span>
-                            </label>
+                            </label> */}
                             <button className="button-purple">Create Channel</button>
                         </form>
                     )}
@@ -168,12 +205,13 @@ export default function NewChannel(props: Props) {
                                 />
                             </div>
                             <div className="channel-search">
-                                {foundChannels.map((channel) => (
-                                    <ChannelPlate channel={channel} joinChannel={joinChannel} />
+                                {foundChannels.map((channel, i) => (
+                                    <ChannelPlate channel={channel} joinChannel={joinChannel} key={`${i}`}/>
                                 ))}
                             </div>
                         </div>
                     )}
+                    {error && <p className="error">{error}</p>}
                     <button className="cancel-button button-purple" onClick={props.quitForm}>
                         cancel
                     </button>

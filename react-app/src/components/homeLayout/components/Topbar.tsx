@@ -4,7 +4,7 @@ import { useAuth, useChat, Feature, useFeature } from "context";
 import Invitations from "./Invitation";
 import { useSocket } from "hooks";
 import HeroMenu from "./HeroMenu";
-import { ChatIcon, PlayIcon } from "assets/images";
+import { ChatIcon, LockIcon, NoChannelIcon, PlayIcon } from "assets/images";
 import "../styles/topbar.scss";
 
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
@@ -25,9 +25,11 @@ function Topbar() {
     //}, [token]);
 
     function test(e: MouseEvent<HTMLButtonElement>) {
-        socket.emit("test", { id: userAuth.id }, (res: any) => {
-            console.log("test response :", res);
-        });
+        // socket.emit("test", { id: userAuth.id }, (res: any) => {
+        //     console.log("test response :", res);
+        // });
+
+        console.log(channel)
     }
     function defineTitle() {
         if (feature === Feature.Chat || feature === Feature.Private) {
@@ -50,18 +52,14 @@ function Topbar() {
                                 ? " icon"
                                 : "")
                         }
-                        src={channel.image}
+                        src={channel.image ? channel.image : NoChannelIcon}
                         alt="channel"
                     />
                 )}
+                {channel.protected && <img className="protected" src={LockIcon} alt="" /> }
                 <span className="channelName">{defineTitle()}</span>
-                <span style={{ color: "red" }}>{channel.id}</span>
             </div>
             <div className="user">
-                <button className="button-purple" onClick={test}>
-                    Test
-                </button>
-                <span style={{ color: "red" }}>{userAuth.id}</span> <Invitations />
                 <span className="topbar-username">{userAuth.username}</span>
                 <HeroMenu />
             </div>

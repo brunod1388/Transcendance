@@ -63,6 +63,7 @@ function Navbar() {
             type: "private",
             rights: "admin",
             image: ChatIcon,
+            protected: false,
         });
     }
 
@@ -84,6 +85,7 @@ function Navbar() {
             image: channel?.image ? channel.image : NoChannelIcon,
             room: "room-" + channel.id,
             rights: "normal",
+            protected: channel.type === "protected",
         };
         updateChannel(channelDetails);
         joinRoom(channelDetails);
@@ -103,6 +105,7 @@ function Navbar() {
             type: "private",
             rights: "admin",
             image: PlayIcon,
+            protected: false,
         });
     }
 

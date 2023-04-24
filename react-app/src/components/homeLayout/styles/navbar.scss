@@ -47,7 +47,11 @@
 			align-self: stretch;
 			max-height: 200px;
 			overflow: scroll;
-			border-radius: 10px;
+			border-radius: 5px;
+			&::-webkit-scrollbar {
+				display: none;
+			}
+			scrollbar-width: none;
 		}
 	}
 	.notChannel {

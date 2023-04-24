@@ -73,6 +73,7 @@ export default function UserMenu(props: Props) {
                 rights: "admin",
                 room: String(res.name),
                 image: String(user.avatar),
+                protected: false,
             };
             console.log(newChannel);
             updateChannel(newChannel);
@@ -114,24 +115,6 @@ export default function UserMenu(props: Props) {
                 }
             );
         }
-
-        // socket.emit(
-        //     "createPenality",
-        //     {
-        //         penality: {
-        //             channelUserId: Number(user.channelUserId),
-        //             endDate: endDate,
-        //             type: muteOrBlock,
-        //         },
-        //     },
-        //     (res: any) => console.log("res: ", res)
-        // );
-        // console.log({
-        //     channelUserId: Number(user.channelUserId),
-        //     endDate: endDate,
-        //     type: muteOrBlock,
-        // });
-        // console.log("mute or block");
         setIsVisible(false);
     }
 
@@ -162,7 +145,8 @@ export default function UserMenu(props: Props) {
     }
 
     function deleteChannel() {
-        socket.emit("deleteChannel", { id: channel.id });
+        console.log(channel.id);
+        socket.emit("deleteChannel", { channelId: channel.id });
         setFeature(Feature.None);
         updateChannel({
             ...channel,
@@ -215,7 +199,7 @@ export default function UserMenu(props: Props) {
                     Direct Message
                 </button>
             )}
-            {(user.friendId !== undefined ||
+            {user.rights !== "owner" && (user.friendId !== undefined ||
                 (userAuth.id !== user.id &&
                     (channel.rights === "admin" || channel.rights === "owner"))) && (
                 <div className="muteAndBlock">
@@ -258,7 +242,7 @@ export default function UserMenu(props: Props) {
                     )}
                 </div>
             )}
-            {props.type === "channelUser" &&
+            {props.type === "channelUser" && user.rights !== "owner" && 
                 userAuth.id !== user.id &&
                 (channel.rights === "admin" || channel.rights === "owner") && (
                     <button
@@ -269,7 +253,7 @@ export default function UserMenu(props: Props) {
                     </button>
                 )}
             {props.type === "channelUser" &&
-                userAuth.id !== user.id &&
+                userAuth.id !== user.id && user.rights !== "owner" && 
                 (channel.rights === "admin" || channel.rights === "owner") && (
                     <button
                         className="delete long red-button button-purple"
@@ -300,7 +284,7 @@ export default function UserMenu(props: Props) {
                     Delete Friend
                 </button>
             )}
-            {channel.rights === "owner" && (
+            {channel.rights === "owner" && user.rights === "owner" && (
                 <button
                     className="deleteChannel red-button long button-purple"
                     onClick={deleteChannel}

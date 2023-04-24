@@ -33,6 +33,7 @@ import { BlockedUserService } from "./blockedUser/blockedUser.service";
 import { MutedUserService } from "./mutedUser/mutedUser.service";
 import { CreateBlockedUserDTO, unblockUserDTO } from "./dtos/BlockedUser.dto";
 import { CreateMutedUserDTO, unmuteUserDTO } from "./dtos/MutedUser.dto";
+import * as argon from "argon2";
 
 interface InvitationType {
     id: number;
@@ -107,6 +108,9 @@ export class ChatGateway {
         @ConnectedSocket() client: Socket
     ): Promise<string> {
         try {
+            if (channel.type === "protected")
+                channel.password = await argon.hash(channel.password);
+            console.log(channel);
             const newChannel = await this.channelService.createChannel(channel);
             await this.channelUserService.createChannelUser({
                 channelId: newChannel.id,
@@ -114,6 +118,7 @@ export class ChatGateway {
                 rights: rightType.ADMIN,
                 isPending: false,
             });
+            console.log("newChannel", newChannel);
             client.emit("Channel", channel);
         } catch (error) {
             return `Channel Name already in use`;
@@ -218,8 +223,15 @@ export class ChatGateway {
     @SubscribeMessage("joinChannel")
     async joinChannel(
         @MessageBody("channelId") channelId: number,
+        @MessageBody("password") password: string,
         @ConnectedSocket() client: Socket
     ): Promise<ChannelDto | string> {
+        const channelAdded = await this.channelService.findChannelById(
+            channelId
+        );
+        if (channelAdded.type === "protected" &&
+            ! (await this.channelService.checkPassword(channelId, password)))
+            return "Wrong password";
         const channelUser = await this.channelUserService.createChannelUser({
             userId: client.data.user.id,
             channelId: channelId,
@@ -227,9 +239,6 @@ export class ChatGateway {
             isPending: false,
         });
         if (!channelUser) return "Could not add you to channel";
-        const channelAdded = await this.channelService.findChannelById(
-            channelId
-        );
         if (channelAdded == undefined) return "Something went wrong!";
         client.emit("Channel", channelAdded);
         return channelAdded;
@@ -240,7 +249,9 @@ export class ChatGateway {
         @MessageBody("channelId") channelId: number,
         @ConnectedSocket() client: Socket
     ): Promise<string> {
-        const channel = await this.channelService.findChannelById(channelId);
+        const channel = await this.channelService.findChannelById(
+            Number(channelId)
+        );
         const user = await this.userService.findUserId(client.data.user.id);
         if (channel === undefined) return "Channel does not exist";
         if (user === undefined) return "Can't find userProfile";

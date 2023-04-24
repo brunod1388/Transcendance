@@ -42,6 +42,7 @@ export default function PrivateUserPlate(props: Props) {
             rights: "admin",
             room: String(user.room),
             image: String(user.avatar),
+            protected: false,
         };
         updateChannel(newChannel);
         joinRoom(newChannel);
