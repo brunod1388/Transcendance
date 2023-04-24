@@ -26,6 +26,7 @@ export class ChannelService {
                 id: true,
                 name: true,
                 image: true,
+                type: true,
                 owner: { id: true },
             },
         });

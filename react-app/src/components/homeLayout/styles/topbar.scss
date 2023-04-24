@@ -26,6 +26,16 @@ $invitation-size: 15px;
 				border-radius: 0;
 			}
 		}
+		position: relative;
+		.protected {
+			$img-size: 16px;
+			width: $img-size;
+			height: $img-size;
+			position: absolute;
+			left: 28px;
+			top: 28px;
+			filter: $filter-red $drop-shadow;
+		}
 
 		.channelName {
 			font-size:30px;

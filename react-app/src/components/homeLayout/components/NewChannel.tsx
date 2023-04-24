@@ -31,6 +31,7 @@ function ChannelPlate({ channel, joinChannel }: ChannelProps) {
         console.log(password);
         joinChannel({ ...channel, password: password });
     }
+
     return (
         <div className={"channel" + (channel.type ? " protected" : "")}>
             <div className="first-line">
@@ -39,12 +40,17 @@ function ChannelPlate({ channel, joinChannel }: ChannelProps) {
                 {channel.type === "public" && (
                     <button onClick={() => joinChannel(channel)}> Join </button>
                 )}
+                {channel.type === "protected" && (
+                    <img className="icon" src={LockIcon} alt="protected"/>
+                )}
             </div>
             {channel.type === "protected" && (
-                <form className="protected" onSubmit={handleSubmit}>
-                    <img src={LockIcon} alt="" />
-                    <input type="password" name="password" />
-                    <button> Join </button>
+                <form className="protected-form" onSubmit={handleSubmit}>
+                    <div>
+                        <img src={LockIcon} alt="" />
+                        <input type="password" name="password" placeholder="Password to join"/>
+                        <button> Join </button>
+                    </div>
                 </form>
             )}
         </div>
@@ -104,6 +110,7 @@ export default function NewChannel(props: Props) {
                 image: res.image,
                 room: "room-" + res.id,
                 rights: "normal",
+                protected: res.type === "protected",
             });
             setFeature(Feature.Chat);
             socket.emit("joinRoom", { userid: userAuth.id, channelid: res.id });

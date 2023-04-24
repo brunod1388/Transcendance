@@ -73,6 +73,7 @@ export default function UserMenu(props: Props) {
                 rights: "admin",
                 room: String(res.name),
                 image: String(user.avatar),
+                protected: false,
             };
             console.log(newChannel);
             updateChannel(newChannel);
