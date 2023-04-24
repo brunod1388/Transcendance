@@ -80,7 +80,7 @@ export function MyPaddle(props: Props) {
                 y: paddle.y - paddleSpeed,
             });
         }
-    }, 20); // <- loop temps seconde 
+    }, 20); // <- loop temps seconde
 
     useInterval(() => {
         if (document.hidden === false) socket.emit("game-paddle-classic", { room, paddle });
