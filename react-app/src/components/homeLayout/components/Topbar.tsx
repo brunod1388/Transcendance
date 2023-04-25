@@ -14,23 +14,7 @@ function Topbar() {
     const { userAuth } = useAuth();
     const { channel } = useChat();
     const { feature } = useFeature();
-    const [socket] = useSocket();
 
-    //useEffect(() => {
-    //    console.log("Auth user: ", userAuth);
-    //}, [userAuth]);
-
-    //useEffect(() => {
-    //    console.log("Auth token: ", token);
-    //}, [token]);
-
-    function test(e: MouseEvent<HTMLButtonElement>) {
-        // socket.emit("test", { id: userAuth.id }, (res: any) => {
-        //     console.log("test response :", res);
-        // });
-
-        console.log(channel)
-    }
     function defineTitle() {
         if (feature === Feature.Chat || feature === Feature.Private) {
             return channel.name;
@@ -60,6 +44,7 @@ function Topbar() {
                 <span className="channelName">{defineTitle()}</span>
             </div>
             <div className="user">
+                <Invitations />
                 <span className="topbar-username">{userAuth.username}</span>
                 <HeroMenu />
             </div>

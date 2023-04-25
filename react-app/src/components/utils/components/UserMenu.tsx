@@ -6,7 +6,6 @@ import { useSocket, useVisible } from "hooks";
 import { sendInvitation } from "utils";
 import UserDetails from "./UserDetails";
 import "../styles/userMenu.scss";
-import { ChatIcon } from "assets/images";
 
 type MuteOrBlock = "Mute" | "Block" | "";
 interface Props {
@@ -161,7 +160,7 @@ export default function UserMenu(props: Props) {
         <div className={"userMenu " + (isPrivate ? "private" : "")}>
             {user.id !== userAuth.id && (
                 <div className="user-info">
-                    <span className={"title " + (isPrivate ? "private" : "")}>User Info</span>
+                    <span className={"title " + (isPrivate ? "private" : "")}>Player Info</span>
                     <div className="details">
                         <UserDetails matchSummary={matchSummary} small={true} />
                     </div>
@@ -264,7 +263,7 @@ export default function UserMenu(props: Props) {
                         Delete channel user
                     </button>
                 )}
-            {userAuth.id === user.id && user.rights != "owner" && (
+            {userAuth.id === user.id && user.rights !== "owner" && (
                 <button
                     className="quit channel long button-purple"
                     onClick={() => {

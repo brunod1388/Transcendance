@@ -111,6 +111,11 @@
 			font-style: italic;
 			color: grey;
 			font-size: 12px;
+			max-width: 120px;
+			width: 120px;
+			overflow: hidden;
+			-webkit-mask-image: -webkit-gradient(linear, left top, right top, 
+    			from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
 		}
 	}
 	.private-menu {

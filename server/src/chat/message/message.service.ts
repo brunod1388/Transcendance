@@ -48,11 +48,24 @@ export class MessageService {
         return messages;
     }
 
+    async getLastMessage(channelid: number): Promise<string | null> {
+        const message = await this.messageRepository.findOne({
+            relations: { channel: true },
+            where: { channel: { id: channelid } },
+            select: {
+                id: true,
+                content: true,
+                createdAt: true,
+            },
+            order: { createdAt: "DESC" },
+        });
+        return message ? message.content : null;
+    }
+
     async updateMessage(messageDto: UpdateMessageDto): Promise<Message> {
         const message = await this.messageRepository.findOne({
             where: { id: messageDto.id },
         });
-
         message.content = messageDto.content;
         this.messageRepository.save(message);
         return message;

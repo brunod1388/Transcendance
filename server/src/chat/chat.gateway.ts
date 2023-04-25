@@ -584,6 +584,24 @@ export class ChatGateway {
         };
         const room = ROOM_PREFIX + channel.id;
         this.server.to(room).emit("messageListener", message);
+        // send last message to privateUserPlate
+        if (channel.type === "private") {
+            const messageDetails = {
+                message: message.content,
+                channelid: Number(channel.id),
+            };
+            client.emit("lastMessage", messageDetails)
+            this.channelUserService.getChannelUsers(channel.id, false).then((users) => {
+                users.forEach((channelUser) => {
+                    let userSocket = undefined;
+                    this.server.sockets.sockets.forEach((socket) => {
+                        if (socket.data.user.id !== channelUser.user.id)
+                            userSocket = socket;
+                    });
+                    userSocket?.emit("lastMessage", messageDetails);
+                });
+            });
+        }
         return "message created";
     }
 
@@ -602,6 +620,13 @@ export class ChatGateway {
     ): Promise<Message[]> {
         const messages = await this.messageService.getNLastMessage(details);
         return messages;
+    }
+
+    @SubscribeMessage("getLastMessage")
+    async getLastMessage(
+        @MessageBody("channelid") channelid: number
+    ): Promise<string | null> {
+        return await this.messageService.getLastMessage(Number(channelid));
     }
 
     @SubscribeMessage("connection")

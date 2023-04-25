@@ -23,5 +23,9 @@
 		gap: 5px;
 		display: flex;
 		flex-direction: column;
+		&::-webkit-scrollbar {
+			display: none;
+		}
+		scrollbar-width: none;
 	}
 }

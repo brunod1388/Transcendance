@@ -5,11 +5,12 @@ $invitation-size: 15px;
 
 .topbar {
 	@extend .flex-row;
-	min-height: $topbar-height;
+	// min-height: $topbar-height;
 	justify-content: space-between;
 	color: aliceblue;
 	color: $purple;
 	width: 100%;
+	height: 45px;
 	filter: $drop-shadow;
 	z-index: 100;
 	.channel {

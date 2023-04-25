@@ -3,7 +3,7 @@ import { useChat, useAuth, ChannelDetailsType } from "context";
 import { UserPlateType, UserType } from "@customTypes";
 import { NoUserIcon } from "assets/images";
 import { useSocket } from "hooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "../styles/privateUserPlate.scss";
 
 type Props = {
@@ -14,11 +14,33 @@ type Props = {
     setSelected: React.Dispatch<React.SetStateAction<number>>;
 };
 
+type MsgDetailsType = {
+    channelid: number;
+    message: string;
+};
+
 export default function PrivateUserPlate(props: Props) {
-    const { hasNewMsg = false, user, type, selected, setSelected } = props;
+    const { user, type, selected, setSelected } = props;
     const { channel, updateChannel } = useChat();
     const { userAuth } = useAuth();
     const [socket] = useSocket();
+    const [ lastMessage, setLastMessage ] = useState<string | null>(null);
+
+    useEffect(() => {
+        socket.emit("getLastMessage", { channelid: user.channelId }, (res: any) => {
+            setLastMessage(res);
+        });
+    }, [channel.id]);
+
+    useEffect(() => {
+        socket.on("lastMessage", (msgDetails: MsgDetailsType) => {
+            if (Number(msgDetails.channelid) === Number(user.channelId))
+                setLastMessage(msgDetails.message);
+        });
+        return () => {
+            socket.off("lastMessage");
+        };
+    }, [socket]);
 
     function joinRoom(channel: ChannelDetailsType) {
         socket.emit("joinRoom", { userid: userAuth.id, channelid: channel.id });
@@ -75,7 +97,6 @@ export default function PrivateUserPlate(props: Props) {
                 <div className="details">
                     <div className="line">
                         <span className="username">{user.username}</span>
-                        <span style={{ color: "red" }}>{user.id}</span>
                         <div className="status">
                             <PenalityIcons user={user} />
                             <div
@@ -87,7 +108,7 @@ export default function PrivateUserPlate(props: Props) {
                         </div>
                     </div>
                     <div className="line">
-                        {hasNewMsg || (true && <p className="last-message">last message</p>)}
+                        <p className="last-message">{lastMessage}</p>
                         <BurgerMenu onClick={(e) => toggleMenu(e, user.id)} />
                     </div>
                 </div>
