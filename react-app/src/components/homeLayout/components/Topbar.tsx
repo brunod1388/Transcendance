@@ -56,9 +56,6 @@ function Topbar() {
                 <span className="channelName">{defineTitle()}</span>
             </div>
             <div className="user">
-                <button className="button-purple" onClick={test}>
-                    Test
-                </button>
                 <Invitations />
                 <span className="topbar-username">{userAuth.username}</span>
                 <HeroMenu />
