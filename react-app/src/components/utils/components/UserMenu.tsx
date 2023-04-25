@@ -198,50 +198,54 @@ export default function UserMenu(props: Props) {
                     Direct Message
                 </button>
             )}
-            {user.rights !== "owner" && (user.friendId !== undefined ||
-                (userAuth.id !== user.id &&
-                    (channel.rights === "admin" || channel.rights === "owner"))) && (
-                <div className="muteAndBlock">
-                    <button
-                        className="mute button-purple"
-                        onClick={() => {
-                            setMuteOrBlock("Mute");
-                            setIsVisible(true);
-                        }}
-                    >
-                        Mute
-                    </button>
-                    <button
-                        className="block button-purple"
-                        onClick={() => {
-                            setMuteOrBlock("Block");
-                            setIsVisible(true);
-                        }}
-                    >
-                        Block
-                    </button>
-                    {isVisible && (
-                        <div ref={ref}>
-                            <form className="muteOrBlock" onSubmit={handleMuteOrBlock}>
-                                <div>
-                                    {" "}
-                                    D: <input name="days" type="number" />{" "}
-                                </div>
-                                <div>
-                                    {" "}
-                                    H: <input name="hours" type="number" />{" "}
-                                </div>
-                                <div>
-                                    {" "}
-                                    M: <input name="minutes" type="number" />{" "}
-                                </div>
-                                <button className="button-purple">{"Apply " + muteOrBlock}</button>
-                            </form>
-                        </div>
-                    )}
-                </div>
-            )}
-            {props.type === "channelUser" && user.rights !== "owner" && 
+            {user.rights !== "owner" &&
+                (user.friendId !== undefined ||
+                    (userAuth.id !== user.id &&
+                        (channel.rights === "admin" || channel.rights === "owner"))) && (
+                    <div className="muteAndBlock">
+                        <button
+                            className="mute button-purple"
+                            onClick={() => {
+                                setMuteOrBlock("Mute");
+                                setIsVisible(true);
+                            }}
+                        >
+                            Mute
+                        </button>
+                        <button
+                            className="block button-purple"
+                            onClick={() => {
+                                setMuteOrBlock("Block");
+                                setIsVisible(true);
+                            }}
+                        >
+                            Block
+                        </button>
+                        {isVisible && (
+                            <div ref={ref}>
+                                <form className="muteOrBlock" onSubmit={handleMuteOrBlock}>
+                                    <div>
+                                        {" "}
+                                        D: <input name="days" type="number" />{" "}
+                                    </div>
+                                    <div>
+                                        {" "}
+                                        H: <input name="hours" type="number" />{" "}
+                                    </div>
+                                    <div>
+                                        {" "}
+                                        M: <input name="minutes" type="number" />{" "}
+                                    </div>
+                                    <button className="button-purple">
+                                        {"Apply " + muteOrBlock}
+                                    </button>
+                                </form>
+                            </div>
+                        )}
+                    </div>
+                )}
+            {props.type === "channelUser" &&
+                user.rights !== "owner" &&
                 userAuth.id !== user.id &&
                 (channel.rights === "admin" || channel.rights === "owner") && (
                     <button
@@ -252,7 +256,8 @@ export default function UserMenu(props: Props) {
                     </button>
                 )}
             {props.type === "channelUser" &&
-                userAuth.id !== user.id && user.rights !== "owner" && 
+                userAuth.id !== user.id &&
+                user.rights !== "owner" &&
                 (channel.rights === "admin" || channel.rights === "owner") && (
                     <button
                         className="delete long red-button button-purple"

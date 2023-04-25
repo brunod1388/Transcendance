@@ -229,8 +229,10 @@ export class ChatGateway {
         const channelAdded = await this.channelService.findChannelById(
             channelId
         );
-        if (channelAdded.type === "protected" &&
-            ! (await this.channelService.checkPassword(channelId, password)))
+        if (
+            channelAdded.type === "protected" &&
+            !(await this.channelService.checkPassword(channelId, password))
+        )
             return "Wrong password";
         const channelUser = await this.channelUserService.createChannelUser({
             userId: client.data.user.id,
@@ -590,17 +592,19 @@ export class ChatGateway {
                 message: message.content,
                 channelid: Number(channel.id),
             };
-            client.emit("lastMessage", messageDetails)
-            this.channelUserService.getChannelUsers(channel.id, false).then((users) => {
-                users.forEach((channelUser) => {
-                    let userSocket = undefined;
-                    this.server.sockets.sockets.forEach((socket) => {
-                        if (socket.data.user.id !== channelUser.user.id)
-                            userSocket = socket;
+            client.emit("lastMessage", messageDetails);
+            this.channelUserService
+                .getChannelUsers(channel.id, false)
+                .then((users) => {
+                    users.forEach((channelUser) => {
+                        let userSocket = undefined;
+                        this.server.sockets.sockets.forEach((socket) => {
+                            if (socket.data.user.id !== channelUser.user.id)
+                                userSocket = socket;
+                        });
+                        userSocket?.emit("lastMessage", messageDetails);
                     });
-                    userSocket?.emit("lastMessage", messageDetails);
                 });
-            });
         }
         return "message created";
     }
