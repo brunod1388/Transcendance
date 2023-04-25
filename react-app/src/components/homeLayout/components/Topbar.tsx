@@ -27,7 +27,7 @@ function Topbar() {
     }
 
     function test() {
-        console.log(channel)
+        console.log(channel);
     }
     return (
         <div className="topbar">
@@ -44,19 +44,21 @@ function Topbar() {
                                 (channel.rights === "owner" ? " clickable" : "")
                             }
                             src={channel.image ? channel.image : NoChannelIcon}
-                            onClick={() => {channel.type === "channel" && setIsVisible(!isVisible)}}
+                            onClick={() => {
+                                channel.type === "channel" && setIsVisible(!isVisible);
+                            }}
                             alt="channel"
                         />
-                        { channel.rights === "owner" && isVisible &&
-                            <ChannelMenu/>
-                        }
+                        {channel.rights === "owner" && isVisible && <ChannelMenu />}
                     </div>
                 )}
-                {channel.protected && <img className="protected" src={LockIcon} alt="" /> }
+                {channel.protected && <img className="protected" src={LockIcon} alt="" />}
                 <span className="channelName">{defineTitle()}</span>
             </div>
             <div className="user">
-            <button className="button-purple" onClick={test}>Test</button>
+                <button className="button-purple" onClick={test}>
+                    Test
+                </button>
                 <Invitations />
                 <span className="topbar-username">{userAuth.username}</span>
                 <HeroMenu />

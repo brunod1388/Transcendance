@@ -24,7 +24,7 @@ export default function PrivateUserPlate(props: Props) {
     const { channel, updateChannel } = useChat();
     const { userAuth } = useAuth();
     const [socket] = useSocket();
-    const [ lastMessage, setLastMessage ] = useState<string | null>(null);
+    const [lastMessage, setLastMessage] = useState<string | null>(null);
 
     useEffect(() => {
         socket.emit("getLastMessage", { channelid: user.channelId }, (res: any) => {

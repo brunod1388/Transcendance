@@ -8,7 +8,11 @@ import {
 
 import { Socket, Server } from "socket.io";
 import { UsersService } from "../users/users.service";
-import { ChannelDto, CreateChannelDto } from "./dtos/Channel.dto";
+import {
+    ChannelDto,
+    CreateChannelDto,
+    UpdateChannelDto,
+} from "./dtos/Channel.dto";
 import { ChannelService } from "./channel/channel.service";
 import { ChannelUserService } from "./channelUser/channelUsers.service";
 import {
@@ -229,8 +233,10 @@ export class ChatGateway {
         const channelAdded = await this.channelService.findChannelById(
             channelId
         );
-        if (channelAdded.type === "protected" &&
-            ! (await this.channelService.checkPassword(channelId, password)))
+        if (
+            channelAdded.type === "protected" &&
+            !(await this.channelService.checkPassword(channelId, password))
+        )
             return "Wrong password";
         const channelUser = await this.channelUserService.createChannelUser({
             userId: client.data.user.id,
@@ -260,6 +266,42 @@ export class ChatGateway {
         this.channelService.deleteChannel(channel);
         return "Channel deleted";
     }
+
+    @SubscribeMessage("updateChannelPwd")
+    async updateChannelPwd(
+        @MessageBody("channelId") channelId: number,
+        @MessageBody("oldPassword") oldPassword: string,
+        @MessageBody("newPassword") newPassword: string,
+        @MessageBody("type") type: string,
+        @ConnectedSocket() client: Socket
+    ): Promise<string> {
+        console.log(
+            "updateChannelPwd",
+            channelId,
+            oldPassword,
+            newPassword,
+            type
+        );
+        const channel = await this.channelService.findChannelById(
+            Number(channelId)
+        );
+        if (type == "protected" && newPassword == "")
+            return "Cannot be an empty new Password";
+        if (channel === undefined || channel === null)
+            return "Channel not found";
+        if (channel.owner.id !== client.data.user.id)
+            return "You don't have the right to change channel password";
+        if (channel.type === "protected" && !this.channelService.checkPassword(Number(channelId), oldPassword))
+            return "Wrong old password";
+        if (type === "protected") {
+            const hash = await argon.hash(newPassword);
+            this.channelService.updateChannelPwd(Number(channelId), hash, type);
+        } else {
+            this.channelService.updateChannelPwd(Number(channelId), null, type);
+        }
+        return "OK";
+    }
+
     // ========================================================================
     //                               Channel User
     // ========================================================================
@@ -590,17 +632,19 @@ export class ChatGateway {
                 message: message.content,
                 channelid: Number(channel.id),
             };
-            client.emit("lastMessage", messageDetails)
-            this.channelUserService.getChannelUsers(channel.id, false).then((users) => {
-                users.forEach((channelUser) => {
-                    let userSocket = undefined;
-                    this.server.sockets.sockets.forEach((socket) => {
-                        if (socket.data.user.id !== channelUser.user.id)
-                            userSocket = socket;
+            client.emit("lastMessage", messageDetails);
+            this.channelUserService
+                .getChannelUsers(channel.id, false)
+                .then((users) => {
+                    users.forEach((channelUser) => {
+                        let userSocket = undefined;
+                        this.server.sockets.sockets.forEach((socket) => {
+                            if (socket.data.user.id !== channelUser.user.id)
+                                userSocket = socket;
+                        });
+                        userSocket?.emit("lastMessage", messageDetails);
                     });
-                    userSocket?.emit("lastMessage", messageDetails);
                 });
-            });
         }
         return "message created";
     }

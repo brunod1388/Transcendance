@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsNumber, IsString, ValidateIf } from "class-validator";
+import {
+    IsNotEmpty,
+    IsNumber,
+    IsString,
+    ValidateIf,
+    IsOptional,
+} from "class-validator";
 import { ChannelType } from "../entities/Channel.entity";
 import { ChannelUser, Message } from "../entities";
 import { User } from "src/users/entities/User.entity";
@@ -27,14 +33,21 @@ export class UpdateChannelDto {
 
     @IsNumber()
     @IsNotEmpty()
-    ownerId: number;
+    @IsOptional()
+    ownerId?: number;
 
     @IsString()
     @IsNotEmpty()
-    name: string;
+    @IsOptional()
+    name?: string;
 
     @IsNotEmpty()
-    type: ChannelType;
+    @IsOptional()
+    type?: ChannelType;
+
+    @ValidateIf((o) => o.type === "protected")
+    @IsNotEmpty()
+    oldPassword: string;
 
     @ValidateIf((o) => o.type === "protected")
     @IsNotEmpty()
