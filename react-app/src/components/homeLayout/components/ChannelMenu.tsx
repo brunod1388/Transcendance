@@ -8,17 +8,15 @@ type Props = {
 }
 
 export default function ChannelMenu({}: Props) {
-	const {channel} = useChat();
+	const { channel } = useChat();
 	const [ protectedChannel, setProtected ] = useState<boolean>(channel.protected)
 	const [ type, setType ] = useState("protected");
+	const [ error, setError ] = useState("");
+
 	function applyChange() {
 		console.log("apply change")
 		console.log(protectedChannel)
 	}
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        let isChecked = e.target.checked;
-        setProtected(isChecked);
-    }
 
 	return (
 		<div className="channel-menu-container">
@@ -42,17 +40,17 @@ export default function ChannelMenu({}: Props) {
 					</select>
 				</div>
 				{type !== (channel.protected ? "protected" : "public") && type === "public" &&
-					<form className="protected-form" onSubmit={applyChange}>
+					<div className="protected-form">
 						<div className="input-title">Old password</div>
 						<div className="input">
 							<img src={LockIcon} alt="" />
 							<input type="oldPassword" name="password" placeholder="Old Password"/>
 						</div>
 						<button className="button-purple" onClick={applyChange}>Apply Change</button>
-					</form>
+					</div>
 				}
 				{type !== (channel.protected ? "protected" : "public") && type == "protected" &&
-					<form className="protected-form" onSubmit={applyChange}>
+					<div className="protected-form">
 						<div className="input-title">Old password</div>
 						<div className="input">
 							<img src={LockIcon} alt="" />
@@ -69,9 +67,10 @@ export default function ChannelMenu({}: Props) {
 							<input type="confirmPassword" name="password" placeholder="Confirm Password"/>
 						</div>
 						<button className="button-purple" onClick={applyChange}>Apply Change</button>
-					</form>
+					</div>
 				}
 			</div>
+			{error && <p className="error">{error}</p>}
 		</div>
   )
 }
