@@ -8,7 +8,11 @@ import {
 
 import { Socket, Server } from "socket.io";
 import { UsersService } from "../users/users.service";
-import { ChannelDto, CreateChannelDto } from "./dtos/Channel.dto";
+import {
+    ChannelDto,
+    CreateChannelDto,
+    UpdateChannelDto,
+} from "./dtos/Channel.dto";
 import { ChannelService } from "./channel/channel.service";
 import { ChannelUserService } from "./channelUser/channelUsers.service";
 import {
@@ -33,6 +37,7 @@ import { BlockedUserService } from "./blockedUser/blockedUser.service";
 import { MutedUserService } from "./mutedUser/mutedUser.service";
 import { CreateBlockedUserDTO, unblockUserDTO } from "./dtos/BlockedUser.dto";
 import { CreateMutedUserDTO, unmuteUserDTO } from "./dtos/MutedUser.dto";
+import * as argon from "argon2";
 
 interface InvitationType {
     id: number;
@@ -144,6 +149,9 @@ export class ChatGateway {
         @ConnectedSocket() client: Socket
     ): Promise<string> {
         try {
+            if (channel.type === "protected")
+                channel.password = await argon.hash(channel.password);
+            console.log(channel);
             const newChannel = await this.channelService.createChannel(channel);
             await this.channelUserService.createChannelUser({
                 channelId: newChannel.id,
@@ -151,6 +159,7 @@ export class ChatGateway {
                 rights: rightType.ADMIN,
                 isPending: false,
             });
+            console.log("newChannel", newChannel);
             client.emit("Channel", channel);
         } catch (error) {
             return `Channel Name already in use`;
@@ -255,8 +264,17 @@ export class ChatGateway {
     @SubscribeMessage("joinChannel")
     async joinChannel(
         @MessageBody("channelId") channelId: number,
+        @MessageBody("password") password: string,
         @ConnectedSocket() client: Socket
     ): Promise<ChannelDto | string> {
+        const channelAdded = await this.channelService.findChannelById(
+            channelId
+        );
+        if (
+            channelAdded.type === "protected" &&
+            !(await this.channelService.checkPassword(channelId, password))
+        )
+            return "Wrong password";
         const channelUser = await this.channelUserService.createChannelUser({
             userId: client.data.user.id,
             channelId: channelId,
@@ -275,9 +293,6 @@ export class ChatGateway {
         )
             return "User is blocked - cannot join";
         if (!channelUser) return "Could not add you to channel";
-        const channelAdded = await this.channelService.findChannelById(
-            channelId
-        );
         if (channelAdded == undefined) return "Something went wrong!";
         client.emit("Channel", channelAdded);
         return channelAdded;
@@ -288,7 +303,9 @@ export class ChatGateway {
         @MessageBody("channelId") channelId: number,
         @ConnectedSocket() client: Socket
     ): Promise<string> {
-        const channel = await this.channelService.findChannelById(channelId);
+        const channel = await this.channelService.findChannelById(
+            Number(channelId)
+        );
         const user = await this.userService.findUserId(client.data.user.id);
         if (channel === undefined) return "Channel does not exist";
         if (user === undefined) return "Can't find userProfile";
@@ -297,6 +314,42 @@ export class ChatGateway {
         this.channelService.deleteChannel(channel);
         return "Channel deleted";
     }
+
+    @SubscribeMessage("updateChannelPwd")
+    async updateChannelPwd(
+        @MessageBody("channelId") channelId: number,
+        @MessageBody("oldPassword") oldPassword: string,
+        @MessageBody("newPassword") newPassword: string,
+        @MessageBody("type") type: string,
+        @ConnectedSocket() client: Socket
+    ): Promise<string> {
+        console.log(
+            "updateChannelPwd",
+            channelId,
+            oldPassword,
+            newPassword,
+            type
+        );
+        const channel = await this.channelService.findChannelById(
+            Number(channelId)
+        );
+        if (type == "protected" && newPassword == "")
+            return "Cannot be an empty new Password";
+        if (channel === undefined || channel === null)
+            return "Channel not found";
+        if (channel.owner.id !== client.data.user.id)
+            return "You don't have the right to change channel password";
+        if (channel.type === "protected" && !this.channelService.checkPassword(Number(channelId), oldPassword))
+            return "Wrong old password";
+        if (type === "protected") {
+            const hash = await argon.hash(newPassword);
+            this.channelService.updateChannelPwd(Number(channelId), hash, type);
+        } else {
+            this.channelService.updateChannelPwd(Number(channelId), null, type);
+        }
+        return "OK";
+    }
+
     // ========================================================================
     //                               Channel User
     // ========================================================================
@@ -619,6 +672,26 @@ export class ChatGateway {
         };
         const room = ROOM_PREFIX + channel.id;
         this.server.to(room).emit("messageListener", message);
+        // send last message to privateUserPlate
+        if (channel.type === "private") {
+            const messageDetails = {
+                message: message.content,
+                channelid: Number(channel.id),
+            };
+            client.emit("lastMessage", messageDetails);
+            this.channelUserService
+                .getChannelUsers(channel.id, false)
+                .then((users) => {
+                    users.forEach((channelUser) => {
+                        let userSocket = undefined;
+                        this.server.sockets.sockets.forEach((socket) => {
+                            if (socket.data.user.id !== channelUser.user.id)
+                                userSocket = socket;
+                        });
+                        userSocket?.emit("lastMessage", messageDetails);
+                    });
+                });
+        }
         return "message created";
     }
 
@@ -637,6 +710,13 @@ export class ChatGateway {
     ): Promise<Message[]> {
         const messages = await this.messageService.getNLastMessage(details);
         return messages;
+    }
+
+    @SubscribeMessage("getLastMessage")
+    async getLastMessage(
+        @MessageBody("channelid") channelid: number
+    ): Promise<string | null> {
+        return await this.messageService.getLastMessage(Number(channelid));
     }
 
     @SubscribeMessage("connection")

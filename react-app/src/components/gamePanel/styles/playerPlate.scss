@@ -29,6 +29,12 @@
 		filter: $drop-shadow;
 		width: 100px;
 		font-size: 16px;
+		h1 {
+			font-family: Kaushan;
+			&::first-letter {
+				text-transform: uppercase;
+			}
+		}
 		&:first-child {
 			font-size: 13px;
 			flex: 1 1 250px;

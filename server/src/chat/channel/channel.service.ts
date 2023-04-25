@@ -1,10 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { ChannelDto, CreateChannelDto } from "../dtos/Channel.dto";
+import {
+    ChannelDto,
+    CreateChannelDto,
+    UpdateChannelDto,
+} from "../dtos/Channel.dto";
 import { UsersService } from "../../users/users.service";
 import { Channel, ChannelType } from "../entities";
 import { User } from "src/users/entities/User.entity";
+import * as argon from "argon2";
 
 @Injectable()
 export class ChannelService {
@@ -26,9 +31,19 @@ export class ChannelService {
                 id: true,
                 name: true,
                 image: true,
+                type: true,
                 owner: { id: true },
             },
         });
+    }
+    async checkPassword(channelId: number, password: string): Promise<boolean> {
+        const channel = await this.channelRepository.findOne({
+            where: { id: channelId },
+            select: { password: true },
+        });
+        console.log(channel);
+        console.log(password);
+        return await argon.verify(channel.password, password);
     }
 
     async findChannelByName(searchName: string): Promise<ChannelDto[]> {
@@ -75,6 +90,7 @@ export class ChannelService {
                 image: true,
                 type: true,
                 owner: { id: true },
+                password: false,
             },
         });
         if (isPrivate)
@@ -139,6 +155,20 @@ export class ChannelService {
                 channelUsers: true,
             },
         });
+    }
+
+    async updateChannelPwd(
+        channelId: number,
+        hashPwd: string,
+        type: string
+    ): Promise<string> {
+        const channel = await this.findChannelById(channelId);
+        if (channel === undefined || channel === null) return undefined;
+        channel.password = hashPwd;
+        channel.type =
+            type === "protected" ? ChannelType.PROTECTED : ChannelType.PUBLIC;
+        await this.channelRepository.save(channel);
+        return "Ok";
     }
 
     async deleteChannel(channel: Channel): Promise<string> {

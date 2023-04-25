@@ -1,6 +1,6 @@
 COMPOSE		= docker compose -p 'ft_transcendence'
 
-all:	dev
+all:	up
 
 
 up:
@@ -8,12 +8,11 @@ up:
 
 down:
 		${COMPOSE} down
-dev:
-	${COMPOSE} -f docker-compose.yml -f docker-compose.dev.yml up
+prod:
+	${COMPOSE} -f docker-compose.yml -f docker-compose.prod.yml up
 
 stop:
 	${COMPOSE} stop
-prod: up
 
 clean:
 		${COMPOSE} down --volumes --rmi all --remove-orphans
@@ -23,4 +22,4 @@ fclean:		clean
 
 re:		fclean  all
 
-.PHONY:		all up down dev prod clean fclean re
+.PHONY:		all up down prod clean fclean re

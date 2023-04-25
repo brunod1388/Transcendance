@@ -4,6 +4,7 @@ export interface ChannelDetailsType {
     id: number;
     name: string;
     type: string;
+    protected: boolean;
     image: string;
     room: string;
     rights: string;
@@ -16,6 +17,7 @@ export const defaultChannel: ChannelDetailsType = {
     image: "",
     room: "",
     rights: "",
+    protected: false,
 };
 
 export interface ChatContextType {

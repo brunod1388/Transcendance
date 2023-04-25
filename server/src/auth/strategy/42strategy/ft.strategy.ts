@@ -10,8 +10,6 @@ import { UsersService } from "../../../users/users.service";
 export class FtStrategy extends PassportStrategy(Strategy, "42") {
     constructor(
         private config: ConfigService,
-        //    private authService: AuthService,
-
         private usersService: UsersService
     ) {
         super({
@@ -34,34 +32,10 @@ export class FtStrategy extends PassportStrategy(Strategy, "42") {
                 },
             },
         });
-        //    console.log("FT_APP_ID: ", config.get("FT_APP_UID"));
-        //    console.log("FT_APP_SECRET: ", config.get("FT_APP_SECRET"));
-        //    console.log("FT_APP_ID: ", config.get("FT_APP_UID"));
-        //    console.log("FT_APP_SECRET: ", config.get("FT_APP_SECRET"));
     }
 
-    // Not sure how the validation is to be performed, similarly to jwt.strategy???
-    /*    async validate(accessToken, refreshToken, profile, cb): Promise<any> {
-        console.log("HEEERRREEE!: ", profile.username);
-        let user = await this.usersService.findUser(profile.username);
-        if (user === null || user === undefined) {
-            user = await this.usersService.create42User({
-                username: profile.login,
-                email: profile.email,
-                enable2FA: false,
-            });
-        }
-        //    delete user.password;
-        return user;
-    }
-*/
     async validate(accessToken, refreshToken, profile, cb): Promise<any> {
-        //    console.log(profile.login);
-        // console.log(accessToken, refreshToken, cb);
-        // console.log("PROFILE_ID: ", profile.id);
-        // console.log("PROFILE_ID_TYPE: ", typeof profile.id);
         let user = await this.usersService.findUserIdFortyTwo(profile.id);
-        // console.log(user);
         if (user === null || user === undefined) {
             user = await this.usersService.create42User({
                 idFortyTwo: profile.id,

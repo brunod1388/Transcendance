@@ -196,7 +196,7 @@ export class AuthService {
         // Once the token is provided to the user, the user will be able to perform actions on the platform for 60min
         // After this time has expired, the token will be rejected and the sign in process will have to be restarted
         const token = await this.jwt.signAsync(payload, {
-            expiresIn: "60m",
+            expiresIn: "90m",
             secret: secret,
         });
 

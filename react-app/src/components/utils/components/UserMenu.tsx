@@ -6,7 +6,6 @@ import { useSocket, useVisible } from "hooks";
 import { sendInvitation } from "utils";
 import UserDetails from "./UserDetails";
 import "../styles/userMenu.scss";
-import { ChatIcon } from "assets/images";
 
 type MuteOrBlock = "Mute" | "Block" | "";
 interface Props {
@@ -73,6 +72,7 @@ export default function UserMenu(props: Props) {
                 rights: "admin",
                 room: String(res.name),
                 image: String(user.avatar),
+                protected: false,
             };
             console.log(newChannel);
             updateChannel(newChannel);
@@ -114,24 +114,6 @@ export default function UserMenu(props: Props) {
                 }
             );
         }
-
-        // socket.emit(
-        //     "createPenality",
-        //     {
-        //         penality: {
-        //             channelUserId: Number(user.channelUserId),
-        //             endDate: endDate,
-        //             type: muteOrBlock,
-        //         },
-        //     },
-        //     (res: any) => console.log("res: ", res)
-        // );
-        // console.log({
-        //     channelUserId: Number(user.channelUserId),
-        //     endDate: endDate,
-        //     type: muteOrBlock,
-        // });
-        // console.log("mute or block");
         setIsVisible(false);
     }
 
@@ -162,7 +144,8 @@ export default function UserMenu(props: Props) {
     }
 
     function deleteChannel() {
-        socket.emit("deleteChannel", { id: channel.id });
+        console.log(channel.id);
+        socket.emit("deleteChannel", { channelId: channel.id });
         setFeature(Feature.None);
         updateChannel({
             ...channel,
@@ -177,7 +160,7 @@ export default function UserMenu(props: Props) {
         <div className={"userMenu " + (isPrivate ? "private" : "")}>
             {user.id !== userAuth.id && (
                 <div className="user-info">
-                    <span className={"title " + (isPrivate ? "private" : "")}>User Info</span>
+                    <span className={"title " + (isPrivate ? "private" : "")}>Player Info</span>
                     <div className="details">
                         <UserDetails matchSummary={matchSummary} small={true} />
                     </div>
@@ -215,50 +198,54 @@ export default function UserMenu(props: Props) {
                     Direct Message
                 </button>
             )}
-            {(user.friendId !== undefined ||
-                (userAuth.id !== user.id &&
-                    (channel.rights === "admin" || channel.rights === "owner"))) && (
-                <div className="muteAndBlock">
-                    <button
-                        className="mute button-purple"
-                        onClick={() => {
-                            setMuteOrBlock("Mute");
-                            setIsVisible(true);
-                        }}
-                    >
-                        Mute
-                    </button>
-                    <button
-                        className="block button-purple"
-                        onClick={() => {
-                            setMuteOrBlock("Block");
-                            setIsVisible(true);
-                        }}
-                    >
-                        Block
-                    </button>
-                    {isVisible && (
-                        <div ref={ref}>
-                            <form className="muteOrBlock" onSubmit={handleMuteOrBlock}>
-                                <div>
-                                    {" "}
-                                    D: <input name="days" type="number" />{" "}
-                                </div>
-                                <div>
-                                    {" "}
-                                    H: <input name="hours" type="number" />{" "}
-                                </div>
-                                <div>
-                                    {" "}
-                                    M: <input name="minutes" type="number" />{" "}
-                                </div>
-                                <button className="button-purple">{"Apply " + muteOrBlock}</button>
-                            </form>
-                        </div>
-                    )}
-                </div>
-            )}
+            {user.rights !== "owner" &&
+                (user.friendId !== undefined ||
+                    (userAuth.id !== user.id &&
+                        (channel.rights === "admin" || channel.rights === "owner"))) && (
+                    <div className="muteAndBlock">
+                        <button
+                            className="mute button-purple"
+                            onClick={() => {
+                                setMuteOrBlock("Mute");
+                                setIsVisible(true);
+                            }}
+                        >
+                            Mute
+                        </button>
+                        <button
+                            className="block button-purple"
+                            onClick={() => {
+                                setMuteOrBlock("Block");
+                                setIsVisible(true);
+                            }}
+                        >
+                            Block
+                        </button>
+                        {isVisible && (
+                            <div ref={ref}>
+                                <form className="muteOrBlock" onSubmit={handleMuteOrBlock}>
+                                    <div>
+                                        {" "}
+                                        D: <input name="days" type="number" />{" "}
+                                    </div>
+                                    <div>
+                                        {" "}
+                                        H: <input name="hours" type="number" />{" "}
+                                    </div>
+                                    <div>
+                                        {" "}
+                                        M: <input name="minutes" type="number" />{" "}
+                                    </div>
+                                    <button className="button-purple">
+                                        {"Apply " + muteOrBlock}
+                                    </button>
+                                </form>
+                            </div>
+                        )}
+                    </div>
+                )}
             {props.type === "channelUser" &&
+                user.rights !== "owner" &&
                 userAuth.id !== user.id &&
                 (channel.rights === "admin" || channel.rights === "owner") && (
                     <button
@@ -270,6 +257,7 @@ export default function UserMenu(props: Props) {
                 )}
             {props.type === "channelUser" &&
                 userAuth.id !== user.id &&
+                user.rights !== "owner" &&
                 (channel.rights === "admin" || channel.rights === "owner") && (
                     <button
                         className="delete long red-button button-purple"
@@ -280,7 +268,7 @@ export default function UserMenu(props: Props) {
                         Delete channel user
                     </button>
                 )}
-            {userAuth.id === user.id && user.rights != "owner" && (
+            {userAuth.id === user.id && user.rights !== "owner" && (
                 <button
                     className="quit channel long button-purple"
                     onClick={() => {
@@ -300,7 +288,7 @@ export default function UserMenu(props: Props) {
                     Delete Friend
                 </button>
             )}
-            {channel.rights === "owner" && (
+            {channel.rights === "owner" && user.rights === "owner" && (
                 <button
                     className="deleteChannel red-button long button-purple"
                     onClick={deleteChannel}
