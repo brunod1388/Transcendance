@@ -4,9 +4,7 @@ import "../styles/channelMenu.scss"
 import { useState } from "react"
 import { useSocket } from "hooks"
 
-type Props = {
-
-}
+type Props = {};
 
 export default function ChannelMenu({}: Props) {
 	const [ error, setError ] = useState("");
