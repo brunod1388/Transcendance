@@ -109,17 +109,25 @@ function Subscribe() {
                             placeholder="confirm password"
                         />
                     </div>
-                    <div className="input_container">
+                    <p className="password-info">
+                            (8 character min. length including lowercase, uppercase, number, special
+                            character)
+                        </p>
+                    {/* <div className="input_container">
                         <input style={{ display: "none" }} type="file" id="file" />
                         <label htmlFor="file" className="flex-row">
                             <img src={AddImageIcon} alt="" />
                             <span>Add an Avatar</span>
                         </label>
-                    </div>
+                    </div> */}
                     <button className="button-purple" type="submit">
                         Sign up
                     </button>
-                    {err !== "" && err}
+                    {err !== "" && 
+                        <p className="error">
+                            {err}
+                        </p>
+                    }
                 </form>
                 <div className="flex-row signup_buttons_container">
                     <button className="button-purple" type="button" onClick={signup42}>

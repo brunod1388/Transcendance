@@ -214,6 +214,17 @@
 			}
 		}
 	}
+
+	.password-info {
+		align-self: center;
+		color: rgb(197, 197, 197);
+		font-style: italic;
+		max-width: 240px;
+	}
+	.error {
+		max-width: 240px;
+		color: red;
+	}
 }
 
 
