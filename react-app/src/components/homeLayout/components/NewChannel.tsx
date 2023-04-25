@@ -39,14 +39,14 @@ function ChannelPlate({ channel, joinChannel }: ChannelProps) {
                     <button onClick={() => joinChannel(channel)}> Join </button>
                 )}
                 {channel.type === "protected" && (
-                    <img className="icon" src={LockIcon} alt="protected"/>
+                    <img className="icon" src={LockIcon} alt="protected" />
                 )}
             </div>
             {channel.type === "protected" && (
                 <form className="protected-form" onSubmit={handleSubmit}>
                     <div>
                         <img src={LockIcon} alt="" />
-                        <input type="password" name="password" placeholder="Password to join"/>
+                        <input type="password" name="password" placeholder="Password to join" />
                         <button> Join </button>
                     </div>
                 </form>
@@ -94,7 +94,9 @@ export default function NewChannel(props: Props) {
     }
 
     function joinChannel(channel: ChannelType) {
-        socket.emit("joinChannel", { channelId: channel.id, password: channel.password },
+        socket.emit(
+            "joinChannel",
+            { channelId: channel.id, password: channel.password },
             (res?: ChannelType | string) => {
                 if (res === undefined) return console.log("res is undefined");
                 if (typeof res === "string") return setError(res);
@@ -206,7 +208,11 @@ export default function NewChannel(props: Props) {
                             </div>
                             <div className="channel-search">
                                 {foundChannels.map((channel, i) => (
-                                    <ChannelPlate channel={channel} joinChannel={joinChannel} key={`${i}`}/>
+                                    <ChannelPlate
+                                        channel={channel}
+                                        joinChannel={joinChannel}
+                                        key={`${i}`}
+                                    />
                                 ))}
                             </div>
                         </div>

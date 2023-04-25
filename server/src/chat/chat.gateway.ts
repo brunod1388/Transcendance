@@ -8,7 +8,11 @@ import {
 
 import { Socket, Server } from "socket.io";
 import { UsersService } from "../users/users.service";
-import { ChannelDto, CreateChannelDto } from "./dtos/Channel.dto";
+import {
+    ChannelDto,
+    CreateChannelDto,
+    UpdateChannelDto,
+} from "./dtos/Channel.dto";
 import { ChannelService } from "./channel/channel.service";
 import { ChannelUserService } from "./channelUser/channelUsers.service";
 import {
@@ -229,8 +233,10 @@ export class ChatGateway {
         const channelAdded = await this.channelService.findChannelById(
             channelId
         );
-        if (channelAdded.type === "protected" &&
-            ! (await this.channelService.checkPassword(channelId, password)))
+        if (
+            channelAdded.type === "protected" &&
+            !(await this.channelService.checkPassword(channelId, password))
+        )
             return "Wrong password";
         const channelUser = await this.channelUserService.createChannelUser({
             userId: client.data.user.id,
@@ -260,6 +266,50 @@ export class ChatGateway {
         this.channelService.deleteChannel(channel);
         return "Channel deleted";
     }
+
+    @SubscribeMessage("updateChannelPwd")
+    async updateChannelPwd(
+        client: Socket,
+        data: UpdateChannelDto
+    ): Promise<string> {
+        const clientUser = await this.channelUserService.checkIfChannelUser(
+            Number(client.data.user.id),
+            Number(data.channelId)
+        );
+        if (clientUser === undefined || clientUser === null)
+            return "Client User not found";
+        if (clientUser.rights === rightType.OWNER)
+            return "You don't have the right to change channel password";
+
+        const channel = await this.channelService.findChannelById(
+            Number(data.channelId)
+        );
+        if (channel === undefined || channel === null)
+            return "Channel not found";
+        try {
+            if (
+                channel.type === "protected" &&
+                (await this.channelService.checkPassword(
+                    data.channelId,
+                    data.oldPassword
+                ))
+            ) {
+                data.password = await argon.hash(data.password);
+                const updatedChannnel = await this.channelService.updateChannel(
+                    data
+                );
+                if (updatedChannnel === undefined || updatedChannnel === null)
+                    return "Error: password could not be updated";
+                client.emit("Channel", updatedChannnel);
+            } else {
+                return "Wrong password";
+            }
+        } catch (error) {
+            return `Error: password could not be updated`;
+        }
+        return "OK";
+    }
+
     // ========================================================================
     //                               Channel User
     // ========================================================================
@@ -590,17 +640,19 @@ export class ChatGateway {
                 message: message.content,
                 channelid: Number(channel.id),
             };
-            client.emit("lastMessage", messageDetails)
-            this.channelUserService.getChannelUsers(channel.id, false).then((users) => {
-                users.forEach((channelUser) => {
-                    let userSocket = undefined;
-                    this.server.sockets.sockets.forEach((socket) => {
-                        if (socket.data.user.id !== channelUser.user.id)
-                            userSocket = socket;
+            client.emit("lastMessage", messageDetails);
+            this.channelUserService
+                .getChannelUsers(channel.id, false)
+                .then((users) => {
+                    users.forEach((channelUser) => {
+                        let userSocket = undefined;
+                        this.server.sockets.sockets.forEach((socket) => {
+                            if (socket.data.user.id !== channelUser.user.id)
+                                userSocket = socket;
+                        });
+                        userSocket?.emit("lastMessage", messageDetails);
                     });
-                    userSocket?.emit("lastMessage", messageDetails);
                 });
-            });
         }
         return "message created";
     }

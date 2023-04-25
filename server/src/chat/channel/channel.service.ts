@@ -1,7 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { ChannelDto, CreateChannelDto } from "../dtos/Channel.dto";
+import {
+    ChannelDto,
+    CreateChannelDto,
+    UpdateChannelDto,
+} from "../dtos/Channel.dto";
 import { UsersService } from "../../users/users.service";
 import { Channel, ChannelType } from "../entities";
 import { User } from "src/users/entities/User.entity";
@@ -151,6 +155,16 @@ export class ChannelService {
                 channelUsers: true,
             },
         });
+    }
+
+    async updateChannel(
+        channelDetails: UpdateChannelDto
+    ): Promise<Channel | undefined> {
+        const channel = await this.findChannelById(channelDetails.channelId);
+        if (channel === undefined || channel === null) return undefined;
+        channel.password = channelDetails.password;
+        await this.channelRepository.save(channel);
+        return channel;
     }
 
     async deleteChannel(channel: Channel): Promise<string> {
