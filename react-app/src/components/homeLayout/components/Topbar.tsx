@@ -1,8 +1,6 @@
-import { MouseEvent } from "react";
 import axios from "axios";
 import { useAuth, useChat, Feature, useFeature } from "context";
 import Invitations from "./Invitation";
-import { useSocket } from "hooks";
 import HeroMenu from "./HeroMenu";
 import { ChatIcon, LockIcon, NoChannelIcon, PlayIcon } from "assets/images";
 import "../styles/topbar.scss";
@@ -25,6 +23,10 @@ function Topbar() {
         }
     }
 
+
+    function test() {
+        console.log(channel)
+    }
     return (
         <div className="topbar">
             <div className="channel">
@@ -34,7 +36,8 @@ function Topbar() {
                             "channelImg" +
                             (channel.image === ChatIcon || channel.image === PlayIcon
                                 ? " icon"
-                                : "")
+                                : "") +
+                            (channel.type !== "private" ? " noradius" : "")
                         }
                         src={channel.image ? channel.image : NoChannelIcon}
                         alt="channel"
@@ -44,6 +47,7 @@ function Topbar() {
                 <span className="channelName">{defineTitle()}</span>
             </div>
             <div className="user">
+            <button className="button-purple" onClick={test}>Test</button>
                 <Invitations />
                 <span className="topbar-username">{userAuth.username}</span>
                 <HeroMenu />

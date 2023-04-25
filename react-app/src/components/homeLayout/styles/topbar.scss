@@ -5,7 +5,6 @@ $invitation-size: 15px;
 
 .topbar {
 	@extend .flex-row;
-	// min-height: $topbar-height;
 	justify-content: space-between;
 	color: aliceblue;
 	color: $purple;
@@ -27,6 +26,9 @@ $invitation-size: 15px;
 				filter: $filter-purple;
 				border-radius: 0;
 			}
+		}
+		.noradius {
+			border-radius: 0;
 		}
 		.protected {
 			$img-size: 16px;
