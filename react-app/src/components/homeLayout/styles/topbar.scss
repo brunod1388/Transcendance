@@ -30,6 +30,9 @@ $invitation-size: 15px;
 		.noradius {
 			border-radius: 0;
 		}
+		.clickable {
+			cursor: pointer;
+		}
 		.protected {
 			$img-size: 16px;
 			width: $img-size;

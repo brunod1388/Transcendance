@@ -3,6 +3,8 @@ import { useAuth, useChat, Feature, useFeature } from "context";
 import Invitations from "./Invitation";
 import HeroMenu from "./HeroMenu";
 import { ChatIcon, LockIcon, NoChannelIcon, PlayIcon } from "assets/images";
+import { useVisible } from "hooks";
+import ChannelMenu from "./ChannelMenu";
 import "../styles/topbar.scss";
 
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
@@ -12,6 +14,7 @@ function Topbar() {
     const { userAuth } = useAuth();
     const { channel } = useChat();
     const { feature } = useFeature();
+    const { isVisible, setIsVisible, ref } = useVisible(false);
 
     function defineTitle() {
         if (feature === Feature.Chat || feature === Feature.Private) {
@@ -23,7 +26,6 @@ function Topbar() {
         }
     }
 
-
     function test() {
         console.log(channel)
     }
@@ -31,17 +33,24 @@ function Topbar() {
         <div className="topbar">
             <div className="channel">
                 {feature !== Feature.None && (
-                    <img
-                        className={
-                            "channelImg" +
-                            (channel.image === ChatIcon || channel.image === PlayIcon
-                                ? " icon"
-                                : "") +
-                            (channel.type !== "private" ? " noradius" : "")
+                    <div ref={ref}>
+                        <img
+                            className={
+                                "channelImg" +
+                                (channel.image === ChatIcon || channel.image === PlayIcon
+                                    ? " icon"
+                                    : "") +
+                                (channel.type !== "private" ? " noradius" : "") +
+                                (channel.rights === "owner" ? " clickable" : "")
+                            }
+                            src={channel.image ? channel.image : NoChannelIcon}
+                            onClick={() => {channel.type === "channel" && setIsVisible(!isVisible)}}
+                            alt="channel"
+                        />
+                        { channel.rights === "owner" && isVisible &&
+                            <ChannelMenu/>
                         }
-                        src={channel.image ? channel.image : NoChannelIcon}
-                        alt="channel"
-                    />
+                    </div>
                 )}
                 {channel.protected && <img className="protected" src={LockIcon} alt="" /> }
                 <span className="channelName">{defineTitle()}</span>
